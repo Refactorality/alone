@@ -1,10 +1,11 @@
-package alone;
+package com.palehorsestudios.alone;
 
+import java.util.List;
 import java.util.Map;
 
 public class Shelter {
     private Map<Food, Double> foodCache;
-    private List<Map<Items, Integer>> equipment;
+    private List<Map<Item, Integer>> equipment;
     private int integrity;
     private int firewood;
 
@@ -36,11 +37,11 @@ public class Shelter {
         this.foodCache = foodCache;
     }
 
-    public List<Map<Items, Integer>> getEquipment() {
+    public List<Map<Item, Integer>> getEquipment() {
         return equipment;
     }
 
-    public void setEquipment(List<Map<Items, Integer>> equipment) {
+    public void setEquipment(List<Map<Item, Integer>> equipment) {
         this.equipment = equipment;
     }
 }

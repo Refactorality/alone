@@ -1,7 +1,6 @@
-package alone;
+package com.palehorsestudios.alone;
 
 public enum Food {
-
     FISH(84, 100),
     SQUIRREL(120, 100),
     RABBIT(136, 100),
