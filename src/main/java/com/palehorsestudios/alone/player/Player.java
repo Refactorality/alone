@@ -7,7 +7,6 @@ import com.palehorsestudios.alone.Shelter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashSet;
 import java.util.Set;
 
 public class Player {
@@ -29,11 +28,11 @@ public class Player {
     /**
      * Public constructor for Player.
      */
-    public Player() {
+    public Player(Set<Item> items) {
         this.hydration = 10;
         this.weight = 180;
         this.morale = 5;
-        this.items = new HashSet<>();
+        this.items = items;
         this.shelter = new Shelter();
     }
 
@@ -123,9 +122,23 @@ public class Player {
         this.morale = morale;
     }
 
+    public void addItem(Item item) {
+        this.items.add(item);
+    }
+
+    public void removeItem(Item item) {
+        this.items.remove(item);
+        this.shelter.getEquipment().
+    }
+
     // business methods
     public Result eat(Food food, double amount) {
-        return null;
+        Result.Builder resultBuilder = new Result.Builder();
+        return resultBuilder
+                .food(food)
+                .foodCount(0 - amount)
+                .message("You had a hearty meal of " + amount + " " + food)
+                .build();
     }
 
     public Result goFishing() {
@@ -162,19 +175,6 @@ public class Player {
 
     public Result rest() {
         return null;
-    }
-
-    // private inner classes
-    private class Result {
-        // instance variables
-        private final int value;
-        private final String result;
-
-        // constructors
-        public Result(int value, String result) {
-            this.value = value;
-            this.result = result;
-        }
     }
 
     // private helper methods
