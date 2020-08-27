@@ -1,29 +1,23 @@
 package com.palehorsestudios.alone;
 
 public enum Food {
-    FISH(84, 100),
-    SQUIRREL(120, 100),
-    RABBIT(136, 100),
-    MOOSE(102, 100),
-    SNAKE(93, 100),
-    BUG(500, 100),
-    MUSHROOM(28, 100),
-    BERRIES(57, 100);
+    FISH(0.84),
+    SQUIRREL(1.20),
+    RABBIT(1.36),
+    MOOSE(1.02),
+    SNAKE(0.93),
+    BUG(5.00),
+    MUSHROOM(0.28),
+    BERRIES(0.57);
 
-    private final double calory;
-    private final double gram;
+    private final double caloriesPerGram;
 
-    public double getCalory() {
-        return this.calory;
+    public double getCaloriesPerGram() {
+        return this.caloriesPerGram;
     }
 
-    public double getGram() {
-        return this.gram;
-    }
-
-    private Food(double calory, double gram) {
-        this.calory = calory;
-        this.gram = gram;
+    private Food(double caloriesPerGram) {
+        this.caloriesPerGram = caloriesPerGram;
     }
 
 }

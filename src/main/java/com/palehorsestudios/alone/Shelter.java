@@ -1,16 +1,19 @@
 package com.palehorsestudios.alone;
 
+import com.google.common.collect.ImmutableMap;
+
 import java.util.List;
 import java.util.Map;
 
 public class Shelter {
-    private Map<Food, Double> foodCache;
-    private List<Map<Item, Integer>> equipment;
+    private final Map<Food, Double> foodCache;
+    private final Map<Item, Integer> equipment;
     private int integrity;
     private int firewood;
 
-    private Shelter(int integrity) {
-        this.integrity = integrity;
+    private Shelter(Map<Food, Double> foodCache, Map<Item, Integer> equipment) {
+        this.foodCache = foodCache;
+        this.equipment = equipment;
     }
 
     public int getIntegrity() {
@@ -30,18 +33,11 @@ public class Shelter {
     }
 
     public Map<Food, Double> getFoodCache() {
-        return foodCache;
+        return ImmutableMap.copyOf(foodCache);
     }
 
-    public void setFoodCache(Map<Food, Double> foodCache) {
-        this.foodCache = foodCache;
+    public Map<Item, Integer> getEquipment() {
+        return ImmutableMap.copyOf(equipment);
     }
 
-    public List<Map<Item, Integer>> getEquipment() {
-        return equipment;
-    }
-
-    public void setEquipment(List<Map<Item, Integer>> equipment) {
-        this.equipment = equipment;
-    }
 }

@@ -7,13 +7,9 @@ public class FoodTest extends TestCase {
 
     @Test
     public void testGetCalory() {
-        assertEquals(84.0, Food.FISH.getCalory());
-        assertEquals(57.0, Food.BERRIES.getCalory());
-        assertEquals(102.0, Food.MOOSE.getCalory());
+        assertEquals(0.84, Food.FISH.getCaloriesPerGram());
+        assertEquals(0.57, Food.BERRIES.getCaloriesPerGram());
+        assertEquals(1.02, Food.MOOSE.getCaloriesPerGram());
     }
-    @Test
-    public void testGetGram() {
-        assertEquals(100.0, Food.FISH.getGram());
-        assertEquals(100.0, Food.BERRIES.getGram());
-    }
+
 }
