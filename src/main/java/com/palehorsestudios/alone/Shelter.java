@@ -33,12 +33,31 @@ public class Shelter {
         this.firewood = firewood;
     }
 
-    public Map<Food, Double> getFoodCache() {
+    public ImmutableMap<Food, Double> getFoodCache() {
         return ImmutableMap.copyOf(foodCache);
     }
 
-    public Map<Item, Integer> getEquipment() {
+    public void addFood(Food food, double quantity) {
+        double currentQuantity = this.foodCache.get(food);
+        this.foodCache.put(food, currentQuantity + quantity);
+    }
+
+    public void removeFood(Food food, double quantity) {
+        double currentQuantity = this.foodCache.get(food);
+        this.foodCache.put(food, currentQuantity - quantity);
+    }
+
+    public ImmutableMap<Item, Integer> getEquipment() {
         return ImmutableMap.copyOf(equipment);
     }
 
+    public void addEquipment(Item item, int quantity) {
+        int currentQuantity = this.equipment.get(item);
+        this.equipment.put(item, currentQuantity + quantity);
+    }
+
+    public void removeEquipment(Item item, int quantity) {
+        int currentQuantity = this.equipment.get(item);
+        this.equipment.put(item, currentQuantity - quantity);
+    }
 }
