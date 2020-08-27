@@ -2,6 +2,7 @@ package com.palehorsestudios.alone;
 
 import com.google.common.collect.ImmutableMap;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,9 +12,9 @@ public class Shelter {
     private int integrity;
     private int firewood;
 
-    private Shelter(Map<Food, Double> foodCache, Map<Item, Integer> equipment) {
-        this.foodCache = foodCache;
-        this.equipment = equipment;
+    public Shelter() {
+        this.foodCache = new HashMap<>();
+        this.equipment = new HashMap<>();
     }
 
     public int getIntegrity() {

@@ -26,6 +26,9 @@ dependencies {
 
     // Use JUnit test framework
     testImplementation 'junit:junit:4.13'
+
+    // slf4j logging
+    compile 'org.apache.logging.log4j:log4j-slf4j-impl:2.13.3'
 }
 
 application {
