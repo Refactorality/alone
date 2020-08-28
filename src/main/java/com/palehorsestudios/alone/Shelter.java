@@ -117,7 +117,7 @@ public class Shelter {
               .message(quantity + " " + item + " removed from your shelter. You have " + (currentQuantity.get() - quantity) + " remaining.");
     } else {
       throw new IllegalEquipmentRemovalException(
-        "You do not have any " + item
+        "You do not have a(n) " + item + " in your shelter."
       );
     }
     return resultBuilder.build();
