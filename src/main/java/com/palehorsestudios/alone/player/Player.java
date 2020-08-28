@@ -7,7 +7,7 @@ import com.palehorsestudios.alone.Result;
 import com.palehorsestudios.alone.Shelter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import java.util.Random;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,6 +19,7 @@ public class Player {
   private static final int MIN_MORALE = 0;
   private static final int MAX_MORALE = 10;
   private static final int SERVING_SIZE = 227;
+  private static final int FIREWOOD_BUNDLE = 1;
   private static final double CALORIES_PER_POUND = 285.7;
   private static final Logger logger = LoggerFactory.getLogger("Player logger");
   private final Set<Item> items;
@@ -92,22 +93,6 @@ public class Player {
   }
 
   // setters
-
-  /**
-   * Setter for Player morale.
-   *
-   * @param morale value for Player morale.
-   * @throws IllegalMoraleArgumentException if {@value Player#MAX_MORALE} < morale < {@value
-   *     Player#MIN_MORALE}
-   */
-  public void setMorale(int morale) throws IllegalMoraleArgumentException {
-    if (morale < MIN_MORALE || morale > MAX_MORALE) {
-      throw new IllegalMoraleArgumentException(
-          "morale must be greater than " + MIN_MORALE + ", and less than " + MAX_MORALE);
-    }
-    this.morale = morale;
-  }
-
   /**
    * Getter for items Player is currently carrying.
    *
@@ -124,6 +109,23 @@ public class Player {
    */
   public Shelter getShelter() {
     return this.shelter;
+  }
+
+  /**
+   * Setter for Player morale.
+   *
+   * @param morale value for Player morale.
+   * @throws IllegalMoraleArgumentException if {@value Player#MAX_MORALE} < morale < {@value
+   *     Player#MIN_MORALE}
+   */
+  public void updateMorale(int morale) {
+    this.morale += morale;
+    if (morale < MIN_MORALE) {
+      this.morale = MIN_MORALE;
+      // Should we create a scenario that the player dies if morale is 0?
+    } else if (morale > MAX_MORALE) {
+      this.morale = MAX_MORALE;
+    }
   }
 
   // business methods
@@ -211,9 +213,21 @@ public class Player {
   }
 
   public Result gatherFirewood() {
-    return null;
+    Result.Builder resultBuilder = new Result.Builder();
+    Random rand = new Random();
+    ActivityLevel activityLevel = ActivityLevel.MEDIAN;
+    int successRate = rand.nextInt(3) + 1;
+    double caloriesBurned = activityLevel.getCaloriesBurned(successRate);
+    int firewoodAmount = successRate * FIREWOOD_BUNDLE;
+    int morale = successRate;
+    updateWeight(-caloriesBurned);
+    updateMorale(morale);
+    return resultBuilder
+            .firewood(firewoodAmount)
+            .message("Good Job! You just gathered " + firewoodAmount + " buddles of firewood.")
+            .morale(morale)
+            .build();
   }
-
   public Result getWater() {
     return null;
   }
