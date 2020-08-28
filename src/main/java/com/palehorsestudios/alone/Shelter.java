@@ -37,18 +37,24 @@ public class Shelter {
         return waterTank;
     }
 
-    public void addWater(int water) {
+    public Result updateWater(int water) {
+        Result.Builder resultBuilder = new Result.Builder();
+        int currentWater = getWaterTank();
         waterTank += water;
+        int addedWater;
+        addedWater = water;
         if (waterTank >= MAX_WATER) {
             this.waterTank = MAX_WATER;
+            addedWater = MAX_WATER - currentWater;
         }
-    }
-
-    public void removeWater(int water) {
-        waterTank -= water;
-        if (waterTank < MIN_WATER) {
+        else if (waterTank < MIN_WATER) {
             this.waterTank = MIN_WATER;
+            throw new IllegalWaterUpdateException( "You can't get any water because there is none in water tank.")
+
         }
+
+        return resultBuilder
+                .water(addedWater)
     }
 
     public ImmutableMap<Food, Double> getFoodCache() {

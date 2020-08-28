@@ -2,6 +2,7 @@ package com.palehorsestudios.alone;
 
 public class Result {
     private int hydration;
+    private int water;
     private double foodCount;
     private Food food;
     private int shelterIntegrity;
@@ -14,6 +15,7 @@ public class Result {
 
     private Result(Builder builder) {
         this.hydration = builder.hydration;
+        this.water = builder.water;
         this.foodCount = builder.foodCount;
         this.food = builder.food;
         this.shelterIntegrity = builder.shelterIntegrity;
@@ -27,6 +29,7 @@ public class Result {
 
     public static class Builder {
         private int hydration;
+        private int water;
         private double foodCount;
         private Food food;
         private int shelterIntegrity;
@@ -41,6 +44,11 @@ public class Result {
 
         public Builder hydration(int hydration) {
             this.hydration = hydration;
+            return this;
+        }
+
+        public Builder water(int water) {
+            this.water = water;
             return this;
         }
 
@@ -98,6 +106,10 @@ public class Result {
         return hydration;
     }
 
+    public int getWater() {
+        return water;
+    }
+
     public double getFoodCount() {
         return foodCount;
     }
@@ -138,6 +150,7 @@ public class Result {
     public String toString() {
         return "Result{" +
                 "hydration=" + hydration +
+                ", water=" + water +
                 ", foodCount=" + foodCount +
                 ", food=" + food +
                 ", shelterIntegrity=" + shelterIntegrity +
