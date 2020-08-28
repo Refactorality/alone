@@ -1,10 +1,12 @@
 package com.palehorsestudios.alone;
 
+import com.palehorsestudios.alone.player.Player;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
+import java.util.Scanner;
 
 public class Main {
   public static void getNarrative(File file) {
@@ -27,10 +29,11 @@ public class Main {
   }
   public static void main(String[] args){
     // Main method that runs the game
+    PlayerInput playerInput = new PlayerInput();
     getNarrative(new File("resources/intronarrative.txt")); //initiates intro narrative
-
-
-    getNarrative(new File("resources/itemselection.txt")); //prints items that can be selected
-    getNarrative(new File("resources/scene1.txt"));
+    PlayerInput.getInstance().getString("Please provide an input ");
+    System.out.println(playerInput);
+//    getNarrative(new File("resources/itemselection.txt")); //prints items that can be selected
+//    getNarrative(new File("resources/scene1.txt"));
   }
 }
