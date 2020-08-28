@@ -1,15 +1,17 @@
-package com.palehorsestudios.alone;
+package com.palehorsestudios.alone.player;
 
-import com.google.common.collect.ImmutableSet;
-import com.palehorsestudios.alone.player.Player;
+import com.palehorsestudios.alone.Food;
+import com.palehorsestudios.alone.Item;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 public class PlayerTest {
 
@@ -81,7 +83,27 @@ public class PlayerTest {
   }
 
   @Test
-  public void testRemoveItem() {
-    player.removeItem(Item.FAMILY_PHOTO);
+  public void testPutItemInShelterHappy() {
+    assertEquals("One harmonica moved to your shelter.", player.putItemInShelter(Item.HARMONICA).getMessage());
+    assertEquals(Optional.of(1).get(), player.getShelter().getEquipment().get(Item.HARMONICA));
+    assertFalse(player.getItems().contains(Item.HARMONICA));
+  }
+
+  @Test
+  public void testPutItemInShelterFail() {
+    assertEquals("You do not have a(n) family photo.", player.putItemInShelter(Item.FAMILY_PHOTO).getMessage());
+  }
+
+  @Test
+  public void testGetItemFromShelterHappy() {
+    player.putItemInShelter(Item.HARMONICA);
+    player.putItemInShelter(Item.FISHING_LINE);
+    assertEquals("Removed one harmonica from your shelter.", player.getItemFromShelter(Item.HARMONICA).getMessage());
+    assertEquals(Optional.of(0).get(), player.getShelter().getEquipment().get(Item.HARMONICA));
+  }
+
+  @Test
+  public void testGetItemFromShelterFail() {
+    assertEquals("You do not have a(n) harmonica in your shelter.", player.getItemFromShelter(Item.HARMONICA).getMessage());
   }
 }

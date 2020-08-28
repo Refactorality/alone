@@ -128,22 +128,33 @@ public class Player {
         this.morale = morale;
     }
 
-    public Result addItem(Item item) {
+    public Result getItemFromShelter(Item item) {
         Result.Builder resultBuilder = new Result.Builder();
         try {
             this.shelter.removeEquipment(item, 1);
+            resultBuilder.message("Removed one " + item + " from your shelter.");
         } catch (IllegalEquipmentRemovalException e) {
             resultBuilder.message(e.getMessage());
         }
         this.items.add(item);
-        resultBuilder.message(item + " added");
         return resultBuilder.build();
     }
 
-    public Result removeItem(Item item) {
+    public Result putItemInShelter(Item item) {
         Result.Builder resultBuilder = new Result.Builder();
-        this.items.remove(item);
-        this.shelter.addEquipment(item, 1);
+        if(this.items.remove(item)) {
+            this.shelter.addEquipment(item, 1);
+            resultBuilder
+                    .item(item)
+                    .itemCount(1)
+                    .message("One " + item + " moved to your shelter.");
+        } else {
+            resultBuilder
+                    .item(item)
+                    .itemCount(0)
+                    .message("You do not have a(n) " + item + ".");
+        }
+        return resultBuilder.build();
     }
 
     // business methods
