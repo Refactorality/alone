@@ -10,6 +10,7 @@ import com.palehorsestudios.alone.Shelter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class Player {
@@ -37,7 +38,7 @@ public class Player {
         this.hydration = 10;
         this.weight = 180;
         this.morale = 5;
-        this.items = items;
+        this.items = new HashSet<>(items);
         this.shelter = new Shelter();
     }
 
@@ -71,7 +72,7 @@ public class Player {
      * Getter for items Player is currently carrying.
      * @return ImmutableSet of Player items.
      */
-    public Set<Item> getItems() {
+    public ImmutableSet<Item> getItems() {
         return ImmutableSet.copyOf(this.items);
     }
 
@@ -139,7 +140,8 @@ public class Player {
         return resultBuilder.build();
     }
 
-    public void removeItem(Item item) {
+    public Result removeItem(Item item) {
+        Result.Builder resultBuilder = new Result.Builder();
         this.items.remove(item);
         this.shelter.addEquipment(item, 1);
     }

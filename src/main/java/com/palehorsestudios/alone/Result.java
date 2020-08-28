@@ -8,6 +8,8 @@ public class Result {
     private int firewood;
     private int morale;
     private int calories;
+    private Item item;
+    private int itemCount;
     private String message;
 
     private Result(Builder builder) {
@@ -18,6 +20,8 @@ public class Result {
         this.firewood = builder.firewood;
         this.morale = builder.morale;
         this.calories = builder.calories;
+        this.item = builder.item;
+        this.itemCount = builder.itemCount;
         this.message = builder.message;
     }
 
@@ -29,6 +33,8 @@ public class Result {
         private int firewood;
         private int morale;
         private int calories;
+        private Item item;
+        private int itemCount;
         private String message;
 
         public Builder() {}
@@ -65,6 +71,16 @@ public class Result {
 
         public Builder calories(int calories) {
             this.calories = calories;
+            return this;
+        }
+
+        public Builder item(Item item) {
+            this.item = item;
+            return this;
+        }
+
+        public Builder itemCount(int itemCount) {
+            this.itemCount = itemCount;
             return this;
         }
 
@@ -110,6 +126,14 @@ public class Result {
         return message;
     }
 
+    public Item getItem() {
+        return item;
+    }
+
+    public int getItemCount() {
+        return itemCount;
+    }
+
     @Override
     public String toString() {
         return "Result{" +
@@ -120,6 +144,8 @@ public class Result {
                 ", firewood=" + firewood +
                 ", morale=" + morale +
                 ", calories=" + calories +
+                ", item=" + item +
+                ", itemCount=" + itemCount +
                 ", message='" + message + '\'' +
                 '}';
     }

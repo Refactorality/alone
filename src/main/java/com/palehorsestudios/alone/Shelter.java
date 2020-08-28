@@ -81,24 +81,46 @@ public class Shelter {
     return ImmutableMap.copyOf(equipment);
   }
 
-  public void addEquipment(Item item, int quantity) {
-    int currentQuantity = this.equipment.get(item);
-    this.equipment.put(item, currentQuantity + quantity);
+  public Result addEquipment(Item item, int quantity) {
+    Result.Builder resultBuilder = new Result.Builder();
+    Optional<Integer> currentQuantity = Optional.ofNullable(this.equipment.get(item));
+    if(currentQuantity.isPresent()) {
+      this.equipment.put(item, currentQuantity.get() + quantity);
+    } else {
+      this.equipment.put(item, quantity);
+    }
+    return resultBuilder
+            .item(item)
+            .itemCount(quantity)
+            .message(quantity + " " + item + " added to shelter")
+            .build();
   }
 
-  public void removeEquipment(Item item, int quantity) throws IllegalEquipmentRemovalException {
-    int currentQuantity = this.equipment.get(item);
-    if (currentQuantity < quantity) {
-      throw new IllegalEquipmentRemovalException(
+  public Result removeEquipment(Item item, int quantity) throws IllegalEquipmentRemovalException {
+    Result.Builder resultBuilder = new Result.Builder();
+    Optional<Integer> currentQuantity = Optional.ofNullable(this.equipment.get(item));
+    if(currentQuantity.isPresent()) {
+      if (currentQuantity.get() < quantity) {
+        throw new IllegalEquipmentRemovalException(
           "You tried to remove "
-              + quantity
-              + " of "
-              + item
-              + ", but you only have "
-              + currentQuantity
-              + ".");
+                  + quantity
+                  + " of "
+                  + item
+                  + ", but you only have "
+                  + currentQuantity
+                  + ".");
+      }
+      this.equipment.put(item, currentQuantity.get() - quantity);
+      resultBuilder
+              .item(item)
+              .itemCount(quantity)
+              .message(quantity + " " + item + " removed from your shelter. You have " + (currentQuantity.get() - quantity) + " remaining.");
+    } else {
+      throw new IllegalEquipmentRemovalException(
+        "You do not have any " + item
+      );
     }
-    this.equipment.put(item, currentQuantity - quantity);
+    return resultBuilder.build();
   }
 
   @Override
