@@ -52,15 +52,16 @@ public class Player {
    * Setter for Player hydration.
    *
    * @param hydration value for Player hydration.
-   * @throws IllegalHydrationArgumentException if {@value Player#MAX_HYDRATION} < hydration <
-   *     {@value Player#MIN_HYDRATION}
    */
-  public void setHydration(int hydration) throws IllegalHydrationArgumentException {
-    if (hydration < MIN_HYDRATION || hydration > MAX_HYDRATION) {
-      throw new IllegalHydrationArgumentException(
-          "hydration must be greater than " + MIN_HYDRATION + ", and less than " + MAX_HYDRATION);
+  public void setHydration(int hydration) {
+    hydration < MIN_HYDRATION ? MIN_HYDRATION : Math.min(hydration, MAX_HYDRATION);
+    if (hydration < MIN_HYDRATION) {
+      this.hydration = MIN_HYDRATION;
+    } else if(hydration > MAX_HYDRATION) {
+      this.hydration = MAX_HYDRATION;
+    } else {
+      this.hydration = hydration;
     }
-    this.hydration = hydration;
   }
 
   /**
@@ -76,13 +77,9 @@ public class Player {
    * Setter for Player weight.
    *
    * @param weight value for Player weight.
-   * @throws IllegalWeightArgumentException if weight < {@value Player#MIN_WEIGHT}
    */
-  public void setWeight(double weight) throws IllegalWeightArgumentException {
-    if (weight < MIN_WEIGHT) {
-      throw new IllegalWeightArgumentException("weight must be greater than " + MIN_WEIGHT);
-    }
-    this.weight = weight;
+  public void setWeight(double weight) {
+    this.weight = Math.max(MIN_WEIGHT, weight);
   }
 
   /**
@@ -192,7 +189,9 @@ public class Player {
   }
 
   public Result goFishing() {
-    return null;
+    Result.Builder resultBuilder = new Result.Builder();
+
+    return resultBuilder.build();
   }
 
   public Result goHunting() {
