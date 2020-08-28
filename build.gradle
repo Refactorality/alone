@@ -33,5 +33,5 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClassName = 'alone.App'
+    mainClassName = 'com.palehorsestudios.alone.Main'
 }
