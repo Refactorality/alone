@@ -18,10 +18,17 @@ public final class PlayerInput { // singleton class to manage all player inputs
       refToPlayerInput = new PlayerInput();
     return refToPlayerInput;
   }
-  public String getString(String pPrompt) {
+
+  /**
+   *
+   * @param playerAction is used to describe the best method to use to obtain
+   *                     the most logical player action given the narrative.
+   * @return string of user input
+   */
+  String getString(String playerAction) {
     scanner.useDelimiter("\r\n"); //ensures capture of all input up to the enter keystroke
     String pInput = scanner.nextLine();
-    scanner.reset(); //preceding use of useDelimiter() changed state of Scanner object. reset() reestablishes original state
     return pInput;
+    //preceding use of useDelimiter() changed state of Scanner object. reset() reestablishes original state
   }
 }
