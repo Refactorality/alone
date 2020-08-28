@@ -46,15 +46,16 @@ public class Shelter {
         if (waterTank >= MAX_WATER) {
             this.waterTank = MAX_WATER;
             addedWater = MAX_WATER - currentWater;
+            resultBuilder
+                    .water(addedWater)
+                    .message("You added " + addedWater + " in the water tank and it is full now.");
         }
         else if (waterTank < MIN_WATER) {
             this.waterTank = MIN_WATER;
-            throw new IllegalWaterUpdateException( "You can't get any water because there is none in water tank.")
-
+            resultBuilder
+                    .message("The water tank now is empty, do you want to get more water in the area?");
         }
-        return resultBuilder
-                .water(addedWater)
-                .build();
+        return resultBuilder.build();
     }
 
     public ImmutableMap<Food, Double> getFoodCache() {

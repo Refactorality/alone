@@ -217,10 +217,10 @@ public class Player {
     Result.Builder resultBuilder = new Result.Builder();
     Random rand = new Random();
     ActivityLevel activityLevel = ActivityLevel.MEDIAN;
-    SuccessRate successRate = SuccessRate.values()[rand.nextInt(SuccessRate.values().length)];
-    double caloriesBurned = successRate.getRate() * activityLevel.getCaloriesBurnedPerHour();
-    int firewoodAmount = successRate.getRate() * FIREWOOD_BUNDLE;
-    int morale = successRate.getRate();
+    int successRate = rand.nextInt(3) + 1;
+    double caloriesBurned = activityLevel.getCaloriesBurned(successRate);
+    int firewoodAmount = successRate * FIREWOOD_BUNDLE;
+    int morale = successRate;
     updateWeight(-caloriesBurned);
     updateMorale(morale);
     return resultBuilder
