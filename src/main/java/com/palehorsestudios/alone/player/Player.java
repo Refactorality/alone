@@ -7,6 +7,7 @@ import com.palehorsestudios.alone.Shelter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Random;
 import java.util.Set;
 
 public class Player {
@@ -128,7 +129,7 @@ public class Player {
 
     public void removeItem(Item item) {
         this.items.remove(item);
-        this.shelter.getEquipment().
+        this.shelter.getEquipment();
     }
 
     // business methods
@@ -162,7 +163,27 @@ public class Player {
     }
 
     public Result gatherFirewood() {
-        return null;
+        Result.Builder resultBuilder = new Result.Builder();
+        Random rand = new Random();
+        String message;
+        int caloriesBurned;
+        int firewoodAmount = rand.nextInt();
+        int morale;
+        if (firewoodAmount == 0) {
+            caloriesBurned = rand.nextInt();
+            message = "It looks like there is none firewood in the area, you may want to look for some other places." ;
+            morale = -1;
+        } else {
+            caloriesBurned = firewoodAmount*1;
+            message = "Good Job! You just gathered " + firewoodAmount + " unit of firewood.";
+            morale = firewoodAmount*1;
+        }
+        return resultBuilder
+                .firewood(firewoodAmount)
+                .message(message)
+                .calories(-caloriesBurned)
+                .morale(morale)
+                .build();
     }
 
     public Result getWater() {

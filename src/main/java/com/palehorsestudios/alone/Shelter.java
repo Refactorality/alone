@@ -1,6 +1,7 @@
 package com.palehorsestudios.alone;
 
 import com.google.common.collect.ImmutableMap;
+import com.palehorsestudios.alone.player.IllegalHydrationArgumentException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +12,9 @@ public class Shelter {
     private final Map<Item, Integer> equipment;
     private int integrity;
     private int firewood;
+    private int waterTank;
+    private final int MAX_WATER = 10;
+    private final int MIN_WATER = 0;
 
     public Shelter() {
         this.foodCache = new HashMap<>();
@@ -31,6 +35,18 @@ public class Shelter {
 
     public void setFirewood(int firewood) {
         this.firewood = firewood;
+    }
+
+    public int getWaterTank() { return waterTank; }
+
+    public void addWater(int water) {
+        waterTank += water;
+        if (waterTank >= MAX_WATER) { this.waterTank = MAX_WATER; }
+    }
+
+    public void removeWater(int water) {
+        waterTank -= water;
+        if (waterTank < MIN_WATER) { this.waterTank = MIN_WATER; }
     }
 
     public ImmutableMap<Food, Double> getFoodCache() {
