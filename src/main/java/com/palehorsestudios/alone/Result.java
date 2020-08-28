@@ -136,17 +136,6 @@ public class Result {
 
     @Override
     public String toString() {
-        return "Result{" +
-                "hydration=" + hydration +
-                ", foodCount=" + foodCount +
-                ", food=" + food +
-                ", shelterIntegrity=" + shelterIntegrity +
-                ", firewood=" + firewood +
-                ", morale=" + morale +
-                ", calories=" + calories +
-                ", item=" + item +
-                ", itemCount=" + itemCount +
-                ", message='" + message + '\'' +
-                '}';
+        return message;
     }
 }
