@@ -15,6 +15,6 @@ public class Main {
   }
   public static void main(String[] args) throws IOException {
     // Main method that runs the game
-    getNarrative(new File("resources/intronarrative.txt"));
+    getNarrative(new File("resources/intronarrative.txt")); //initiates intro narrative
   }
 }
