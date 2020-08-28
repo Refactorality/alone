@@ -14,6 +14,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Player {
+
     // static constants
     private static final int MIN_HYDRATION = 0;
     private static final int MAX_HYDRATION = 10;
@@ -46,6 +47,7 @@ public class Player {
 
     /**
      * Getter for Player hydration.
+     *
      * @return Player hydration.
      */
     public int getHydration() {
@@ -54,6 +56,7 @@ public class Player {
 
     /**
      * Getter for Player weight.
+     *
      * @return Player weight.
      */
     public double getWeight() {
@@ -62,6 +65,7 @@ public class Player {
 
     /**
      * Getter for Player morale.
+     *
      * @return Player morale.
      */
     public int getMorale() {
@@ -70,6 +74,7 @@ public class Player {
 
     /**
      * Getter for items Player is currently carrying.
+     *
      * @return ImmutableSet of Player items.
      */
     public ImmutableSet<Item> getItems() {
@@ -78,6 +83,7 @@ public class Player {
 
     /**
      * Getter for Player's shelter.
+     *
      * @return Player's shelter.
      */
     public Shelter getShelter() {
@@ -88,13 +94,16 @@ public class Player {
 
     /**
      * Setter for Player hydration.
+     *
      * @param hydration value for Player hydration.
-     * @throws IllegalHydrationArgumentException if {@value Player#MAX_HYDRATION} < hydration < {@value Player#MIN_HYDRATION}
+     * @throws IllegalHydrationArgumentException if {@value Player#MAX_HYDRATION} < hydration <
+     *                                           {@value Player#MIN_HYDRATION}
      */
     public void setHydration(int hydration) throws IllegalHydrationArgumentException {
-        if(hydration < MIN_HYDRATION || hydration > MAX_HYDRATION) {
+        if (hydration < MIN_HYDRATION || hydration > MAX_HYDRATION) {
             throw new IllegalHydrationArgumentException(
-                    "hydration must be greater than " + MIN_HYDRATION + ", and less than " + MAX_HYDRATION
+                "hydration must be greater than " + MIN_HYDRATION + ", and less than "
+                    + MAX_HYDRATION
             );
         }
         this.hydration = hydration;
@@ -102,13 +111,14 @@ public class Player {
 
     /**
      * Setter for Player weight.
+     *
      * @param weight value for Player weight.
      * @throws IllegalWeightArgumentException if weight < {@value Player#MIN_WEIGHT}
      */
     public void setWeight(double weight) throws IllegalWeightArgumentException {
-        if(weight < MIN_WEIGHT) {
+        if (weight < MIN_WEIGHT) {
             throw new IllegalWeightArgumentException(
-                    "weight must be greater than " + MIN_WEIGHT
+                "weight must be greater than " + MIN_WEIGHT
             );
         }
         this.weight = weight;
@@ -116,13 +126,15 @@ public class Player {
 
     /**
      * Setter for Player morale.
+     *
      * @param morale value for Player morale.
-     * @throws IllegalMoraleArgumentException if {@value Player#MAX_MORALE} < morale < {@value Player#MIN_MORALE}
+     * @throws IllegalMoraleArgumentException if {@value Player#MAX_MORALE} < morale < {@value
+     *                                        Player#MIN_MORALE}
      */
     public void setMorale(int morale) throws IllegalMoraleArgumentException {
-        if(morale < MIN_MORALE || morale > MAX_MORALE) {
+        if (morale < MIN_MORALE || morale > MAX_MORALE) {
             throw new IllegalMoraleArgumentException(
-                    "morale must be greater than " + MIN_MORALE + ", and less than " + MAX_MORALE
+                "morale must be greater than " + MIN_MORALE + ", and less than " + MAX_MORALE
             );
         }
         this.morale = morale;
@@ -144,7 +156,10 @@ public class Player {
         Result.Builder resultBuilder = new Result.Builder();
         this.items.remove(item);
         this.shelter.addEquipment(item, 1);
+        return resultBuilder.build();
     }
+
+
 
     // business methods
     public Result eat(Food food) {
