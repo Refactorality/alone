@@ -1,8 +1,6 @@
-package com.palehorsestudios.alone.player;
+package com.palehorsestudios.alone;
 
-import com.palehorsestudios.alone.Food;
-
-class Result {
+public class Result {
     private int hydration;
     private double foodCount;
     private Food food;
@@ -10,6 +8,8 @@ class Result {
     private int firewood;
     private int morale;
     private int calories;
+    private Item item;
+    private int itemCount;
     private String message;
 
     private Result(Builder builder) {
@@ -20,6 +20,8 @@ class Result {
         this.firewood = builder.firewood;
         this.morale = builder.morale;
         this.calories = builder.calories;
+        this.item = builder.item;
+        this.itemCount = builder.itemCount;
         this.message = builder.message;
     }
 
@@ -31,6 +33,8 @@ class Result {
         private int firewood;
         private int morale;
         private int calories;
+        private Item item;
+        private int itemCount;
         private String message;
 
         public Builder() {}
@@ -67,6 +71,16 @@ class Result {
 
         public Builder calories(int calories) {
             this.calories = calories;
+            return this;
+        }
+
+        public Builder item(Item item) {
+            this.item = item;
+            return this;
+        }
+
+        public Builder itemCount(int itemCount) {
+            this.itemCount = itemCount;
             return this;
         }
 
@@ -110,5 +124,29 @@ class Result {
 
     public String getMessage() {
         return message;
+    }
+
+    public Item getItem() {
+        return item;
+    }
+
+    public int getItemCount() {
+        return itemCount;
+    }
+
+    @Override
+    public String toString() {
+        return "Result{" +
+                "hydration=" + hydration +
+                ", foodCount=" + foodCount +
+                ", food=" + food +
+                ", shelterIntegrity=" + shelterIntegrity +
+                ", firewood=" + firewood +
+                ", morale=" + morale +
+                ", calories=" + calories +
+                ", item=" + item +
+                ", itemCount=" + itemCount +
+                ", message='" + message + '\'' +
+                '}';
     }
 }
