@@ -21,6 +21,7 @@ public class Player {
     private static final int MIN_MORALE = 0;
     private static final int MAX_MORALE = 10;
     private static final int SERVING_SIZE = 227;
+    private static final int FIREWOOD_BUNDLE = 1;
     private static final double CALORIES_PER_POUND = 285.7;
     private static final Logger logger = LoggerFactory.getLogger("Player logger");
 
@@ -119,13 +120,14 @@ public class Player {
      * @param morale value for Player morale.
      * @throws IllegalMoraleArgumentException if {@value Player#MAX_MORALE} < morale < {@value Player#MIN_MORALE}
      */
-    public void setMorale(int morale) throws IllegalMoraleArgumentException {
-        if(morale < MIN_MORALE || morale > MAX_MORALE) {
-            throw new IllegalMoraleArgumentException(
-                    "morale must be greater than " + MIN_MORALE + ", and less than " + MAX_MORALE
-            );
+    public void updateMorale(int morale) {
+        this.morale += morale;
+        if (morale < MIN_MORALE) {
+            this.morale = MIN_MORALE;
+            // Should we create a scenario that the player dies if morale is 0?
+        } else if ( morale > MAX_MORALE) {
+            this.morale = MAX_MORALE;
         }
-        this.morale = morale;
     }
 
     public Result addItem(Item item) {
@@ -192,28 +194,22 @@ public class Player {
     public Result gatherFirewood() {
         Result.Builder resultBuilder = new Result.Builder();
         Random rand = new Random();
-        String message;
-        int caloriesBurned;
-        int firewoodAmount = rand.nextInt();
-        int morale;
-        if (firewoodAmount == 0) {
-            caloriesBurned = rand.nextInt();
-            message = "It looks like there is none firewood in the area, you may want to look for some other places." ;
-            morale = -1;
-        } else {
-            caloriesBurned = firewoodAmount*1;
-            message = "Good Job! You just gathered " + firewoodAmount + " unit of firewood.";
-            morale = firewoodAmount*1;
-        }
+        ActivityLevel activityLevel = ActivityLevel.MEDIAN;
+        SuccessRate successRate = SuccessRate.values()[rand.nextInt(SuccessRate.values().length)];
+        double caloriesBurned = successRate.getRate()*activityLevel.getCaloriesBurnedPerHour();
+        int firewoodAmount = successRate.getRate()*FIREWOOD_BUNDLE;
+        int morale = successRate.getRate();
+        updateWeight(-caloriesBurned);
+        updateMorale(morale);
         return resultBuilder
                 .firewood(firewoodAmount)
-                .message(message)
-                .calories(-caloriesBurned)
+                .message("Good Job! You just gathered " + firewoodAmount + " buddles of firewood.")
                 .morale(morale)
                 .build();
     }
 
     public Result getWater() {
+        Result.Builder resultBuilder = new Result.Builder();
         return null;
     }
 

@@ -7,7 +7,7 @@ public class Result {
     private int shelterIntegrity;
     private int firewood;
     private int morale;
-    private int calories;
+    private double calories;
     private Item item;
     private int itemCount;
     private String message;
@@ -32,7 +32,7 @@ public class Result {
         private int shelterIntegrity;
         private int firewood;
         private int morale;
-        private int calories;
+        private double calories;
         private Item item;
         private int itemCount;
         private String message;
@@ -69,7 +69,7 @@ public class Result {
             return this;
         }
 
-        public Builder calories(int calories) {
+        public Builder calories(double calories) {
             this.calories = calories;
             return this;
         }
@@ -118,7 +118,7 @@ public class Result {
         return morale;
     }
 
-    public int getCalories() {
+    public double getCalories() {
         return calories;
     }
 

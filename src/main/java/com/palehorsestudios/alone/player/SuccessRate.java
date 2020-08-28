@@ -7,7 +7,7 @@ public enum SuccessRate {
 
     private final int rate;
 
-    public double getRate() {
+    public int getRate() {
         return this.rate;
     }
 
