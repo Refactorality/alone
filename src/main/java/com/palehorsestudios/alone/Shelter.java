@@ -37,7 +37,7 @@ public class Shelter {
     return ImmutableMap.copyOf(foodCache);
   }
 
-  public Result addFood(Food food, double quantity) {
+  public Result addFoodToCache(Food food, double quantity) {
     Result.Builder resultBuilder = new Result.Builder();
     Optional<Double> currentQuantity = Optional.ofNullable(this.foodCache.get(food));
     if (currentQuantity.isPresent()) {
@@ -52,27 +52,26 @@ public class Shelter {
         .build();
   }
 
-  public Result removeFood(Food food, double quantity) throws IllegalFoodRemovalException {
+  public Result removeFoodFromCache(Food food, double quantity) {
     Result.Builder resultBuilder = new Result.Builder();
     Optional<Double> currentQuantity = Optional.ofNullable(this.foodCache.get(food));
+    resultBuilder.food(food);
     if (currentQuantity.isPresent()) {
       if (currentQuantity.get() < quantity) {
-        throw new IllegalFoodRemovalException(
-            "You tried to remove "
-                + quantity
-                + " of "
-                + food
-                + ", but you only have "
-                + currentQuantity
-                + ".");
+        this.foodCache.put(food, 0.0);
+        resultBuilder
+                .foodCount(currentQuantity.get())
+                .message("You were only able to find " + currentQuantity.get() + " grams of " + food + " in your food cache.");
+      } else {
+        this.foodCache.put(food, currentQuantity.get() - quantity);
+        resultBuilder
+                .foodCount(quantity)
+                .message("You removed " + quantity + " grams of " + food + " from your food cache.");
       }
-      this.foodCache.put(food, currentQuantity.get() - quantity);
-      resultBuilder
-              .food(food)
-              .foodCount(quantity)
-              .message("You removed " + quantity + " grams of " + food + " from your food cache.");
     } else {
-      throw new IllegalFoodRemovalException("You do not have any " + food + ".");
+      resultBuilder
+              .foodCount(0.0)
+              .message("You do not have any " + food + " in your food cache.");
     }
     return resultBuilder.build();
   }
@@ -96,29 +95,26 @@ public class Shelter {
             .build();
   }
 
-  public Result removeEquipment(Item item, int quantity) throws IllegalEquipmentRemovalException {
+  public Result removeEquipment(Item item, int quantity) {
     Result.Builder resultBuilder = new Result.Builder();
     Optional<Integer> currentQuantity = Optional.ofNullable(this.equipment.get(item));
+    resultBuilder.item(item);
     if(currentQuantity.isPresent()) {
       if (currentQuantity.get() < quantity) {
-        throw new IllegalEquipmentRemovalException(
-          "You tried to remove "
-                  + quantity
-                  + " of "
-                  + item
-                  + ", but you only have "
-                  + currentQuantity
-                  + ".");
+        this.equipment.put(item, 0);
+        resultBuilder
+                .itemCount(currentQuantity.get())
+                .message("You only had " + currentQuantity.get() + " " + item + " in your shelter.");
+      } else {
+        this.equipment.put(item, currentQuantity.get() - quantity);
+        resultBuilder
+                .itemCount(quantity)
+                .message(quantity + " " + item + " removed from your shelter. You have " + (currentQuantity.get() - quantity) + " remaining.");
       }
-      this.equipment.put(item, currentQuantity.get() - quantity);
-      resultBuilder
-              .item(item)
-              .itemCount(quantity)
-              .message(quantity + " " + item + " removed from your shelter. You have " + (currentQuantity.get() - quantity) + " remaining.");
     } else {
-      throw new IllegalEquipmentRemovalException(
-        "You do not have a(n) " + item + " in your shelter."
-      );
+      resultBuilder
+              .itemCount(0)
+              .message("You do not have a(n) " + item + " in your shelter.");
     }
     return resultBuilder.build();
   }
