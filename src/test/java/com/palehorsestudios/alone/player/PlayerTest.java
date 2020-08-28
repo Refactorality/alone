@@ -63,7 +63,9 @@ public class PlayerTest {
   public void improveShelter() {}
 
   @Test
-  public void gatherFirewood() {}
+  public void gatherFirewood() {
+    System.out.println(player.gatherFirewood().getMessage());
+  }
 
   @Test
   public void getWater() {}
