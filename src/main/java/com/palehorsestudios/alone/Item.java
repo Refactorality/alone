@@ -6,7 +6,7 @@ public enum Item {
   FISHING_LURES("fishing lures"),
   KNIFE("knife"),
   FLINT_AND_STEEL("flint and steel"),
-  BOW_AND_ARROWS("bow"),
+  BOW("bow"),
   ARROWS("arrows"),
   FAMILY_PHOTO("family photo"),
   PARACHUTE_CHORD("parachute chord"),

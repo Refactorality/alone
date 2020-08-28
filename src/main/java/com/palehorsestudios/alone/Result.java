@@ -1,8 +1,6 @@
-package com.palehorsestudios.alone.player;
+package com.palehorsestudios.alone;
 
-import com.palehorsestudios.alone.Food;
-
-class Result {
+public class Result {
     private int hydration;
     private double foodCount;
     private Food food;
@@ -110,5 +108,19 @@ class Result {
 
     public String getMessage() {
         return message;
+    }
+
+    @Override
+    public String toString() {
+        return "Result{" +
+                "hydration=" + hydration +
+                ", foodCount=" + foodCount +
+                ", food=" + food +
+                ", shelterIntegrity=" + shelterIntegrity +
+                ", firewood=" + firewood +
+                ", morale=" + morale +
+                ", calories=" + calories +
+                ", message='" + message + '\'' +
+                '}';
     }
 }

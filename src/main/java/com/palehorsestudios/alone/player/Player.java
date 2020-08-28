@@ -2,7 +2,10 @@ package com.palehorsestudios.alone.player;
 
 import com.google.common.collect.ImmutableSet;
 import com.palehorsestudios.alone.Food;
+import com.palehorsestudios.alone.IllegalEquipmentRemovalException;
+import com.palehorsestudios.alone.IllegalFoodRemovalException;
 import com.palehorsestudios.alone.Item;
+import com.palehorsestudios.alone.Result;
 import com.palehorsestudios.alone.Shelter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,11 +14,13 @@ import java.util.Set;
 
 public class Player {
     // static constants
-    static final int MIN_HYDRATION = 0;
-    static final int MAX_HYDRATION = 10;
-    static final int MIN_WEIGHT = 0;
-    static final int MIN_MORALE = 0;
-    static final int MAX_MORALE = 10;
+    private static final int MIN_HYDRATION = 0;
+    private static final int MAX_HYDRATION = 10;
+    private static final int MIN_WEIGHT = 0;
+    private static final int MIN_MORALE = 0;
+    private static final int MAX_MORALE = 10;
+    private static final int SERVING_SIZE = 227;
+    private static final double CALORIES_PER_POUND = 285.7;
     private static final Logger logger = LoggerFactory.getLogger("Player logger");
 
     // instance vars
@@ -122,23 +127,43 @@ public class Player {
         this.morale = morale;
     }
 
-    public void addItem(Item item) {
+    public Result addItem(Item item) {
+        Result.Builder resultBuilder = new Result.Builder();
+        try {
+            this.shelter.removeEquipment(item, 1);
+        } catch (IllegalEquipmentRemovalException e) {
+            resultBuilder.message(e.getMessage());
+        }
         this.items.add(item);
+        resultBuilder.message(item + " added");
+        return resultBuilder.build();
     }
 
     public void removeItem(Item item) {
         this.items.remove(item);
-        this.shelter.getEquipment().
+        this.shelter.addEquipment(item, 1);
     }
 
     // business methods
-    public Result eat(Food food, double amount) {
+    public Result eat(Food food) {
         Result.Builder resultBuilder = new Result.Builder();
-        return resultBuilder
-                .food(food)
-                .foodCount(0 - amount)
-                .message("You had a hearty meal of " + amount + " " + food)
-                .build();
+        // try to draw on shelter food cache
+        try {
+            this.shelter.removeFood(food, SERVING_SIZE);
+
+            // update player weight
+            this.updateWeight(food.getCaloriesPerGram() * SERVING_SIZE);
+
+            // load the result builder
+            resultBuilder
+                    .food(food)
+                    .foodCount(-SERVING_SIZE)
+                    .message("You had a hearty meal of " + SERVING_SIZE + " grams of " + food);
+        } catch (IllegalFoodRemovalException e) {
+            resultBuilder.message(e.getMessage());
+        }
+
+        return resultBuilder.build();
     }
 
     public Result goFishing() {
@@ -178,8 +203,8 @@ public class Player {
     }
 
     // private helper methods
-    private void updateWeight(int calorie) {
-
+    private void updateWeight(double calorie) {
+        this.weight += ((calorie / CALORIES_PER_POUND) * 10) / 10.0;
     }
 
     @Override
