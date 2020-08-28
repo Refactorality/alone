@@ -32,7 +32,7 @@ public class PlayerTest {
             Item.COLD_WEATHER_GEAR
     ));
     player = new Player(items);
-    player.getShelter().addFood(Food.FISH, 1000);
+    player.getShelter().addFoodToCache(Food.FISH, 1000);
   }
 
   @Test
@@ -91,14 +91,14 @@ public class PlayerTest {
 
   @Test
   public void testPutItemInShelterFail() {
-    assertEquals("You do not have a(n) family photo.", player.putItemInShelter(Item.FAMILY_PHOTO).getMessage());
+    assertEquals("You do not have a(n) family photo on you.", player.putItemInShelter(Item.FAMILY_PHOTO).getMessage());
   }
 
   @Test
   public void testGetItemFromShelterHappy() {
     player.putItemInShelter(Item.HARMONICA);
     player.putItemInShelter(Item.FISHING_LINE);
-    assertEquals("Removed one harmonica from your shelter.", player.getItemFromShelter(Item.HARMONICA).getMessage());
+    assertEquals("1 harmonica removed from your shelter. You have 0 remaining.", player.getItemFromShelter(Item.HARMONICA).getMessage());
     assertEquals(Optional.of(0).get(), player.getShelter().getEquipment().get(Item.HARMONICA));
   }
 
