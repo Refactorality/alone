@@ -52,9 +52,9 @@ public class Shelter {
             throw new IllegalWaterUpdateException( "You can't get any water because there is none in water tank.")
 
         }
-
         return resultBuilder
                 .water(addedWater)
+                .build();
     }
 
     public ImmutableMap<Food, Double> getFoodCache() {
@@ -65,42 +65,41 @@ public class Shelter {
         this.firewood = firewood;
     }
 
-    public Result addFood(Food food, double quantity) {
-        Result.Builder resultBuilder = new Result.Builder();
-        Optional<Double> currentQuantity = Optional.ofNullable(this.foodCache.get(food));
-        if (currentQuantity.isPresent()) {
-            this.foodCache.put(food, currentQuantity.get() + quantity);
-        } else {
-            this.foodCache.put(food, quantity);
-        }
-        return resultBuilder
-                .food(food)
-                .foodCount(quantity)
-                .message(quantity + " grams of " + food + " added to your food cache.")
-                .build();
+  public Result addFoodToCache(Food food, double quantity) {
+    Result.Builder resultBuilder = new Result.Builder();
+    Optional<Double> currentQuantity = Optional.ofNullable(this.foodCache.get(food));
+    if (currentQuantity.isPresent()) {
+      this.foodCache.put(food, currentQuantity.get() + quantity);
+    } else {
+      this.foodCache.put(food, quantity);
     }
+    return resultBuilder
+        .food(food)
+        .foodCount(quantity)
+        .message(quantity + " grams of " + food + " added to your food cache.")
+        .build();
+  }
 
-    public Result removeFood(Food food, double quantity) throws IllegalFoodRemovalException {
+    public Result removeFoodFromCache(Food food, double quantity) {
         Result.Builder resultBuilder = new Result.Builder();
         Optional<Double> currentQuantity = Optional.ofNullable(this.foodCache.get(food));
+        resultBuilder.food(food);
         if (currentQuantity.isPresent()) {
             if (currentQuantity.get() < quantity) {
-                throw new IllegalFoodRemovalException(
-                        "You tried to remove "
-                                + quantity
-                                + " of "
-                                + food
-                                + ", but you only have "
-                                + currentQuantity
-                                + ".");
+                this.foodCache.put(food, 0.0);
+                resultBuilder
+                        .foodCount(currentQuantity.get())
+                        .message("You were only able to find " + currentQuantity.get() + " grams of " + food + " in your food cache.");
+            } else {
+                this.foodCache.put(food, currentQuantity.get() - quantity);
+                resultBuilder
+                        .foodCount(quantity)
+                        .message("You removed " + quantity + " grams of " + food + " from your food cache.");
             }
-            this.foodCache.put(food, currentQuantity.get() - quantity);
-            resultBuilder
-                    .food(food)
-                    .foodCount(quantity)
-                    .message("You removed " + quantity + " grams of " + food + " from your food cache.");
         } else {
-            throw new IllegalFoodRemovalException("You do not have any " + food + ".");
+            resultBuilder
+                    .foodCount(0.0)
+                    .message("You do not have any " + food + " in your food cache.");
         }
         return resultBuilder.build();
     }
@@ -124,32 +123,31 @@ public class Shelter {
                 .build();
     }
 
-    public Result removeEquipment(Item item, int quantity) throws IllegalEquipmentRemovalException {
-        Result.Builder resultBuilder = new Result.Builder();
-        Optional<Integer> currentQuantity = Optional.ofNullable(this.equipment.get(item));
-        if (currentQuantity.isPresent()) {
-            if (currentQuantity.get() < quantity) {
-                throw new IllegalEquipmentRemovalException(
-                        "You tried to remove "
-                                + quantity
-                                + " of "
-                                + item
-                                + ", but you only have "
-                                + currentQuantity
-                                + ".");
-            }
-            this.equipment.put(item, currentQuantity.get() - quantity);
-            resultBuilder
-                    .item(item)
-                    .itemCount(quantity)
-                    .message(quantity + " " + item + " removed from your shelter. You have " + (currentQuantity.get() - quantity) + " remaining.");
-        } else {
-            throw new IllegalEquipmentRemovalException(
-                    "You do not have any " + item
-            );
-        }
-        return resultBuilder.build();
+
+  public Result removeEquipment(Item item, int quantity) {
+    Result.Builder resultBuilder = new Result.Builder();
+    Optional<Integer> currentQuantity = Optional.ofNullable(this.equipment.get(item));
+    resultBuilder.item(item);
+    if(currentQuantity.isPresent()) {
+      if (currentQuantity.get() < quantity) {
+        this.equipment.put(item, 0);
+        resultBuilder
+                .itemCount(currentQuantity.get())
+                .message("You only had " + currentQuantity.get() + " " + item + " in your shelter.");
+      } else {
+        this.equipment.put(item, currentQuantity.get() - quantity);
+        resultBuilder
+                .itemCount(quantity)
+                .message(quantity + " " + item + " removed from your shelter. You have " + (currentQuantity.get() - quantity) + " remaining.");
+      }
+    } else {
+      resultBuilder
+              .itemCount(0)
+              .message("You do not have a(n) " + item + " in your shelter.");
+
     }
+   return resultBuilder.build();
+}
 
     @Override
     public String toString() {
@@ -159,5 +157,6 @@ public class Shelter {
                 ", integrity=" + integrity +
                 ", firewood=" + firewood +
                 '}';
+
     }
 }
