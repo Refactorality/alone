@@ -5,9 +5,7 @@ import com.palehorsestudios.alone.Food;
 import com.palehorsestudios.alone.Item;
 import com.palehorsestudios.alone.Result;
 import com.palehorsestudios.alone.Shelter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import java.util.Random;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,10 +16,9 @@ public class Player {
   private static final int MIN_WEIGHT = 0;
   private static final int MIN_MORALE = 0;
   private static final int MAX_MORALE = 10;
-  private static final int SERVING_SIZE = 227;
+  private static final int SERVING_SIZE = 340;
   private static final int FIREWOOD_BUNDLE = 1;
   private static final double CALORIES_PER_POUND = 285.7;
-  private static final Logger logger = LoggerFactory.getLogger("Player logger");
   private final Set<Item> items;
   private final Shelter shelter;
   // instance vars
@@ -40,6 +37,17 @@ public class Player {
 
   // getters
 
+  private static SuccessRate generateSuccessRate() {
+    int seed = ((int) Math.floor(Math.random() * 3));
+    if (seed == 0) {
+      return SuccessRate.LOW;
+    } else if (seed == 1) {
+      return SuccessRate.MEDIUM;
+    } else {
+      return SuccessRate.HIGH;
+    }
+  }
+
   /**
    * Getter for Player hydration.
    *
@@ -55,14 +63,7 @@ public class Player {
    * @param hydration value for Player hydration.
    */
   public void setHydration(int hydration) {
-    hydration < MIN_HYDRATION ? MIN_HYDRATION : Math.min(hydration, MAX_HYDRATION);
-    if (hydration < MIN_HYDRATION) {
-      this.hydration = MIN_HYDRATION;
-    } else if(hydration > MAX_HYDRATION) {
-      this.hydration = MAX_HYDRATION;
-    } else {
-      this.hydration = hydration;
-    }
+    this.hydration = hydration < MIN_HYDRATION ? MIN_HYDRATION : Math.min(hydration, MAX_HYDRATION);
   }
 
   /**
@@ -83,6 +84,8 @@ public class Player {
     this.weight = Math.max(MIN_WEIGHT, weight);
   }
 
+  // setters
+
   /**
    * Getter for Player morale.
    *
@@ -92,7 +95,6 @@ public class Player {
     return morale;
   }
 
-  // setters
   /**
    * Getter for items Player is currently carrying.
    *
@@ -111,24 +113,17 @@ public class Player {
     return this.shelter;
   }
 
+  // business methods
+
   /**
    * Setter for Player morale.
    *
    * @param morale value for Player morale.
-   * @throws IllegalMoraleArgumentException if {@value Player#MAX_MORALE} < morale < {@value
-   *     Player#MIN_MORALE}
    */
   public void updateMorale(int morale) {
     this.morale += morale;
-    if (morale < MIN_MORALE) {
-      this.morale = MIN_MORALE;
-      // Should we create a scenario that the player dies if morale is 0?
-    } else if (morale > MAX_MORALE) {
-      this.morale = MAX_MORALE;
-    }
+    this.morale = this.morale < MIN_MORALE ? MIN_MORALE : Math.min(this.morale, MAX_MORALE);
   }
-
-  // business methods
 
   /**
    * Method for transferring item from the shelter to the player.
@@ -175,7 +170,7 @@ public class Player {
 
     if (removalResult.getFoodCount() > 0.0) {
       // update player weight
-      this.updateWeight(food.getCaloriesPerGram() * removalResult.getFoodCount());
+      updateWeight(food.getCaloriesPerGram() * removalResult.getFoodCount());
 
       // load the result builder
       resultBuilder
@@ -190,10 +185,36 @@ public class Player {
     return resultBuilder.build();
   }
 
+  /**
+   * Activity method for Player to go fishing.
+   *
+   * @return Result of fishing trip.
+   */
   public Result goFishing() {
     Result.Builder resultBuilder = new Result.Builder();
-
-    return resultBuilder.build();
+    SuccessRate successRate = generateSuccessRate();
+    double caloriesBurned = ActivityLevel.MEDIUM.getCaloriesBurned(successRate);
+    updateWeight(-caloriesBurned);
+    resultBuilder.calories(-caloriesBurned).food(Food.FISH);
+    if (successRate == SuccessRate.LOW) {
+      updateMorale(-2);
+      resultBuilder
+          .foodCount(0)
+          .message("I guess that's why they don't call it catching. You didn't catch any fish.");
+    } else if (successRate == SuccessRate.MEDIUM) {
+      this.getShelter().addFoodToCache(Food.FISH, Food.FISH.getGrams());
+      updateMorale(2);
+      resultBuilder
+          .foodCount(Food.FISH.getGrams())
+          .message("It looks like you'll be eating fresh fish tonight! You caught one lake trout");
+    } else {
+      this.getShelter().addFoodToCache(Food.FISH, Food.FISH.getGrams() * 3);
+      updateMorale(3);
+      resultBuilder
+          .foodCount(Food.FISH.getGrams() * 3)
+          .message("I hope there's room in your food cache. You caught three white fish!");
+    }
+    return resultBuilder.morale(this.getMorale()).build();
   }
 
   public Result goHunting() {
@@ -214,20 +235,26 @@ public class Player {
 
   public Result gatherFirewood() {
     Result.Builder resultBuilder = new Result.Builder();
-    Random rand = new Random();
-    ActivityLevel activityLevel = ActivityLevel.MEDIAN;
-    int successRate = rand.nextInt(3) + 1;
-    double caloriesBurned = activityLevel.getCaloriesBurned(successRate);
-    int firewoodAmount = successRate * FIREWOOD_BUNDLE;
-    int morale = successRate;
+    SuccessRate successRate = generateSuccessRate();
+    double caloriesBurned = ActivityLevel.MEDIUM.getCaloriesBurned(successRate);
+    int firewoodAmount;
+    if (successRate == SuccessRate.LOW) {
+      firewoodAmount = FIREWOOD_BUNDLE;
+    } else if (successRate == SuccessRate.MEDIUM) {
+      firewoodAmount = FIREWOOD_BUNDLE * 3;
+    } else {
+      firewoodAmount = FIREWOOD_BUNDLE * 5;
+    }
     updateWeight(-caloriesBurned);
-    updateMorale(morale);
+    updateMorale((int) Math.ceil(firewoodAmount / 2.0));
     return resultBuilder
-            .firewood(firewoodAmount)
-            .message("Good Job! You just gathered " + firewoodAmount + " buddles of firewood.")
-            .morale(morale)
-            .build();
+        .firewood(firewoodAmount)
+        .calories(-caloriesBurned)
+        .message("Good Job! You just gathered " + firewoodAmount + " bundles of firewood.")
+        .morale(morale)
+        .build();
   }
+
   public Result getWater() {
     return null;
   }

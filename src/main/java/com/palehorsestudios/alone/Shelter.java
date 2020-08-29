@@ -1,7 +1,6 @@
 package com.palehorsestudios.alone;
 
 import com.google.common.collect.ImmutableMap;
-import com.palehorsestudios.alone.player.IllegalHydrationArgumentException;
 
 import java.util.HashMap;
 import java.util.Map;
