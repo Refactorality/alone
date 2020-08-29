@@ -206,7 +206,7 @@ public class Player {
       updateMorale(2);
       resultBuilder
           .foodCount(Food.FISH.getGrams())
-          .message("It looks like you'll be eating fresh fish tonight! You caught one lake trout");
+          .message("It looks like you'll be eating fresh fish tonight! You caught one lake trout.");
     } else {
       this.getShelter().addFoodToCache(Food.FISH, Food.FISH.getGrams() * 3);
       updateMorale(3);
@@ -221,8 +221,38 @@ public class Player {
     return null;
   }
 
+  /**
+   * Activity method for Player to trap animals.
+   *
+   * @return Result of trapping attempt.
+   */
   public Result goTrapping() {
-    return null;
+    Result.Builder resultBuilder = new Result.Builder();
+    SuccessRate successRate = generateSuccessRate();
+    double caloriesBurned = ActivityLevel.MEDIUM.getCaloriesBurned(successRate);
+    updateWeight(-caloriesBurned);
+    resultBuilder.calories(-caloriesBurned);
+    if (successRate == SuccessRate.LOW) {
+      updateMorale(-2);
+      resultBuilder
+          .foodCount(0)
+          .message("Those varmints are smarter than they look. Your traps were empty.");
+    } else if (successRate == SuccessRate.MEDIUM) {
+      this.getShelter().addFoodToCache(Food.SQUIRREL, Food.SQUIRREL.getGrams() * 2);
+      updateMorale(1);
+      resultBuilder
+          .food(Food.SQUIRREL)
+          .foodCount(Food.SQUIRREL.getGrams() * 2)
+          .message("Your patience has paid off. There were two squirrels in your traps!");
+    } else {
+      this.getShelter().addFoodToCache(Food.RABBIT, Food.RABBIT.getGrams() * 3);
+      updateMorale(2);
+      resultBuilder
+          .food(Food.RABBIT)
+          .foodCount(Food.RABBIT.getGrams() * 3)
+          .message("You'll have plenty of lucky rabbit feet now. Your snared three rabbits!");
+    }
+    return resultBuilder.morale(this.getMorale()).build();
   }
 
   public Result goForaging() {

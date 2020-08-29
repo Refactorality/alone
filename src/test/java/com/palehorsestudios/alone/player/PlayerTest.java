@@ -35,6 +35,8 @@ public class PlayerTest {
                 Item.COLD_WEATHER_GEAR));
     player = new Player(items);
     player.getShelter().addFoodToCache(Food.FISH, 1000);
+    player.getShelter().addFoodToCache(Food.SQUIRREL, 1000);
+    player.getShelter().addFoodToCache(Food.RABBIT, 1000);
   }
 
   @Test
@@ -61,7 +63,7 @@ public class PlayerTest {
       assertEquals(179.74, player.getWeight(), 0.005);
     } else if (fishingResult.getFoodCount() == Food.FISH.getGrams()) {
       assertEquals(
-          "It looks like you'll be eating fresh fish tonight! You caught one lake trout",
+          "It looks like you'll be eating fresh fish tonight! You caught one lake trout.",
           fishingResult.getMessage());
       assertEquals(7, player.getMorale());
       assertEquals(
@@ -84,7 +86,36 @@ public class PlayerTest {
   public void goHunting() {}
 
   @Test
-  public void goTrapping() {}
+  public void testGoTrapping() {
+    Result trappingResult = player.goTrapping();
+    if (trappingResult.getFoodCount() == 0) {
+      assertEquals(
+          "Those varmints are smarter than they look. Your traps were empty.",
+          trappingResult.getMessage());
+      assertEquals(3, player.getMorale());
+      assertEquals(Optional.of(1000.0).get(), player.getShelter().getFoodCache().get(Food.SQUIRREL));
+      assertEquals(Optional.of(1000.0).get(), player.getShelter().getFoodCache().get(Food.RABBIT));
+      assertEquals(179.74, player.getWeight(), 0.005);
+    } else if (trappingResult.getFoodCount() == (Food.SQUIRREL.getGrams() * 2)) {
+      assertEquals(
+          "Your patience has paid off. There were two squirrels in your traps!",
+          trappingResult.getMessage());
+      assertEquals(6, player.getMorale());
+      assertEquals(
+          Optional.of(1000.0 + (Food.SQUIRREL.getGrams() * 2)).get(),
+          player.getShelter().getFoodCache().get(Food.SQUIRREL));
+      assertEquals(179.47, player.getWeight(), 0.005);
+    } else {
+      assertEquals(
+          "You'll have plenty of lucky rabbit feet now. Your snared three rabbits!",
+          trappingResult.getMessage());
+      assertEquals(7, player.getMorale());
+      assertEquals(
+          Optional.of(1000.0 + (Food.RABBIT.getGrams() * 3)).get(),
+          player.getShelter().getFoodCache().get(Food.RABBIT));
+      assertEquals(178.95, player.getWeight(), 0.005);
+    }
+  }
 
   @Test
   public void goForaging() {}
