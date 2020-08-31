@@ -406,10 +406,33 @@ public class PlayerTest {
   }
 
   @Test
-  public void boostMorale() {}
+  public void boostMorale() {
+    Result boostMoraleResult = player.boostMorale();
+    int boostedMorale = boostMoraleResult.getMorale();
+    if (boostedMorale == -1) {
+      assertEquals("It is cold and sad here. I know you are lonely, do you want to take some rest?", boostMoraleResult.getMessage());
+    }
+    else if (boostedMorale == 2) {
+      assertEquals("You found a harmonica, and you played with it for an hour, your morale is high now!", boostMoraleResult.getMessage());
+      assertEquals(37.5, boostMoraleResult.getCalories(), 0.01);
+    }
+    else if (boostedMorale == 3) {
+      assertEquals("You found your family photo and it reminds you all the good memories with your family! Your" +
+          " morale is high now!", boostMoraleResult.getMessage());
+      assertEquals(37.5, boostMoraleResult.getCalories(), 0.01);
+    }
+    else if (boostedMorale == 1 ) {
+      assertEquals("You found a Journal and a pen, you decide to capture current experience in the journal. " +
+          "Your morale is high now!", boostMoraleResult.getMessage());
+      assertEquals(37.5, boostMoraleResult.getCalories(), 0.01);
+    }
+  }
 
   @Test
-  public void rest() {}
+  public void rest() {
+    Result restResult = player.rest();
+    assertEquals("You have rested for some hours and are ready for the next day!", restResult.getMessage());
+  }
 
   @Test
   public void testToString() {}

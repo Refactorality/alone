@@ -481,9 +481,10 @@ public class Player {
     }
     if (moraleBoostItemsOwn.isEmpty()) {
       updateMorale(-1);
-      resultBuilder
+      return resultBuilder
           .message("It is cold and sad here. I know you are lonely, do you want to take some rest?")
-          .morale(-1);
+          .morale(-1)
+          .build();
     }
     // randomly pick a item from the moralBoostItemsOwn
     Random rand = new Random();
@@ -496,8 +497,7 @@ public class Player {
           .morale(3);
     }
     else if (moraleBoostItemsOwn.get(randomIndex) == Item.HARMONICA ) {
-      SuccessRate successRate = generateSuccessRate();
-      double caloriesBurned = ActivityLevel.LOW.getCaloriesBurned(successRate);
+      double caloriesBurned = ActivityLevel.LOW.getCaloriesBurned(SuccessRate.LOW);
       updateWeight(-caloriesBurned);
       updateMorale(2);
       resultBuilder
@@ -505,8 +505,7 @@ public class Player {
           .morale(2);
     }
     else {
-      SuccessRate successRate = generateSuccessRate();
-      double caloriesBurned = ActivityLevel.LOW.getCaloriesBurned(successRate);
+      double caloriesBurned = ActivityLevel.LOW.getCaloriesBurned(SuccessRate.LOW);
       updateWeight(-caloriesBurned);
       updateMorale(1);
       resultBuilder
@@ -536,7 +535,7 @@ public class Player {
     double caloriesBurned = ActivityLevel.LOW.getCaloriesBurned(burnRate);
     updateWeight(-caloriesBurned);
     return resultBuilder
-        .message(" You have rested for " + hours + "hours and are ready for the next day!")
+        .message("You have rested for some hours and are ready for the next day!")
         .build();
   }
 

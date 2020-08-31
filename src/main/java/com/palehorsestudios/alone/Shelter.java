@@ -53,37 +53,7 @@ public class Shelter {
     else {
       addedWater = water;
     }
-
     return addedWater;
-
-
-     /* addedWater = 0;
-      return resultBuilder
-          .message("Your water tank is full, no need to add more water")
-          .build();
-
-    int addedWater;
-    addedWater = water;
-    if (waterTank >= MAX_WATER) {
-      this.waterTank = MAX_WATER;
-      addedWater = MAX_WATER - currentWater;
-      resultBuilder
-          .water(addedWater)
-          .morale(addedWater)
-          .message("You added " + addedWater + " in the water tank, and it is full now.");
-    } else if (waterTank < MIN_WATER) {
-      this.waterTank = MIN_WATER;
-      resultBuilder.message(
-          "The water tank now is empty, do you want to get more water in the area?");
-    } else {
-      resultBuilder
-          .water(addedWater)
-          .morale(addedWater*1)
-          .message("You added " + addedWater + " in the water tank.");
-    }
-    return resultBuilder.build();
-    */
-
   }
 
   public ImmutableMap<Food, Double> getFoodCache() {
