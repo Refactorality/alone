@@ -372,7 +372,6 @@ public class PlayerTest {
   @Test
   public void improveShelterNoItems() {
     double previousIntegrity = player.getShelter().getIntegrity();
-    logger.info("previous integrity no items: " + previousIntegrity);
     Result shelterImprovementResult = player.improveShelter();
     double shelterIntegrityChange = player.getShelter().getIntegrity() - previousIntegrity;
     if (shelterIntegrityChange < 2) {
@@ -407,7 +406,6 @@ public class PlayerTest {
   public void improveShelterWithItems() {
     player.getItemFromShelter(Item.AXE);
     double previousIntegrity = player.getShelter().getIntegrity();
-    logger.info("previous integrity no items: " + previousIntegrity);
     Result shelterImprovementResult = player.improveShelter();
     double shelterIntegrityChange = player.getShelter().getIntegrity() - previousIntegrity;
     if (shelterIntegrityChange < 2) {
