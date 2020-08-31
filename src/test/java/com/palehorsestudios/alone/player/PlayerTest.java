@@ -438,18 +438,80 @@ public class PlayerTest {
 
   @Test
   public void gatherFirewood() {
-    // TODO: Need to make this test more thorough
-    System.out.println(player.gatherFirewood().getMessage());
+    Result gatherFirewoodResult = player.gatherFirewood();
+    double firewoodAmount = gatherFirewoodResult.getFirewood();
+    System.out.println(firewoodAmount);
+    double caloriesBurned = gatherFirewoodResult.getCalories();
+    int updatedMorale = gatherFirewoodResult.getMorale();
+    if (firewoodAmount == 1.2 ) {
+      assertEquals(-75.0, caloriesBurned, 0.01);
+      assertEquals(MED_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(player.getMorale(), updatedMorale, 0.01);
+    }
+    else if (firewoodAmount == 3.6) {
+      assertEquals(-150.0, caloriesBurned, 0.01);
+      assertEquals(MED_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(player.getMorale(), updatedMorale, 0.01);
+    }
+    else if (firewoodAmount == 6.0) {
+      assertEquals(-300.0, caloriesBurned, 0.01);
+      assertEquals(MED_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(player.getMorale(), updatedMorale, 0.01);
+    }
+    assertEquals("Good Job! You just gathered " + firewoodAmount + " bundles of firewood.", gatherFirewoodResult.getMessage());
   }
 
   @Test
-  public void getWater() {}
+  public void getWater() {
+    Result getWaterResult = player.getWater();
+    int addedWater = getWaterResult.getWater();
+    double burnedCalories = getWaterResult.getCalories();
+    if (addedWater == 1) {
+      assertEquals(1, getWaterResult.getMorale());
+      assertEquals(LOW_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(-37.5, getWaterResult.getCalories(), 0.01);
+    }
+    else if (addedWater == 2) {
+      assertEquals(2, getWaterResult.getMorale());
+      assertEquals(LOW_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(-75.0, getWaterResult.getCalories(), 0.01);
+    }
+    else if (addedWater == 3) {
+      assertEquals(3, getWaterResult.getMorale());
+      assertEquals(LOW_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(-150.0, getWaterResult.getCalories(), 0.01);
+    }
+    assertEquals("You added " + addedWater + " in the water tank.", getWaterResult.getMessage());
+  }
 
   @Test
-  public void boostMorale() {}
+  public void boostMorale() {
+    Result boostMoraleResult = player.boostMorale();
+    int boostedMorale = boostMoraleResult.getMorale();
+    if (boostedMorale == -1) {
+      assertEquals("It is cold and sad here. I know you are lonely, do you want to take some rest?", boostMoraleResult.getMessage());
+    }
+    else if (boostedMorale == 2) {
+      assertEquals("You found a harmonica, and you played with it for an hour, your morale is high now!", boostMoraleResult.getMessage());
+      assertEquals(37.5, boostMoraleResult.getCalories(), 0.01);
+    }
+    else if (boostedMorale == 3) {
+      assertEquals("You found your family photo and it reminds you all the good memories with your family! Your" +
+          " morale is high now!", boostMoraleResult.getMessage());
+      assertEquals(37.5, boostMoraleResult.getCalories(), 0.01);
+    }
+    else if (boostedMorale == 1 ) {
+      assertEquals("You found a Journal and a pen, you decide to capture current experience in the journal. " +
+          "Your morale is high now!", boostMoraleResult.getMessage());
+      assertEquals(37.5, boostMoraleResult.getCalories(), 0.01);
+    }
+  }
 
   @Test
-  public void rest() {}
+  public void rest() {
+    Result restResult = player.rest();
+    assertEquals("You have rested for some hours and are ready for the next day!", restResult.getMessage());
+  }
 
   @Test
   public void testToString() {
