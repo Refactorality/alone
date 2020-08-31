@@ -5,28 +5,29 @@ Before it sinks, select 10 items from the list below to take with you:
 3) Fishing lures
 4) Knife
 5) Flint and steel
-6) Bow and 10 arrows
-7) Family photo
-8) Cordage
-9) Flare
-10) One extra pair of pants
+6) Bow
+7) 10 arrows
+8) Family photo
+9) Cordage
+10) Flare
 11) One extra pair of boots
-12) Sleeping gear
-13) Cold Weather lower layer
-14) 10x10 foot tarp
-15) Matches
-16) Small first aid kit
-17) Flashlight
-18) Extra flashlight batteries
-19) 18 gauge wire
-20) Waterproof gore tex jacket
+12) One extra pair of pants
+13) Sleeping gear
+14) Cold weather gear
+15) 10x10 foot tarp
+16) 100 Matches
+17) Small first aid kit
+18) Flashlight
+19) Extra batteries
+20) 18 gauge wire
 21) Pot
 22) Axe
 23) Hatchet
-24) Iodine tablets
-25) .357 Magnum revolver with 12 cartridges
-26) Shovel
-27) Harmonica
-28) Lighter
-29) Survival manual
-30) Journal and pen
+24) 10 Iodine tablets
+25) .357 Magnum revolver
+26) 12 .357 cartridges
+27) Foldable shovel
+28) Harmonica
+29) Lighter
+30) Survival manual
+31) Journal and pen
