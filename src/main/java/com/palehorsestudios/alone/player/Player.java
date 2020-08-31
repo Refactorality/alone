@@ -380,12 +380,28 @@ public class Player {
         .firewood(firewoodAmount)
         .calories(-caloriesBurned)
         .message("Good Job! You just gathered " + firewoodAmount + " bundles of firewood.")
-        .morale(morale)
         .build();
   }
 
   public Result getWater() {
-    return null;
+    Result.Builder resultBuilder = new Result.Builder();
+    SuccessRate successRate = generateSuccessRate();
+    double caloriesBurned = ActivityLevel.LOW.getCaloriesBurned(successRate);
+    updateWeight(-caloriesBurned);
+    int addedWater;
+    if (successRate == SuccessRate.LOW) {
+      addedWater = 1;
+      updateMorale(1);
+    }
+    else if (successRate == SuccessRate.MEDIUM) {
+      addedWater = 2;
+      updateMorale(2);
+    }
+    else {
+      addedWater = 5;
+      updateMorale(3);
+    }
+    return this.shelter.updateWater(addedWater);
   }
 
   public Result boostMorale() {

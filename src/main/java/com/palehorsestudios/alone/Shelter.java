@@ -43,6 +43,10 @@ public class Shelter {
   public Result updateWater(int water) {
     Result.Builder resultBuilder = new Result.Builder();
     int currentWater = getWaterTank();
+    if (currentWater == MAX_WATER)
+      return resultBuilder
+          .message("Your water tank is full, no need to add more water")
+          .build();
     waterTank += water;
     int addedWater;
     addedWater = water;
@@ -56,6 +60,10 @@ public class Shelter {
       this.waterTank = MIN_WATER;
       resultBuilder.message(
           "The water tank now is empty, do you want to get more water in the area?");
+    } else {
+      resultBuilder
+          .water(addedWater)
+          .message("You added " + addedWater + " in the water tank.");
     }
     return resultBuilder.build();
   }
