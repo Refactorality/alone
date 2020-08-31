@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.stream.Stream;
-import jdk.jfr.FlightRecorder;
 
 public class Main {
   public static void getNarrative(File file) {
@@ -42,10 +41,10 @@ public class Main {
         else { items.putIfAbsent(FISHING_LINE, 100);
         System.out.println("You put " + FISHING_LINE + " in your bag. " + (9 - i) + " items remaining");}
       } else if (getItems.contentEquals("2")) {
-        if (items.containsKey(COLD_WEATHER_GEAR)) { System.out.println("You already have " + COLD_WEATHER_GEAR);
+        if (items.containsKey(FISHING_HOOKS)) { System.out.println("You already have " + FISHING_HOOKS);
           i -= 1;}
-        else { items.putIfAbsent(COLD_WEATHER_GEAR, 5);
-          System.out.println("You put " + COLD_WEATHER_GEAR + " in your bag. " + (9 - i) + " items remaining");}
+        else { items.putIfAbsent(FISHING_HOOKS, 5);
+          System.out.println("You put " + FISHING_HOOKS + " in your bag. " + (9 - i) + " items remaining");}
       } else if (getItems.contentEquals("3")) {
         if (items.containsKey(FISHING_LURES)) { System.out.println("You already have " + FISHING_LURES);
           i -= 1;}
@@ -114,7 +113,7 @@ public class Main {
       } else if (getItems.contentEquals("16")) {
         if (items.containsKey(MATCHES)) { System.out.println("You already have " + MATCHES);
           i -= 1;}
-        else { items.putIfAbsent(MATCHES, 1);
+        else { items.putIfAbsent(MATCHES, 100);
           System.out.println("You put " + MATCHES + " in your bag. " + (9 - i) + " items remaining");}
       } else if (getItems.contentEquals("17")) {
         if (items.containsKey(FIRST_AID_KIT)) { System.out.println("You already have " + FIRST_AID_KIT);
@@ -179,7 +178,7 @@ public class Main {
       } else if (getItems.contentEquals("29")) {
         if (items.containsKey(LIGHTER)) { System.out.println("You already have " + LIGHTER);
           i -= 1;}
-        else { items.putIfAbsent(LIGHTER, 1);
+        else { items.putIfAbsent(LIGHTER, 10);
           System.out.println("You put " + LIGHTER + " in your bag. " + (9 - i) + " items remaining");}
       } else if (getItems.contentEquals("30")) {
         if (items.containsKey(SURVIVAL_MANUAL)) { System.out.println("You already have " + SURVIVAL_MANUAL);

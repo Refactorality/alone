@@ -23,10 +23,10 @@ Before it sinks, select 10 items from the list below to take with you:
 21) Pot
 22) Axe
 23) Hatchet
-24) 15 Iodine tablets
+24) 10 Iodine tablets
 25) .357 Magnum revolver
 26) 12 .357 cartridges
-27) Shovel
+27) Foldable shovel
 28) Harmonica
 29) Lighter
 30) Survival manual
