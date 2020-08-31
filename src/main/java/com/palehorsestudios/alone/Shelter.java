@@ -7,11 +7,13 @@ import java.util.Map;
 import java.util.Optional;
 
 public class Shelter {
-  private static final int MAX_WATER = 10;
-  private static final int MIN_WATER = 0;
+  public static final int MAX_WATER = 10;
+  public static final int MIN_WATER = 0;
+  public static final double MAX_INTEGRITY = 10;
+  public static final double MIN_INTEGRITY = 0;
   private final Map<Food, Double> foodCache;
   private final Map<Item, Integer> equipment;
-  private int integrity;
+  private double integrity;
   private int firewood;
   private int waterTank;
 
@@ -20,12 +22,12 @@ public class Shelter {
     this.equipment = new HashMap<>();
   }
 
-  public int getIntegrity() {
+  public double getIntegrity() {
     return integrity;
   }
 
-  public void setIntegrity(int integrity) {
-    this.integrity = integrity;
+  public void setIntegrity(double integrity) {
+    this.integrity = integrity < MIN_INTEGRITY ? MIN_INTEGRITY : Math.min(integrity, MAX_INTEGRITY);
   }
 
   public int getFirewood() {

@@ -28,6 +28,7 @@ public enum Food {
     return grams;
   }
 
+  @Override
   public String toString() {
     return this.name;
   }

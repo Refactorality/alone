@@ -37,6 +37,26 @@ public class Player {
     for (Item item : items) {
       this.shelter.addEquipment(item, 1);
     }
+    // boost shelter if Player has fire starting items
+    if(items.contains(Item.FLINT_AND_STEEL) || items.contains(Item.MATCHES) || items.contains(Item.LIGHTER)) {
+      this.shelter.setIntegrity(this.shelter.getIntegrity() + 1);
+    }
+    // boost shelter if Player has a tarp
+    if(items.contains(Item.TARP)) {
+      this.shelter.setIntegrity(this.shelter.getIntegrity() + 1);
+    }
+    // boost shelter if Player has items to assist in shelter construction
+    if(items.contains(Item.PARACHUTE_CHORD) || items.contains(Item.AXE) || items.contains(Item.HATCHET) || items.contains(Item.SHOVEL) || items.contains(Item.KNIFE)) {
+      this.shelter.setIntegrity(this.shelter.getIntegrity() + 1);
+    }
+    // boost shelter if Player has sleeping gear
+    if(items.contains(Item.SLEEPING_GEAR)) {
+      this.shelter.setIntegrity(this.shelter.getIntegrity() + 1);
+    }
+    // boost shelter if Player has other "nice to have" items
+    if((items.contains(Item.FLASHLIGHT) && items.contains(Item.BATTERIES)) || items.contains(Item.POT) || items.contains(Item.SURVIVAL_MANUAL)) {
+      this.shelter.setIntegrity(this.shelter.getIntegrity() + 1);
+    }
   }
 
   // getters
@@ -367,7 +387,8 @@ public class Player {
     updateWeight(-caloriesBurned);
     resultBuilder.calories(-caloriesBurned);
     double boostFactor =
-        getActivityBoostFactor(new Item[] {Item.SURVIVAL_MANUAL, Item.EXTRA_BOOTS, Item.KNIFE, Item.POT});
+        getActivityBoostFactor(
+            new Item[] {Item.SURVIVAL_MANUAL, Item.EXTRA_BOOTS, Item.KNIFE, Item.POT});
     // gear, maybe we should eliminate low success rate possibility.
     if (successRate == SuccessRate.LOW) {
       this.getShelter()
@@ -405,14 +426,45 @@ public class Player {
     return resultBuilder.morale(this.getMorale()).build();
   }
 
+  /**
+   * Activity method to allow Player to improve their shelter.
+   *
+   * @return Result of shelter improvement attempt.
+   */
   public Result improveShelter() {
-    return null;
+    Result.Builder resultBuilder = new Result.Builder();
+    SuccessRate successRate = generateSuccessRate();
+    double caloriesBurned = ActivityLevel.HIGH.getCaloriesBurned(successRate);
+    updateWeight(-caloriesBurned);
+    double boostFactor = getActivityBoostFactor(new Item[]{Item.KNIFE, Item.PARACHUTE_CHORD, Item.AXE, Item.HATCHET, Item.SHOVEL, Item.SURVIVAL_MANUAL});
+    double improvementAmount;
+    if (successRate == SuccessRate.LOW) {
+      improvementAmount = 1 + 1 * boostFactor;
+      resultBuilder.message(
+          "You can sleep a little better at night. You were able to better insulate the walls of your shelter.");
+    } else if (successRate == SuccessRate.MEDIUM) {
+      improvementAmount = 2 + 2 * boostFactor;
+      resultBuilder.message(
+          "It's always nice to be able to get out of the rain and snow. Your roof is in better shape now.");
+    } else {
+      resultBuilder.message(
+          "It was a lot of work, but your improved fireplace will keep you much warmer tonight");
+      improvementAmount = 3 + 3 * boostFactor;
+    }
+    this.getShelter().setIntegrity(this.getShelter().getIntegrity() + improvementAmount);
+    updateMorale((int) Math.ceil(improvementAmount / 2));
+    return resultBuilder
+        .shelterIntegrity(this.getShelter().getIntegrity())
+        .calories(-caloriesBurned)
+        .morale(this.getMorale())
+        .build();
   }
 
   public Result gatherFirewood() {
     Result.Builder resultBuilder = new Result.Builder();
     SuccessRate successRate = generateSuccessRate();
     double caloriesBurned = ActivityLevel.MEDIUM.getCaloriesBurned(successRate);
+    // TODO: need to incorporate boostFactor if Player has axe or hatchet, etc.
     int firewoodAmount;
     if (successRate == SuccessRate.LOW) {
       firewoodAmount = FIREWOOD_BUNDLE;
@@ -424,7 +476,7 @@ public class Player {
     updateWeight(-caloriesBurned);
     updateMorale((int) Math.ceil(firewoodAmount / 2.0));
     return resultBuilder
-        .firewood(firewoodAmount)
+        .firewood(this.getShelter().getFirewood())
         .calories(-caloriesBurned)
         .message("Good Job! You just gathered " + firewoodAmount + " bundles of firewood.")
         .morale(morale)
@@ -432,6 +484,7 @@ public class Player {
   }
 
   public Result getWater() {
+    // TODO: give boost if Player has iodine tablets.
     return null;
   }
 
@@ -440,6 +493,7 @@ public class Player {
   }
 
   public Result rest() {
+    // TODO: give boost if Player has first-aid kit.
     return null;
   }
 
