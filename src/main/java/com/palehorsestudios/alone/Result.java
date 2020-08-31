@@ -7,7 +7,7 @@ public class Result {
   private double foodCount;
   private Food food;
   private double shelterIntegrity;
-  private int firewood;
+  private double firewood;
   private int morale;
   private double calories;
   private Item item;
@@ -83,7 +83,7 @@ public class Result {
    *
    * @return Result firewood amount.
    */
-  public int getFirewood() {
+  public double getFirewood() {
     return firewood;
   }
 
@@ -149,7 +149,7 @@ public class Result {
     private double foodCount;
     private Food food;
     private double shelterIntegrity;
-    private int firewood;
+    private double firewood;
     private int morale;
     private double calories;
     private Item item;
@@ -220,7 +220,7 @@ public class Result {
      * @param firewood Firewood result.
      * @return Result Builder.
      */
-    public Builder firewood(int firewood) {
+    public Builder firewood(double firewood) {
       this.firewood = firewood;
       return this;
     }

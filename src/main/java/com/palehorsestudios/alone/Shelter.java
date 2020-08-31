@@ -14,7 +14,7 @@ public class Shelter {
   private final Map<Food, Double> foodCache;
   private final Map<Item, Integer> equipment;
   private double integrity;
-  private int firewood;
+  private double firewood;
   private int waterTank;
 
   public Shelter() {
@@ -30,7 +30,7 @@ public class Shelter {
     this.integrity = integrity < MIN_INTEGRITY ? MIN_INTEGRITY : Math.min(integrity, MAX_INTEGRITY);
   }
 
-  public int getFirewood() {
+  public double getFirewood() {
     return firewood;
   }
 
@@ -42,24 +42,20 @@ public class Shelter {
     return waterTank;
   }
 
-  public Result updateWater(int water) {
-    Result.Builder resultBuilder = new Result.Builder();
+  public int updateWater(int water) {
     int currentWater = getWaterTank();
+    int addedWater = 0;
     waterTank += water;
-    int addedWater;
-    addedWater = water;
     if (waterTank >= MAX_WATER) {
-      this.waterTank = MAX_WATER;
-      addedWater = MAX_WATER - currentWater;
-      resultBuilder
-          .water(addedWater)
-          .message("You added " + addedWater + " in the water tank, and it is full now.");
-    } else if (waterTank < MIN_WATER) {
-      this.waterTank = MIN_WATER;
-      resultBuilder.message(
-          "The water tank now is empty, do you want to get more water in the area?");
+      return addedWater = MAX_WATER - currentWater;
     }
-    return resultBuilder.build();
+    else if (waterTank < MIN_WATER) {
+      waterTank = MIN_WATER;
+    }
+    else {
+      addedWater = water;
+    }
+    return addedWater;
   }
 
   public ImmutableMap<Food, Double> getFoodCache() {
