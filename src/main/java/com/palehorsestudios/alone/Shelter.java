@@ -47,6 +47,7 @@ public class Shelter {
     int addedWater = 0;
     waterTank += water;
     if (waterTank >= MAX_WATER) {
+      waterTank = MAX_WATER;
       return addedWater = MAX_WATER - currentWater;
     }
     else if (waterTank < MIN_WATER) {

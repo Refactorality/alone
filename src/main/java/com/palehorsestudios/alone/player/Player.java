@@ -488,7 +488,7 @@ public class Player {
         .firewood(firewoodAmount)
         .calories(-caloriesBurned)
         .message("Good Job! You just gathered " + firewoodAmount + " bundles of firewood.")
-        .morale(this.morale)
+        .morale(this.getMorale())
         .build();
   }
   /**
@@ -509,21 +509,19 @@ public class Player {
     if (successRate == SuccessRate.LOW) {
       addedWater = 1 + (int)boostFactor*10;
       updateMorale(1);
-      resultBuilder.morale(1);
     }
     else if (successRate == SuccessRate.MEDIUM) {
       addedWater = 2 + (int)boostFactor*10;
       updateMorale(1);
-      resultBuilder.morale(2);
     }
     else {
       addedWater = 5 + (int)boostFactor*10;
       updateMorale(3);
-      resultBuilder.morale(3);
     }
     finalAddedWater = this.shelter.updateWater(addedWater);
     resultBuilder
         .water(finalAddedWater)
+        .morale(this.getMorale())
         .message("You added " + finalAddedWater + " in the water tank.");
     return resultBuilder.build();
   }
@@ -546,7 +544,7 @@ public class Player {
       updateMorale(-1);
       return resultBuilder
           .message("It is cold and sad here. I know you are lonely, do you want to take some rest?")
-          .morale(-1)
+          .morale(this.getMorale())
           .build();
     }
     // randomly pick a item from the moralBoostItemsOwn
@@ -556,16 +554,14 @@ public class Player {
       updateMorale(3);
       resultBuilder
           .message("You found your family photo and it reminds you all the good memories with your family! Your" +
-              " morale is high now!")
-          .morale(3);
+              " morale is high now!");
     }
     else if (moraleBoostItemsOwn.get(randomIndex) == Item.HARMONICA ) {
       double caloriesBurned = ActivityLevel.LOW.getCaloriesBurned(SuccessRate.LOW);
       updateWeight(-caloriesBurned);
       updateMorale(2);
       resultBuilder
-          .message("You found a harmonica, and you played with it for an hour, your morale is high now!")
-          .morale(2);
+          .message("You found a harmonica, and you played with it for an hour, your morale is high now!");
     }
     else {
       double caloriesBurned = ActivityLevel.LOW.getCaloriesBurned(SuccessRate.LOW);
@@ -573,9 +569,9 @@ public class Player {
       updateMorale(1);
       resultBuilder
           .message(("You found a Journal and a pen, you decide to capture current experience in the journal. " +
-              "Your morale is high now!"))
-          .morale(1);
+              "Your morale is high now!"));
     }
+    resultBuilder.morale(this.getMorale());
     return resultBuilder.build();
   }
   /**
@@ -594,15 +590,14 @@ public class Player {
     // calories burning rate
     SuccessRate burnRate;
     if (hours < 4) {
-      resultBuilder.morale(1);
       burnRate = SuccessRate.LOW;
     } else {
-      resultBuilder.morale(2);
       burnRate = SuccessRate.MEDIUM;
     }
     double caloriesBurned = ActivityLevel.LOW.getCaloriesBurned(burnRate);
     updateWeight(-caloriesBurned);
     return resultBuilder
+        .morale(this.getMorale())
         .message("You have rested for some hours and are ready for the next day!")
         .build();
   }
