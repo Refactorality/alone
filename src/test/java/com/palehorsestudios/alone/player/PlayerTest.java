@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -17,6 +18,7 @@ import static org.junit.Assert.assertFalse;
 public class PlayerTest {
 
   Player player;
+  Logger logger = Logger.getLogger(PlayerTest.class.getName());
 
   @Before
   public void setUp() {
@@ -40,6 +42,19 @@ public class PlayerTest {
   }
 
   @Test
+  public void testDrinkWaterHappy() {
+    // TODO: Can't test until getWater is implemented
+  }
+
+  @Test
+  public void testDrinkWaterFail() {
+    assertEquals(
+        "There isn't a drop left in your water tank. You should go fetch some water soon before you die of thirst!",
+        player.drinkWater().getMessage());
+    assertEquals(0, player.getShelter().getWaterTank());
+  }
+
+  @Test
   public void testEatPlayerWeight() {
     player.eat(Food.FISH);
     assertEquals(180.99, player.getWeight(), 0.01);
@@ -52,14 +67,15 @@ public class PlayerTest {
   }
 
   @Test
-  public void testGoFishing() {
+  public void testGoFishingNoItems() {
     Result fishingResult = player.goFishing();
     if (fishingResult.getFoodCount() == 0) {
       assertEquals(
           "I guess that's why they don't call it catching. You didn't catch any fish.",
           fishingResult.getMessage());
       assertEquals(3, player.getMorale());
-      assertEquals(Optional.of(1000.0).get(), player.getShelter().getFoodCache().get(Food.FISH));
+      assertEquals(
+          Optional.of(1000.0).get(), player.getShelter().getFoodCache().get(Food.FISH), 0.001);
       assertEquals(179.74, player.getWeight(), 0.005);
     } else if (fishingResult.getFoodCount() == Food.FISH.getGrams()) {
       assertEquals(
@@ -68,7 +84,8 @@ public class PlayerTest {
       assertEquals(7, player.getMorale());
       assertEquals(
           Optional.of(1000.0 + Food.FISH.getGrams()).get(),
-          player.getShelter().getFoodCache().get(Food.FISH));
+          player.getShelter().getFoodCache().get(Food.FISH),
+          0.001);
       assertEquals(179.47, player.getWeight(), 0.005);
     } else {
       assertEquals(
@@ -77,7 +94,44 @@ public class PlayerTest {
       assertEquals(8, player.getMorale());
       assertEquals(
           Optional.of(1000.0 + (Food.FISH.getGrams() * 3)).get(),
-          player.getShelter().getFoodCache().get(Food.FISH));
+          player.getShelter().getFoodCache().get(Food.FISH),
+          0.001);
+      assertEquals(178.95, player.getWeight(), 0.005);
+    }
+  }
+
+  @Test
+  public void testGoFishingWithItems() {
+    player.getItemFromShelter(Item.FISHING_LINE);
+    player.getItemFromShelter(Item.FISHING_HOOKS);
+    Result fishingResult = player.goFishing();
+    if (fishingResult.getFoodCount() == 0) {
+      assertEquals(
+          "I guess that's why they don't call it catching. You didn't catch any fish.",
+          fishingResult.getMessage());
+      assertEquals(3, player.getMorale());
+      assertEquals(
+          Optional.of(1000.0).get(), player.getShelter().getFoodCache().get(Food.FISH), 0.001);
+      assertEquals(179.74, player.getWeight(), 0.005);
+    } else if (fishingResult.getFoodCount() == Food.FISH.getGrams() + Food.FISH.getGrams() * 0.2) {
+      assertEquals(
+          "It looks like you'll be eating fresh fish tonight! You caught one lake trout.",
+          fishingResult.getMessage());
+      assertEquals(7, player.getMorale());
+      assertEquals(
+          Optional.of(1000.0 + Food.FISH.getGrams() + Food.FISH.getGrams() * 0.2).get(),
+          player.getShelter().getFoodCache().get(Food.FISH),
+          0.001);
+      assertEquals(179.47, player.getWeight(), 0.005);
+    } else {
+      assertEquals(
+          "I hope there's room in your food cache. You caught three white fish!",
+          fishingResult.getMessage());
+      assertEquals(8, player.getMorale());
+      assertEquals(
+          Optional.of(1000.0 + (Food.FISH.getGrams() * 3 + Food.FISH.getGrams() * 3 * 0.2)).get(),
+          player.getShelter().getFoodCache().get(Food.FISH),
+          0.001);
       assertEquals(178.95, player.getWeight(), 0.005);
     }
   }
@@ -86,14 +140,15 @@ public class PlayerTest {
   public void goHunting() {}
 
   @Test
-  public void testGoTrapping() {
+  public void testGoTrappingNoItems() {
     Result trappingResult = player.goTrapping();
     if (trappingResult.getFoodCount() == 0) {
       assertEquals(
           "Those varmints are smarter than they look. Your traps were empty.",
           trappingResult.getMessage());
       assertEquals(3, player.getMorale());
-      assertEquals(Optional.of(1000.0).get(), player.getShelter().getFoodCache().get(Food.SQUIRREL));
+      assertEquals(
+          Optional.of(1000.0).get(), player.getShelter().getFoodCache().get(Food.SQUIRREL));
       assertEquals(Optional.of(1000.0).get(), player.getShelter().getFoodCache().get(Food.RABBIT));
       assertEquals(179.74, player.getWeight(), 0.005);
     } else if (trappingResult.getFoodCount() == (Food.SQUIRREL.getGrams() * 2)) {
@@ -113,6 +168,45 @@ public class PlayerTest {
       assertEquals(
           Optional.of(1000.0 + (Food.RABBIT.getGrams() * 3)).get(),
           player.getShelter().getFoodCache().get(Food.RABBIT));
+      assertEquals(178.95, player.getWeight(), 0.005);
+    }
+  }
+
+  @Test
+  public void testGoTrappingWithItems() {
+    player.getItemFromShelter(Item.WIRE);
+    Result trappingResult = player.goTrapping();
+    if (trappingResult.getFoodCount() == 0) {
+      assertEquals(
+          "Those varmints are smarter than they look. Your traps were empty.",
+          trappingResult.getMessage());
+      assertEquals(3, player.getMorale());
+      assertEquals(
+          Optional.of(1000.0).get(), player.getShelter().getFoodCache().get(Food.SQUIRREL));
+      assertEquals(Optional.of(1000.0).get(), player.getShelter().getFoodCache().get(Food.RABBIT));
+      assertEquals(179.74, player.getWeight(), 0.005);
+    } else if (trappingResult.getFoodCount()
+        == (Food.SQUIRREL.getGrams() * 2 + Food.SQUIRREL.getGrams() * 2 * 0.1)) {
+      assertEquals(
+          "Your patience has paid off. There were two squirrels in your traps!",
+          trappingResult.getMessage());
+      assertEquals(6, player.getMorale());
+      assertEquals(
+          Optional.of(1000.0 + (Food.SQUIRREL.getGrams() * 2 + Food.SQUIRREL.getGrams() * 2 * 0.1))
+              .get(),
+          player.getShelter().getFoodCache().get(Food.SQUIRREL),
+          0.001);
+      assertEquals(179.47, player.getWeight(), 0.005);
+    } else {
+      assertEquals(
+          "You'll have plenty of lucky rabbit feet now. Your snared three rabbits!",
+          trappingResult.getMessage());
+      assertEquals(7, player.getMorale());
+      assertEquals(
+          Optional.of(1000.0 + (Food.RABBIT.getGrams() * 3 + Food.RABBIT.getGrams() * 3 * 0.1))
+              .get(),
+          player.getShelter().getFoodCache().get(Food.RABBIT),
+          0.001);
       assertEquals(178.95, player.getWeight(), 0.005);
     }
   }
@@ -145,6 +239,7 @@ public class PlayerTest {
 
   @Test
   public void testPutItemInShelterHappy() {
+    player.getItemFromShelter(Item.HARMONICA);
     assertEquals(
         "One harmonica moved to your shelter.",
         player.putItemInShelter(Item.HARMONICA).getMessage());
@@ -171,6 +266,7 @@ public class PlayerTest {
 
   @Test
   public void testGetItemFromShelterFail() {
+    player.getItemFromShelter(Item.HARMONICA);
     assertEquals(
         "You do not have a(n) harmonica in your shelter.",
         player.getItemFromShelter(Item.HARMONICA).getMessage());

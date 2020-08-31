@@ -19,6 +19,7 @@ public class Player {
   private static final int SERVING_SIZE = 340;
   private static final int FIREWOOD_BUNDLE = 1;
   private static final double CALORIES_PER_POUND = 285.7;
+  private static final int MAX_ITEM_CARRY_SIZE = 3;
   private final Set<Item> items;
   private final Shelter shelter;
   // instance vars
@@ -28,11 +29,14 @@ public class Player {
 
   /** Public constructor for Player. */
   public Player(Set<Item> items) {
-    this.hydration = 10;
+    this.hydration = 5;
     this.weight = 180;
     this.morale = 5;
-    this.items = new HashSet<>(items);
+    this.items = new HashSet<>();
     this.shelter = new Shelter();
+    for (Item item : items) {
+      this.shelter.addEquipment(item, 1);
+    }
   }
 
   // getters
@@ -126,17 +130,26 @@ public class Player {
   }
 
   /**
-   * Method for transferring item from the shelter to the player.
+   * Method for transferring item from the shelter to the player. Player can only carry {@value
+   * Player#MAX_ITEM_CARRY_SIZE} items.
    *
    * @param item Item to be transferred from the shelter to the player.
    * @return Result of the transfer.
    */
   public Result getItemFromShelter(Item item) {
-    Result removalResult = this.shelter.removeEquipment(item, 1);
-    if (removalResult.getItemCount() > 0) {
-      this.items.add(item);
+    // determine if player has less than the maximum carry limit
+    if (this.items.size() < MAX_ITEM_CARRY_SIZE) {
+      Result removalResult = this.shelter.removeEquipment(item, 1);
+      this.items.add(removalResult.getItem());
+      return removalResult;
+    } else {
+      Result.Builder resultBuilder = new Result.Builder();
+      return resultBuilder
+          .item(item)
+          .itemCount(0)
+          .message("You can only carry " + MAX_ITEM_CARRY_SIZE + " items.")
+          .build();
     }
-    return removalResult;
   }
 
   /**
@@ -186,6 +199,29 @@ public class Player {
   }
 
   /**
+   * Activity method for the player to drink water.
+   *
+   * @return Result of drinking water.
+   */
+  public Result drinkWater() {
+    Result.Builder resultBuilder = new Result.Builder();
+    if (this.shelter.getWaterTank() > 0) {
+      this.shelter.updateWater(-1);
+      this.setHydration(this.getHydration() + 1);
+      resultBuilder.message(
+          "That's better. Your hydration is now at "
+              + this.getHydration()
+              + ", and you have "
+              + this.shelter.getWaterTank()
+              + " water(s) remaining.");
+    } else {
+      resultBuilder.message(
+          "There isn't a drop left in your water tank. You should go fetch some water soon before you die of thirst!");
+    }
+    return resultBuilder.hydration(this.getHydration()).build();
+  }
+
+  /**
    * Activity method for Player to go fishing.
    *
    * @return Result of fishing trip.
@@ -195,23 +231,33 @@ public class Player {
     SuccessRate successRate = generateSuccessRate();
     double caloriesBurned = ActivityLevel.MEDIUM.getCaloriesBurned(successRate);
     updateWeight(-caloriesBurned);
+    // get boost factor based on items the player is carrying
+    double boostFactor =
+        getActivityBoostFactor(
+            new Item[] {
+              Item.SURVIVAL_MANUAL, Item.FISHING_HOOKS, Item.FISHING_LINE, Item.FISHING_LURES
+            });
     resultBuilder.calories(-caloriesBurned).food(Food.FISH);
+    // gear, maybe we should eliminate low success rate possibility.
     if (successRate == SuccessRate.LOW) {
       updateMorale(-2);
       resultBuilder
           .foodCount(0)
           .message("I guess that's why they don't call it catching. You didn't catch any fish.");
     } else if (successRate == SuccessRate.MEDIUM) {
-      this.getShelter().addFoodToCache(Food.FISH, Food.FISH.getGrams());
+      this.getShelter()
+          .addFoodToCache(Food.FISH, Food.FISH.getGrams() + Food.FISH.getGrams() * boostFactor);
       updateMorale(2);
       resultBuilder
-          .foodCount(Food.FISH.getGrams())
+          .foodCount(Food.FISH.getGrams() + Food.FISH.getGrams() * boostFactor)
           .message("It looks like you'll be eating fresh fish tonight! You caught one lake trout.");
     } else {
-      this.getShelter().addFoodToCache(Food.FISH, Food.FISH.getGrams() * 3);
+      this.getShelter()
+          .addFoodToCache(
+              Food.FISH, Food.FISH.getGrams() * 3 + Food.FISH.getGrams() * 3 * boostFactor);
       updateMorale(3);
       resultBuilder
-          .foodCount(Food.FISH.getGrams() * 3)
+          .foodCount(Food.FISH.getGrams() * 3 + Food.FISH.getGrams() * 3 * boostFactor)
           .message("I hope there's room in your food cache. You caught three white fish!");
     }
     return resultBuilder.morale(this.getMorale()).build();
@@ -232,24 +278,31 @@ public class Player {
     double caloriesBurned = ActivityLevel.MEDIUM.getCaloriesBurned(successRate);
     updateWeight(-caloriesBurned);
     resultBuilder.calories(-caloriesBurned);
+    double boostFactor = getActivityBoostFactor(new Item[] {Item.SURVIVAL_MANUAL, Item.WIRE});
+    // gear, maybe we should eliminate low success rate possibility.
     if (successRate == SuccessRate.LOW) {
       updateMorale(-2);
       resultBuilder
           .foodCount(0)
           .message("Those varmints are smarter than they look. Your traps were empty.");
     } else if (successRate == SuccessRate.MEDIUM) {
-      this.getShelter().addFoodToCache(Food.SQUIRREL, Food.SQUIRREL.getGrams() * 2);
+      this.getShelter()
+          .addFoodToCache(
+              Food.SQUIRREL,
+              Food.SQUIRREL.getGrams() * 2 + Food.SQUIRREL.getGrams() * 2 * boostFactor);
       updateMorale(1);
       resultBuilder
           .food(Food.SQUIRREL)
-          .foodCount(Food.SQUIRREL.getGrams() * 2)
+          .foodCount(Food.SQUIRREL.getGrams() * 2 + Food.SQUIRREL.getGrams() * 2 * boostFactor)
           .message("Your patience has paid off. There were two squirrels in your traps!");
     } else {
-      this.getShelter().addFoodToCache(Food.RABBIT, Food.RABBIT.getGrams() * 3);
+      this.getShelter()
+          .addFoodToCache(
+              Food.RABBIT, Food.RABBIT.getGrams() * 3 + Food.RABBIT.getGrams() * 3 * boostFactor);
       updateMorale(2);
       resultBuilder
           .food(Food.RABBIT)
-          .foodCount(Food.RABBIT.getGrams() * 3)
+          .foodCount(Food.RABBIT.getGrams() * 3 + Food.RABBIT.getGrams() * 3 * boostFactor)
           .message("You'll have plenty of lucky rabbit feet now. Your snared three rabbits!");
     }
     return resultBuilder.morale(this.getMorale()).build();
@@ -298,8 +351,31 @@ public class Player {
   }
 
   // private helper methods
-  private void updateWeight(double calorie) {
-    this.weight += ((calorie / CALORIES_PER_POUND) * 10) / 10.0;
+
+  /**
+   * Private helper method for updating Player weight depending on the calories produced or expended
+   * during a Player activity.
+   *
+   * @param calories Calories produced or expended during a Player activity.
+   */
+  private void updateWeight(double calories) {
+    this.weight += ((calories / CALORIES_PER_POUND) * 10) / 10.0;
+  }
+
+  /**
+   * Private helper method determining if Result of player activity gets amplified.
+   *
+   * @param boosterItems Items that could boost activity Result if Player possesses them.
+   * @return Factor by which Player activity Result gets boosted.
+   */
+  private double getActivityBoostFactor(Item[] boosterItems) {
+    double boostValue = 0.0;
+    for (Item item : items) {
+      if (this.items.contains(item)) {
+        boostValue += 0.1;
+      }
+    }
+    return boostValue;
   }
 
   @Override

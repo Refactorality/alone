@@ -5,6 +5,7 @@ public enum Food {
   SQUIRREL("squirrel", 1.20, 340.1943),
   RABBIT("rabbit", 1.36, 907.185),
   MOOSE("moose", 1.02, 226796),
+  PORCUPINE("porcupine", 1.52, 9071.85),
   BUG("bug", 5.00, 100),
   MUSHROOM("mushroom", 0.28, 210),
   BERRIES("berries", 0.57, 450);
