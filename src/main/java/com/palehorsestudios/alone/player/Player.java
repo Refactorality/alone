@@ -261,6 +261,7 @@ public class Player {
 
   /**
    * Activity method for Player to go hunting.
+   *
    * @return Result of the hunting trip.
    */
   public Result goHunting() {
@@ -350,8 +351,54 @@ public class Player {
     return resultBuilder.morale(this.getMorale()).build();
   }
 
+  /**
+   * Activity method for Player to go foraging.
+   *
+   * @return Result of foraging attempt.
+   */
   public Result goForaging() {
-    return null;
+    Result.Builder resultBuilder = new Result.Builder();
+    SuccessRate successRate = generateSuccessRate();
+    double caloriesBurned = ActivityLevel.LOW.getCaloriesBurned(successRate);
+    updateWeight(-caloriesBurned);
+    resultBuilder.calories(-caloriesBurned);
+    double boostFactor =
+        getActivityBoostFactor(new Item[] {Item.SURVIVAL_MANUAL, Item.EXTRA_BOOTS, Item.KNIFE, Item.POT});
+    // gear, maybe we should eliminate low success rate possibility.
+    if (successRate == SuccessRate.LOW) {
+      this.getShelter()
+          .addFoodToCache(
+              Food.BERRIES,
+              Food.BERRIES.getGrams() * 2 + Food.BERRIES.getGrams() * 2 * boostFactor);
+      updateMorale(1);
+      resultBuilder
+          .food(Food.BERRIES)
+          .foodCount(Food.BERRIES.getGrams() * 2 + Food.BERRIES.getGrams() * 2 * boostFactor)
+          .message(
+              "Lucky for you, berries are ripe this time of year. You picked as many as you could carry.");
+    } else if (successRate == SuccessRate.MEDIUM) {
+      this.getShelter()
+          .addFoodToCache(
+              Food.MUSHROOM,
+              Food.MUSHROOM.getGrams() * 4 + Food.MUSHROOM.getGrams() * 4 * boostFactor);
+      updateMorale(1);
+      resultBuilder
+          .food(Food.MUSHROOM)
+          .foodCount(Food.MUSHROOM.getGrams() * 4 + Food.MUSHROOM.getGrams() * 4 * boostFactor)
+          .message("Delicious fungus! You found a log covered in edible mushrooms.");
+    } else {
+      this.getShelter()
+          .addFoodToCache(
+              Food.BUG, Food.BUG.getGrams() * 3 + Food.BUG.getGrams() * 3 * boostFactor);
+      updateMorale(2);
+      resultBuilder
+          .food(Food.BUG)
+          .foodCount(Food.BUG.getGrams() * 3 + Food.BUG.getGrams() * 3 * boostFactor)
+          .message(
+              "You never thought you would say this, but you are thrilled to have found a large group "
+                  + "of leaf beetles under a decayed log. These critters are packed full of protein!");
+    }
+    return resultBuilder.morale(this.getMorale()).build();
   }
 
   public Result improveShelter() {

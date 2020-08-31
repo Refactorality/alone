@@ -283,7 +283,81 @@ public class PlayerTest {
   }
 
   @Test
-  public void goForaging() {}
+  public void goForagingNoItems() {
+    Result foragingResult = player.goForaging();
+    if (foragingResult.getFoodCount() == Food.BERRIES.getGrams() * 2) {
+      assertEquals(
+          "Lucky for you, berries are ripe this time of year. You picked as many as you could carry.",
+          foragingResult.getMessage());
+      assertEquals(6, player.getMorale());
+      assertEquals(
+          Optional.of(Food.BERRIES.getGrams() * 2).get(),
+          player.getShelter().getFoodCache().get(Food.BERRIES));
+      assertEquals(179.87, player.getWeight(), 0.005);
+    } else if (foragingResult.getFoodCount() == (Food.MUSHROOM.getGrams() * 4)) {
+      assertEquals(
+          "Delicious fungus! You found a log covered in edible mushrooms.",
+          foragingResult.getMessage());
+      assertEquals(6, player.getMorale());
+      assertEquals(
+          Optional.of(Food.MUSHROOM.getGrams() * 4).get(),
+          player.getShelter().getFoodCache().get(Food.MUSHROOM),
+          0.001);
+      assertEquals(179.74, player.getWeight(), 0.005);
+    } else {
+      assertEquals(
+          "You never thought you would say this, but you are thrilled to have found a large group "
+              + "of leaf beetles under a decayed log. These critters are packed full of protein!",
+          foragingResult.getMessage());
+      assertEquals(7, player.getMorale());
+      assertEquals(
+          Optional.of(Food.BUG.getGrams() * 3).get(),
+          player.getShelter().getFoodCache().get(Food.BUG),
+          0.001);
+      assertEquals(179.47, player.getWeight(), 0.005);
+    }
+  }
+
+  @Test
+  public void goForagingWithItems() {
+    player.getItemFromShelter(Item.POT);
+    player.getItemFromShelter(Item.EXTRA_BOOTS);
+    Result foragingResult = player.goForaging();
+    if (foragingResult.getFoodCount()
+        == Food.BERRIES.getGrams() * 2 + Food.BERRIES.getGrams() * 2 * 0.2) {
+      assertEquals(
+          "Lucky for you, berries are ripe this time of year. You picked as many as you could carry.",
+          foragingResult.getMessage());
+      assertEquals(6, player.getMorale());
+      assertEquals(
+          Optional.of(Food.BERRIES.getGrams() * 2 + Food.BERRIES.getGrams() * 2 * 0.2).get(),
+          player.getShelter().getFoodCache().get(Food.BERRIES),
+          0.001);
+      assertEquals(179.87, player.getWeight(), 0.005);
+    } else if (foragingResult.getFoodCount()
+        == (Food.MUSHROOM.getGrams() * 4 + Food.MUSHROOM.getGrams() * 4 * 0.2)) {
+      assertEquals(
+          "Delicious fungus! You found a log covered in edible mushrooms.",
+          foragingResult.getMessage());
+      assertEquals(6, player.getMorale());
+      assertEquals(
+          Optional.of(Food.MUSHROOM.getGrams() * 4 + Food.MUSHROOM.getGrams() * 4 * 0.2).get(),
+          player.getShelter().getFoodCache().get(Food.MUSHROOM),
+          0.001);
+      assertEquals(179.74, player.getWeight(), 0.005);
+    } else {
+      assertEquals(
+          "You never thought you would say this, but you are thrilled to have found a large group "
+              + "of leaf beetles under a decayed log. These critters are packed full of protein!",
+          foragingResult.getMessage());
+      assertEquals(7, player.getMorale());
+      assertEquals(
+          Optional.of(Food.BUG.getGrams() * 3 + Food.BUG.getGrams() * 3 * 0.2).get(),
+          player.getShelter().getFoodCache().get(Food.BUG),
+          0.001);
+      assertEquals(179.47, player.getWeight(), 0.005);
+    }
+  }
 
   @Test
   public void improveShelter() {}
@@ -307,6 +381,8 @@ public class PlayerTest {
       assertEquals(Math.ceil(firewoodAmount / 2.0), addedMorale, 0.01);
     }
     assertEquals("Good Job! You just gathered " + firewoodAmount + " bundles of firewood.", gatherFirewoodResult.getMessage());
+
+    // TODO: Need to make this test more thorough
   }
 
   @Test
