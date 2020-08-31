@@ -1,5 +1,8 @@
 package com.palehorsestudios.alone;
 
+/**
+ * Class to be used throughout the app to return the result of various activities
+ */
 public class Result {
     private int hydration;
     private int water;
@@ -13,6 +16,10 @@ public class Result {
     private int itemCount;
     private String message;
 
+    /**
+     * Private Result constructor. Result constructed through the Builder.
+     * @param builder
+     */
     private Result(Builder builder) {
         this.hydration = builder.hydration;
         this.water = builder.water;

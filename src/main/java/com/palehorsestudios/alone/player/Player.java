@@ -263,6 +263,10 @@ public class Player {
     return resultBuilder.morale(this.getMorale()).build();
   }
 
+  /**
+   * Activity method for Player to go hunting.
+   * @return Result of the hunting trip.
+   */
   public Result goHunting() {
     Result.Builder resultBuilder = new Result.Builder();
     SuccessRate successRate = generateSuccessRate();
@@ -412,7 +416,7 @@ public class Player {
    */
   private double getActivityBoostFactor(Item[] boosterItems) {
     double boostValue = 0.0;
-    for (Item item : items) {
+    for (Item item : boosterItems) {
       if (this.items.contains(item)) {
         boostValue += 0.1;
       }
