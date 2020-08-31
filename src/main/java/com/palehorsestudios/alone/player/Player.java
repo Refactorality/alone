@@ -652,7 +652,7 @@ public class Player {
         .append(", water: ").append(this.getShelter().getWaterTank())
         .append("\nFood Cache");
     for(Food food : this.getShelter().getFoodCache().keySet()) {
-      sb.append("\n  ").append(food).append(": ");;
+      sb.append("\n  ").append(food).append(": ");
       double foodWeightInGrams = Math.round(this.getShelter().getFoodCache().get(food) * 10) / 10.0;
       // if food weight greater than a pound, display in pounds
       if(foodWeightInGrams > 456) {
@@ -668,6 +668,11 @@ public class Player {
       else {
         sb.append(foodWeightInGrams).append(" grams");
       }
+    }
+    sb.append("\nItems in Shelter");
+    for(Item item : this.getShelter().getEquipment().keySet()) {
+      int itemCount = this.getShelter().getEquipment().get(item);
+      sb.append("\n  ").append(item).append(": ").append(itemCount);
     }
     return sb.toString();
   }
