@@ -1,13 +1,9 @@
 package com.palehorsestudios.alone.player;
 
 import com.google.common.collect.ImmutableSet;
-import com.palehorsestudios.alone.Food;
-import com.palehorsestudios.alone.Item;
-import com.palehorsestudios.alone.Result;
-import com.palehorsestudios.alone.Shelter;
+import com.palehorsestudios.alone.*;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class Player {
   // static constants
@@ -361,7 +357,11 @@ public class Player {
   public Result improveShelter() {
     return null;
   }
-
+  /**
+   * Activity method for Player to gather firewood.
+   *
+   * @return Result of gathering firewood.
+   */
   public Result gatherFirewood() {
     Result.Builder resultBuilder = new Result.Builder();
     SuccessRate successRate = generateSuccessRate();
@@ -380,40 +380,120 @@ public class Player {
         .firewood(firewoodAmount)
         .calories(-caloriesBurned)
         .message("Good Job! You just gathered " + firewoodAmount + " bundles of firewood.")
+        .morale((int) Math.ceil(firewoodAmount / 2.0))
         .build();
   }
-
+  /**
+   * Activity method for Player to get water.
+   *
+   * @return Result of getting water attempt.
+   */
   public Result getWater() {
     Result.Builder resultBuilder = new Result.Builder();
     SuccessRate successRate = generateSuccessRate();
     double caloriesBurned = ActivityLevel.LOW.getCaloriesBurned(successRate);
+    resultBuilder.calories(-caloriesBurned);
     updateWeight(-caloriesBurned);
     int addedWater;
+    int finalAddedWater = 0;
     if (successRate == SuccessRate.LOW) {
       addedWater = 1;
       updateMorale(1);
+      resultBuilder.morale(1);
     }
     else if (successRate == SuccessRate.MEDIUM) {
       addedWater = 2;
-      updateMorale(2);
+      updateMorale(1);
+      resultBuilder.morale(2);
     }
     else {
       addedWater = 5;
       updateMorale(3);
+      resultBuilder.morale(3);
     }
-    return this.shelter.updateWater(addedWater);
+    finalAddedWater = this.shelter.updateWater(addedWater);
+    resultBuilder
+        .water(finalAddedWater)
+        .message("You added " + finalAddedWater + " in the water tank.");
+    return resultBuilder.build();
   }
-
+  /**
+   * Activity method for Player to boost morale.
+   *
+   * @return Result of boosting morale attempt.
+   */
   public Result boostMorale() {
-    return null;
+    Result.Builder resultBuilder = new Result.Builder();
+    Set<Item> moraleBoostItems = new HashSet<>();
+    List<Item> moraleBoostItemsOwn = new ArrayList<>();
+    moraleBoostItems.addAll(Arrays.asList(new Item[] {Item.FAMILY_PHOTO, Item.HARMONICA, Item.JOURNAL}));
+    for (Item i : moraleBoostItems ) {
+      if (this.items.contains(i)) {
+        moraleBoostItemsOwn.add(i);
+      }
+    }
+    if (moraleBoostItemsOwn.isEmpty()) {
+      updateMorale(-1);
+      resultBuilder
+          .message("It is cold and sad here. I know you are lonely, do you want to take some rest?")
+          .morale(-1);
+    }
+    // randomly pick a item from the moralBoostItemsOwn
+    Random rand = new Random();
+    int randomIndex = rand.nextInt(moraleBoostItemsOwn.size());
+    if (moraleBoostItemsOwn.get(randomIndex) == Item.FAMILY_PHOTO ) {
+      updateMorale(3);
+      resultBuilder
+          .message("You found your family photo and it reminds you all the good memories with your family! Your" +
+              " morale is high now!")
+          .morale(3);
+    }
+    else if (moraleBoostItemsOwn.get(randomIndex) == Item.HARMONICA ) {
+      SuccessRate successRate = generateSuccessRate();
+      double caloriesBurned = ActivityLevel.LOW.getCaloriesBurned(successRate);
+      updateWeight(-caloriesBurned);
+      updateMorale(2);
+      resultBuilder
+          .message("You found a harmonica, and you played with it for an hour, your morale is high now!")
+          .morale(2);
+    }
+    else {
+      SuccessRate successRate = generateSuccessRate();
+      double caloriesBurned = ActivityLevel.LOW.getCaloriesBurned(successRate);
+      updateWeight(-caloriesBurned);
+      updateMorale(1);
+      resultBuilder
+          .message(("You found a Journal and a pen, you decide to capture current experience in the journal. " +
+              "Your morale is high now!"))
+          .morale(1);
+    }
+    return resultBuilder.build();
   }
-
+  /**
+   * Activity method for Player to have some rest.
+   *
+   * @return Result of having rest.
+   */
   public Result rest() {
-    return null;
+    Result.Builder resultBuilder = new Result.Builder();
+    // randomly generate the hours for rest
+    Random rand = new Random();
+    int hours = rand.nextInt(8);
+    // calories burning rate
+    SuccessRate burnRate;
+    if (hours < 4) {
+      burnRate = SuccessRate.LOW;
+    } else {
+      burnRate = SuccessRate.MEDIUM;
+    }
+    double caloriesBurned = ActivityLevel.LOW.getCaloriesBurned(burnRate);
+    updateWeight(-caloriesBurned);
+    return resultBuilder
+        .message(" You have rested for " + hours + "hours and are ready for the next day!")
+        .build();
   }
 
   // private helper methods
-
   /**
    * Private helper method for updating Player weight depending on the calories produced or expended
    * during a Player activity.

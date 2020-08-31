@@ -40,14 +40,28 @@ public class Shelter {
     return waterTank;
   }
 
-  public Result updateWater(int water) {
-    Result.Builder resultBuilder = new Result.Builder();
+  public int updateWater(int water) {
     int currentWater = getWaterTank();
-    if (currentWater == MAX_WATER)
+    int addedWater = 0;
+    waterTank += water;
+    if (waterTank >= MAX_WATER) {
+      return addedWater = MAX_WATER - currentWater;
+    }
+    else if (waterTank < MIN_WATER) {
+      waterTank = MIN_WATER;
+    }
+    else {
+      addedWater = water;
+    }
+
+    return addedWater;
+
+
+     /* addedWater = 0;
       return resultBuilder
           .message("Your water tank is full, no need to add more water")
           .build();
-    waterTank += water;
+
     int addedWater;
     addedWater = water;
     if (waterTank >= MAX_WATER) {
@@ -55,6 +69,7 @@ public class Shelter {
       addedWater = MAX_WATER - currentWater;
       resultBuilder
           .water(addedWater)
+          .morale(addedWater)
           .message("You added " + addedWater + " in the water tank, and it is full now.");
     } else if (waterTank < MIN_WATER) {
       this.waterTank = MIN_WATER;
@@ -63,9 +78,12 @@ public class Shelter {
     } else {
       resultBuilder
           .water(addedWater)
+          .morale(addedWater*1)
           .message("You added " + addedWater + " in the water tank.");
     }
     return resultBuilder.build();
+    */
+
   }
 
   public ImmutableMap<Food, Double> getFoodCache() {
