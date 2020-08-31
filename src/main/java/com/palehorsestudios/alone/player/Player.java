@@ -1,9 +1,17 @@
 package com.palehorsestudios.alone.player;
 
 import com.google.common.collect.ImmutableSet;
-import com.palehorsestudios.alone.*;
+import com.palehorsestudios.alone.Food;
+import com.palehorsestudios.alone.Item;
+import com.palehorsestudios.alone.Result;
+import com.palehorsestudios.alone.Shelter;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
 
 public class Player {
   // static constants
@@ -13,7 +21,7 @@ public class Player {
   private static final int MIN_MORALE = 0;
   private static final int MAX_MORALE = 10;
   private static final int SERVING_SIZE = 340;
-  private static final int FIREWOOD_BUNDLE = 1;
+  private static final double FIREWOOD_BUNDLE = 1;
   private static final double CALORIES_PER_POUND = 285.7;
   private static final int MAX_ITEM_CARRY_SIZE = 3;
   private final Set<Item> items;
@@ -32,6 +40,26 @@ public class Player {
     this.shelter = new Shelter();
     for (Item item : items) {
       this.shelter.addEquipment(item, 1);
+    }
+    // boost shelter if Player has fire starting items
+    if(items.contains(Item.FLINT_AND_STEEL) || items.contains(Item.MATCHES) || items.contains(Item.LIGHTER)) {
+      this.shelter.setIntegrity(this.shelter.getIntegrity() + 1);
+    }
+    // boost shelter if Player has a tarp
+    if(items.contains(Item.TARP)) {
+      this.shelter.setIntegrity(this.shelter.getIntegrity() + 1);
+    }
+    // boost shelter if Player has items to assist in shelter construction
+    if(items.contains(Item.PARACHUTE_CHORD) || items.contains(Item.AXE) || items.contains(Item.HATCHET) || items.contains(Item.SHOVEL) || items.contains(Item.KNIFE)) {
+      this.shelter.setIntegrity(this.shelter.getIntegrity() + 1);
+    }
+    // boost shelter if Player has sleeping gear
+    if(items.contains(Item.SLEEPING_GEAR)) {
+      this.shelter.setIntegrity(this.shelter.getIntegrity() + 1);
+    }
+    // boost shelter if Player has other "nice to have" items
+    if((items.contains(Item.FLASHLIGHT) && items.contains(Item.BATTERIES)) || items.contains(Item.POT) || items.contains(Item.SURVIVAL_MANUAL)) {
+      this.shelter.setIntegrity(this.shelter.getIntegrity() + 1);
     }
   }
 
@@ -363,7 +391,8 @@ public class Player {
     updateWeight(-caloriesBurned);
     resultBuilder.calories(-caloriesBurned);
     double boostFactor =
-        getActivityBoostFactor(new Item[] {Item.SURVIVAL_MANUAL, Item.EXTRA_BOOTS, Item.KNIFE, Item.POT});
+        getActivityBoostFactor(
+            new Item[] {Item.SURVIVAL_MANUAL, Item.EXTRA_BOOTS, Item.KNIFE, Item.POT});
     // gear, maybe we should eliminate low success rate possibility.
     if (successRate == SuccessRate.LOW) {
       this.getShelter()
@@ -401,8 +430,38 @@ public class Player {
     return resultBuilder.morale(this.getMorale()).build();
   }
 
+  /**
+   * Activity method to allow Player to improve their shelter.
+   *
+   * @return Result of shelter improvement attempt.
+   */
   public Result improveShelter() {
-    return null;
+    Result.Builder resultBuilder = new Result.Builder();
+    SuccessRate successRate = generateSuccessRate();
+    double caloriesBurned = ActivityLevel.HIGH.getCaloriesBurned(successRate);
+    updateWeight(-caloriesBurned);
+    double boostFactor = getActivityBoostFactor(new Item[]{Item.KNIFE, Item.PARACHUTE_CHORD, Item.AXE, Item.HATCHET, Item.SHOVEL, Item.SURVIVAL_MANUAL});
+    double improvementAmount;
+    if (successRate == SuccessRate.LOW) {
+      improvementAmount = 1 + 1 * boostFactor;
+      resultBuilder.message(
+          "You can sleep a little better at night. You were able to better insulate the walls of your shelter.");
+    } else if (successRate == SuccessRate.MEDIUM) {
+      improvementAmount = 2 + 2 * boostFactor;
+      resultBuilder.message(
+          "It's always nice to be able to get out of the rain and snow. Your roof is in better shape now.");
+    } else {
+      resultBuilder.message(
+          "It was a lot of work, but your improved fireplace will keep you much warmer tonight");
+      improvementAmount = 3 + 3 * boostFactor;
+    }
+    this.getShelter().setIntegrity(this.getShelter().getIntegrity() + improvementAmount);
+    updateMorale((int) Math.ceil(improvementAmount / 2));
+    return resultBuilder
+        .shelterIntegrity(this.getShelter().getIntegrity())
+        .calories(-caloriesBurned)
+        .morale(this.getMorale())
+        .build();
   }
   /**
    * Activity method for Player to gather firewood.
@@ -413,15 +472,15 @@ public class Player {
     Result.Builder resultBuilder = new Result.Builder();
     SuccessRate successRate = generateSuccessRate();
     double caloriesBurned = ActivityLevel.MEDIUM.getCaloriesBurned(successRate);
-    int firewoodAmount;
+    double firewoodAmount = 0.0;
     double boostFactor =
-        getActivityBoostFactor(new Item[] {Item.WIRE, Item.AXE});
+        getActivityBoostFactor(new Item[] {Item.WIRE, Item.AXE, Item.HATCHET});
     if (successRate == SuccessRate.LOW) {
-      firewoodAmount = FIREWOOD_BUNDLE * 1;
+      firewoodAmount = FIREWOOD_BUNDLE * 1.0 * (1.0 + boostFactor);
     } else if (successRate == SuccessRate.MEDIUM) {
-      firewoodAmount = FIREWOOD_BUNDLE * 3;
-    } else {
-      firewoodAmount = FIREWOOD_BUNDLE * 5;
+      firewoodAmount = FIREWOOD_BUNDLE * 3.0 * (1.0 + boostFactor);
+    } else if (successRate == SuccessRate.HIGH) {
+      firewoodAmount = FIREWOOD_BUNDLE * 5.0 * (1.0 + boostFactor);
     }
     updateWeight(-caloriesBurned);
     updateMorale((int) Math.ceil(firewoodAmount / 2.0));
@@ -429,7 +488,7 @@ public class Player {
         .firewood(firewoodAmount)
         .calories(-caloriesBurned)
         .message("Good Job! You just gathered " + firewoodAmount + " bundles of firewood.")
-        .morale((int) Math.ceil(firewoodAmount / 2.0))
+        .morale(this.morale)
         .build();
   }
   /**
@@ -441,22 +500,24 @@ public class Player {
     Result.Builder resultBuilder = new Result.Builder();
     SuccessRate successRate = generateSuccessRate();
     double caloriesBurned = ActivityLevel.LOW.getCaloriesBurned(successRate);
+    double boostFactor =
+        getActivityBoostFactor(new Item[] {Item.IODINE_TABLETS});
     resultBuilder.calories(-caloriesBurned);
     updateWeight(-caloriesBurned);
     int addedWater;
     int finalAddedWater = 0;
     if (successRate == SuccessRate.LOW) {
-      addedWater = 1;
+      addedWater = 1 + (int)boostFactor*10;
       updateMorale(1);
       resultBuilder.morale(1);
     }
     else if (successRate == SuccessRate.MEDIUM) {
-      addedWater = 2;
+      addedWater = 2 + (int)boostFactor*10;
       updateMorale(1);
       resultBuilder.morale(2);
     }
     else {
-      addedWater = 5;
+      addedWater = 5 + (int)boostFactor*10;
       updateMorale(3);
       resultBuilder.morale(3);
     }
@@ -527,14 +588,15 @@ public class Player {
     // randomly generate the hours for rest
     Random rand = new Random();
     int hours = rand.nextInt(8);
+    double boostFactor =
+        getActivityBoostFactor(new Item[] {Item.FIRST_AID_KIT});
+    updateMorale((int)boostFactor*10);
     // calories burning rate
     SuccessRate burnRate;
     if (hours < 4) {
-      updateMorale(1);
       resultBuilder.morale(1);
       burnRate = SuccessRate.LOW;
     } else {
-      updateMorale(2);
       resultBuilder.morale(2);
       burnRate = SuccessRate.MEDIUM;
     }

@@ -40,6 +40,7 @@ public enum Item {
     this.str = str;
   }
 
+  @Override
   public String toString() {
     return this.str;
   }
