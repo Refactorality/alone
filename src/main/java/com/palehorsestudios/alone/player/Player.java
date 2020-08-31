@@ -527,17 +527,39 @@ public class Player {
 
   @Override
   public String toString() {
-    return "Player{"
-        + "hydration="
-        + hydration
-        + ", weight="
-        + weight
-        + ", morale="
-        + morale
-        + ", items="
-        + items
-        + ", shelter="
-        + shelter
-        + '}';
+    StringBuilder sb = new StringBuilder();
+    sb.append("CURRENT STATUS\n")
+        .append("hydration: ").append(hydration)
+        .append(", weight: ").append(weight)
+        .append(", morale: ").append(morale)
+        .append("\nItems: ");
+    for(Item item : items) {
+      sb.append(item).append(", ");
+    }
+    sb.delete(sb.length() - 2, sb.length() - 1);
+    sb.append("\nShelter - ")
+        .append("integrity: ").append(this.getShelter().getIntegrity())
+        .append(", firewood: ").append(this.getShelter().getFirewood())
+        .append(", water: ").append(this.getShelter().getWaterTank())
+        .append("\nFood Cache");
+    for(Food food : this.getShelter().getFoodCache().keySet()) {
+      sb.append("\n  ").append(food).append(": ");;
+      double foodWeightInGrams = Math.round(this.getShelter().getFoodCache().get(food) * 10) / 10.0;
+      // if food weight greater than a pound, display in pounds
+      if(foodWeightInGrams > 456) {
+        double foodWeightInPounds = Math.round(foodWeightInGrams / 436 * 10) / 10.0;
+        sb.append(foodWeightInPounds).append(" pounds");
+      }
+      // if food weight greater than an ounce, display in ounces
+      else if(foodWeightInGrams > 28) {
+        double foodWeightInOunces = Math.round(foodWeightInGrams / 28 * 10) / 10.0;
+        sb.append(foodWeightInOunces).append(" ounces");
+      }
+      // else display in grams
+      else {
+        sb.append(foodWeightInGrams).append(" grams");
+      }
+    }
+    return sb.toString();
   }
 }

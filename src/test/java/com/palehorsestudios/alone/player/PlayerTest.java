@@ -452,7 +452,12 @@ public class PlayerTest {
   public void rest() {}
 
   @Test
-  public void testToString() {}
+  public void testToString() {
+    player.getItemFromShelter(Item.HARMONICA);
+    player.getItemFromShelter(Item.FISHING_LINE);
+    player.getItemFromShelter(Item.AXE);
+    logger.info(player.toString());
+  }
 
   @Test
   public void testAddItem() {}
