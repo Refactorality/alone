@@ -23,5 +23,7 @@ public class Main {
 
 //    getNarrative(new File("resources/itemselection.txt")); //prints items that can be selected
 //    getNarrative(new File("resources/scene1.txt"));
+    // setup hashmap/method in main to get player selected items, then append items hashmap
+    // to player when Player is instantiated.
   }
 }
