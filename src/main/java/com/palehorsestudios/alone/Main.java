@@ -13,24 +13,17 @@ public class Main {
     } catch (IOException e) {
       System.out.println("Whoops! We seemed to have misplaced the next segment of the story. We're working on it!");
     }
-//    try {
-//    Scanner sc = new Scanner(new File(String.valueOf(file)));
-//    while(sc.hasNextLine()) {
-//      String line = sc.next();
-//      System.out.println(line);
-//    }
-//    sc.close();
-//      }
-//    catch(FileNotFoundException e) {
-//      System.out.println("Whoops! We seemed to have misplaced the next segment of the story. We're working on it!");
-//    }
+    
   }
   public static void main(String[] args){
     // Main method that runs the game
+
     getNarrative(new File("resources/intronarrative.txt")); //initiates intro narrative
+    String pInput = PlayerInput.getInstance().getString("Get items");
 
-
-    getNarrative(new File("resources/itemselection.txt")); //prints items that can be selected
-    getNarrative(new File("resources/scene1.txt"));
+//    getNarrative(new File("resources/itemselection.txt")); //prints items that can be selected
+//    getNarrative(new File("resources/scene1.txt"));
+    // setup hashmap/method in main to get player selected items, then append items hashmap
+    // to player when Player is instantiated.
   }
 }
