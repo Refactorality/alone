@@ -1,19 +1,28 @@
 package com.palehorsestudios.alone;
 
+/**
+ * Class to be used throughout the app to return the result of various activities
+ */
 public class Result {
     private int hydration;
+    private int water;
     private double foodCount;
     private Food food;
     private int shelterIntegrity;
     private int firewood;
     private int morale;
-    private int calories;
+    private double calories;
     private Item item;
     private int itemCount;
     private String message;
 
+    /**
+     * Private Result constructor. Result constructed through the Builder.
+     * @param builder
+     */
     private Result(Builder builder) {
         this.hydration = builder.hydration;
+        this.water = builder.water;
         this.foodCount = builder.foodCount;
         this.food = builder.food;
         this.shelterIntegrity = builder.shelterIntegrity;
@@ -27,12 +36,13 @@ public class Result {
 
     public static class Builder {
         private int hydration;
+        private int water;
         private double foodCount;
         private Food food;
         private int shelterIntegrity;
         private int firewood;
         private int morale;
-        private int calories;
+        private double calories;
         private Item item;
         private int itemCount;
         private String message;
@@ -41,6 +51,11 @@ public class Result {
 
         public Builder hydration(int hydration) {
             this.hydration = hydration;
+            return this;
+        }
+
+        public Builder water(int water) {
+            this.water = water;
             return this;
         }
 
@@ -69,7 +84,7 @@ public class Result {
             return this;
         }
 
-        public Builder calories(int calories) {
+        public Builder calories(double calories) {
             this.calories = calories;
             return this;
         }
@@ -98,6 +113,10 @@ public class Result {
         return hydration;
     }
 
+    public int getWater() {
+        return water;
+    }
+
     public double getFoodCount() {
         return foodCount;
     }
@@ -118,7 +137,7 @@ public class Result {
         return morale;
     }
 
-    public int getCalories() {
+    public double getCalories() {
         return calories;
     }
 
