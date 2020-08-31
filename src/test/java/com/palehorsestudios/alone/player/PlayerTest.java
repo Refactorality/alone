@@ -39,6 +39,8 @@ public class PlayerTest {
     player.getShelter().addFoodToCache(Food.FISH, 1000);
     player.getShelter().addFoodToCache(Food.SQUIRREL, 1000);
     player.getShelter().addFoodToCache(Food.RABBIT, 1000);
+    player.getShelter().addFoodToCache(Food.PORCUPINE, 1000);
+    player.getShelter().addFoodToCache(Food.MOOSE, 1000);
   }
 
   @Test
@@ -137,7 +139,76 @@ public class PlayerTest {
   }
 
   @Test
-  public void goHunting() {}
+  public void testGoHuntingNoItems() {
+    Result huntingResult = player.goHunting();
+    if (huntingResult.getFoodCount() == 0) {
+      assertEquals(
+          "I guess that's why they don't call it killing. You couldn't get a shot on an animal.",
+          huntingResult.getMessage());
+      assertEquals(3, player.getMorale());
+      assertEquals(
+          Optional.of(1000.0).get(), player.getShelter().getFoodCache().get(Food.PORCUPINE));
+      assertEquals(Optional.of(1000.0).get(), player.getShelter().getFoodCache().get(Food.MOOSE));
+      assertEquals(178.77, player.getWeight(), 0.005);
+    } else if (huntingResult.getFoodCount() == Food.PORCUPINE.getGrams()) {
+      assertEquals(
+          "Watch out for those quills! You killed a nice fat porcupine that should keep you fed for a while.",
+          huntingResult.getMessage());
+      assertEquals(7, player.getMorale());
+      assertEquals(
+          Optional.of(1000.0 + Food.PORCUPINE.getGrams()).get(),
+          player.getShelter().getFoodCache().get(Food.PORCUPINE));
+      assertEquals(177.55, player.getWeight(), 0.005);
+    } else {
+      assertEquals(
+          "Moose down! It took five trips, but you were able to process the meat and transport it back to your shelter before a predator got to it first.",
+          huntingResult.getMessage());
+      assertEquals(9, player.getMorale());
+      assertEquals(
+          Optional.of(1000.0 + Food.MOOSE.getGrams()).get(),
+          player.getShelter().getFoodCache().get(Food.MOOSE));
+      assertEquals(175.45, player.getWeight(), 0.005);
+    }
+  }
+
+  @Test
+  public void testGoHuntingWithItems() {
+    player.getItemFromShelter(Item.SURVIVAL_MANUAL);
+    player.getItemFromShelter(Item.BOW);
+    player.getItemFromShelter(Item.ARROWS);
+    Result huntingResult = player.goHunting();
+    if (huntingResult.getFoodCount() == 0) {
+      assertEquals(
+          "I guess that's why they don't call it killing. You couldn't get a shot on an animal.",
+          huntingResult.getMessage());
+      assertEquals(3, player.getMorale());
+      assertEquals(
+          Optional.of(1000.0).get(), player.getShelter().getFoodCache().get(Food.PORCUPINE));
+      assertEquals(Optional.of(1000.0).get(), player.getShelter().getFoodCache().get(Food.MOOSE));
+      assertEquals(178.77, player.getWeight(), 0.005);
+    } else if (huntingResult.getFoodCount()
+        == Food.PORCUPINE.getGrams() + Food.PORCUPINE.getGrams() * 0.3) {
+      assertEquals(
+          "Watch out for those quills! You killed a nice fat porcupine that should keep you fed for a while.",
+          huntingResult.getMessage());
+      assertEquals(7, player.getMorale());
+      assertEquals(
+          Optional.of(1000.0 + Food.PORCUPINE.getGrams() + Food.PORCUPINE.getGrams() * 0.3).get(),
+          player.getShelter().getFoodCache().get(Food.PORCUPINE),
+          0.001);
+      assertEquals(177.55, player.getWeight(), 0.005);
+    } else {
+      assertEquals(
+          "Moose down! It took five trips, but you were able to process the meat and transport it back to your shelter before a predator got to it first.",
+          huntingResult.getMessage());
+      assertEquals(9, player.getMorale());
+      assertEquals(
+          Optional.of(1000.0 + Food.MOOSE.getGrams() + Food.MOOSE.getGrams() * 0.3).get(),
+          player.getShelter().getFoodCache().get(Food.MOOSE),
+          0.001);
+      assertEquals(175.45, player.getWeight(), 0.005);
+    }
+  }
 
   @Test
   public void testGoTrappingNoItems() {

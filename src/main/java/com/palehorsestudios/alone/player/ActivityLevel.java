@@ -3,7 +3,7 @@ package com.palehorsestudios.alone.player;
 public enum ActivityLevel {
   LOW(37.5, 75, 150),
   MEDIUM(75, 150, 300),
-  HIGH(150, 300, 600);
+  HIGH(350, 700, 1300);
   private final double caloriesBurnedPerHourLow;
   private final double caloriesBurnedPerHourMid;
   private final double caloriesBurnedPerHourHigh;

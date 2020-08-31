@@ -264,7 +264,48 @@ public class Player {
   }
 
   public Result goHunting() {
-    return null;
+    Result.Builder resultBuilder = new Result.Builder();
+    SuccessRate successRate = generateSuccessRate();
+    double caloriesBurned = ActivityLevel.HIGH.getCaloriesBurned(successRate);
+    updateWeight(-caloriesBurned);
+    // get boost factor based on items the player is carrying
+    double boostFactor =
+        getActivityBoostFactor(
+            new Item[] {
+              Item.SURVIVAL_MANUAL,
+              Item.ARROWS,
+              Item.BOW,
+              Item.PISTOL,
+              Item.PISTOL_CARTRIDGES,
+              Item.KNIFE
+            });
+    resultBuilder.calories(-caloriesBurned);
+    // gear, maybe we should eliminate low success rate possibility.
+    if (successRate == SuccessRate.LOW) {
+      updateMorale(-2);
+      resultBuilder
+          .foodCount(0)
+          .message(
+              "I guess that's why they don't call it killing. You couldn't get a shot on an animal.");
+    } else if (successRate == SuccessRate.MEDIUM) {
+      this.getShelter()
+          .addFoodToCache(
+              Food.PORCUPINE, Food.PORCUPINE.getGrams() + Food.PORCUPINE.getGrams() * boostFactor);
+      updateMorale(2);
+      resultBuilder
+          .foodCount(Food.PORCUPINE.getGrams() + Food.PORCUPINE.getGrams() * boostFactor)
+          .message(
+              "Watch out for those quills! You killed a nice fat porcupine that should keep you fed for a while.");
+    } else {
+      this.getShelter()
+          .addFoodToCache(Food.MOOSE, Food.MOOSE.getGrams() + Food.MOOSE.getGrams() * boostFactor);
+      updateMorale(4);
+      resultBuilder
+          .foodCount(Food.MOOSE.getGrams() + Food.MOOSE.getGrams() * boostFactor)
+          .message(
+              "Moose down! It took five trips, but you were able to process the meat and transport it back to your shelter before a predator got to it first.");
+    }
+    return resultBuilder.morale(this.getMorale()).build();
   }
 
   /**
@@ -278,7 +319,8 @@ public class Player {
     double caloriesBurned = ActivityLevel.MEDIUM.getCaloriesBurned(successRate);
     updateWeight(-caloriesBurned);
     resultBuilder.calories(-caloriesBurned);
-    double boostFactor = getActivityBoostFactor(new Item[] {Item.SURVIVAL_MANUAL, Item.WIRE});
+    double boostFactor =
+        getActivityBoostFactor(new Item[] {Item.SURVIVAL_MANUAL, Item.WIRE, Item.KNIFE});
     // gear, maybe we should eliminate low success rate possibility.
     if (successRate == SuccessRate.LOW) {
       updateMorale(-2);
