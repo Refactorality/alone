@@ -414,8 +414,10 @@ public class Player {
     SuccessRate successRate = generateSuccessRate();
     double caloriesBurned = ActivityLevel.MEDIUM.getCaloriesBurned(successRate);
     int firewoodAmount;
+    double boostFactor =
+        getActivityBoostFactor(new Item[] {Item.WIRE, Item.AXE});
     if (successRate == SuccessRate.LOW) {
-      firewoodAmount = FIREWOOD_BUNDLE;
+      firewoodAmount = FIREWOOD_BUNDLE * 1;
     } else if (successRate == SuccessRate.MEDIUM) {
       firewoodAmount = FIREWOOD_BUNDLE * 3;
     } else {
@@ -528,8 +530,12 @@ public class Player {
     // calories burning rate
     SuccessRate burnRate;
     if (hours < 4) {
+      updateMorale(1);
+      resultBuilder.morale(1);
       burnRate = SuccessRate.LOW;
     } else {
+      updateMorale(2);
+      resultBuilder.morale(2);
       burnRate = SuccessRate.MEDIUM;
     }
     double caloriesBurned = ActivityLevel.LOW.getCaloriesBurned(burnRate);
