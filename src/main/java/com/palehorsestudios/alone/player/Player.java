@@ -6,7 +6,11 @@ import com.palehorsestudios.alone.Item;
 import com.palehorsestudios.alone.Result;
 import com.palehorsestudios.alone.Shelter;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 public class Player {
@@ -17,7 +21,7 @@ public class Player {
   private static final int MIN_MORALE = 0;
   private static final int MAX_MORALE = 10;
   private static final int SERVING_SIZE = 340;
-  private static final int FIREWOOD_BUNDLE = 1;
+  private static final double FIREWOOD_BUNDLE = 1;
   private static final double CALORIES_PER_POUND = 285.7;
   private static final int MAX_ITEM_CARRY_SIZE = 3;
   private final Set<Item> items;
@@ -36,6 +40,26 @@ public class Player {
     this.shelter = new Shelter();
     for (Item item : items) {
       this.shelter.addEquipment(item, 1);
+    }
+    // boost shelter if Player has fire starting items
+    if(items.contains(Item.FLINT_AND_STEEL) || items.contains(Item.MATCHES) || items.contains(Item.LIGHTER)) {
+      this.shelter.setIntegrity(this.shelter.getIntegrity() + 1);
+    }
+    // boost shelter if Player has a tarp
+    if(items.contains(Item.TARP)) {
+      this.shelter.setIntegrity(this.shelter.getIntegrity() + 1);
+    }
+    // boost shelter if Player has items to assist in shelter construction
+    if(items.contains(Item.PARACHUTE_CHORD) || items.contains(Item.AXE) || items.contains(Item.HATCHET) || items.contains(Item.SHOVEL) || items.contains(Item.KNIFE)) {
+      this.shelter.setIntegrity(this.shelter.getIntegrity() + 1);
+    }
+    // boost shelter if Player has sleeping gear
+    if(items.contains(Item.SLEEPING_GEAR)) {
+      this.shelter.setIntegrity(this.shelter.getIntegrity() + 1);
+    }
+    // boost shelter if Player has other "nice to have" items
+    if((items.contains(Item.FLASHLIGHT) && items.contains(Item.BATTERIES)) || items.contains(Item.POT) || items.contains(Item.SURVIVAL_MANUAL)) {
+      this.shelter.setIntegrity(this.shelter.getIntegrity() + 1);
     }
   }
 
@@ -265,6 +289,7 @@ public class Player {
 
   /**
    * Activity method for Player to go hunting.
+   *
    * @return Result of the hunting trip.
    */
   public Result goHunting() {
@@ -354,25 +379,108 @@ public class Player {
     return resultBuilder.morale(this.getMorale()).build();
   }
 
+  /**
+   * Activity method for Player to go foraging.
+   *
+   * @return Result of foraging attempt.
+   */
   public Result goForaging() {
-    return null;
+    Result.Builder resultBuilder = new Result.Builder();
+    SuccessRate successRate = generateSuccessRate();
+    double caloriesBurned = ActivityLevel.LOW.getCaloriesBurned(successRate);
+    updateWeight(-caloriesBurned);
+    resultBuilder.calories(-caloriesBurned);
+    double boostFactor =
+        getActivityBoostFactor(
+            new Item[] {Item.SURVIVAL_MANUAL, Item.EXTRA_BOOTS, Item.KNIFE, Item.POT});
+    // gear, maybe we should eliminate low success rate possibility.
+    if (successRate == SuccessRate.LOW) {
+      this.getShelter()
+          .addFoodToCache(
+              Food.BERRIES,
+              Food.BERRIES.getGrams() * 2 + Food.BERRIES.getGrams() * 2 * boostFactor);
+      updateMorale(1);
+      resultBuilder
+          .food(Food.BERRIES)
+          .foodCount(Food.BERRIES.getGrams() * 2 + Food.BERRIES.getGrams() * 2 * boostFactor)
+          .message(
+              "Lucky for you, berries are ripe this time of year. You picked as many as you could carry.");
+    } else if (successRate == SuccessRate.MEDIUM) {
+      this.getShelter()
+          .addFoodToCache(
+              Food.MUSHROOM,
+              Food.MUSHROOM.getGrams() * 4 + Food.MUSHROOM.getGrams() * 4 * boostFactor);
+      updateMorale(1);
+      resultBuilder
+          .food(Food.MUSHROOM)
+          .foodCount(Food.MUSHROOM.getGrams() * 4 + Food.MUSHROOM.getGrams() * 4 * boostFactor)
+          .message("Delicious fungus! You found a log covered in edible mushrooms.");
+    } else {
+      this.getShelter()
+          .addFoodToCache(
+              Food.BUG, Food.BUG.getGrams() * 3 + Food.BUG.getGrams() * 3 * boostFactor);
+      updateMorale(2);
+      resultBuilder
+          .food(Food.BUG)
+          .foodCount(Food.BUG.getGrams() * 3 + Food.BUG.getGrams() * 3 * boostFactor)
+          .message(
+              "You never thought you would say this, but you are thrilled to have found a large group "
+                  + "of leaf beetles under a decayed log. These critters are packed full of protein!");
+    }
+    return resultBuilder.morale(this.getMorale()).build();
   }
 
+  /**
+   * Activity method to allow Player to improve their shelter.
+   *
+   * @return Result of shelter improvement attempt.
+   */
   public Result improveShelter() {
-    return null;
+    Result.Builder resultBuilder = new Result.Builder();
+    SuccessRate successRate = generateSuccessRate();
+    double caloriesBurned = ActivityLevel.HIGH.getCaloriesBurned(successRate);
+    updateWeight(-caloriesBurned);
+    double boostFactor = getActivityBoostFactor(new Item[]{Item.KNIFE, Item.PARACHUTE_CHORD, Item.AXE, Item.HATCHET, Item.SHOVEL, Item.SURVIVAL_MANUAL});
+    double improvementAmount;
+    if (successRate == SuccessRate.LOW) {
+      improvementAmount = 1 + 1 * boostFactor;
+      resultBuilder.message(
+          "You can sleep a little better at night. You were able to better insulate the walls of your shelter.");
+    } else if (successRate == SuccessRate.MEDIUM) {
+      improvementAmount = 2 + 2 * boostFactor;
+      resultBuilder.message(
+          "It's always nice to be able to get out of the rain and snow. Your roof is in better shape now.");
+    } else {
+      resultBuilder.message(
+          "It was a lot of work, but your improved fireplace will keep you much warmer tonight");
+      improvementAmount = 3 + 3 * boostFactor;
+    }
+    this.getShelter().setIntegrity(this.getShelter().getIntegrity() + improvementAmount);
+    updateMorale((int) Math.ceil(improvementAmount / 2));
+    return resultBuilder
+        .shelterIntegrity(this.getShelter().getIntegrity())
+        .calories(-caloriesBurned)
+        .morale(this.getMorale())
+        .build();
   }
-
+  /**
+   * Activity method for Player to gather firewood.
+   *
+   * @return Result of gathering firewood.
+   */
   public Result gatherFirewood() {
     Result.Builder resultBuilder = new Result.Builder();
     SuccessRate successRate = generateSuccessRate();
     double caloriesBurned = ActivityLevel.MEDIUM.getCaloriesBurned(successRate);
-    int firewoodAmount;
+    double firewoodAmount = 0.0;
+    double boostFactor =
+        getActivityBoostFactor(new Item[] {Item.WIRE, Item.AXE, Item.HATCHET});
     if (successRate == SuccessRate.LOW) {
-      firewoodAmount = FIREWOOD_BUNDLE;
+      firewoodAmount = FIREWOOD_BUNDLE * 1.0 * (1.0 + boostFactor);
     } else if (successRate == SuccessRate.MEDIUM) {
-      firewoodAmount = FIREWOOD_BUNDLE * 3;
-    } else {
-      firewoodAmount = FIREWOOD_BUNDLE * 5;
+      firewoodAmount = FIREWOOD_BUNDLE * 3.0 * (1.0 + boostFactor);
+    } else if (successRate == SuccessRate.HIGH) {
+      firewoodAmount = FIREWOOD_BUNDLE * 5.0 * (1.0 + boostFactor);
     }
     updateWeight(-caloriesBurned);
     updateMorale((int) Math.ceil(firewoodAmount / 2.0));
@@ -380,24 +488,126 @@ public class Player {
         .firewood(firewoodAmount)
         .calories(-caloriesBurned)
         .message("Good Job! You just gathered " + firewoodAmount + " bundles of firewood.")
-        .morale(morale)
+        .morale(this.morale)
+        .build();
+  }
+  /**
+   * Activity method for Player to get water.
+   *
+   * @return Result of getting water attempt.
+   */
+  public Result getWater() {
+    Result.Builder resultBuilder = new Result.Builder();
+    SuccessRate successRate = generateSuccessRate();
+    double caloriesBurned = ActivityLevel.LOW.getCaloriesBurned(successRate);
+    double boostFactor =
+        getActivityBoostFactor(new Item[] {Item.IODINE_TABLETS});
+    resultBuilder.calories(-caloriesBurned);
+    updateWeight(-caloriesBurned);
+    int addedWater;
+    int finalAddedWater = 0;
+    if (successRate == SuccessRate.LOW) {
+      addedWater = 1 + (int)boostFactor*10;
+      updateMorale(1);
+      resultBuilder.morale(1);
+    }
+    else if (successRate == SuccessRate.MEDIUM) {
+      addedWater = 2 + (int)boostFactor*10;
+      updateMorale(1);
+      resultBuilder.morale(2);
+    }
+    else {
+      addedWater = 5 + (int)boostFactor*10;
+      updateMorale(3);
+      resultBuilder.morale(3);
+    }
+    finalAddedWater = this.shelter.updateWater(addedWater);
+    resultBuilder
+        .water(finalAddedWater)
+        .message("You added " + finalAddedWater + " in the water tank.");
+    return resultBuilder.build();
+  }
+  /**
+   * Activity method for Player to boost morale.
+   *
+   * @return Result of boosting morale attempt.
+   */
+  public Result boostMorale() {
+    Result.Builder resultBuilder = new Result.Builder();
+    Set<Item> moraleBoostItems = new HashSet<>();
+    List<Item> moraleBoostItemsOwn = new ArrayList<>();
+    moraleBoostItems.addAll(Arrays.asList(new Item[] {Item.FAMILY_PHOTO, Item.HARMONICA, Item.JOURNAL}));
+    for (Item i : moraleBoostItems ) {
+      if (this.items.contains(i)) {
+        moraleBoostItemsOwn.add(i);
+      }
+    }
+    if (moraleBoostItemsOwn.isEmpty()) {
+      updateMorale(-1);
+      return resultBuilder
+          .message("It is cold and sad here. I know you are lonely, do you want to take some rest?")
+          .morale(-1)
+          .build();
+    }
+    // randomly pick a item from the moralBoostItemsOwn
+    Random rand = new Random();
+    int randomIndex = rand.nextInt(moraleBoostItemsOwn.size());
+    if (moraleBoostItemsOwn.get(randomIndex) == Item.FAMILY_PHOTO ) {
+      updateMorale(3);
+      resultBuilder
+          .message("You found your family photo and it reminds you all the good memories with your family! Your" +
+              " morale is high now!")
+          .morale(3);
+    }
+    else if (moraleBoostItemsOwn.get(randomIndex) == Item.HARMONICA ) {
+      double caloriesBurned = ActivityLevel.LOW.getCaloriesBurned(SuccessRate.LOW);
+      updateWeight(-caloriesBurned);
+      updateMorale(2);
+      resultBuilder
+          .message("You found a harmonica, and you played with it for an hour, your morale is high now!")
+          .morale(2);
+    }
+    else {
+      double caloriesBurned = ActivityLevel.LOW.getCaloriesBurned(SuccessRate.LOW);
+      updateWeight(-caloriesBurned);
+      updateMorale(1);
+      resultBuilder
+          .message(("You found a Journal and a pen, you decide to capture current experience in the journal. " +
+              "Your morale is high now!"))
+          .morale(1);
+    }
+    return resultBuilder.build();
+  }
+  /**
+   * Activity method for Player to have some rest.
+   *
+   * @return Result of having rest.
+   */
+  public Result rest() {
+    Result.Builder resultBuilder = new Result.Builder();
+    // randomly generate the hours for rest
+    Random rand = new Random();
+    int hours = rand.nextInt(8);
+    double boostFactor =
+        getActivityBoostFactor(new Item[] {Item.FIRST_AID_KIT});
+    updateMorale((int)boostFactor*10);
+    // calories burning rate
+    SuccessRate burnRate;
+    if (hours < 4) {
+      resultBuilder.morale(1);
+      burnRate = SuccessRate.LOW;
+    } else {
+      resultBuilder.morale(2);
+      burnRate = SuccessRate.MEDIUM;
+    }
+    double caloriesBurned = ActivityLevel.LOW.getCaloriesBurned(burnRate);
+    updateWeight(-caloriesBurned);
+    return resultBuilder
+        .message("You have rested for some hours and are ready for the next day!")
         .build();
   }
 
-  public Result getWater() {
-    return null;
-  }
-
-  public Result boostMorale() {
-    return null;
-  }
-
-  public Result rest() {
-    return null;
-  }
-
   // private helper methods
-
   /**
    * Private helper method for updating Player weight depending on the calories produced or expended
    * during a Player activity.
@@ -426,17 +636,44 @@ public class Player {
 
   @Override
   public String toString() {
-    return "Player{"
-        + "hydration="
-        + hydration
-        + ", weight="
-        + weight
-        + ", morale="
-        + morale
-        + ", items="
-        + items
-        + ", shelter="
-        + shelter
-        + '}';
+    StringBuilder sb = new StringBuilder();
+    sb.append("CURRENT STATUS\n")
+        .append("hydration: ").append(hydration)
+        .append(", weight: ").append(weight)
+        .append(", morale: ").append(morale)
+        .append("\nItems: ");
+    for(Item item : items) {
+      sb.append(item).append(", ");
+    }
+    sb.delete(sb.length() - 2, sb.length() - 1);
+    sb.append("\nShelter - ")
+        .append("integrity: ").append(this.getShelter().getIntegrity())
+        .append(", firewood: ").append(this.getShelter().getFirewood())
+        .append(", water: ").append(this.getShelter().getWaterTank())
+        .append("\nFood Cache");
+    for(Food food : this.getShelter().getFoodCache().keySet()) {
+      sb.append("\n  ").append(food).append(": ");
+      double foodWeightInGrams = Math.round(this.getShelter().getFoodCache().get(food) * 10) / 10.0;
+      // if food weight greater than a pound, display in pounds
+      if(foodWeightInGrams > 456) {
+        double foodWeightInPounds = Math.round(foodWeightInGrams / 436 * 10) / 10.0;
+        sb.append(foodWeightInPounds).append(" pounds");
+      }
+      // if food weight greater than an ounce, display in ounces
+      else if(foodWeightInGrams > 28) {
+        double foodWeightInOunces = Math.round(foodWeightInGrams / 28 * 10) / 10.0;
+        sb.append(foodWeightInOunces).append(" ounces");
+      }
+      // else display in grams
+      else {
+        sb.append(foodWeightInGrams).append(" grams");
+      }
+    }
+    sb.append("\nItems in Shelter");
+    for(Item item : this.getShelter().getEquipment().keySet()) {
+      int itemCount = this.getShelter().getEquipment().get(item);
+      sb.append("\n  ").append(item).append(": ").append(itemCount);
+    }
+    return sb.toString();
   }
 }
