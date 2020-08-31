@@ -469,17 +469,17 @@ public class PlayerTest {
     int addedWater = getWaterResult.getWater();
     double burnedCalories = getWaterResult.getCalories();
     if (addedWater == 1) {
-      assertEquals(1, getWaterResult.getMorale());
+      assertEquals(player.getMorale(), getWaterResult.getMorale());
       assertEquals(LOW_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
       assertEquals(-37.5, getWaterResult.getCalories(), 0.01);
     }
     else if (addedWater == 2) {
-      assertEquals(2, getWaterResult.getMorale());
+      assertEquals(player.getMorale(), getWaterResult.getMorale());
       assertEquals(LOW_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
       assertEquals(-75.0, getWaterResult.getCalories(), 0.01);
     }
     else if (addedWater == 3) {
-      assertEquals(3, getWaterResult.getMorale());
+      assertEquals(player.getMorale(), getWaterResult.getMorale());
       assertEquals(LOW_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
       assertEquals(-150.0, getWaterResult.getCalories(), 0.01);
     }
@@ -489,7 +489,9 @@ public class PlayerTest {
   @Test
   public void boostMorale() {
     Result boostMoraleResult = player.boostMorale();
-    int boostedMorale = boostMoraleResult.getMorale();
+    int boostedMoraleFromResult = boostMoraleResult.getMorale();
+    int currentMorale = player.getMorale();
+    int boostedMorale = currentMorale - boostedMoraleFromResult;
     if (boostedMorale == -1) {
       assertEquals("It is cold and sad here. I know you are lonely, do you want to take some rest?", boostMoraleResult.getMessage());
     }
