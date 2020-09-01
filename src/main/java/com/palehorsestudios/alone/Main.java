@@ -128,7 +128,7 @@ public class Main {
   private static Set<Item> getInitialItems() {
     // lookup map for grabbing possible items
     final Map<Integer, Item> itemMap =
-        new HashMap<>() {
+        new HashMap<Integer, Item>() {
           {
             put(1, Item.FISHING_LINE);
             put(2, Item.FISHING_HOOKS);
