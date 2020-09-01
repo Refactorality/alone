@@ -25,7 +25,7 @@ public class Main {
     // TODO: need to allow for two iterations per day
     int day = 1;
     while (!isPlayerDead(player) && !isPlayerRescued(day)) {
-      System.out.println("DAY " + day);
+      System.out.println("\nDAY " + day);
       iterate(player);
       day++;
     }
