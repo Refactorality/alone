@@ -484,6 +484,7 @@ public class Player {
     }
     updateWeight(-caloriesBurned);
     updateMorale((int) Math.ceil(firewoodAmount / 2.0));
+    this.shelter.updateFirewood(firewoodAmount);
     return resultBuilder
         .firewood(firewoodAmount)
         .calories(-caloriesBurned)

@@ -34,8 +34,8 @@ public class Shelter {
     return firewood;
   }
 
-  public void setFirewood(int firewood) {
-    this.firewood = firewood;
+  public void updateFirewood(double firewood) {
+    this.firewood += firewood;
   }
 
   public int getWaterTank() {
