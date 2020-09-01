@@ -332,7 +332,8 @@ public class Player {
       resultBuilder
           .foodCount(Food.MOOSE.getGrams() + Food.MOOSE.getGrams() * boostFactor)
           .message(
-              "Moose down! It took five trips, but you were able to process the meat and transport it back to your shelter before a predator got to it first.");
+              "Moose down! It took five trips, but you were able to process the meat and transport it back to " +
+                  "your shelter before a predator got to it first.");
     }
     return resultBuilder.morale(this.getMorale()).build();
   }
