@@ -610,7 +610,7 @@ public class Player {
    * @param calories Calories produced or expended during a Player activity.
    */
   private void updateWeight(double calories) {
-    this.weight += ((calories / CALORIES_PER_POUND) * 10) / 10.0;
+    this.weight += Math.round((calories / CALORIES_PER_POUND) * 10) / 10.0;
   }
 
   /**
