@@ -93,8 +93,14 @@ public class Main {
 
   private static boolean isPlayerDead(Player player) {
     boolean gameOver = false;
-    if (player.getWeight() < 180.0 * 0.6 || player.getMorale() <= 0 || player.getHydration() <= 0) {
+    if (player.getWeight() < 180.0 * 0.6) {
+      System.out.println("GAME OVER\n Your starved to death :-(");
       gameOver = true;
+    } else if(player.getMorale() <= 0) {
+      System.out.println("GAME OVER\n Your morale is too low. You died of despair.");
+      gameOver = true;
+    } else if(player.getHydration() <= 0) {
+      System.out.println("GAME OVER\n You died of thirst.");
     }
     return gameOver;
   }
@@ -103,6 +109,9 @@ public class Main {
     boolean playerIsRescued = false;
     if (days > 15) {
       playerIsRescued = ((int) Math.floor(Math.random() * 2)) != 0;
+      if(playerIsRescued) {
+        System.out.println("YOU WIN!\nA search and rescue party has found you at last. No more eating bugs for you (unless you're into that sort of thing).");
+      }
     }
     return playerIsRescued;
   }
