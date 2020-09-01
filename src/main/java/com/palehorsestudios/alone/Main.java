@@ -67,28 +67,28 @@ public class Main {
           }
           i++;
         }
-        System.out.println(player.eat(foodToEat));
+        System.out.println("\n" + player.eat(foodToEat));
       }
     } else if (choice.equals("2")) {
-      System.out.println(player.drinkWater());
+      System.out.println("\n" + player.drinkWater());
     } else if (choice.equals("3")) {
-      System.out.println(player.goFishing());
+      System.out.println("\n" + player.goFishing());
     } else if (choice.equals("4")) {
-      System.out.println(player.goHunting());
+      System.out.println("\n" + player.goHunting());
     } else if (choice.equals("5")) {
-      System.out.println(player.goTrapping());
+      System.out.println("\n" + player.goTrapping());
     } else if (choice.equals("6")) {
-      System.out.println(player.goForaging());
+      System.out.println("\n" + player.goForaging());
     } else if (choice.equals("7")) {
-      System.out.println(player.improveShelter());
+      System.out.println("\n" + player.improveShelter());
     } else if (choice.equals("8")) {
-      System.out.println(player.gatherFirewood());
+      System.out.println("\n" + player.gatherFirewood());
     } else if (choice.equals("9")) {
-      System.out.println(player.getWater());
+      System.out.println("\n" + player.getWater());
     } else if (choice.equals("10")) {
-      System.out.println(player.boostMorale());
+      System.out.println("\n" + player.boostMorale());
     } else {
-      System.out.println(player.rest());
+      System.out.println("\n" + player.rest());
     }
   }
 
