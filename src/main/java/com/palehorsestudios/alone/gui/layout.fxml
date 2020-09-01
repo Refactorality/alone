@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<BorderPane id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="685.0" prefWidth="809.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <AnchorPane prefHeight="116.0" prefWidth="787.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label layoutX="161.0" layoutY="56.0" prefHeight="32.0" prefWidth="95.0" text="weathther:" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="161.0" AnchorPane.rightAnchor="531.0" AnchorPane.topAnchor="56.0" />
+            <Label layoutX="161.0" layoutY="-3.0" text="Date and Time:" AnchorPane.bottomAnchor="33.0" AnchorPane.leftAnchor="161.0" AnchorPane.rightAnchor="531.0" AnchorPane.topAnchor="-3.0" />
+            <TextField layoutX="256.0" layoutY="37.0" prefHeight="31.0" prefWidth="510.0" AnchorPane.bottomAnchor="65.0" AnchorPane.leftAnchor="256.0" AnchorPane.rightAnchor="43.0" AnchorPane.topAnchor="37.0" />
+            <TextField layoutX="256.0" layoutY="76.0" prefHeight="29.0" prefWidth="510.0" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="256.0" AnchorPane.rightAnchor="43.0" AnchorPane.topAnchor="76.0" />
+         </children>
+      </AnchorPane>
+   </top>
+   <center>
+      <AnchorPane id="leftBottom" prefHeight="569.0" prefWidth="981.0" BorderPane.alignment="CENTER">
+         <children>
+            <Separator layoutY="246.0" prefHeight="3.0" prefWidth="809.0" AnchorPane.bottomAnchor="307.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="246.0" />
+            <TextArea fx:id="dailyLog" layoutX="471.0" layoutY="285.0" prefHeight="193.0" prefWidth="303.0" AnchorPane.bottomAnchor="78.0" AnchorPane.leftAnchor="471.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="285.0" />
+            <TextArea fx:id="curActivity" layoutX="67.0" layoutY="277.0" prefHeight="205.0" prefWidth="289.0" AnchorPane.bottomAnchor="331.0" AnchorPane.leftAnchor="67.0" AnchorPane.rightAnchor="468.0" AnchorPane.topAnchor="62.0" />
+            <TextArea fx:id="playerStat" layoutX="66.0" layoutY="53.0" prefHeight="162.0" prefWidth="301.0" AnchorPane.bottomAnchor="333.0" AnchorPane.leftAnchor="471.0" AnchorPane.rightAnchor="37.0" AnchorPane.topAnchor="62.0" />
+            <TextArea fx:id="playerInput" layoutX="67.0" layoutY="287.0" prefHeight="193.0" prefWidth="274.0" AnchorPane.bottomAnchor="76.0" AnchorPane.leftAnchor="67.0" AnchorPane.rightAnchor="468.0" AnchorPane.topAnchor="287.0" />
+            <Label layoutX="67.0" layoutY="31.0" text="Current Activity:" />
+            <Label layoutX="471.0" layoutY="31.0" text="Player Statistics:" />
+            <Label layoutX="67.0" layoutY="253.0" text="Player Input:" />
+            <Label layoutX="471.0" layoutY="253.0" text="Daily Log:" />
+            <Separator layoutX="402.0" layoutY="136.0" orientation="VERTICAL" prefHeight="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="402.0" AnchorPane.rightAnchor="401.0" AnchorPane.topAnchor="0.0" />
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>
