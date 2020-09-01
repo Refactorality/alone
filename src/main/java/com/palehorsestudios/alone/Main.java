@@ -94,7 +94,7 @@ public class Main {
   private static boolean isPlayerDead(Player player) {
     boolean gameOver = false;
     if (player.getWeight() < 180.0 * 0.6) {
-      System.out.println("GAME OVER\n Your starved to death :-(");
+      System.out.println("GAME OVER\n You starved to death :-(");
       gameOver = true;
     } else if(player.getMorale() <= 0) {
       System.out.println("GAME OVER\n Your morale is too low. You died of despair.");

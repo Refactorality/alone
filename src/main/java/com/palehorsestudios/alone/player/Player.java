@@ -50,7 +50,7 @@ public class Player {
       this.shelter.setIntegrity(this.shelter.getIntegrity() + 1);
     }
     // boost shelter if Player has items to assist in shelter construction
-    if(items.contains(Item.PARACHUTE_CHORD) || items.contains(Item.AXE) || items.contains(Item.HATCHET) || items.contains(Item.SHOVEL) || items.contains(Item.KNIFE)) {
+    if(items.contains(Item.PARACHUTE_CHORD) || items.contains(Item.AXE) || items.contains(Item.HATCHET) || items.contains(Item.SHOVEL) || items.contains(Item.KNIFE) || items.contains(Item.TARP)){
       this.shelter.setIntegrity(this.shelter.getIntegrity() + 1);
     }
     // boost shelter if Player has sleeping gear
