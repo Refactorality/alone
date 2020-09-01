@@ -204,7 +204,7 @@ public class Main {
             validInput = true;
           }
         }
-        if(items.contains(itemMap.get(Integer.parseInt(item)))) {
+        if(validInput && items.contains(itemMap.get(Integer.parseInt(item)))) {
           validInput = false;
           System.out.println("You already have a " + itemMap.get(Integer.parseInt(item)));
         }
