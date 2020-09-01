@@ -632,7 +632,7 @@ public class Player {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("CURRENT STATUS\n")
+    sb.append("\nCURRENT STATUS\n")
         .append("hydration: ").append(hydration)
         .append(", weight: ").append(weight)
         .append(", morale: ").append(morale)
