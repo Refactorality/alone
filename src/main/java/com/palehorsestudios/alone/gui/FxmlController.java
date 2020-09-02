@@ -14,7 +14,6 @@ public class FxmlController {
   @FXML private TextArea playerStat;
   @FXML private TextArea dailyLog;
   @FXML private TextField dateAndTime;
-  @FXML private TextField weather;
   @FXML private Button enterBtn;
 
   public FxmlController() {}
@@ -37,10 +36,6 @@ public class FxmlController {
 
   public TextField getDateAndTime() {
     return dateAndTime;
-  }
-
-  public TextField getWeather() {
-    return weather;
   }
 
   public Button getEnterButton() {

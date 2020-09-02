@@ -37,12 +37,12 @@ public class Main {
   }
 
   public static void iterate(Player player) {
-    StartView.getInstance().appendText(player.toString());
+    StartView.getInstance().appendToStat(player.toString());
     getNarrative(new File("resources/iterationChoices.txt"));
     boolean validChoice = false;
     String choice = "";
     while (!validChoice) {
-      StartView.getInstance().appendText("Enter a number from 1 to 11: ");
+      StartView.getInstance().appendToCurActivity("Enter a number from 1 to 11: ");
       choice = StartView.getInstance().getInput();
       if (choice.equals("1")
           || choice.equals("2")
@@ -60,7 +60,7 @@ public class Main {
     }
     if (choice.equals("1")) {
       if (player.getShelter().getFoodCache().isEmpty()) {
-        StartView.getInstance().appendText("\nYou don't have any food to eat.");
+        StartView.getInstance().appendToCurActivity("\nYou don't have any food to eat.");
       } else {
         Food foodToEat = null;
         int foodIdx = (int) Math.floor(Math.random() * player.getShelter().getFoodCache().size());
@@ -72,41 +72,41 @@ public class Main {
           }
           i++;
         }
-        StartView.getInstance().appendText("\n" + player.eat(foodToEat));
+        StartView.getInstance().appendToLog("\n" + player.eat(foodToEat));
       }
     } else if (choice.equals("2")) {
-      StartView.getInstance().appendText("\n" + player.drinkWater());
+      StartView.getInstance().appendToLog("\n" + player.drinkWater());
     } else if (choice.equals("3")) {
-      StartView.getInstance().appendText("\n" + player.goFishing());
+      StartView.getInstance().appendToLog("\n" + player.goFishing());
     } else if (choice.equals("4")) {
-      StartView.getInstance().appendText("\n" + player.goHunting());
+      StartView.getInstance().appendToLog("\n" + player.goHunting());
     } else if (choice.equals("5")) {
-      StartView.getInstance().appendText("\n" + player.goTrapping());
+      StartView.getInstance().appendToLog("\n" + player.goTrapping());
     } else if (choice.equals("6")) {
-      StartView.getInstance().appendText("\n" + player.goForaging());
+      StartView.getInstance().appendToLog("\n" + player.goForaging());
     } else if (choice.equals("7")) {
-      StartView.getInstance().appendText("\n" + player.improveShelter());
+      StartView.getInstance().appendToLog("\n" + player.improveShelter());
     } else if (choice.equals("8")) {
-      StartView.getInstance().appendText("\n" + player.gatherFirewood());
+      StartView.getInstance().appendToLog("\n" + player.gatherFirewood());
     } else if (choice.equals("9")) {
-      StartView.getInstance().appendText("\n" + player.getWater());
+      StartView.getInstance().appendToLog("\n" + player.getWater());
     } else if (choice.equals("10")) {
-      StartView.getInstance().appendText("\n" + player.boostMorale());
+      StartView.getInstance().appendToLog("\n" + player.boostMorale());
     } else {
-      StartView.getInstance().appendText("\n" + player.rest());
+      StartView.getInstance().appendToLog("\n" + player.rest());
     }
   }
 
   public static boolean isPlayerDead(Player player) {
     boolean gameOver = false;
     if (player.getWeight() < 180.0 * 0.6) {
-      StartView.getInstance().appendText("GAME OVER\n Your starved to death :-(");
+      StartView.getInstance().appendToCurActivity("GAME OVER\n Your starved to death :-(");
       gameOver = true;
     } else if(player.getMorale() <= 0) {
-      StartView.getInstance().appendText("GAME OVER\n Your morale is too low. You died of despair.");
+      StartView.getInstance().appendToCurActivity("GAME OVER\n Your morale is too low. You died of despair.");
       gameOver = true;
     } else if(player.getHydration() <= 0) {
-      StartView.getInstance().appendText("GAME OVER\n You died of thirst.");
+      StartView.getInstance().appendToCurActivity("GAME OVER\n You died of thirst.");
     }
     return gameOver;
   }
@@ -116,7 +116,7 @@ public class Main {
     if (days > 15) {
       playerIsRescued = ((int) Math.floor(Math.random() * 2)) != 0;
       if(playerIsRescued) {
-        StartView.getInstance().appendText("YOU WIN!\nA search and rescue party has found you at last. No more eating bugs for you (unless you're into that sort of thing).");
+        StartView.getInstance().appendToCurActivity("YOU WIN!\nA search and rescue party has found you at last. No more eating bugs for you (unless you're into that sort of thing).");
       }
     }
     return playerIsRescued;
@@ -126,7 +126,7 @@ public class Main {
     try (Stream<String> stream = Files.lines(Paths.get(String.valueOf(file)))) {
       stream.forEach(System.out::println);
     } catch (IOException e) {
-      StartView.getInstance().appendText(
+      StartView.getInstance().appendToCurActivity(
           "Whoops! We seemed to have misplaced the next segment of the story. We're working on it!");
     }
   }
@@ -176,7 +176,7 @@ public class Main {
       String item = "";
       boolean validInput = false;
       while (!validInput) {
-        StartView.getInstance().appendText("Enter an item number between 1 and 31: ");
+        StartView.getInstance().appendToCurActivity("Enter an item number between 1 and 31: ");
         item = StartView.getInstance().getInput();
         if (item.length() == 1) {
           char char0 = item.charAt(0);
@@ -212,12 +212,12 @@ public class Main {
         }
         if(validInput && items.contains(itemMap.get(Integer.parseInt(item)))) {
           validInput = false;
-          StartView.getInstance().appendText("You already have a " + itemMap.get(Integer.parseInt(item)));
+          StartView.getInstance().appendToCurActivity("You already have a " + itemMap.get(Integer.parseInt(item)));
         }
       }
       Item itemAdded = itemMap.get(Integer.parseInt(item));
       items.add(itemAdded);
-      StartView.getInstance().appendText(
+      StartView.getInstance().appendToCurActivity(
           "You put the " + itemAdded + " in your bag. You have " + (9 - i) + " remaining.");
     }
     return items;

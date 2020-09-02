@@ -18,15 +18,6 @@ import java.io.IOException;
 
 public class StartView extends Application {
   private static StartView instance;
-
-  public StartView() {
-    instance = this;
-  }
-
-  public static StartView getInstance() {
-    return instance;
-  }
-
   private Stage primaryStage;
   private BorderPane rootLayout;
   private FxmlController controller;
@@ -34,23 +25,12 @@ public class StartView extends Application {
   private static Scene scene;
   private String currentInput;
 
-  public class InputSignal {}
-  private InputSignal inputSignal = new InputSignal();
-
-  public void waitInput() {
-    synchronized (inputSignal) {
-      try {
-        inputSignal.wait();
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      }
-    }
+  public StartView() {
+    instance = this;
   }
 
-  public void notifyInput() {
-    synchronized (inputSignal) {
-      inputSignal.notify();
-    }
+  public static StartView getInstance() {
+    return instance;
   }
 
   @Override
@@ -62,6 +42,7 @@ public class StartView extends Application {
       @Override
       public void handle(ActionEvent event) {
         currentInput = controller.getPlayerInput().getText();
+        controller.getPlayerInput().clear();
         notifyInput();
       }
     };
@@ -82,7 +63,10 @@ public class StartView extends Application {
       rootLayout = loader.load();
       getNarrative(new File("resources/intronarrative.txt"));
       getNarrative(new File("resources/itemselection.txt"));
-
+      controller.getDateAndTime().setDisable(true);
+      controller.getCurActivity().setEditable(false);
+      controller.getDailyLog().setEditable(false);
+      controller.getPlayerStat().setEditable(false);
       // Show the scene containing the root layout.
       scene = new Scene(rootLayout);
       primaryStage.setScene(scene);
@@ -128,33 +112,40 @@ public class StartView extends Application {
       Platform.runLater(new Runnable() {
         @Override
         public void run() {
-          controller.getDateAndTime().setText("Day" + finalDay + " morning");
+          controller.getDateAndTime().setText("Day " + finalDay );
         }
       });
-      appendText("\nDAY " + day);
       Main.iterate(player);
       day++;
     }
   }
+  // inner input signal Class
+  private InputSignal inputSignal = new InputSignal();
+  public class InputSignal {}
 
+  public void waitInput() {
+    synchronized (inputSignal) {
+      try {
+        inputSignal.wait();
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+    }
+  }
+
+  public void notifyInput() {
+    synchronized (inputSignal) {
+      inputSignal.notify();
+    }
+  }
   // call from game logic thread to get the input
   public String getInput() {
     waitInput();
     return currentInput;
   }
 
-  // getter to get controller
-  public FxmlController getController() {
-    return controller;
-  }
-  // getter to get the scene
-  public static Scene getScene() {
-    return scene;
-  }
-
   public void getNarrative(File file) {
     try  {
-      controller.getCurActivity().clear();
       String line;
       BufferedReader br = new BufferedReader(new FileReader(file));
       while ((line = br.readLine()) != null) {
@@ -167,8 +158,8 @@ public class StartView extends Application {
     }
   }
 
-  // call from game logic thread to update the UI
-  public void appendText(String txt) {
+  // call from game logic thread to update the UI for current activity
+  public void appendToCurActivity(String txt) {
     Platform.runLater(new Runnable() {
       @Override
       public void run() {
@@ -182,8 +173,40 @@ public class StartView extends Application {
     });
   }
 
-  public void initStatus() {
-    controller.getDateAndTime().setText("Day 1 morning");
-    controller.getWeather().setText("Cloudy, temperature 40F");
+  // call from game logic thread to update the UI player stat
+  public void appendToStat(String txt) {
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        try {
+          controller.getPlayerStat().appendText(txt + "\n");
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
   }
+
+  // call from game logic thread to update the UI daily log
+  public void appendToLog(String txt) {
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        try {
+          controller.getDailyLog().appendText(txt + "\n");
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  }
+  // getter to get controller
+  public FxmlController getController() {
+    return controller;
+  }
+  // getter to get the scene
+  public static Scene getScene() {
+    return scene;
+  }
+
 }

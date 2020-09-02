@@ -10,18 +10,19 @@
    <top>
       <AnchorPane prefHeight="116.0" prefWidth="787.0" BorderPane.alignment="CENTER">
          <children>
-            <Label layoutX="164.0" layoutY="64.0" prefHeight="29.0" prefWidth="87.0" text="weathther:" AnchorPane.bottomAnchor="36.0" AnchorPane.leftAnchor="164.0" AnchorPane.rightAnchor="558.0" AnchorPane.topAnchor="64.0" />
-            <Label layoutX="161.0" layoutY="31.0" prefHeight="22.0" prefWidth="92.0" text="Date and Time:" AnchorPane.bottomAnchor="76.0" AnchorPane.leftAnchor="161.0" AnchorPane.rightAnchor="556.0" AnchorPane.topAnchor="31.0" />
+            <Label layoutX="163.0" layoutY="56.0" prefHeight="22.0" prefWidth="92.0" text="Date and Time:" AnchorPane.bottomAnchor="51.0" AnchorPane.leftAnchor="163.0" AnchorPane.rightAnchor="554.0" AnchorPane.topAnchor="56.0" />
             <Separator layoutX="85.0" layoutY="123.0" prefWidth="200.0" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="123.0" />
             <Button layoutY="1.0" mnemonicParsing="false" text="Menu" AnchorPane.bottomAnchor="101.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="759.0" AnchorPane.topAnchor="1.0" />
             <Button layoutX="57.0" layoutY="1.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="70.0" text="Config" AnchorPane.bottomAnchor="101.0" AnchorPane.leftAnchor="57.0" AnchorPane.rightAnchor="682.0" AnchorPane.topAnchor="1.0" />
-            <TextField fx:id="dateAndTime" layoutX="281.0" layoutY="29.0" prefHeight="27.0" prefWidth="432.0" AnchorPane.bottomAnchor="73.0" AnchorPane.leftAnchor="281.0" AnchorPane.rightAnchor="96.0" AnchorPane.topAnchor="29.0" />
-            <TextField fx:id="weather" layoutX="281.0" layoutY="65.0" prefHeight="27.0" prefWidth="432.0" AnchorPane.bottomAnchor="37.0" AnchorPane.leftAnchor="281.0" AnchorPane.rightAnchor="96.0" AnchorPane.topAnchor="65.0" />
+            <TextField fx:id="dateAndTime" layoutX="280.0" layoutY="54.0" prefHeight="27.0" prefWidth="432.0" text="Day 0" AnchorPane.bottomAnchor="48.0" AnchorPane.leftAnchor="280.0" AnchorPane.rightAnchor="97.0" AnchorPane.topAnchor="54.0">
+               <font>
+                  <Font size="18.0" />
+               </font></TextField>
          </children>
       </AnchorPane>
    </top>
    <bottom>
-      <AnchorPane id="leftBottom" prefHeight="569.0" prefWidth="981.0" BorderPane.alignment="CENTER">
+      <AnchorPane id="leftBottom" prefHeight="587.0" prefWidth="857.0" BorderPane.alignment="CENTER">
          <children>
             <Separator layoutX="455.0" layoutY="255.0" prefHeight="3.0" prefWidth="354.0" AnchorPane.bottomAnchor="307.0" AnchorPane.leftAnchor="455.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="255.0" />
             <TextArea fx:id="dailyLog" layoutX="471.0" layoutY="285.0" prefHeight="193.0" prefWidth="319.0" AnchorPane.bottomAnchor="78.0" AnchorPane.leftAnchor="471.0" AnchorPane.rightAnchor="19.0" AnchorPane.topAnchor="285.0" />
