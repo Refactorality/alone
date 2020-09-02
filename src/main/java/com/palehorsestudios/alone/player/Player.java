@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
-import java.text.DecimalFormat;
+
 public class Player {
   // static constants
   private static final int MIN_HYDRATION = 0;
@@ -26,7 +26,6 @@ public class Player {
   private static final double FIREWOOD_BUNDLE = 1;
   private static final double CALORIES_PER_POUND = 285.7;
   private static final int MAX_ITEM_CARRY_SIZE = 3;
-  private static DecimalFormat df = new DecimalFormat("0.00");
   private final Set<Item> items;
   private final Shelter shelter;
   // instance vars
