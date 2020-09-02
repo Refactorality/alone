@@ -2,17 +2,12 @@ package com.palehorsestudios.alone;
 
 import com.palehorsestudios.alone.gui.StartView;
 import com.palehorsestudios.alone.player.Player;
-
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.stream.Stream;
 import javafx.application.Application;
 
 public class Main {
@@ -40,71 +35,10 @@ public class Main {
   }
 
   private static void iterate(Player player) {
-//    System.out.println(player);
-//    getNarrative(new File("resources/iterationChoices.txt"));
-//    boolean validChoice = false;
-//    String choice = "";
-//    while (!validChoice) {
-//      System.out.println("Enter a number from 1 to 11: ");
-//      choice = input.nextLine();
-//      if (choice.equals("1")
-//          || choice.equals("2")
-//          || choice.equals("3")
-//          || choice.equals("4")
-//          || choice.equals("5")
-//          || choice.equals("6")
-//          || choice.equals("7")
-//          || choice.equals("8")
-//          || choice.equals("9")
-//          || choice.equals("10")
-//          || choice.equals("11")) {
-//        validChoice = true;
-//      }
-//    }
-//    if (choice.equals("1")) {
-//      if (player.getShelter().getFoodCache().isEmpty()) {
-//        System.out.println("\nYou don't have any food to eat.");
-//      } else {
-//        Food foodToEat = null;
-//        int foodIdx = (int) Math.floor(Math.random() * player.getShelter().getFoodCache().size());
-//        int i = 0;
-//        for (Food currentFood : player.getShelter().getFoodCache().keySet()) {
-//          if (i == foodIdx) {
-//            foodToEat = currentFood;
-//            break;
-//          }
-//          i++;
-//        }
-//        System.out.println(player.eat(foodToEat));
-//      }
-//    } else if (choice.equals("2")) {
-//      System.out.println(player.drinkWater());
-//    } else if (choice.equals("3")) {
-//      System.out.println(player.goFishing());
-//    } else if (choice.equals("4")) {
-//      System.out.println(player.goHunting());
-//    } else if (choice.equals("5")) {
-//      System.out.println(player.goTrapping());
-//    } else if (choice.equals("6")) {
-//      System.out.println(player.goForaging());
-//    } else if (choice.equals("7")) {
-//      System.out.println(player.improveShelter());
-//    } else if (choice.equals("8")) {
-//      System.out.println(player.gatherFirewood());
-//    } else if (choice.equals("9")) {
-//      System.out.println(player.getWater());
-//    } else if (choice.equals("10")) {
-//      System.out.println(player.boostMorale());
-//    } else {
-//      System.out.println(player.rest());
-//    }
-//  }
-
     System.out.println(player);
     StartView.getInstance().appendToCurActivity("Type '" + "help" + "' for a list of things you might be able to do.");
   public static void iterate(Player player) {
     StartView.getInstance().getController().getPlayerStat().appendText(player.toString());
-    // getNarrative(new File("resources/iterationChoices.txt"));
     String choice = "";
       choice = StartView.getInstance().getInput();
       if (choice.toLowerCase().contains("eat")
@@ -220,7 +154,7 @@ public class Main {
     }
     return playerIsRescued;
   }
-  // recreated getNarrative in StartView
+  /*// recreated getNarrative in StartView
   public static void getNarrative(File file) {
     try (Stream<String> stream = Files.lines(Paths.get(String.valueOf(file)))) {
       stream.forEach(System.out::println);
@@ -228,7 +162,7 @@ public class Main {
       StartView.getInstance()
           .appendToCurActivity(
               "Whoops! We seemed to have misplaced the next segment of the story. We're working on it!");
-    }
+    }*/
   }
 
   public static Set<Item> getInitialItems() {
