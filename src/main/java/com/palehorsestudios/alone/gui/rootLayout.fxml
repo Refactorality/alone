@@ -13,6 +13,7 @@
             <Label layoutX="161.0" layoutY="-3.0" text="Date and Time:" AnchorPane.bottomAnchor="33.0" AnchorPane.leftAnchor="161.0" AnchorPane.rightAnchor="531.0" AnchorPane.topAnchor="-3.0" />
             <TextField layoutX="256.0" layoutY="37.0" prefHeight="31.0" prefWidth="510.0" AnchorPane.bottomAnchor="65.0" AnchorPane.leftAnchor="256.0" AnchorPane.rightAnchor="43.0" AnchorPane.topAnchor="37.0" />
             <TextField layoutX="256.0" layoutY="76.0" prefHeight="29.0" prefWidth="510.0" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="256.0" AnchorPane.rightAnchor="43.0" AnchorPane.topAnchor="76.0" />
+            <Separator layoutX="85.0" layoutY="123.0" prefWidth="200.0" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="123.0" />
          </children>
       </AnchorPane>
    </top>

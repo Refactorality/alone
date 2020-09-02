@@ -1,6 +1,8 @@
 package com.palehorsestudios.alone;
 
+import com.palehorsestudios.alone.gui.StartView;
 import com.palehorsestudios.alone.player.Player;
+import com.palehorsestudios.alone.gui.StartView;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,11 +14,14 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.stream.Stream;
+import javafx.application.Application;
 
 public class Main {
   private static final Scanner input = new Scanner(System.in);
 
   public static void main(String[] args) {
+
+    //Application.launch(StartView.class, args);
     // Main method that runs the game
     getNarrative(new File("resources/intronarrative.txt")); // initiates intro narrative
     getNarrative(new File("resources/itemselection.txt")); // grabs item selection text
