@@ -17,7 +17,7 @@ public enum Item {
   COLD_WEATHER_GEAR("cold weather gear"),
   TARP("tarp"),
   MATCHES("matches"),
-  FIRST_AID_KIT("matches"),
+  FIRST_AID_KIT("first aid kit"),
   FLASHLIGHT("flashlight"),
   BATTERIES("batteries"),
   WIRE("18 gauge wire"),

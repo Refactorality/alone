@@ -2,7 +2,6 @@ package com.palehorsestudios.alone.player;
 
 import com.palehorsestudios.alone.Food;
 import com.palehorsestudios.alone.Item;
-import com.palehorsestudios.alone.Result;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,18 +13,19 @@ import java.util.logging.Logger;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class PlayerTest {
 
-  static final double LOW_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT = 179.87;
-  static final double LOW_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT = 179.74;
-  static final double LOW_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT = 179.47;
-  static final double MED_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT = 179.74;
-  static final double MED_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT = 179.47;
-  static final double MED_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT = 178.95;
-  static final double HIGH_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT = 178.77;
-  static final double HIGH_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT = 177.55;
-  static final double HIGH_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT = 175.45;
+  static final double LOW_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT = 179.9;
+  static final double LOW_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT = 179.7;
+  static final double LOW_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT = 179.5;
+  static final double MED_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT = 179.7;
+  static final double MED_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT = 179.5;
+  static final double MED_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT = 178.9;
+  static final double HIGH_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT = 178.8;
+  static final double HIGH_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT = 177.5;
+  static final double HIGH_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT = 175.4;
 
   Player player;
   Logger logger = Logger.getLogger(PlayerTest.class.getName());
@@ -43,7 +43,7 @@ public class PlayerTest {
                 Item.HARMONICA,
                 Item.FLINT_AND_STEEL,
                 Item.POT,
-                Item.WATERPROOF_JACKET,
+                Item.FIRST_AID_KIT,
                 Item.COLD_WEATHER_GEAR));
     player = new Player(items);
     player.getShelter().addFoodToCache(Food.FISH, 1000);
@@ -55,44 +55,70 @@ public class PlayerTest {
 
   @Test
   public void testDrinkWaterHappy() {
-    // TODO: Can't test until getWater is implemented
+    while(player.getShelter().getWaterTank() == 0) {
+      player.getWater();
+    }
+    int previousWaterTank = player.getShelter().getWaterTank();
+    assertEquals("That's better. Your hydration is now at "
+        + 6
+        + ", and you have "
+        + (previousWaterTank - 1)
+        + " water(s) remaining.", player.drinkWater());
   }
 
   @Test
   public void testDrinkWaterFail() {
     assertEquals(
         "There isn't a drop left in your water tank. You should go fetch some water soon before you die of thirst!",
-        player.drinkWater().getMessage());
+        player.drinkWater());
     assertEquals(0, player.getShelter().getWaterTank());
   }
 
   @Test
-  public void testEatPlayerWeight() {
-    player.eat(Food.FISH);
-    assertEquals(180.99, player.getWeight(), 0.01);
-  }
-
-  @Test
-  public void testEatFoodCache() {
-    player.eat(Food.FISH);
+  public void testEatHappyWithoutFire() {
+    assertEquals("fish doesn't taste very good uncooked. You should consider lighting a fire.", player.eat(Food.FISH));
+    assertEquals(180.9, player.getWeight(), 0.01);
     assertEquals(660.0, player.getShelter().getFoodCache().get(Food.FISH), 0.001);
   }
 
   @Test
+  public void testEatHappyWithFire() {
+    while(player.getShelter().getFirewood() <= 0) {
+      player.gatherFirewood();
+    }
+    player.getItemFromShelter(Item.FLINT_AND_STEEL);
+    while(!player.getShelter().hasFire()) {
+      player.buildFire();
+    }
+    assertEquals("You had a nice warm meal of fish cooked over your fire.", player.eat(Food.FISH));
+    assertEquals(660.0, player.getShelter().getFoodCache().get(Food.FISH), 0.001);
+  }
+
+  @Test
+  public void testEatFail() {
+    assertEquals("You don't have any bug.", player.eat(Food.BUG));
+  }
+
+  @Test
   public void testGoFishingNoItems() {
-    Result fishingResult = player.goFishing();
-    if (fishingResult.getFoodCount() == 0) {
-      assertEquals(
-          "I guess that's why they don't call it catching. You didn't catch any fish.",
-          fishingResult.getMessage());
+    String fishingResult = player.goFishing();
+    String[] possibleResults = new String[]{"I guess that's why they don't call it catching. You didn't catch any fish.",
+        "It looks like you'll be eating fresh fish tonight! You caught one lake trout.",
+        "I hope there's room in your food cache. You caught three white fish!"};
+    boolean validResult = false;
+    for(String possibleResult : possibleResults) {
+      if (fishingResult.equals(possibleResult)) {
+        validResult = true;
+        break;
+      }
+    }
+    assertTrue(validResult);
+    if (fishingResult.equals("I guess that's why they don't call it catching. You didn't catch any fish.")) {
       assertEquals(3, player.getMorale());
       assertEquals(
           Optional.of(1000.0).get(), player.getShelter().getFoodCache().get(Food.FISH), 0.001);
       assertEquals(MED_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
-    } else if (fishingResult.getFoodCount() == Food.FISH.getGrams()) {
-      assertEquals(
-          "It looks like you'll be eating fresh fish tonight! You caught one lake trout.",
-          fishingResult.getMessage());
+    } else if (fishingResult.equals("It looks like you'll be eating fresh fish tonight! You caught one lake trout.")) {
       assertEquals(7, player.getMorale());
       assertEquals(
           Optional.of(1000.0 + Food.FISH.getGrams()).get(),
@@ -100,9 +126,6 @@ public class PlayerTest {
           0.001);
       assertEquals(MED_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
     } else {
-      assertEquals(
-          "I hope there's room in your food cache. You caught three white fish!",
-          fishingResult.getMessage());
       assertEquals(8, player.getMorale());
       assertEquals(
           Optional.of(1000.0 + (Food.FISH.getGrams() * 3)).get(),
@@ -116,19 +139,24 @@ public class PlayerTest {
   public void testGoFishingWithItems() {
     player.getItemFromShelter(Item.FISHING_LINE);
     player.getItemFromShelter(Item.FISHING_HOOKS);
-    Result fishingResult = player.goFishing();
-    if (fishingResult.getFoodCount() == 0) {
-      assertEquals(
-          "I guess that's why they don't call it catching. You didn't catch any fish.",
-          fishingResult.getMessage());
+    String fishingResult = player.goFishing();
+    String[] possibleResults = new String[]{"I guess that's why they don't call it catching. You didn't catch any fish.",
+        "It looks like you'll be eating fresh fish tonight! You caught one lake trout.",
+        "I hope there's room in your food cache. You caught three white fish!"};
+    boolean validResult = false;
+    for(String possibleResult : possibleResults) {
+      if (fishingResult.equals(possibleResult)) {
+        validResult = true;
+        break;
+      }
+    }
+    assertTrue(validResult);
+    if (fishingResult.equals("I guess that's why they don't call it catching. You didn't catch any fish.")) {
       assertEquals(3, player.getMorale());
       assertEquals(
           Optional.of(1000.0).get(), player.getShelter().getFoodCache().get(Food.FISH), 0.001);
       assertEquals(MED_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
-    } else if (fishingResult.getFoodCount() == Food.FISH.getGrams() + Food.FISH.getGrams() * 0.2) {
-      assertEquals(
-          "It looks like you'll be eating fresh fish tonight! You caught one lake trout.",
-          fishingResult.getMessage());
+    } else if (fishingResult.equals("It looks like you'll be eating fresh fish tonight! You caught one lake trout.")) {
       assertEquals(7, player.getMorale());
       assertEquals(
           Optional.of(1000.0 + Food.FISH.getGrams() + Food.FISH.getGrams() * 0.2).get(),
@@ -136,9 +164,6 @@ public class PlayerTest {
           0.001);
       assertEquals(MED_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
     } else {
-      assertEquals(
-          "I hope there's room in your food cache. You caught three white fish!",
-          fishingResult.getMessage());
       assertEquals(8, player.getMorale());
       assertEquals(
           Optional.of(1000.0 + (Food.FISH.getGrams() * 3 + Food.FISH.getGrams() * 3 * 0.2)).get(),
@@ -150,29 +175,31 @@ public class PlayerTest {
 
   @Test
   public void testGoHuntingNoItems() {
-    Result huntingResult = player.goHunting();
-    if (huntingResult.getFoodCount() == 0) {
-      assertEquals(
-          "I guess that's why they don't call it killing. You couldn't get a shot on an animal.",
-          huntingResult.getMessage());
+    String huntingResult = player.goHunting();
+    String[] possibleResults = new String[]{"I guess that's why they don't call it killing. You couldn't get a shot on an animal.",
+        "Watch out for those quills! You killed a nice fat porcupine that should keep you fed for a while.",
+        "Moose down! It took five trips, but you were able to process the meat and transport it back to your shelter before a predator got to it first."};
+    boolean validResult = false;
+    for(String possibleResult : possibleResults) {
+      if (huntingResult.equals(possibleResult)) {
+        validResult = true;
+        break;
+      }
+    }
+    assertTrue(validResult);
+    if (huntingResult.equals("I guess that's why they don't call it killing. You couldn't get a shot on an animal.")) {
       assertEquals(3, player.getMorale());
       assertEquals(
           Optional.of(1000.0).get(), player.getShelter().getFoodCache().get(Food.PORCUPINE));
       assertEquals(Optional.of(1000.0).get(), player.getShelter().getFoodCache().get(Food.MOOSE));
       assertEquals(HIGH_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
-    } else if (huntingResult.getFoodCount() == Food.PORCUPINE.getGrams()) {
-      assertEquals(
-          "Watch out for those quills! You killed a nice fat porcupine that should keep you fed for a while.",
-          huntingResult.getMessage());
+    } else if (huntingResult.equals("Watch out for those quills! You killed a nice fat porcupine that should keep you fed for a while.")) {
       assertEquals(7, player.getMorale());
       assertEquals(
           Optional.of(1000.0 + Food.PORCUPINE.getGrams()).get(),
           player.getShelter().getFoodCache().get(Food.PORCUPINE));
       assertEquals(HIGH_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
     } else {
-      assertEquals(
-          "Moose down! It took five trips, but you were able to process the meat and transport it back to your shelter before a predator got to it first.",
-          huntingResult.getMessage());
       assertEquals(9, player.getMorale());
       assertEquals(
           Optional.of(1000.0 + Food.MOOSE.getGrams()).get(),
@@ -183,37 +210,38 @@ public class PlayerTest {
 
   @Test
   public void testGoHuntingWithItems() {
-    player.getItemFromShelter(Item.SURVIVAL_MANUAL);
+    player.getItemFromShelter(Item.KNIFE);
     player.getItemFromShelter(Item.BOW);
     player.getItemFromShelter(Item.ARROWS);
-    Result huntingResult = player.goHunting();
-    if (huntingResult.getFoodCount() == 0) {
-      assertEquals(
-          "I guess that's why they don't call it killing. You couldn't get a shot on an animal.",
-          huntingResult.getMessage());
+    String huntingResult = player.goHunting();
+    String[] possibleResults = new String[]{"I guess that's why they don't call it killing. You couldn't get a shot on an animal.",
+        "Watch out for those quills! You killed a nice fat porcupine that should keep you fed for a while.",
+        "Moose down! It took five trips, but you were able to process the meat and transport it back to your shelter before a predator got to it first."};
+    boolean validResult = false;
+    for(String possibleResult : possibleResults) {
+      if (huntingResult.equals(possibleResult)) {
+        validResult = true;
+        break;
+      }
+    }
+    assertTrue(validResult);
+    if (huntingResult.equals("I guess that's why they don't call it killing. You couldn't get a shot on an animal.")) {
       assertEquals(3, player.getMorale());
       assertEquals(
           Optional.of(1000.0).get(), player.getShelter().getFoodCache().get(Food.PORCUPINE));
       assertEquals(Optional.of(1000.0).get(), player.getShelter().getFoodCache().get(Food.MOOSE));
       assertEquals(HIGH_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
-    } else if (huntingResult.getFoodCount()
-        == Food.PORCUPINE.getGrams() + Food.PORCUPINE.getGrams() * 0.3) {
-      assertEquals(
-          "Watch out for those quills! You killed a nice fat porcupine that should keep you fed for a while.",
-          huntingResult.getMessage());
+    } else if (huntingResult.equals("Watch out for those quills! You killed a nice fat porcupine that should keep you fed for a while.")) {
       assertEquals(7, player.getMorale());
       assertEquals(
-          Optional.of(1000.0 + Food.PORCUPINE.getGrams() + Food.PORCUPINE.getGrams() * 0.3).get(),
+          Optional.of(1000.0 + Food.PORCUPINE.getGrams() + Food.PORCUPINE.getGrams() * 0.1).get(),
           player.getShelter().getFoodCache().get(Food.PORCUPINE),
           0.001);
       assertEquals(HIGH_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
     } else {
-      assertEquals(
-          "Moose down! It took five trips, but you were able to process the meat and transport it back to your shelter before a predator got to it first.",
-          huntingResult.getMessage());
       assertEquals(9, player.getMorale());
       assertEquals(
-          Optional.of(1000.0 + Food.MOOSE.getGrams() + Food.MOOSE.getGrams() * 0.3).get(),
+          Optional.of(1000.0 + Food.MOOSE.getGrams() + Food.MOOSE.getGrams() * 0.1).get(),
           player.getShelter().getFoodCache().get(Food.MOOSE),
           0.001);
       assertEquals(HIGH_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
@@ -222,29 +250,31 @@ public class PlayerTest {
 
   @Test
   public void testGoTrappingNoItems() {
-    Result trappingResult = player.goTrapping();
-    if (trappingResult.getFoodCount() == 0) {
-      assertEquals(
-          "Those varmints are smarter than they look. Your traps were empty.",
-          trappingResult.getMessage());
+    String trappingResult = player.goTrapping();
+    String[] possibleResults = new String[]{"Those varmints are smarter than they look. Your traps were empty.",
+        "Your patience has paid off. There were two squirrels in your traps!",
+        "You'll have plenty of lucky rabbit feet now. Your snared three rabbits!"};
+    boolean validResult = false;
+    for(String possibleResult : possibleResults) {
+      if (trappingResult.equals(possibleResult)) {
+        validResult = true;
+        break;
+      }
+    }
+    assertTrue(validResult);
+    if (trappingResult.equals("Those varmints are smarter than they look. Your traps were empty.")) {
       assertEquals(3, player.getMorale());
       assertEquals(
           Optional.of(1000.0).get(), player.getShelter().getFoodCache().get(Food.SQUIRREL));
       assertEquals(Optional.of(1000.0).get(), player.getShelter().getFoodCache().get(Food.RABBIT));
       assertEquals(MED_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
-    } else if (trappingResult.getFoodCount() == (Food.SQUIRREL.getGrams() * 2)) {
-      assertEquals(
-          "Your patience has paid off. There were two squirrels in your traps!",
-          trappingResult.getMessage());
+    } else if (trappingResult.equals("Your patience has paid off. There were two squirrels in your traps!")) {
       assertEquals(6, player.getMorale());
       assertEquals(
           Optional.of(1000.0 + (Food.SQUIRREL.getGrams() * 2)).get(),
           player.getShelter().getFoodCache().get(Food.SQUIRREL));
       assertEquals(MED_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
     } else {
-      assertEquals(
-          "You'll have plenty of lucky rabbit feet now. Your snared three rabbits!",
-          trappingResult.getMessage());
       assertEquals(7, player.getMorale());
       assertEquals(
           Optional.of(1000.0 + (Food.RABBIT.getGrams() * 3)).get(),
@@ -256,21 +286,25 @@ public class PlayerTest {
   @Test
   public void testGoTrappingWithItems() {
     player.getItemFromShelter(Item.WIRE);
-    Result trappingResult = player.goTrapping();
-    if (trappingResult.getFoodCount() == 0) {
-      assertEquals(
-          "Those varmints are smarter than they look. Your traps were empty.",
-          trappingResult.getMessage());
+    String trappingResult = player.goTrapping();
+    String[] possibleResults = new String[]{"Those varmints are smarter than they look. Your traps were empty.",
+        "Your patience has paid off. There were two squirrels in your traps!",
+        "You'll have plenty of lucky rabbit feet now. Your snared three rabbits!"};
+    boolean validResult = false;
+    for(String possibleResult : possibleResults) {
+      if (trappingResult.equals(possibleResult)) {
+        validResult = true;
+        break;
+      }
+    }
+    assertTrue(validResult);
+    if (trappingResult.equals("Those varmints are smarter than they look. Your traps were empty.")) {
       assertEquals(3, player.getMorale());
       assertEquals(
           Optional.of(1000.0).get(), player.getShelter().getFoodCache().get(Food.SQUIRREL));
       assertEquals(Optional.of(1000.0).get(), player.getShelter().getFoodCache().get(Food.RABBIT));
       assertEquals(MED_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
-    } else if (trappingResult.getFoodCount()
-        == (Food.SQUIRREL.getGrams() * 2 + Food.SQUIRREL.getGrams() * 2 * 0.1)) {
-      assertEquals(
-          "Your patience has paid off. There were two squirrels in your traps!",
-          trappingResult.getMessage());
+    } else if (trappingResult.equals("Your patience has paid off. There were two squirrels in your traps!")) {
       assertEquals(6, player.getMorale());
       assertEquals(
           Optional.of(1000.0 + (Food.SQUIRREL.getGrams() * 2 + Food.SQUIRREL.getGrams() * 2 * 0.1))
@@ -279,9 +313,6 @@ public class PlayerTest {
           0.001);
       assertEquals(MED_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
     } else {
-      assertEquals(
-          "You'll have plenty of lucky rabbit feet now. Your snared three rabbits!",
-          trappingResult.getMessage());
       assertEquals(7, player.getMorale());
       assertEquals(
           Optional.of(1000.0 + (Food.RABBIT.getGrams() * 3 + Food.RABBIT.getGrams() * 3 * 0.1))
@@ -293,21 +324,27 @@ public class PlayerTest {
   }
 
   @Test
-  public void goForagingNoItems() {
-    Result foragingResult = player.goForaging();
-    if (foragingResult.getFoodCount() == Food.BERRIES.getGrams() * 2) {
-      assertEquals(
-          "Lucky for you, berries are ripe this time of year. You picked as many as you could carry.",
-          foragingResult.getMessage());
+  public void testGoForagingNoItems() {
+    String foragingResult = player.goForaging();
+    String[] possibleResults = new String[]{"Lucky for you, berries are ripe this time of year. You picked as many as you could carry.",
+        "Delicious fungus! You found a log covered in edible mushrooms.",
+        "You never thought you would say this, but you are thrilled to have found a large group "
+            + "of leaf beetles under a decayed log. These critters are packed full of protein!"};
+    boolean validResult = false;
+    for(String possibleResult : possibleResults) {
+      if (foragingResult.equals(possibleResult)) {
+        validResult = true;
+        break;
+      }
+    }
+    assertTrue(validResult);
+    if (foragingResult.equals("Lucky for you, berries are ripe this time of year. You picked as many as you could carry.")) {
       assertEquals(6, player.getMorale());
       assertEquals(
           Optional.of(Food.BERRIES.getGrams() * 2).get(),
           player.getShelter().getFoodCache().get(Food.BERRIES));
       assertEquals(LOW_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
-    } else if (foragingResult.getFoodCount() == (Food.MUSHROOM.getGrams() * 4)) {
-      assertEquals(
-          "Delicious fungus! You found a log covered in edible mushrooms.",
-          foragingResult.getMessage());
+    } else if (foragingResult.equals("Delicious fungus! You found a log covered in edible mushrooms.")) {
       assertEquals(6, player.getMorale());
       assertEquals(
           Optional.of(Food.MUSHROOM.getGrams() * 4).get(),
@@ -315,10 +352,6 @@ public class PlayerTest {
           0.001);
       assertEquals(LOW_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
     } else {
-      assertEquals(
-          "You never thought you would say this, but you are thrilled to have found a large group "
-              + "of leaf beetles under a decayed log. These critters are packed full of protein!",
-          foragingResult.getMessage());
       assertEquals(7, player.getMorale());
       assertEquals(
           Optional.of(Food.BUG.getGrams() * 3).get(),
@@ -329,40 +362,40 @@ public class PlayerTest {
   }
 
   @Test
-  public void goForagingWithItems() {
+  public void testGoForagingWithItems() {
     player.getItemFromShelter(Item.POT);
     player.getItemFromShelter(Item.EXTRA_BOOTS);
-    Result foragingResult = player.goForaging();
-    if (foragingResult.getFoodCount()
-        == Food.BERRIES.getGrams() * 2 + Food.BERRIES.getGrams() * 2 * 0.2) {
-      assertEquals(
-          "Lucky for you, berries are ripe this time of year. You picked as many as you could carry.",
-          foragingResult.getMessage());
+    String foragingResult = player.goForaging();
+    String[] possibleResults = new String[]{"Lucky for you, berries are ripe this time of year. You picked as many as you could carry.",
+        "Delicious fungus! You found a log covered in edible mushrooms.",
+        "You never thought you would say this, but you are thrilled to have found a large group "
+            + "of leaf beetles under a decayed log. These critters are packed full of protein!"};
+    boolean validResult = false;
+    for(String possibleResult : possibleResults) {
+      if (foragingResult.equals(possibleResult)) {
+        validResult = true;
+        break;
+      }
+    }
+    assertTrue(validResult);
+    if (foragingResult.equals("Lucky for you, berries are ripe this time of year. You picked as many as you could carry.")) {
       assertEquals(6, player.getMorale());
       assertEquals(
-          Optional.of(Food.BERRIES.getGrams() * 2 + Food.BERRIES.getGrams() * 2 * 0.2).get(),
+          Optional.of(Food.BERRIES.getGrams() * 2 + Food.BERRIES.getGrams() * 2 * 0.1).get(),
           player.getShelter().getFoodCache().get(Food.BERRIES),
           0.001);
       assertEquals(LOW_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
-    } else if (foragingResult.getFoodCount()
-        == (Food.MUSHROOM.getGrams() * 4 + Food.MUSHROOM.getGrams() * 4 * 0.2)) {
-      assertEquals(
-          "Delicious fungus! You found a log covered in edible mushrooms.",
-          foragingResult.getMessage());
+    } else if (foragingResult.equals("Delicious fungus! You found a log covered in edible mushrooms.")) {
       assertEquals(6, player.getMorale());
       assertEquals(
-          Optional.of(Food.MUSHROOM.getGrams() * 4 + Food.MUSHROOM.getGrams() * 4 * 0.2).get(),
+          Optional.of(Food.MUSHROOM.getGrams() * 4 + Food.MUSHROOM.getGrams() * 4 * 0.1).get(),
           player.getShelter().getFoodCache().get(Food.MUSHROOM),
           0.001);
       assertEquals(LOW_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
     } else {
-      assertEquals(
-          "You never thought you would say this, but you are thrilled to have found a large group "
-              + "of leaf beetles under a decayed log. These critters are packed full of protein!",
-          foragingResult.getMessage());
       assertEquals(7, player.getMorale());
       assertEquals(
-          Optional.of(Food.BUG.getGrams() * 3 + Food.BUG.getGrams() * 3 * 0.2).get(),
+          Optional.of(Food.BUG.getGrams() * 3 + Food.BUG.getGrams() * 3 * 0.1).get(),
           player.getShelter().getFoodCache().get(Food.BUG),
           0.001);
       assertEquals(LOW_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
@@ -370,157 +403,247 @@ public class PlayerTest {
   }
 
   @Test
-  public void improveShelterNoItems() {
+  public void testImproveShelterNoItems() {
     double previousIntegrity = player.getShelter().getIntegrity();
-    Result shelterImprovementResult = player.improveShelter();
+    String shelterImprovementResult = player.improveShelter();
+    String[] possibleResults = new String[]{"You can sleep a little better at night. You were able to better "
+        + "insulate the walls of your shelter.",
+        "It's always nice to be able to get out of the rain and snow. "
+            + "Your roof is in better shape now.",
+        "It was a lot of work, but your improved fireplace will keep "
+            + "you much warmer tonight"};
+    boolean validResult = false;
+    for(String possibleResult : possibleResults) {
+      if (shelterImprovementResult.equals(possibleResult)) {
+        validResult = true;
+        break;
+      }
+    }
+    assertTrue(validResult);
     double shelterIntegrityChange = player.getShelter().getIntegrity() - previousIntegrity;
     if (shelterIntegrityChange < 2) {
-      assertEquals(
-          "You can sleep a little better at night. You were able to better "
-              + "insulate the walls of your shelter.",
-          shelterImprovementResult.getMessage());
       assertEquals(4.0, player.getShelter().getIntegrity(), 0.001);
       assertEquals(6, player.getMorale());
       assertEquals(HIGH_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
     } else if (shelterIntegrityChange < 3) {
-      assertEquals(
-          "It's always nice to be able to get out of the rain and snow. "
-              + "Your roof is in better shape now.",
-          shelterImprovementResult.getMessage());
       assertEquals(5.0, player.getShelter().getIntegrity(), 0.001);
       assertEquals(6, player.getMorale());
       assertEquals(HIGH_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
     } else {
-      assertEquals(
-          "It was a lot of work, but your improved fireplace will keep "
-              + "you much warmer tonight",
-          shelterImprovementResult.getMessage());
       assertEquals(6.0, player.getShelter().getIntegrity(), 0.001);
       assertEquals(7, player.getMorale());
-      assertEquals(175.45, player.getWeight(), 0.005);
       assertEquals(HIGH_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
     }
   }
 
   @Test
-  public void improveShelterWithItems() {
+  public void testImproveShelterWithItems() {
     player.getItemFromShelter(Item.AXE);
     double previousIntegrity = player.getShelter().getIntegrity();
-    Result shelterImprovementResult = player.improveShelter();
+    String shelterImprovementResult = player.improveShelter();
+    String[] possibleResults = new String[]{"You can sleep a little better at night. You were able to better "
+        + "insulate the walls of your shelter.",
+        "It's always nice to be able to get out of the rain and snow. "
+            + "Your roof is in better shape now.",
+        "It was a lot of work, but your improved fireplace will keep "
+            + "you much warmer tonight"};
+    boolean validResult = false;
+    for(String possibleResult : possibleResults) {
+      if (shelterImprovementResult.equals(possibleResult)) {
+        validResult = true;
+        break;
+      }
+    }
+    assertTrue(validResult);
     double shelterIntegrityChange = player.getShelter().getIntegrity() - previousIntegrity;
     if (shelterIntegrityChange < 2) {
-      assertEquals(
-          "You can sleep a little better at night. You were able to better "
-              + "insulate the walls of your shelter.",
-          shelterImprovementResult.getMessage());
       assertEquals(4.1, player.getShelter().getIntegrity(), 0.001);
       assertEquals(6, player.getMorale());
       assertEquals(HIGH_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
     } else if (shelterIntegrityChange < 3) {
-      assertEquals(
-          "It's always nice to be able to get out of the rain and snow. "
-              + "Your roof is in better shape now.",
-          shelterImprovementResult.getMessage());
       assertEquals(5.2, player.getShelter().getIntegrity(), 0.001);
       assertEquals(7, player.getMorale());
       assertEquals(HIGH_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
     } else {
-      assertEquals(
-          "It was a lot of work, but your improved fireplace will keep "
-              + "you much warmer tonight",
-          shelterImprovementResult.getMessage());
       assertEquals(6.3, player.getShelter().getIntegrity(), 0.001);
       assertEquals(7, player.getMorale());
-      assertEquals(175.45, player.getWeight(), 0.005);
       assertEquals(HIGH_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
     }
   }
 
   @Test
-  public void gatherFirewood() {
-    Result gatherFirewoodResult = player.gatherFirewood();
-    double firewoodAmount = gatherFirewoodResult.getFirewood();
-    System.out.println(firewoodAmount);
-    double caloriesBurned = gatherFirewoodResult.getCalories();
-    int updatedMorale = gatherFirewoodResult.getMorale();
-    if (firewoodAmount == 1.2 ) {
-      assertEquals(-75.0, caloriesBurned, 0.01);
+  public void testGatherFirewoodWithoutItems() {
+    double previousFirewood = player.getShelter().getFirewood();
+    String gatherFirewoodResult = player.gatherFirewood();
+    double firewoodChange = player.getShelter().getFirewood() - previousFirewood;
+    boolean validFirewoodChange = false;
+    double[] validFirewoodChangeValues = new double[]{1.0, 3.0, 5.0};
+    for(double validFirewoodChangeValue : validFirewoodChangeValues) {
+      if(firewoodChange == validFirewoodChangeValue) {
+        validFirewoodChange = true;
+        break;
+      }
+    }
+    assertTrue(validFirewoodChange);
+    if (firewoodChange == 1.0 ) {
       assertEquals(MED_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
-      assertEquals(player.getMorale(), updatedMorale, 0.01);
+      assertEquals(6.0, player.getMorale(), 0.01);
     }
-    else if (firewoodAmount == 3.6) {
-      assertEquals(-150.0, caloriesBurned, 0.01);
+    else if (firewoodChange == 3.0) {
       assertEquals(MED_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
-      assertEquals(player.getMorale(), updatedMorale, 0.01);
+      assertEquals(7.0, player.getMorale(), 0.01);
     }
-    else if (firewoodAmount == 6.0) {
-      assertEquals(-300.0, caloriesBurned, 0.01);
+    else if (firewoodChange == 5.0) {
       assertEquals(MED_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
-      assertEquals(player.getMorale(), updatedMorale, 0.01);
+      assertEquals(8.0, player.getMorale(), 0.01);
     }
-    assertEquals("Good Job! You just gathered " + firewoodAmount + " bundles of firewood.", gatherFirewoodResult.getMessage());
+    assertEquals("Good Job! You just gathered " + firewoodChange
+        + " bundles of firewood.", gatherFirewoodResult);
   }
 
   @Test
-  public void getWater() {
-    Result getWaterResult = player.getWater();
-    int addedWater = getWaterResult.getWater();
-    double burnedCalories = getWaterResult.getCalories();
-    if (addedWater == 1) {
-      assertEquals(player.getMorale(), getWaterResult.getMorale());
+  public void testGatherFirewoodWithItems() {
+    player.getItemFromShelter(Item.AXE);
+    double previousFirewood = player.getShelter().getFirewood();
+    String gatherFirewoodResult = player.gatherFirewood();
+    double firewoodChange = player.getShelter().getFirewood() - previousFirewood;
+    logger.info("firewood change: " + firewoodChange);
+    boolean validFirewoodChange = false;
+    double[] validFirewoodChangeValues = new double[]{1.1, 3.3, 5.5};
+    for(double validFirewoodChangeValue : validFirewoodChangeValues) {
+      if(firewoodChange == validFirewoodChangeValue) {
+        validFirewoodChange = true;
+        break;
+      }
+    }
+    assertTrue(validFirewoodChange);
+    if (firewoodChange == 1.1 ) {
+      assertEquals(MED_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(6.0, player.getMorale(), 0.01);
+    }
+    else if (firewoodChange == 3.3) {
+      assertEquals(MED_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(7.0, player.getMorale(), 0.01);
+    }
+    else if (firewoodChange == 5.5) {
+      assertEquals(MED_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(8.0, player.getMorale(), 0.01);
+    }
+    assertEquals("Good Job! You just gathered " + firewoodChange
+        + " bundles of firewood.", gatherFirewoodResult);
+  }
+
+  @Test
+  public void testGetWaterWithoutItems() {
+    int previousWater = player.getShelter().getWaterTank();
+    String getWaterResult = player.getWater();
+    int waterChange = player.getShelter().getWaterTank() - previousWater;
+    boolean validWaterChange = false;
+    for(int i = 1; i < 4; i++) {
+      if(waterChange == i) {
+        validWaterChange = true;
+        break;
+      }
+    }
+    assertTrue(validWaterChange);
+    if (waterChange == 1) {
+      assertEquals(6, player.getMorale());
       assertEquals(LOW_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
-      assertEquals(-37.5, getWaterResult.getCalories(), 0.01);
     }
-    else if (addedWater == 2) {
-      assertEquals(player.getMorale(), getWaterResult.getMorale());
+    else if (waterChange == 2) {
+      assertEquals(6, player.getMorale());
       assertEquals(LOW_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
-      assertEquals(-75.0, getWaterResult.getCalories(), 0.01);
     }
-    else if (addedWater == 3) {
-      assertEquals(player.getMorale(), getWaterResult.getMorale());
+    else {
+      assertEquals(7, player.getMorale());
       assertEquals(LOW_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
-      assertEquals(-150.0, getWaterResult.getCalories(), 0.01);
     }
-    assertEquals("You added " + addedWater + " in the water tank.", getWaterResult.getMessage());
+    assertEquals("You added " + waterChange + " in the water tank.", getWaterResult);
   }
 
   @Test
-  public void boostMorale() {
-    Result boostMoraleResult = player.boostMorale();
-    int boostedMoraleFromResult = boostMoraleResult.getMorale();
-    int currentMorale = player.getMorale();
-    int boostedMorale = currentMorale - boostedMoraleFromResult;
-    if (boostedMorale == -1) {
-      assertEquals("It is cold and sad here. I know you are lonely, do you want to take some rest?", boostMoraleResult.getMessage());
+  public void testGetWaterWithItems() {
+    player.getItemFromShelter(Item.POT);
+    int previousWater = player.getShelter().getWaterTank();
+    String getWaterResult = player.getWater();
+    int waterChange = player.getShelter().getWaterTank() - previousWater;
+    boolean validWaterChange = false;
+    for(int i = 2; i < 5; i++) {
+      if(waterChange == i) {
+        validWaterChange = true;
+        break;
+      }
     }
-    else if (boostedMorale == 2) {
-      assertEquals("You found a harmonica, and you played with it for an hour, your morale is high now!", boostMoraleResult.getMessage());
-      assertEquals(37.5, boostMoraleResult.getCalories(), 0.01);
+    assertTrue(validWaterChange);
+    if (waterChange == 2) {
+      assertEquals(6, player.getMorale());
+      assertEquals(LOW_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+    }
+    else if (waterChange == 3) {
+      assertEquals(6, player.getMorale());
+      assertEquals(LOW_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+    }
+    else {
+      assertEquals(7, player.getMorale());
+      assertEquals(LOW_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+    }
+    assertEquals("You added " + waterChange + " in the water tank.", getWaterResult);
+  }
+
+  @Test
+  public void testBoostMoraleWithoutItems() {
+    int previousMorale = player.getMorale();
+    String boostMoraleResult = player.boostMorale();
+    int boostedMorale = player.getMorale() - previousMorale;
+    assertEquals(-1, boostedMorale);
+    assertEquals(LOW_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+    assertEquals("It is cold and sad here. You wish you had something to lift your spirits. " +
+          "Do you want to take some rest?", boostMoraleResult);
+  }
+
+  @Test
+  public void testBoostMoraleWitItems() {
+    player.getItemFromShelter(Item.HARMONICA);
+    int previousMorale = player.getMorale();
+    String boostMoraleResult = player.boostMorale();
+    int boostedMorale = player.getMorale() - previousMorale;
+    int[] moralePossibilities = new int[]{1, 2, 3};
+    boolean validMoralePossibility = false;
+    for(int moralePossibility : moralePossibilities) {
+      if(boostedMorale == moralePossibility) {
+        validMoralePossibility = true;
+        break;
+      }
+    }
+    assertTrue(validMoralePossibility);
+    assertEquals(LOW_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+    if (boostedMorale == 2) {
+      assertEquals("You played your harmonica for an hour. Your morale is high now!",
+          boostMoraleResult);
     }
     else if (boostedMorale == 3) {
-      assertEquals("You found your family photo and it reminds you all the good memories with your family! Your" +
-          " morale is high now!", boostMoraleResult.getMessage());
-      assertEquals(37.5, boostMoraleResult.getCalories(), 0.01);
+      assertEquals("You found your family photo, and it reminds you all the good memories with your family! Your" +
+          " morale is high now!", boostMoraleResult);
     }
-    else if (boostedMorale == 1 ) {
-      assertEquals("You found a Journal and a pen, you decide to capture current experience in the journal. " +
-          "Your morale is high now!", boostMoraleResult.getMessage());
-      assertEquals(37.5, boostMoraleResult.getCalories(), 0.01);
+    else {
+      assertEquals("You decide to capture your current experience in your journal. " +
+          "You are feeling much better.", boostMoraleResult);
     }
   }
 
   @Test
-  public void rest() {
-    Result restResult = player.rest();
-    assertEquals("You have rested for some hours and are ready for the next day!", restResult.getMessage());
-  }
-
-  @Test
-  public void testToString() {
-    player.getItemFromShelter(Item.HARMONICA);
-    player.getItemFromShelter(Item.FISHING_LINE);
-    player.getItemFromShelter(Item.AXE);
-    logger.info(player.toString());
+  public void testRest() {
+    String restResult = player.rest();
+    String[] restResultWords = restResult.split(" ");
+    int hours = Integer.parseInt(restResultWords[3]);
+    assertEquals("You rested for " + hours + " hours and are ready for the next adventure!", restResult);
+    if(hours < 4) {
+      assertEquals(LOW_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(6.0, player.getMorale(), 0.001);
+    } else {
+      assertEquals(LOW_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(7.0, player.getMorale(), 0.001);
+    }
   }
 
   @Test
@@ -531,7 +654,7 @@ public class PlayerTest {
     player.getItemFromShelter(Item.HARMONICA);
     assertEquals(
         "One harmonica moved to your shelter.",
-        player.putItemInShelter(Item.HARMONICA).getMessage());
+        player.putItemInShelter(Item.HARMONICA));
     assertEquals(Optional.of(1).get(), player.getShelter().getEquipment().get(Item.HARMONICA));
     assertFalse(player.getItems().contains(Item.HARMONICA));
   }
@@ -540,7 +663,7 @@ public class PlayerTest {
   public void testPutItemInShelterFail() {
     assertEquals(
         "You do not have a(n) family photo on you.",
-        player.putItemInShelter(Item.FAMILY_PHOTO).getMessage());
+        player.putItemInShelter(Item.FAMILY_PHOTO));
   }
 
   @Test
@@ -548,8 +671,8 @@ public class PlayerTest {
     player.putItemInShelter(Item.HARMONICA);
     player.putItemInShelter(Item.FISHING_LINE);
     assertEquals(
-        "1 harmonica removed from your shelter. You have 0 remaining.",
-        player.getItemFromShelter(Item.HARMONICA).getMessage());
+        "You retrieved 1 harmonica from your shelter.",
+        player.getItemFromShelter(Item.HARMONICA));
     assertEquals(Optional.of(0).get(), player.getShelter().getEquipment().get(Item.HARMONICA));
   }
 
@@ -558,6 +681,6 @@ public class PlayerTest {
     player.getItemFromShelter(Item.HARMONICA);
     assertEquals(
         "You do not have a(n) harmonica in your shelter.",
-        player.getItemFromShelter(Item.HARMONICA).getMessage());
+        player.getItemFromShelter(Item.HARMONICA));
   }
 }
