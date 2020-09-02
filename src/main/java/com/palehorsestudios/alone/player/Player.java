@@ -246,6 +246,8 @@ public class Player {
     SuccessRate successRate = generateSuccessRate();
     double caloriesBurned = ActivityLevel.MEDIUM.getCaloriesBurned(successRate);
     updateWeight(-caloriesBurned);
+    int hydrationCost = ActivityLevel.MEDIUM.getHydrationCost(successRate);
+    setHydration(this.getHydration() - hydrationCost);
     // get boost factor based on items the player is carrying
     double boostFactor =
         getActivityBoostFactor(
@@ -281,6 +283,8 @@ public class Player {
     SuccessRate successRate = generateSuccessRate();
     double caloriesBurned = ActivityLevel.HIGH.getCaloriesBurned(successRate);
     updateWeight(-caloriesBurned);
+    int hydrationCost = ActivityLevel.HIGH.getHydrationCost(successRate);
+    setHydration(this.getHydration() - hydrationCost);
     // get boost factor based on items the player is carrying
     double boostFactor =
         getActivityBoostFactor(
@@ -322,6 +326,8 @@ public class Player {
     SuccessRate successRate = generateSuccessRate();
     double caloriesBurned = ActivityLevel.MEDIUM.getCaloriesBurned(successRate);
     updateWeight(-caloriesBurned);
+    int hydrationCost = ActivityLevel.MEDIUM.getHydrationCost(successRate);
+    setHydration(this.getHydration() - hydrationCost);
     double boostFactor =
         getActivityBoostFactor(new Item[] {Item.SURVIVAL_MANUAL, Item.WIRE, Item.KNIFE});
     // gear, maybe we should eliminate low success rate possibility.
@@ -355,6 +361,8 @@ public class Player {
     SuccessRate successRate = generateSuccessRate();
     double caloriesBurned = ActivityLevel.LOW.getCaloriesBurned(successRate);
     updateWeight(-caloriesBurned);
+    int hydrationCost = ActivityLevel.LOW.getHydrationCost(successRate);
+    setHydration(this.getHydration() - hydrationCost);
     double boostFactor =
         getActivityBoostFactor(
             new Item[] {Item.SURVIVAL_MANUAL, Item.EXTRA_BOOTS, Item.KNIFE, Item.POT});
@@ -394,6 +402,8 @@ public class Player {
     SuccessRate successRate = generateSuccessRate();
     double caloriesBurned = ActivityLevel.HIGH.getCaloriesBurned(successRate);
     updateWeight(-caloriesBurned);
+    int hydrationCost = ActivityLevel.HIGH.getHydrationCost(successRate);
+    setHydration(this.getHydration() - hydrationCost);
     double boostFactor = getActivityBoostFactor(new Item[]{Item.KNIFE, Item.PARACHUTE_CHORD, Item.AXE, Item.HATCHET, Item.SHOVEL, Item.SURVIVAL_MANUAL});
     double improvementAmount;
     if (successRate == SuccessRate.LOW) {
@@ -419,6 +429,9 @@ public class Player {
   public String gatherFirewood() {
     SuccessRate successRate = generateSuccessRate();
     double caloriesBurned = ActivityLevel.MEDIUM.getCaloriesBurned(successRate);
+    updateWeight(-caloriesBurned);
+    int hydrationCost = ActivityLevel.MEDIUM.getHydrationCost(successRate);
+    setHydration(this.getHydration() - hydrationCost);
     double firewoodAmount = 0.0;
     double boostFactor =
         getActivityBoostFactor(new Item[] {Item.PARACHUTE_CHORD, Item.AXE, Item.HATCHET});
@@ -430,7 +443,6 @@ public class Player {
       firewoodAmount = FIREWOOD_BUNDLE * 5.0 * (1.0 + boostFactor);
     }
     firewoodAmount = round(firewoodAmount, 1);
-    updateWeight(-caloriesBurned);
     updateMorale((int) Math.ceil(firewoodAmount / 2.0));
     this.shelter.updateFirewood(firewoodAmount);
     return "Good Job! You just gathered " + firewoodAmount + " bundles of firewood.";
@@ -496,9 +508,11 @@ public class Player {
   public String getWater() {
     SuccessRate successRate = generateSuccessRate();
     double caloriesBurned = ActivityLevel.LOW.getCaloriesBurned(successRate);
+    updateWeight(-caloriesBurned);
+    int hydrationCost = ActivityLevel.LOW.getHydrationCost(successRate);
+    setHydration(this.getHydration() - hydrationCost);
     double boostFactor =
         getActivityBoostFactor(new Item[] {Item.IODINE_TABLETS, Item.POT, Item.EXTRA_BOOTS});
-    updateWeight(-caloriesBurned);
     int addedWater;
     int finalAddedWater;
     if (successRate == SuccessRate.LOW) {
@@ -525,6 +539,8 @@ public class Player {
     String result;
     double caloriesBurned = ActivityLevel.LOW.getCaloriesBurned(SuccessRate.LOW);
     updateWeight(-caloriesBurned);
+    int hydrationCost = ActivityLevel.LOW.getHydrationCost(SuccessRate.LOW);
+    setHydration(this.getHydration() - hydrationCost);
     List<Item> moraleBoostItemsOwn = new ArrayList<>();
     Set<Item> moraleBoostItems = new HashSet<>(Arrays.asList(Item.FAMILY_PHOTO, Item.HARMONICA, Item.JOURNAL));
     for (Item i : moraleBoostItems ) {
@@ -577,6 +593,8 @@ public class Player {
     }
     double caloriesBurned = ActivityLevel.LOW.getCaloriesBurned(burnRate);
     updateWeight(-caloriesBurned);
+    int hydrationCost = ActivityLevel.LOW.getHydrationCost(burnRate);
+    setHydration(this.getHydration() - hydrationCost);
     return "You rested for " + hours + " hours and are ready for the next adventure!";
   }
 
