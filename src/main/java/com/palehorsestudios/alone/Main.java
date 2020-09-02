@@ -1,42 +1,27 @@
 package com.palehorsestudios.alone;
 
+import com.palehorsestudios.alone.gui.FxmlController;
 import com.palehorsestudios.alone.gui.StartView;
 import com.palehorsestudios.alone.player.Player;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.Set;
 import javafx.application.Application;
 
 public class Main {
-  private static final Scanner input = new Scanner(System.in);
-
+private static FxmlController controller;
   public static void main(String[] args) {
     Application.launch(StartView.class, args);
-    // move this to StartView executeGameLoop
-    /*
-    // Main method that runs the game
-    getNarrative(new File("resources/intronarrative.txt")); // initiates intro narrative
-    getNarrative(new File("resources/itemselection.txt")); // grabs item selection text
-    Player player = new Player(getInitialItems());
-    getNarrative(new File("resources/scene1.txt"));
-    getNarrative(new File("resources/parserHelp.txt"));
-    // TODO: need to allow for two iterations per day
-    int day = 1;
-    while (!isPlayerDead(player) && !isPlayerRescued(day)) {
-      controller.getDateAndTime().setText("Day" + day + " morning");
-      StartView.getInstance().appendText("\nDAY " + day);
-      iterate(player);
-      day++;
-    }
-     */
   }
 
   public static void iterate(Player player) {
-    System.out.println(player);
-    StartView.getInstance().getController().getPlayerStat().appendText(player.toString());
+    controller = StartView.getInstance().getController();
+    controller.getPlayerStat().clear();
+    controller.getPlayerStat().appendText(player.toString());
+
     String choice = "";
       choice = StartView.getInstance().getInput();
       if (choice.toLowerCase().contains("eat")
@@ -58,78 +43,47 @@ public class Main {
         for (Food currentFood : player.getShelter().getFoodCache().keySet()) {
           if (i == foodIdx) {
             foodToEat = currentFood;
+            break;
           }
           i++;
         }
-        StartView.getInstance()
-            .getController()
-            .getDailyLog()
-            .appendText("\n" + player.eat(foodToEat) + "\n");
+        controller.getDailyLog().appendText("\n" + player.eat(foodToEat) + "\n");
       }
     } else if (choice.toLowerCase().contentEquals("drink water")){
-      StartView.getInstance()
-          .getController()
-          .getDailyLog()
-          .appendText("\n" + player.drinkWater() + "\n");
+        controller.getDailyLog().appendText("\n" + player.drinkWater() + "\n");
     } else if (choice.toLowerCase().contains("fishing")
     || (choice.toLowerCase().contains("fish"))) {
-      StartView.getInstance()
-          .getController()
-          .getDailyLog()
-          .appendText("\n" + player.goFishing() + "\n");
+        controller.getDailyLog().appendText("\n" + player.goFishing() + "\n");
     } else if (choice.toLowerCase().contains("hunting")
     || (choice.toLowerCase().contains("hunt"))) {
-      StartView.getInstance()
-          .getController()
-          .getDailyLog()
-          .appendText("\n" + player.goHunting() + "\n");
+        controller.getDailyLog().appendText("\n" + player.goHunting() + "\n");
     } else if (choice.toLowerCase().contains("trapping")
     || (choice.toLowerCase().contains("trap"))) {
-      StartView.getInstance()
-          .getController()
-          .getDailyLog()
-          .appendText("\n" + player.goTrapping() + "\n");
+        controller.getDailyLog().appendText("\n" + player.goTrapping() + "\n");
     } else if (choice.toLowerCase().contains("foraging")
     || (choice.toLowerCase().contains("forage"))) {
-      StartView.getInstance()
-          .getController()
-          .getDailyLog()
-          .appendText("\n" + player.goForaging() + "\n");
+        controller.getDailyLog().appendText("\n" + player.goForaging() + "\n");
     } else if (choice.toLowerCase().contains("shelter")
     || (choice.toLowerCase().contains("build shelter"))
     || (choice.toLowerCase().contains("improve shelter"))) {
-      StartView.getInstance()
-          .getController()
-          .getDailyLog()
-          .appendText("\n" + player.improveShelter() + "\n");
+        controller.getDailyLog().appendText("\n" + player.improveShelter() + "\n");
     } else if (choice.toLowerCase().contains("firewood")
     || (choice.toLowerCase().contains("fire wood"))) {
-      StartView.getInstance()
-          .getController()
-          .getDailyLog()
-          .appendText("\n" + player.gatherFirewood() + "\n");
+        controller.getDailyLog().appendText("\n" + player.gatherFirewood() + "\n");
     } else if (choice.toLowerCase().contentEquals("get water")) {
-      StartView.getInstance()
-          .getController()
-          .getDailyLog()
-          .appendText("\n" + player.getWater() + "\n");
-    } else if (choice.toLowerCase().contains("morale")) {
-      StartView.getInstance()
-          .getController()
-          .getDailyLog()
-          .appendText("\n" + player.boostMorale() + "\n");
+        controller.getDailyLog().appendText("\n" + player.getWater() + "\n");
+      } else if (choice.toLowerCase().contains("morale")) {
+        controller.getDailyLog().appendText("\n" + player.boostMorale() + "\n");
     } else if (choice.toLowerCase().contains("sleep")) {
-      StartView.getInstance().getController().getDailyLog().appendText("\n" + player.rest() + "\n");
-    } else if (choice.toLowerCase().contains("help")) {
+        controller.getDailyLog().appendText("\n" + player.rest() + "\n");
+      } else if (choice.toLowerCase().contains("help")) {
         StartView.getInstance().getNarrative(new File("resources/parserHelp.txt"));
         } else if (choice.toLowerCase().contains("build fire")
       || (choice.toLowerCase().contains("make fire"))
       || (choice.toLowerCase().contains("light fire"))){
-        StartView.getInstance()
-            .getController()
-            .getDailyLog()
-            .appendText("\n" + player.buildFire());
-    } else { System.out.println("What's that? I don't understand '" + choice + "'."); }
+        controller.getDailyLog().appendText("\n" + player.buildFire() + "\n");
+
+      } else { System.out.println("What's that? I don't understand '" + choice + "'."); }
   }
 
   public static boolean isPlayerDead(Player player) {
@@ -159,16 +113,6 @@ public class Main {
     }
     return playerIsRescued;
   }
-  /*// recreated getNarrative in StartView
-  public static void getNarrative(File file) {
-    try (Stream<String> stream = Files.lines(Paths.get(String.valueOf(file)))) {
-      stream.forEach(System.out::println);
-    } catch (IOException e) {
-      StartView.getInstance()
-          .appendToCurActivity(
-              "Whoops! We seemed to have misplaced the next segment of the story. We're working on it!");
-    }*/
-
 
   public static Set<Item> getInitialItems() {
     // lookup map for grabbing possible items
@@ -262,6 +206,5 @@ public class Main {
               "You put the " + itemAdded + " in your bag. You have " + (9 - i) + " remaining.");
     }
     return items;
-    }
   }
-
+}
