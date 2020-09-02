@@ -14,7 +14,7 @@
             <Separator layoutX="85.0" layoutY="123.0" prefWidth="200.0" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="123.0" />
             <Button layoutY="1.0" mnemonicParsing="false" text="Menu" AnchorPane.bottomAnchor="101.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="759.0" AnchorPane.topAnchor="1.0" />
             <Button layoutX="57.0" layoutY="1.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="70.0" text="Config" AnchorPane.bottomAnchor="101.0" AnchorPane.leftAnchor="57.0" AnchorPane.rightAnchor="682.0" AnchorPane.topAnchor="1.0" />
-            <TextField fx:id="dateAndTime" layoutX="280.0" layoutY="54.0" prefHeight="27.0" prefWidth="432.0" text="Day 0" AnchorPane.bottomAnchor="48.0" AnchorPane.leftAnchor="280.0" AnchorPane.rightAnchor="97.0" AnchorPane.topAnchor="54.0">
+            <TextField fx:id="dateAndTime" layoutX="280.0" layoutY="54.0" prefHeight="27.0" prefWidth="432.0" text="Day 1 Morning" AnchorPane.bottomAnchor="48.0" AnchorPane.leftAnchor="280.0" AnchorPane.rightAnchor="97.0" AnchorPane.topAnchor="54.0">
                <font>
                   <Font size="18.0" />
                </font></TextField>
