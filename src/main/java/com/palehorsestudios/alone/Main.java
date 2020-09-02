@@ -1,5 +1,6 @@
 package com.palehorsestudios.alone;
 
+import com.palehorsestudios.alone.gui.StartView;
 import com.palehorsestudios.alone.player.Player;
 
 import java.io.File;
@@ -12,11 +13,15 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.stream.Stream;
+import javafx.application.Application;
 
 public class Main {
   private static final Scanner input = new Scanner(System.in);
 
   public static void main(String[] args) {
+    Application.launch(StartView.class, args);
+    // move this to StartView executeGameLoop
+    /*
     // Main method that runs the game
     getNarrative(new File("resources/intronarrative.txt")); // initiates intro narrative
     getNarrative(new File("resources/itemselection.txt")); // grabs item selection text
@@ -25,20 +30,22 @@ public class Main {
     // TODO: need to allow for two iterations per day
     int day = 1;
     while (!isPlayerDead(player) && !isPlayerRescued(day)) {
-      System.out.println("\nDAY " + day);
+      controller.getDateAndTime().setText("Day" + day + " morning");
+      StartView.getInstance().appendText("\nDAY " + day);
       iterate(player);
       day++;
     }
+     */
   }
 
-  private static void iterate(Player player) {
-    System.out.println(player);
-    getNarrative(new File("resources/iterationChoices.txt"));
+  public static void iterate(Player player) {
+    StartView.getInstance().getController().getPlayerStat().appendText(player.toString());
+    // getNarrative(new File("resources/iterationChoices.txt"));
     boolean validChoice = false;
     String choice = "";
     while (!validChoice) {
-      System.out.println("Enter a number from 1 to 11: ");
-      choice = input.nextLine();
+      StartView.getInstance().appendToCurActivity("Enter a number from 1 to 11: ");
+      choice = StartView.getInstance().getInput();
       if (choice.equals("1")
           || choice.equals("2")
           || choice.equals("3")
@@ -55,7 +62,7 @@ public class Main {
     }
     if (choice.equals("1")) {
       if (player.getShelter().getFoodCache().isEmpty()) {
-        System.out.println("\nYou don't have any food to eat.");
+        StartView.getInstance().appendToCurActivity("\nYou don't have any food to eat.");
       } else {
         Food foodToEat = null;
         int foodIdx = (int) Math.floor(Math.random() * player.getShelter().getFoodCache().size());
@@ -67,66 +74,100 @@ public class Main {
           }
           i++;
         }
-        System.out.println("\n" + player.eat(foodToEat));
+        StartView.getInstance()
+            .getController()
+            .getDailyLog()
+            .appendText("\n" + player.eat(foodToEat) + "\n");
       }
     } else if (choice.equals("2")) {
-      System.out.println("\n" + player.drinkWater());
+      StartView.getInstance()
+          .getController()
+          .getDailyLog()
+          .appendText("\n" + player.drinkWater() + "\n");
     } else if (choice.equals("3")) {
-      System.out.println("\n" + player.goFishing());
+      StartView.getInstance()
+          .getController()
+          .getDailyLog()
+          .appendText("\n" + player.goFishing() + "\n");
     } else if (choice.equals("4")) {
-      System.out.println("\n" + player.goHunting());
+      StartView.getInstance()
+          .getController()
+          .getDailyLog()
+          .appendText("\n" + player.goHunting() + "\n");
     } else if (choice.equals("5")) {
-      System.out.println("\n" + player.goTrapping());
+      StartView.getInstance()
+          .getController()
+          .getDailyLog()
+          .appendText("\n" + player.goTrapping() + "\n");
     } else if (choice.equals("6")) {
-      System.out.println("\n" + player.goForaging());
+      StartView.getInstance()
+          .getController()
+          .getDailyLog()
+          .appendText("\n" + player.goForaging() + "\n");
     } else if (choice.equals("7")) {
-      System.out.println("\n" + player.improveShelter());
+      StartView.getInstance()
+          .getController()
+          .getDailyLog()
+          .appendText("\n" + player.improveShelter() + "\n");
     } else if (choice.equals("8")) {
-      System.out.println("\n" + player.gatherFirewood());
+      StartView.getInstance()
+          .getController()
+          .getDailyLog()
+          .appendText("\n" + player.gatherFirewood() + "\n");
     } else if (choice.equals("9")) {
-      System.out.println("\n" + player.getWater());
+      StartView.getInstance()
+          .getController()
+          .getDailyLog()
+          .appendText("\n" + player.getWater() + "\n");
     } else if (choice.equals("10")) {
-      System.out.println("\n" + player.boostMorale());
+      StartView.getInstance()
+          .getController()
+          .getDailyLog()
+          .appendText("\n" + player.boostMorale() + "\n");
     } else {
-      System.out.println("\n" + player.rest());
+      StartView.getInstance().getController().getDailyLog().appendText("\n" + player.rest() + "\n");
     }
   }
 
-  private static boolean isPlayerDead(Player player) {
+  public static boolean isPlayerDead(Player player) {
     boolean gameOver = false;
     if (player.getWeight() < 180.0 * 0.6) {
-      System.out.println("GAME OVER\n Your starved to death :-(");
+      StartView.getInstance().appendToCurActivity("GAME OVER\n Your starved to death :-(");
       gameOver = true;
-    } else if(player.getMorale() <= 0) {
-      System.out.println("GAME OVER\n Your morale is too low. You died of despair.");
+    } else if (player.getMorale() <= 0) {
+      StartView.getInstance()
+          .appendToCurActivity("GAME OVER\n Your morale is too low. You died of despair.");
       gameOver = true;
-    } else if(player.getHydration() <= 0) {
-      System.out.println("GAME OVER\n You died of thirst.");
+    } else if (player.getHydration() <= 0) {
+      StartView.getInstance().appendToCurActivity("GAME OVER\n You died of thirst.");
     }
     return gameOver;
   }
 
-  private static boolean isPlayerRescued(int days) {
+  public static boolean isPlayerRescued(int days) {
     boolean playerIsRescued = false;
     if (days > 15) {
       playerIsRescued = ((int) Math.floor(Math.random() * 2)) != 0;
-      if(playerIsRescued) {
-        System.out.println("YOU WIN!\nA search and rescue party has found you at last. No more eating bugs for you (unless you're into that sort of thing).");
+      if (playerIsRescued) {
+        StartView.getInstance()
+            .appendToCurActivity(
+                "YOU WIN!\nA search and rescue party has found you at last. No more eating bugs for you (unless you're into that sort of thing).");
       }
     }
     return playerIsRescued;
   }
-
-  private static void getNarrative(File file) {
+  // recreated getNarrative in StartView
+  public static void getNarrative(File file) {
     try (Stream<String> stream = Files.lines(Paths.get(String.valueOf(file)))) {
       stream.forEach(System.out::println);
     } catch (IOException e) {
-      System.out.println(
-          "Whoops! We seemed to have misplaced the next segment of the story. We're working on it!");
+      StartView.getInstance()
+          .appendToCurActivity(
+              "Whoops! We seemed to have misplaced the next segment of the story. We're working on it!");
     }
   }
 
-  private static Set<Item> getInitialItems() {
+  public static Set<Item> getInitialItems() {
     // lookup map for grabbing possible items
     final Map<Integer, Item> itemMap =
         new HashMap<Integer, Item>() {
@@ -171,8 +212,8 @@ public class Main {
       String item = "";
       boolean validInput = false;
       while (!validInput) {
-        System.out.println("Enter an item number between 1 and 31: ");
-        item = input.nextLine();
+        StartView.getInstance().appendToCurActivity("Enter an item number between 1 and 31: ");
+        item = StartView.getInstance().getInput();
         if (item.length() == 1) {
           char char0 = item.charAt(0);
           if (char0 == '1'
@@ -205,15 +246,17 @@ public class Main {
             validInput = true;
           }
         }
-        if(validInput && items.contains(itemMap.get(Integer.parseInt(item)))) {
+        if (validInput && items.contains(itemMap.get(Integer.parseInt(item)))) {
           validInput = false;
-          System.out.println("You already have a " + itemMap.get(Integer.parseInt(item)));
+          StartView.getInstance()
+              .appendToCurActivity("You already have a " + itemMap.get(Integer.parseInt(item)));
         }
       }
       Item itemAdded = itemMap.get(Integer.parseInt(item));
       items.add(itemAdded);
-      System.out.println(
-          "You put the " + itemAdded + " in your bag. You have " + (9 - i) + " remaining.");
+      StartView.getInstance()
+          .appendToCurActivity(
+              "You put the " + itemAdded + " in your bag. You have " + (9 - i) + " remaining.");
     }
     return items;
   }

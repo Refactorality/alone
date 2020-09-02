@@ -1,5 +1,7 @@
 
-Your survival depends on the quality of your choices. What will you do next? You can always drink water or eat, but you can only choose one other activity.
+Your survival depends on the quality of your choices.
+What will you do next?
+You can always drink water or eat, but you can only choose one other activity.
 1) Eat.                     2) Drink water.     3) Go fishing.
 4) Go hunting.              5) Go trapping.     6) Go foraging.
 7) Work on your shelter.    8) Gather firewood. 9) Fetch water.
