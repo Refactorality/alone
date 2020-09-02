@@ -115,10 +115,20 @@ public class StartView extends Application {
           new Runnable() {
             @Override
             public void run() {
-              controller.getDateAndTime().setText("Day " + finalDay);
+              controller.getDateAndTime().setText("Day " + finalDay + " Morning");
+              getNarrative(new File("resources/iterationChoices.txt"));
             }
           });
-      getNarrative(new File("resources/iterationChoices.txt"));
+
+      Main.iterate(player);
+      Platform.runLater(
+          new Runnable() {
+            @Override
+            public void run() {
+              controller.getDateAndTime().setText("Day " + finalDay + " Afternoon");
+              getNarrative(new File("resources/iterationChoices.txt"));
+            }
+          });
       Main.iterate(player);
       day++;
     }

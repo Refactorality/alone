@@ -1,46 +1,25 @@
 package com.palehorsestudios.alone;
 
+import com.palehorsestudios.alone.gui.FxmlController;
 import com.palehorsestudios.alone.gui.StartView;
 import com.palehorsestudios.alone.player.Player;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.Set;
-import java.util.stream.Stream;
 import javafx.application.Application;
 
 public class Main {
-  private static final Scanner input = new Scanner(System.in);
-
+private static FxmlController controller;
   public static void main(String[] args) {
     Application.launch(StartView.class, args);
-    // move this to StartView executeGameLoop
-    /*
-    // Main method that runs the game
-    getNarrative(new File("resources/intronarrative.txt")); // initiates intro narrative
-    getNarrative(new File("resources/itemselection.txt")); // grabs item selection text
-    Player player = new Player(getInitialItems());
-    getNarrative(new File("resources/scene1.txt"));
-    // TODO: need to allow for two iterations per day
-    int day = 1;
-    while (!isPlayerDead(player) && !isPlayerRescued(day)) {
-      controller.getDateAndTime().setText("Day" + day + " morning");
-      StartView.getInstance().appendText("\nDAY " + day);
-      iterate(player);
-      day++;
-    }
-     */
   }
 
   public static void iterate(Player player) {
-    StartView.getInstance().getController().getPlayerStat().appendText(player.toString());
-    // getNarrative(new File("resources/iterationChoices.txt"));
+    controller = StartView.getInstance().getController();
+    controller.getPlayerStat().clear();
+    controller.getPlayerStat().appendText(player.toString());
     boolean validChoice = false;
     String choice = "";
     while (!validChoice) {
@@ -74,58 +53,28 @@ public class Main {
           }
           i++;
         }
-        StartView.getInstance()
-            .getController()
-            .getDailyLog()
-            .appendText("\n" + player.eat(foodToEat) + "\n");
+        controller.getDailyLog().appendText("\n" + player.eat(foodToEat) + "\n");
       }
     } else if (choice.equals("2")) {
-      StartView.getInstance()
-          .getController()
-          .getDailyLog()
-          .appendText("\n" + player.drinkWater() + "\n");
+      controller.getDailyLog().appendText("\n" + player.drinkWater() + "\n");
     } else if (choice.equals("3")) {
-      StartView.getInstance()
-          .getController()
-          .getDailyLog()
-          .appendText("\n" + player.goFishing() + "\n");
+      controller.getDailyLog().appendText("\n" + player.goFishing() + "\n");
     } else if (choice.equals("4")) {
-      StartView.getInstance()
-          .getController()
-          .getDailyLog()
-          .appendText("\n" + player.goHunting() + "\n");
+      controller.getDailyLog().appendText("\n" + player.goHunting() + "\n");
     } else if (choice.equals("5")) {
-      StartView.getInstance()
-          .getController()
-          .getDailyLog()
-          .appendText("\n" + player.goTrapping() + "\n");
+      controller.getDailyLog().appendText("\n" + player.goTrapping() + "\n");
     } else if (choice.equals("6")) {
-      StartView.getInstance()
-          .getController()
-          .getDailyLog()
-          .appendText("\n" + player.goForaging() + "\n");
+      controller.getDailyLog().appendText("\n" + player.goForaging() + "\n");
     } else if (choice.equals("7")) {
-      StartView.getInstance()
-          .getController()
-          .getDailyLog()
-          .appendText("\n" + player.improveShelter() + "\n");
+      controller.getDailyLog().appendText("\n" + player.improveShelter() + "\n");
     } else if (choice.equals("8")) {
-      StartView.getInstance()
-          .getController()
-          .getDailyLog()
-          .appendText("\n" + player.gatherFirewood() + "\n");
+      controller.getDailyLog().appendText("\n" + player.gatherFirewood() + "\n");
     } else if (choice.equals("9")) {
-      StartView.getInstance()
-          .getController()
-          .getDailyLog()
-          .appendText("\n" + player.getWater() + "\n");
+      controller.getDailyLog().appendText("\n" + player.getWater() + "\n");
     } else if (choice.equals("10")) {
-      StartView.getInstance()
-          .getController()
-          .getDailyLog()
-          .appendText("\n" + player.boostMorale() + "\n");
+      controller.getDailyLog().appendText("\n" + player.boostMorale() + "\n");
     } else {
-      StartView.getInstance().getController().getDailyLog().appendText("\n" + player.rest() + "\n");
+      controller.getDailyLog().appendText("\n" + player.rest() + "\n");
     }
   }
 
@@ -155,16 +104,6 @@ public class Main {
       }
     }
     return playerIsRescued;
-  }
-  // recreated getNarrative in StartView
-  public static void getNarrative(File file) {
-    try (Stream<String> stream = Files.lines(Paths.get(String.valueOf(file)))) {
-      stream.forEach(System.out::println);
-    } catch (IOException e) {
-      StartView.getInstance()
-          .appendToCurActivity(
-              "Whoops! We seemed to have misplaced the next segment of the story. We're working on it!");
-    }
   }
 
   public static Set<Item> getInitialItems() {
