@@ -34,10 +34,8 @@ public class Main {
      */
   }
 
-  private static void iterate(Player player) {
-    System.out.println(player);
-    StartView.getInstance().appendToCurActivity("Type '" + "help" + "' for a list of things you might be able to do.");
   public static void iterate(Player player) {
+    System.out.println(player);
     StartView.getInstance().getController().getPlayerStat().appendText(player.toString());
     String choice = "";
       choice = StartView.getInstance().getInput();
@@ -122,8 +120,15 @@ public class Main {
           .appendText("\n" + player.boostMorale() + "\n");
     } else if (choice.toLowerCase().contains("sleep")) {
       StartView.getInstance().getController().getDailyLog().appendText("\n" + player.rest() + "\n");
-      } else if (choice.toLowerCase().contains("help")) {
-        getNarrative(new File("resources/parserHelp.txt"));
+    } else if (choice.toLowerCase().contains("help")) {
+        StartView.getInstance().getNarrative(new File("resources/parserHelp.txt"));
+        } else if (choice.toLowerCase().contains("build fire")
+      || (choice.toLowerCase().contains("make fire"))
+      || (choice.toLowerCase().contains("light fire"))){
+        StartView.getInstance()
+            .getController()
+            .getDailyLog()
+            .appendText("\n" + player.buildFire());
     } else { System.out.println("What's that? I don't understand '" + choice + "'."); }
   }
 
@@ -163,7 +168,7 @@ public class Main {
           .appendToCurActivity(
               "Whoops! We seemed to have misplaced the next segment of the story. We're working on it!");
     }*/
-  }
+
 
   public static Set<Item> getInitialItems() {
     // lookup map for grabbing possible items
@@ -259,4 +264,4 @@ public class Main {
     return items;
     }
   }
-}
+

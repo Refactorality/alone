@@ -104,7 +104,7 @@ public class StartView extends Application {
         new Runnable() {
           @Override
           public void run() {
-            getNarrative(new File("resources/iterationChoices.txt"));
+            getNarrative(new File("resources/parserHelp.txt"));
           }
         });
     // TODO: need to allow for two iterations per day
@@ -118,7 +118,6 @@ public class StartView extends Application {
               controller.getDateAndTime().setText("Day " + finalDay);
             }
           });
-      getNarrative(new File("resources/iterationChoices.txt"));
       Main.iterate(player);
       day++;
     }
