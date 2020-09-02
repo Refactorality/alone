@@ -18,6 +18,7 @@ private static FxmlController controller;
 
   public static void iterate(Player player) {
     controller = StartView.getInstance().getController();
+    controller.getPlayerStat().clear();
     controller.getPlayerStat().appendText(player.toString());
     boolean validChoice = false;
     String choice = "";
