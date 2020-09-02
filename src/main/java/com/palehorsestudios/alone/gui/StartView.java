@@ -38,21 +38,20 @@ public class StartView extends Application {
     this.primaryStage = primaryStage;
     this.primaryStage.setTitle("Alone");
     initRootLayout();
-    EventHandler<ActionEvent> eventHandler = new EventHandler<ActionEvent>() {
-      @Override
-      public void handle(ActionEvent event) {
-        currentInput = controller.getPlayerInput().getText();
-        controller.getPlayerInput().clear();
-        notifyInput();
-      }
-    };
+    EventHandler<ActionEvent> eventHandler =
+        new EventHandler<ActionEvent>() {
+          @Override
+          public void handle(ActionEvent event) {
+            currentInput = controller.getPlayerInput().getText();
+            controller.getPlayerInput().clear();
+            notifyInput();
+          }
+        };
     controller.getEnterButton().setOnAction(eventHandler);
     runGameThread();
   }
 
-  /**
-   * Initializes the root layout.
-   */
+  /** Initializes the root layout. */
   public void initRootLayout() {
     try {
       // Load root layout from fxml file.
@@ -77,18 +76,20 @@ public class StartView extends Application {
   }
 
   private void runGameThread() {
-    Thread gameLoop = new Thread(new Runnable() {
-      @Override
-      public void run() {
-        try {
-          // TODO: maybe not a delay start, instead using a start button.
-          Thread.sleep(3000);
-        } catch (InterruptedException e) {
-          e.printStackTrace();
-        }
-        executeGameLoop();
-      }
-    });
+    Thread gameLoop =
+        new Thread(
+            new Runnable() {
+              @Override
+              public void run() {
+                try {
+                  // TODO: maybe not a delay start, instead using a start button.
+                  Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                  e.printStackTrace();
+                }
+                executeGameLoop();
+              }
+            });
 
     // don't let thread prevent JVM shutdown
     gameLoop.setDaemon(true);
@@ -99,28 +100,32 @@ public class StartView extends Application {
   private void executeGameLoop() {
     Player player = new Player(Main.getInitialItems());
     // must run in ui thread
-    Platform.runLater(new Runnable() {
-      @Override
-      public void run() {
-        getNarrative(new File("resources/scene1.txt"));
-      }
-    });
+    Platform.runLater(
+        new Runnable() {
+          @Override
+          public void run() {
+            getNarrative(new File("resources/iterationChoices.txt"));
+          }
+        });
     // TODO: need to allow for two iterations per day
     int day = 1;
     while (!Main.isPlayerDead(player) && !Main.isPlayerRescued(day)) {
       int finalDay = day;
-      Platform.runLater(new Runnable() {
-        @Override
-        public void run() {
-          controller.getDateAndTime().setText("Day " + finalDay );
-        }
-      });
+      Platform.runLater(
+          new Runnable() {
+            @Override
+            public void run() {
+              controller.getDateAndTime().setText("Day " + finalDay);
+            }
+          });
+      getNarrative(new File("resources/iterationChoices.txt"));
       Main.iterate(player);
       day++;
     }
   }
   // inner input signal Class
   private InputSignal inputSignal = new InputSignal();
+
   public class InputSignal {}
 
   public void waitInput() {
@@ -145,7 +150,7 @@ public class StartView extends Application {
   }
 
   public void getNarrative(File file) {
-    try  {
+    try {
       String line;
       BufferedReader br = new BufferedReader(new FileReader(file));
       while ((line = br.readLine()) != null) {
@@ -160,46 +165,20 @@ public class StartView extends Application {
 
   // call from game logic thread to update the UI for current activity
   public void appendToCurActivity(String txt) {
-    Platform.runLater(new Runnable() {
-      @Override
-      public void run() {
-        try {
-          controller.getCurActivity().appendText(txt + "\n");
-        } catch (Exception e) {
-          System.out.println(controller);
-          e.printStackTrace();
-        }
-      }
-    });
+    Platform.runLater(
+        new Runnable() {
+          @Override
+          public void run() {
+            try {
+              controller.getCurActivity().appendText(txt + "\n");
+            } catch (Exception e) {
+              System.out.println(controller);
+              e.printStackTrace();
+            }
+          }
+        });
   }
 
-  // call from game logic thread to update the UI player stat
-  public void appendToStat(String txt) {
-    Platform.runLater(new Runnable() {
-      @Override
-      public void run() {
-        try {
-          controller.getPlayerStat().appendText(txt + "\n");
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
-      }
-    });
-  }
-
-  // call from game logic thread to update the UI daily log
-  public void appendToLog(String txt) {
-    Platform.runLater(new Runnable() {
-      @Override
-      public void run() {
-        try {
-          controller.getDailyLog().appendText(txt + "\n");
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
-      }
-    });
-  }
   // getter to get controller
   public FxmlController getController() {
     return controller;
@@ -208,5 +187,4 @@ public class StartView extends Application {
   public static Scene getScene() {
     return scene;
   }
-
 }
