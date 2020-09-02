@@ -15,9 +15,7 @@ public class StartView extends Application {
   private FxmlController controller;
   private FXMLLoader loader;
 
-  public static void main(String[] args) {
-    launch(args);
-  }
+  //public static void main(String[] args) { launch(args); }
 
   @Override
   public void start(Stage primaryStage) {

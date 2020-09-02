@@ -21,7 +21,7 @@ public class Main {
 
   public static void main(String[] args) {
 
-    //Application.launch(StartView.class, args);
+    Application.launch(StartView.class, args);
     // Main method that runs the game
     getNarrative(new File("resources/intronarrative.txt")); // initiates intro narrative
     getNarrative(new File("resources/itemselection.txt")); // grabs item selection text
