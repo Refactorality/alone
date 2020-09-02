@@ -15,6 +15,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class StartView extends Application {
   private static StartView instance;
@@ -115,10 +118,19 @@ public class StartView extends Application {
           new Runnable() {
             @Override
             public void run() {
-              controller.getDateAndTime().setText("Day " + finalDay);
+              controller.getDateAndTime().setText("Day " + finalDay + " Morning");
+              getNarrative(new File("resources/iterationChoices.txt"));
             }
           });
-      getNarrative(new File("resources/iterationChoices.txt"));
+
+      Main.iterate(player);
+      Platform.runLater(
+          new Runnable() {
+            @Override
+            public void run() {
+              controller.getDateAndTime().setText("Day " + finalDay + " Afternoon");
+            }
+          });
       Main.iterate(player);
       day++;
     }
