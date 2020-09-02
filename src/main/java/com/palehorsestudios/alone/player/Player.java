@@ -445,14 +445,14 @@ public class Player {
     if (successRate == SuccessRate.LOW) {
       improvementAmount = 1 + 1 * boostFactor;
       resultBuilder.message(
-          "You can sleep a little better at night. You were able to better insulate the walls of your shelter.");
+          "Slowly but surely, you continue to improve on some semblance of a shelter.");
     } else if (successRate == SuccessRate.MEDIUM) {
       improvementAmount = 2 + 2 * boostFactor;
       resultBuilder.message(
-          "It's always nice to be able to get out of the rain and snow. Your roof is in better shape now.");
+          "You have a new idea on a way to improve your shelter. You're confident that it will be more comfortable now.");
     } else {
       resultBuilder.message(
-          "It was a lot of work, but your improved fireplace will keep you much warmer tonight");
+          "Your shelter is coming along nicely, with several improvements you were able to implement.");
       improvementAmount = 3 + 3 * boostFactor;
     }
     this.getShelter().setIntegrity(this.getShelter().getIntegrity() + improvementAmount);

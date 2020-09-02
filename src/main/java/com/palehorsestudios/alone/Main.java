@@ -22,6 +22,7 @@ public class Main {
     getNarrative(new File("resources/itemselection.txt")); // grabs item selection text
     Player player = new Player(getInitialItems());
     getNarrative(new File("resources/scene1.txt"));
+    getNarrative(new File("resources/parserHelp.txt"));
     // TODO: need to allow for two iterations per day
     int day = 1;
     while (!isPlayerDead(player) && !isPlayerRescued(day)) {
@@ -31,28 +32,80 @@ public class Main {
   }
 
   private static void iterate(Player player) {
+//    System.out.println(player);
+//    getNarrative(new File("resources/iterationChoices.txt"));
+//    boolean validChoice = false;
+//    String choice = "";
+//    while (!validChoice) {
+//      System.out.println("Enter a number from 1 to 11: ");
+//      choice = input.nextLine();
+//      if (choice.equals("1")
+//          || choice.equals("2")
+//          || choice.equals("3")
+//          || choice.equals("4")
+//          || choice.equals("5")
+//          || choice.equals("6")
+//          || choice.equals("7")
+//          || choice.equals("8")
+//          || choice.equals("9")
+//          || choice.equals("10")
+//          || choice.equals("11")) {
+//        validChoice = true;
+//      }
+//    }
+//    if (choice.equals("1")) {
+//      if (player.getShelter().getFoodCache().isEmpty()) {
+//        System.out.println("\nYou don't have any food to eat.");
+//      } else {
+//        Food foodToEat = null;
+//        int foodIdx = (int) Math.floor(Math.random() * player.getShelter().getFoodCache().size());
+//        int i = 0;
+//        for (Food currentFood : player.getShelter().getFoodCache().keySet()) {
+//          if (i == foodIdx) {
+//            foodToEat = currentFood;
+//            break;
+//          }
+//          i++;
+//        }
+//        System.out.println(player.eat(foodToEat));
+//      }
+//    } else if (choice.equals("2")) {
+//      System.out.println(player.drinkWater());
+//    } else if (choice.equals("3")) {
+//      System.out.println(player.goFishing());
+//    } else if (choice.equals("4")) {
+//      System.out.println(player.goHunting());
+//    } else if (choice.equals("5")) {
+//      System.out.println(player.goTrapping());
+//    } else if (choice.equals("6")) {
+//      System.out.println(player.goForaging());
+//    } else if (choice.equals("7")) {
+//      System.out.println(player.improveShelter());
+//    } else if (choice.equals("8")) {
+//      System.out.println(player.gatherFirewood());
+//    } else if (choice.equals("9")) {
+//      System.out.println(player.getWater());
+//    } else if (choice.equals("10")) {
+//      System.out.println(player.boostMorale());
+//    } else {
+//      System.out.println(player.rest());
+//    }
+//  }
+
     System.out.println(player);
-    getNarrative(new File("resources/iterationChoices.txt"));
-    boolean validChoice = false;
+    System.out.println("Type '" + "help" + "' for a list of things you might be able to do.");
     String choice = "";
-    while (!validChoice) {
-      System.out.println("Enter a number from 1 to 11: ");
-      choice = input.nextLine();
-      if (choice.equals("1")
-          || choice.equals("2")
-          || choice.equals("3")
-          || choice.equals("4")
-          || choice.equals("5")
-          || choice.equals("6")
-          || choice.equals("7")
-          || choice.equals("8")
-          || choice.equals("9")
-          || choice.equals("10")
-          || choice.equals("11")) {
-        validChoice = true;
-      }
-    }
-    if (choice.equals("1")) {
+    choice = input.nextLine();
+      if (choice.toLowerCase().contains("eat")
+      || (choice.toLowerCase().contains("eat food"))
+      || (choice.toLowerCase().contains("eat rabbit"))
+      || (choice.toLowerCase().contains("eat squirrel"))
+      || (choice.toLowerCase().contains("eat moose"))
+      || (choice.toLowerCase().contains("eat berries"))
+      || (choice.toLowerCase().contains("eat mushrooms"))
+      || (choice.toLowerCase().contains("eat bugs"))
+      || (choice.toLowerCase().contains("eat beatles"))
+      || (choice.toLowerCase().contains("eat fish"))) {
       if (player.getShelter().getFoodCache().isEmpty()) {
         System.out.println("\nYou don't have any food to eat.");
       } else {
@@ -62,33 +115,40 @@ public class Main {
         for (Food currentFood : player.getShelter().getFoodCache().keySet()) {
           if (i == foodIdx) {
             foodToEat = currentFood;
-            break;
           }
-          i++;
-        }
         System.out.println(player.eat(foodToEat));
+        }
       }
-    } else if (choice.equals("2")) {
+    } else if (choice.toLowerCase().contentEquals("drink water")){
       System.out.println(player.drinkWater());
-    } else if (choice.equals("3")) {
+    } else if (choice.toLowerCase().contains("fishing")
+    || (choice.toLowerCase().contains("fish"))) {
       System.out.println(player.goFishing());
-    } else if (choice.equals("4")) {
+    } else if (choice.toLowerCase().contains("hunting")
+    || (choice.toLowerCase().contains("hunt"))) {
       System.out.println(player.goHunting());
-    } else if (choice.equals("5")) {
+    } else if (choice.toLowerCase().contains("trapping")
+    || (choice.toLowerCase().contains("trap"))) {
       System.out.println(player.goTrapping());
-    } else if (choice.equals("6")) {
+    } else if (choice.toLowerCase().contains("foraging")
+    || (choice.toLowerCase().contains("forage"))) {
       System.out.println(player.goForaging());
-    } else if (choice.equals("7")) {
+    } else if (choice.toLowerCase().contains("shelter")
+    || (choice.toLowerCase().contains("build shelter"))
+    || (choice.toLowerCase().contains("improve shelter"))) {
       System.out.println(player.improveShelter());
-    } else if (choice.equals("8")) {
+    } else if (choice.toLowerCase().contains("firewood")
+    || (choice.toLowerCase().contains("fire wood"))) {
       System.out.println(player.gatherFirewood());
-    } else if (choice.equals("9")) {
+    } else if (choice.toLowerCase().contentEquals("get water")) {
       System.out.println(player.getWater());
-    } else if (choice.equals("10")) {
+    } else if (choice.toLowerCase().contains("morale")) {
       System.out.println(player.boostMorale());
-    } else {
+    } else if (choice.toLowerCase().contains("sleep")) {
       System.out.println(player.rest());
-    }
+      } else if (choice.toLowerCase().contains("help")) {
+        getNarrative(new File("resources/parserHelp.txt"));
+    } else { System.out.println("What's that? I don't understand '" + choice + "'."); }
   }
 
   private static boolean isPlayerDead(Player player) {
@@ -110,7 +170,7 @@ public class Main {
     if (days > 15) {
       playerIsRescued = ((int) Math.floor(Math.random() * 2)) != 0;
       if(playerIsRescued) {
-        System.out.println("YOU WIN!\nA search and rescue party has found you at last. No more eating bugs for you (unless you're into that sort of thing).");
+        System.out.println("YOU SURVIVED!\nA search and rescue party has found you at last. No more eating bugs for you (unless you're into that sort of thing).");
       }
     }
     return playerIsRescued;
@@ -213,3 +273,4 @@ public class Main {
     return items;
   }
 }
+
