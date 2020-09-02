@@ -514,6 +514,7 @@ public class PlayerTest {
 
   @Test
   public void testGatherFirewoodWithoutItems() {
+    int previousHydration = player.getHydration();
     double previousFirewood = player.getShelter().getFirewood();
     String gatherFirewoodResult = player.gatherFirewood();
     double firewoodChange = player.getShelter().getFirewood() - previousFirewood;
@@ -528,14 +529,17 @@ public class PlayerTest {
     assertTrue(validFirewoodChange);
     if (firewoodChange == 1.0 ) {
       assertEquals(MED_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.MEDIUM.getHydrationCost(SuccessRate.LOW), player.getHydration());
       assertEquals(6.0, player.getMorale(), 0.01);
     }
     else if (firewoodChange == 3.0) {
       assertEquals(MED_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.MEDIUM.getHydrationCost(SuccessRate.MEDIUM), player.getHydration());
       assertEquals(7.0, player.getMorale(), 0.01);
     }
     else if (firewoodChange == 5.0) {
       assertEquals(MED_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.MEDIUM.getHydrationCost(SuccessRate.HIGH), player.getHydration());
       assertEquals(8.0, player.getMorale(), 0.01);
     }
     assertEquals("Good Job! You just gathered " + firewoodChange
@@ -545,6 +549,7 @@ public class PlayerTest {
   @Test
   public void testGatherFirewoodWithItems() {
     player.getItemFromShelter(Item.AXE);
+    int previousHydration = player.getHydration();
     double previousFirewood = player.getShelter().getFirewood();
     String gatherFirewoodResult = player.gatherFirewood();
     double firewoodChange = player.getShelter().getFirewood() - previousFirewood;
@@ -559,14 +564,17 @@ public class PlayerTest {
     assertTrue(validFirewoodChange);
     if (firewoodChange == 1.1 ) {
       assertEquals(MED_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.MEDIUM.getHydrationCost(SuccessRate.LOW), player.getHydration());
       assertEquals(6.0, player.getMorale(), 0.01);
     }
     else if (firewoodChange == 3.3) {
       assertEquals(MED_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.MEDIUM.getHydrationCost(SuccessRate.MEDIUM), player.getHydration());
       assertEquals(7.0, player.getMorale(), 0.01);
     }
     else if (firewoodChange == 5.5) {
       assertEquals(MED_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.MEDIUM.getHydrationCost(SuccessRate.HIGH), player.getHydration());
       assertEquals(8.0, player.getMorale(), 0.01);
     }
     assertEquals("Good Job! You just gathered " + firewoodChange
@@ -576,6 +584,7 @@ public class PlayerTest {
   @Test
   public void testGetWaterWithoutItems() {
     int previousWater = player.getShelter().getWaterTank();
+    int previousHydration = player.getHydration();
     String getWaterResult = player.getWater();
     int waterChange = player.getShelter().getWaterTank() - previousWater;
     boolean validWaterChange = false;
@@ -589,14 +598,17 @@ public class PlayerTest {
     if (waterChange == 1) {
       assertEquals(6, player.getMorale());
       assertEquals(LOW_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.LOW.getHydrationCost(SuccessRate.LOW), player.getHydration());
     }
     else if (waterChange == 2) {
       assertEquals(6, player.getMorale());
       assertEquals(LOW_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.LOW.getHydrationCost(SuccessRate.MEDIUM), player.getHydration());
     }
     else {
       assertEquals(7, player.getMorale());
       assertEquals(LOW_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.LOW.getHydrationCost(SuccessRate.HIGH), player.getHydration());
     }
     assertEquals("You added " + waterChange + " in the water tank.", getWaterResult);
   }
@@ -605,6 +617,7 @@ public class PlayerTest {
   public void testGetWaterWithItems() {
     player.getItemFromShelter(Item.POT);
     int previousWater = player.getShelter().getWaterTank();
+    int previousHydration = player.getHydration();
     String getWaterResult = player.getWater();
     int waterChange = player.getShelter().getWaterTank() - previousWater;
     boolean validWaterChange = false;
@@ -618,14 +631,17 @@ public class PlayerTest {
     if (waterChange == 2) {
       assertEquals(6, player.getMorale());
       assertEquals(LOW_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.LOW.getHydrationCost(SuccessRate.LOW), player.getHydration());
     }
     else if (waterChange == 3) {
       assertEquals(6, player.getMorale());
       assertEquals(LOW_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.LOW.getHydrationCost(SuccessRate.MEDIUM), player.getHydration());
     }
     else {
       assertEquals(7, player.getMorale());
       assertEquals(LOW_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.LOW.getHydrationCost(SuccessRate.HIGH), player.getHydration());
     }
     assertEquals("You added " + waterChange + " in the water tank.", getWaterResult);
   }
@@ -633,10 +649,12 @@ public class PlayerTest {
   @Test
   public void testBoostMoraleWithoutItems() {
     int previousMorale = player.getMorale();
+    int previousHydration = player.getHydration();
     String boostMoraleResult = player.boostMorale();
     int boostedMorale = player.getMorale() - previousMorale;
     assertEquals(-1, boostedMorale);
     assertEquals(LOW_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+    assertEquals(previousHydration - ActivityLevel.LOW.getHydrationCost(SuccessRate.LOW), player.getHydration());
     assertEquals("It is cold and sad here. You wish you had something to lift your spirits. " +
           "Do you want to take some rest?", boostMoraleResult);
   }
@@ -645,6 +663,7 @@ public class PlayerTest {
   public void testBoostMoraleWitItems() {
     player.getItemFromShelter(Item.HARMONICA);
     int previousMorale = player.getMorale();
+    int previousHydration = player.getHydration();
     String boostMoraleResult = player.boostMorale();
     int boostedMorale = player.getMorale() - previousMorale;
     int[] moralePossibilities = new int[]{1, 2, 3};
@@ -657,6 +676,7 @@ public class PlayerTest {
     }
     assertTrue(validMoralePossibility);
     assertEquals(LOW_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+    assertEquals(previousHydration - ActivityLevel.LOW.getHydrationCost(SuccessRate.LOW), player.getHydration());
     if (boostedMorale == 2) {
       assertEquals("You played your harmonica for an hour. Your morale is high now!",
           boostMoraleResult);
@@ -673,15 +693,18 @@ public class PlayerTest {
 
   @Test
   public void testRest() {
+    int previousHydration = player.getHydration();
     String restResult = player.rest();
     String[] restResultWords = restResult.split(" ");
     int hours = Integer.parseInt(restResultWords[3]);
     assertEquals("You rested for " + hours + " hours and are ready for the next adventure!", restResult);
     if(hours < 4) {
       assertEquals(LOW_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.LOW.getHydrationCost(SuccessRate.LOW), player.getHydration());
       assertEquals(6.0, player.getMorale(), 0.001);
     } else {
       assertEquals(LOW_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.LOW.getHydrationCost(SuccessRate.MEDIUM), player.getHydration());
       assertEquals(7.0, player.getMorale(), 0.001);
     }
   }
