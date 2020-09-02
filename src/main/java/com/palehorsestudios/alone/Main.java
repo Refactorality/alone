@@ -2,7 +2,6 @@ package com.palehorsestudios.alone;
 
 import com.palehorsestudios.alone.gui.StartView;
 import com.palehorsestudios.alone.player.Player;
-import com.palehorsestudios.alone.gui.StartView;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,10 +17,9 @@ import javafx.application.Application;
 
 public class Main {
   private static final Scanner input = new Scanner(System.in);
-
   public static void main(String[] args) {
-
     Application.launch(StartView.class, args);
+    /*
     // Main method that runs the game
     getNarrative(new File("resources/intronarrative.txt")); // initiates intro narrative
     getNarrative(new File("resources/itemselection.txt")); // grabs item selection text
@@ -30,20 +28,22 @@ public class Main {
     // TODO: need to allow for two iterations per day
     int day = 1;
     while (!isPlayerDead(player) && !isPlayerRescued(day)) {
-      System.out.println("\nDAY " + day);
+      controller.getDateAndTime().setText("Day" + day + " morning");
+      StartView.getInstance().appendText("\nDAY " + day);
       iterate(player);
       day++;
     }
+     */
   }
 
-  private static void iterate(Player player) {
-    System.out.println(player);
+  public static void iterate(Player player) {
+    StartView.getInstance().appendText(player.toString());
     getNarrative(new File("resources/iterationChoices.txt"));
     boolean validChoice = false;
     String choice = "";
     while (!validChoice) {
-      System.out.println("Enter a number from 1 to 11: ");
-      choice = input.nextLine();
+      StartView.getInstance().appendText("Enter a number from 1 to 11: ");
+      choice = StartView.getInstance().getInput();
       if (choice.equals("1")
           || choice.equals("2")
           || choice.equals("3")
@@ -60,7 +60,7 @@ public class Main {
     }
     if (choice.equals("1")) {
       if (player.getShelter().getFoodCache().isEmpty()) {
-        System.out.println("\nYou don't have any food to eat.");
+        StartView.getInstance().appendText("\nYou don't have any food to eat.");
       } else {
         Food foodToEat = null;
         int foodIdx = (int) Math.floor(Math.random() * player.getShelter().getFoodCache().size());
@@ -72,66 +72,66 @@ public class Main {
           }
           i++;
         }
-        System.out.println("\n" + player.eat(foodToEat));
+        StartView.getInstance().appendText("\n" + player.eat(foodToEat));
       }
     } else if (choice.equals("2")) {
-      System.out.println("\n" + player.drinkWater());
+      StartView.getInstance().appendText("\n" + player.drinkWater());
     } else if (choice.equals("3")) {
-      System.out.println("\n" + player.goFishing());
+      StartView.getInstance().appendText("\n" + player.goFishing());
     } else if (choice.equals("4")) {
-      System.out.println("\n" + player.goHunting());
+      StartView.getInstance().appendText("\n" + player.goHunting());
     } else if (choice.equals("5")) {
-      System.out.println("\n" + player.goTrapping());
+      StartView.getInstance().appendText("\n" + player.goTrapping());
     } else if (choice.equals("6")) {
-      System.out.println("\n" + player.goForaging());
+      StartView.getInstance().appendText("\n" + player.goForaging());
     } else if (choice.equals("7")) {
-      System.out.println("\n" + player.improveShelter());
+      StartView.getInstance().appendText("\n" + player.improveShelter());
     } else if (choice.equals("8")) {
-      System.out.println("\n" + player.gatherFirewood());
+      StartView.getInstance().appendText("\n" + player.gatherFirewood());
     } else if (choice.equals("9")) {
-      System.out.println("\n" + player.getWater());
+      StartView.getInstance().appendText("\n" + player.getWater());
     } else if (choice.equals("10")) {
-      System.out.println("\n" + player.boostMorale());
+      StartView.getInstance().appendText("\n" + player.boostMorale());
     } else {
-      System.out.println("\n" + player.rest());
+      StartView.getInstance().appendText("\n" + player.rest());
     }
   }
 
-  private static boolean isPlayerDead(Player player) {
+  public static boolean isPlayerDead(Player player) {
     boolean gameOver = false;
     if (player.getWeight() < 180.0 * 0.6) {
-      System.out.println("GAME OVER\n Your starved to death :-(");
+      StartView.getInstance().appendText("GAME OVER\n Your starved to death :-(");
       gameOver = true;
     } else if(player.getMorale() <= 0) {
-      System.out.println("GAME OVER\n Your morale is too low. You died of despair.");
+      StartView.getInstance().appendText("GAME OVER\n Your morale is too low. You died of despair.");
       gameOver = true;
     } else if(player.getHydration() <= 0) {
-      System.out.println("GAME OVER\n You died of thirst.");
+      StartView.getInstance().appendText("GAME OVER\n You died of thirst.");
     }
     return gameOver;
   }
 
-  private static boolean isPlayerRescued(int days) {
+  public static boolean isPlayerRescued(int days) {
     boolean playerIsRescued = false;
     if (days > 15) {
       playerIsRescued = ((int) Math.floor(Math.random() * 2)) != 0;
       if(playerIsRescued) {
-        System.out.println("YOU WIN!\nA search and rescue party has found you at last. No more eating bugs for you (unless you're into that sort of thing).");
+        StartView.getInstance().appendText("YOU WIN!\nA search and rescue party has found you at last. No more eating bugs for you (unless you're into that sort of thing).");
       }
     }
     return playerIsRescued;
   }
 
-  private static void getNarrative(File file) {
+  public static void getNarrative(File file) {
     try (Stream<String> stream = Files.lines(Paths.get(String.valueOf(file)))) {
       stream.forEach(System.out::println);
     } catch (IOException e) {
-      System.out.println(
+      StartView.getInstance().appendText(
           "Whoops! We seemed to have misplaced the next segment of the story. We're working on it!");
     }
   }
 
-  private static Set<Item> getInitialItems() {
+  public static Set<Item> getInitialItems() {
     // lookup map for grabbing possible items
     final Map<Integer, Item> itemMap =
         new HashMap<Integer, Item>() {
@@ -176,8 +176,8 @@ public class Main {
       String item = "";
       boolean validInput = false;
       while (!validInput) {
-        System.out.println("Enter an item number between 1 and 31: ");
-        item = input.nextLine();
+        StartView.getInstance().appendText("Enter an item number between 1 and 31: ");
+        item = StartView.getInstance().getInput();
         if (item.length() == 1) {
           char char0 = item.charAt(0);
           if (char0 == '1'
@@ -212,12 +212,12 @@ public class Main {
         }
         if(validInput && items.contains(itemMap.get(Integer.parseInt(item)))) {
           validInput = false;
-          System.out.println("You already have a " + itemMap.get(Integer.parseInt(item)));
+          StartView.getInstance().appendText("You already have a " + itemMap.get(Integer.parseInt(item)));
         }
       }
       Item itemAdded = itemMap.get(Integer.parseInt(item));
       items.add(itemAdded);
-      System.out.println(
+      StartView.getInstance().appendText(
           "You put the " + itemAdded + " in your bag. You have " + (9 - i) + " remaining.");
     }
     return items;
