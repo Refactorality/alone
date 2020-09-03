@@ -13,6 +13,8 @@ import javafx.application.Application;
 
 public class Main {
 private static FxmlController controller;
+  private static String choice;
+
   public static void main(String[] args) {
     Application.launch(StartView.class, args);
   }
@@ -25,15 +27,16 @@ private static FxmlController controller;
     String choice = "";
       choice = StartView.getInstance().getInput();
       if (choice.toLowerCase().contains("eat")
-      || (choice.toLowerCase().contains("eat food"))
-      || (choice.toLowerCase().contains("eat rabbit"))
-      || (choice.toLowerCase().contains("eat squirrel"))
-      || (choice.toLowerCase().contains("eat moose"))
-      || (choice.toLowerCase().contains("eat berries"))
-      || (choice.toLowerCase().contains("eat mushrooms"))
-      || (choice.toLowerCase().contains("eat bugs"))
-      || (choice.toLowerCase().contains("eat beatles"))
-      || (choice.toLowerCase().contains("eat fish"))) {
+      || (choice.toLowerCase().contains("food"))
+      || (choice.toLowerCase().contains("rabbit"))
+      || (choice.toLowerCase().contains("squirrel"))
+      || (choice.toLowerCase().contains("moose"))
+      || (choice.toLowerCase().contains("berries"))
+      || (choice.toLowerCase().contains("mushrooms"))
+      || (choice.toLowerCase().contains("bugs"))
+      || (choice.toLowerCase().contains("beatles"))
+      || (choice.toLowerCase().contains("fish"))
+      || (choice.toLowerCase().contains("porcupine"))) {
       if (player.getShelter().getFoodCache().isEmpty()) {
         StartView.getInstance().appendToCurActivity("\nYou don't have any food to eat.");
       } else {
@@ -47,43 +50,49 @@ private static FxmlController controller;
           }
           i++;
         }
-        controller.getDailyLog().appendText("\n" + player.eat(foodToEat) + "\n");
+        controller.getDailyLog().appendText(player.eat(foodToEat) + "\n");
       }
     } else if (choice.toLowerCase().contentEquals("drink water")){
-        controller.getDailyLog().appendText("\n" + player.drinkWater() + "\n");
+        controller.getDailyLog().appendText(player.drinkWater() + "\n");
     } else if (choice.toLowerCase().contains("fishing")
     || (choice.toLowerCase().contains("fish"))) {
-        controller.getDailyLog().appendText("\n" + player.goFishing() + "\n");
+        controller.getDailyLog().appendText(player.goFishing() + "\n");
     } else if (choice.toLowerCase().contains("hunting")
     || (choice.toLowerCase().contains("hunt"))) {
-        controller.getDailyLog().appendText("\n" + player.goHunting() + "\n");
+        controller.getDailyLog().appendText(player.goHunting() + "\n");
     } else if (choice.toLowerCase().contains("trapping")
     || (choice.toLowerCase().contains("trap"))) {
-        controller.getDailyLog().appendText("\n" + player.goTrapping() + "\n");
+        controller.getDailyLog().appendText(player.goTrapping() + "\n");
     } else if (choice.toLowerCase().contains("foraging")
     || (choice.toLowerCase().contains("forage"))) {
-        controller.getDailyLog().appendText("\n" + player.goForaging() + "\n");
+        controller.getDailyLog().appendText(player.goForaging() + "\n");
     } else if (choice.toLowerCase().contains("shelter")
-    || (choice.toLowerCase().contains("build shelter"))
-    || (choice.toLowerCase().contains("improve shelter"))) {
-        controller.getDailyLog().appendText("\n" + player.improveShelter() + "\n");
+    || (choice.toLowerCase().contains("build"))
+    || (choice.toLowerCase().contains("improve"))
+    || (choice.toLowerCase().contains("work"))) {
+        controller.getDailyLog().appendText(player.improveShelter() + "\n");
     } else if (choice.toLowerCase().contains("firewood")
     || (choice.toLowerCase().contains("fire wood"))) {
-        controller.getDailyLog().appendText("\n" + player.gatherFirewood() + "\n");
-    } else if (choice.toLowerCase().contentEquals("get water")) {
-        controller.getDailyLog().appendText("\n" + player.getWater() + "\n");
-      } else if (choice.toLowerCase().contains("morale")) {
-        controller.getDailyLog().appendText("\n" + player.boostMorale() + "\n");
-    } else if (choice.toLowerCase().contains("sleep")) {
-        controller.getDailyLog().appendText("\n" + player.rest() + "\n");
-      } else if (choice.toLowerCase().contains("help")) {
+        controller.getDailyLog().appendText(player.gatherFirewood() + "\n");
+    } else if (choice.toLowerCase().contentEquals("get water")
+    || (choice.toLowerCase().contentEquals("find water"))) {
+        controller.getDailyLog().appendText(player.getWater() + "\n");
+    } else if (choice.toLowerCase().contains("morale")) {
+        controller.getDailyLog().appendText(player.boostMorale() + "\n");
+    } else if (choice.toLowerCase().contains("sleep")
+    || (choice.toLowerCase().contains("rest"))) {
+        controller.getDailyLog().appendText(player.rest() + "\n");
+    } else if (choice.toLowerCase().contains("help")) {
         StartView.getInstance().getNarrative(new File("resources/parserHelp.txt"));
-        } else if (choice.toLowerCase().contains("build fire")
-      || (choice.toLowerCase().contains("make fire"))
-      || (choice.toLowerCase().contains("light fire"))){
-        controller.getDailyLog().appendText("\n" + player.buildFire() + "\n");
-
-      } else { System.out.println("What's that? I don't understand '" + choice + "'."); }
+    } else if (choice.toLowerCase().contains("fire")
+      || (choice.toLowerCase().contains("make"))
+      || (choice.toLowerCase().contains("light"))
+      || (choice.toLowerCase().contains("build"))){
+        controller.getDailyLog().appendText(player.buildFire() + "\n");
+    } else if (choice.toLowerCase().contains("put")
+      || (choice.toLowerCase().contains("arrow"))){
+        controller.getDailyLog().appendText(player.putItemInShelter(Item.ARROWS) + "\n");
+    } else { System.out.println("What's that? Sorry, I don't understand '" + choice + "'."); }
   }
 
   public static boolean isPlayerDead(Player player) {
@@ -113,6 +122,8 @@ private static FxmlController controller;
     }
     return playerIsRescued;
   }
+
+
 
   public static Set<Item> getInitialItems() {
     // lookup map for grabbing possible items
