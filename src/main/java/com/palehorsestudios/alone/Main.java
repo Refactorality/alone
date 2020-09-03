@@ -4,6 +4,7 @@ import com.palehorsestudios.alone.gui.FxmlController;
 import com.palehorsestudios.alone.gui.StartView;
 import com.palehorsestudios.alone.player.Player;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -12,6 +13,8 @@ import javafx.application.Application;
 
 public class Main {
 private static FxmlController controller;
+  private static String choice;
+
   public static void main(String[] args) {
     Application.launch(StartView.class, args);
   }
@@ -20,26 +23,20 @@ private static FxmlController controller;
     controller = StartView.getInstance().getController();
     controller.getPlayerStat().clear();
     controller.getPlayerStat().appendText(player.toString());
-    boolean validChoice = false;
+
     String choice = "";
-    while (!validChoice) {
-      StartView.getInstance().appendToCurActivity("Enter a number from 1 to 11: ");
       choice = StartView.getInstance().getInput();
-      if (choice.equals("1")
-          || choice.equals("2")
-          || choice.equals("3")
-          || choice.equals("4")
-          || choice.equals("5")
-          || choice.equals("6")
-          || choice.equals("7")
-          || choice.equals("8")
-          || choice.equals("9")
-          || choice.equals("10")
-          || choice.equals("11")) {
-        validChoice = true;
-      }
-    }
-    if (choice.equals("1")) {
+      if (choice.toLowerCase().contains("eat")
+      || (choice.toLowerCase().contains("food"))
+      || (choice.toLowerCase().contains("rabbit"))
+      || (choice.toLowerCase().contains("squirrel"))
+      || (choice.toLowerCase().contains("moose"))
+      || (choice.toLowerCase().contains("berries"))
+      || (choice.toLowerCase().contains("mushrooms"))
+      || (choice.toLowerCase().contains("bugs"))
+      || (choice.toLowerCase().contains("beatles"))
+      || (choice.toLowerCase().contains("fish"))
+      || (choice.toLowerCase().contains("porcupine"))) {
       if (player.getShelter().getFoodCache().isEmpty()) {
         StartView.getInstance().appendToCurActivity("\nYou don't have any food to eat.");
       } else {
@@ -53,35 +50,55 @@ private static FxmlController controller;
           }
           i++;
         }
-        controller.getDailyLog().appendText("\n" + player.eat(foodToEat) + "\n");
+        controller.getDailyLog().appendText(player.eat(foodToEat) + "\n");
       }
-    } else if (choice.equals("2")) {
-      controller.getDailyLog().appendText("\n" + player.drinkWater() + "\n");
-    } else if (choice.equals("3")) {
-      controller.getDailyLog().appendText("\n" + player.goFishing() + "\n");
-    } else if (choice.equals("4")) {
-      controller.getDailyLog().appendText("\n" + player.goHunting() + "\n");
-    } else if (choice.equals("5")) {
-      controller.getDailyLog().appendText("\n" + player.goTrapping() + "\n");
-    } else if (choice.equals("6")) {
-      controller.getDailyLog().appendText("\n" + player.goForaging() + "\n");
-    } else if (choice.equals("7")) {
-      controller.getDailyLog().appendText("\n" + player.improveShelter() + "\n");
-    } else if (choice.equals("8")) {
-      controller.getDailyLog().appendText("\n" + player.gatherFirewood() + "\n");
-    } else if (choice.equals("9")) {
-      controller.getDailyLog().appendText("\n" + player.getWater() + "\n");
-    } else if (choice.equals("10")) {
-      controller.getDailyLog().appendText("\n" + player.boostMorale() + "\n");
-    } else {
-      controller.getDailyLog().appendText("\n" + player.rest() + "\n");
-    }
+    } else if (choice.toLowerCase().contentEquals("drink water")){
+        controller.getDailyLog().appendText(player.drinkWater() + "\n");
+    } else if (choice.toLowerCase().contains("fishing")
+    || (choice.toLowerCase().contains("fish"))) {
+        controller.getDailyLog().appendText(player.goFishing() + "\n");
+    } else if (choice.toLowerCase().contains("hunting")
+    || (choice.toLowerCase().contains("hunt"))) {
+        controller.getDailyLog().appendText(player.goHunting() + "\n");
+    } else if (choice.toLowerCase().contains("trapping")
+    || (choice.toLowerCase().contains("trap"))) {
+        controller.getDailyLog().appendText(player.goTrapping() + "\n");
+    } else if (choice.toLowerCase().contains("foraging")
+    || (choice.toLowerCase().contains("forage"))) {
+        controller.getDailyLog().appendText(player.goForaging() + "\n");
+    } else if (choice.toLowerCase().contains("shelter")
+    || (choice.toLowerCase().contains("build"))
+    || (choice.toLowerCase().contains("improve"))
+    || (choice.toLowerCase().contains("work"))) {
+        controller.getDailyLog().appendText(player.improveShelter() + "\n");
+    } else if (choice.toLowerCase().contains("firewood")
+    || (choice.toLowerCase().contains("fire wood"))) {
+        controller.getDailyLog().appendText(player.gatherFirewood() + "\n");
+    } else if (choice.toLowerCase().contentEquals("get water")
+    || (choice.toLowerCase().contentEquals("find water"))) {
+        controller.getDailyLog().appendText(player.getWater() + "\n");
+    } else if (choice.toLowerCase().contains("morale")) {
+        controller.getDailyLog().appendText(player.boostMorale() + "\n");
+    } else if (choice.toLowerCase().contains("sleep")
+    || (choice.toLowerCase().contains("rest"))) {
+        controller.getDailyLog().appendText(player.rest() + "\n");
+    } else if (choice.toLowerCase().contains("help")) {
+        StartView.getInstance().getNarrative(new File("resources/parserHelp.txt"));
+    } else if (choice.toLowerCase().contains("fire")
+      || (choice.toLowerCase().contains("make"))
+      || (choice.toLowerCase().contains("light"))
+      || (choice.toLowerCase().contains("build"))){
+        controller.getDailyLog().appendText(player.buildFire() + "\n");
+    } else if (choice.toLowerCase().contains("put")
+      || (choice.toLowerCase().contains("arrow"))){
+        controller.getDailyLog().appendText(player.putItemInShelter(Item.ARROWS) + "\n");
+    } else { System.out.println("What's that? Sorry, I don't understand '" + choice + "'."); }
   }
 
   public static boolean isPlayerDead(Player player) {
     boolean gameOver = false;
     if (player.getWeight() < 180.0 * 0.6) {
-      StartView.getInstance().appendToCurActivity("GAME OVER\n Your starved to death :-(");
+      StartView.getInstance().appendToCurActivity("GAME OVER\n You starved to death :-(");
       gameOver = true;
     } else if (player.getMorale() <= 0) {
       StartView.getInstance()
@@ -100,11 +117,13 @@ private static FxmlController controller;
       if (playerIsRescued) {
         StartView.getInstance()
             .appendToCurActivity(
-                "YOU WIN!\nA search and rescue party has found you at last. No more eating bugs for you (unless you're into that sort of thing).");
+                "YOU SURVIVED!\nA search and rescue party has found you at last. No more eating bugs for you (unless you're into that sort of thing).");
       }
     }
     return playerIsRescued;
   }
+
+
 
   public static Set<Item> getInitialItems() {
     // lookup map for grabbing possible items

@@ -55,7 +55,7 @@ public class Player {
       this.shelter.setIntegrity(this.shelter.getIntegrity() + 1);
     }
     // boost shelter if Player has items to assist in shelter construction
-    if(items.contains(Item.PARACHUTE_CHORD) || items.contains(Item.AXE) || items.contains(Item.HATCHET) || items.contains(Item.SHOVEL) || items.contains(Item.KNIFE)) {
+    if(items.contains(Item.PARACHUTE_CHORD) || items.contains(Item.AXE) || items.contains(Item.HATCHET) || items.contains(Item.SHOVEL) || items.contains(Item.KNIFE) || items.contains(Item.TARP)){
       this.shelter.setIntegrity(this.shelter.getIntegrity() + 1);
     }
     // boost shelter if Player has sleeping gear
@@ -408,12 +408,12 @@ public class Player {
     double improvementAmount;
     if (successRate == SuccessRate.LOW) {
       improvementAmount = 1 + 1 * boostFactor;
-      result = "You can sleep a little better at night. You were able to better insulate the walls of your shelter.";
+      result = "Slowly but surely, you continue to improve on some semblance of a shelter.";
     } else if (successRate == SuccessRate.MEDIUM) {
       improvementAmount = 2 + 2 * boostFactor;
-      result = "It's always nice to be able to get out of the rain and snow. Your roof is in better shape now.";
+      result = "You have a new idea on a way to improve your shelter. You're confident that it will be more comfortable now.";
     } else {
-      result = "It was a lot of work, but your improved fireplace will keep you much warmer tonight";
+      result = "Your shelter is coming along nicely, with several improvements you were able to implement.";
       improvementAmount = 3 + 3 * boostFactor;
     }
     this.getShelter().setIntegrity(this.getShelter().getIntegrity() + improvementAmount);

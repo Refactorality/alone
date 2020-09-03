@@ -1,0 +1,16 @@
+Your survival depends on the quality of your choices. What will you do next?
+
+You can type actions, such as, "eat food", "drink water", or "go hunting".
+
+Try something from the list below:
+
+eat food           drink water        go fishing
+build fire         go trapping        go foraging
+build shelter      get firewood       get water
+
+If you find your morale getting low, you can boost your morale by being successful in
+your daily taskings, or by typing: "boost morale". If you selected any of the morale items
+from the ship, you could play your harmonica, write in your journal, gaze admiringly at
+your family photo, or simply get some rest.
+
+You can type "help" if you would like to display this text again.
