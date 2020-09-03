@@ -13,7 +13,6 @@ import javafx.application.Application;
 
 public class Main {
 private static FxmlController controller;
-  private static String choice;
 
   public static void main(String[] args) {
     Application.launch(StartView.class, args);
