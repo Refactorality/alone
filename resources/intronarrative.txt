@@ -1,69 +1,29 @@
-You’re a software developer for a large tech company in Seattle.
-In the midst of a project your company has been working diligently
-to implement for an incredibly important customer, a pandemic wracks
-the country and your client ends up one of many victims of the economic
-fallout created by the virus.
+You’re a software developer for a large tech company in Seattle. In the midst of a project your company has been working diligently to implement for an incredibly important customer, a pandemic wracks the country and your client ends up one of many victims of the economic fallout created by the virus.
 
-Unfortunately, your company’s economic foundation doesn’t last long without
-its linchpin client, and it isn’t long before you’re out of a job. Fortunately
-you’ve saved some cash and decide to take a foray into the world of commercial
-fishing.
+Unfortunately, your company’s economic foundation doesn’t last long without its linchpin client, and it isn’t long before you’re out of a job. Fortunately you’ve saved some cash and decide to take a foray into the world of commercial fishing.
 
-Fast forward a few months and you’re on your first outing on the Cook Inlet,
-southwest of Anchorage in the Northern Pacific Ocean. Things are going swimmingly
-and your crew has seen pot after pot of colossal Alaskan King Crab. Just as you’re
-reflecting on your good fortune, the captain calls a meeting mid-lay as your crew
-works to drop the crab pots for another run.
+Fast forward a few months and you’re on your first outing on the Cook Inlet, southwest of Anchorage in the Northern Pacific Ocean. Things are going swimmingly and your crew has seen pot after pot of colossal Alaskan King Crab. Just as you’re reflecting on your good fortune, the captain calls a meeting mid-lay as your crew works to drop the crab pots for another run.
 
-“Doesn’t look good, lads.” Captain Sullivan states plainly in a low and thick
-australian accent. “Coasties are calling for an abort.”
+“Doesn’t look good, lads.” Captain Sullivan states plainly in a low and thick Australian accent. “Coasties are calling for an abort.”
 
-A din of groans erupts from your cohort. Various curses and protests follow for a
- time until Captain Sullivan stifles them.
+A din of groans erupts from your cohort. Various curses and protests follow for a time until Captain Sullivan stifles them.
 
-“Alright, alright! Don’t get your knickers in a pinch. We’ll push on for a while yet,
-pretend we didn’t get the call. But if this storm hits us sideways, you know full
-well what’s expected of you?”
+“Alright, alright! Don’t get your knickers in a pinch. We’ll push on for a while yet, pretend we didn’t get the call. But if this storm hits us sideways, you know full well what’s expected of you?”
 
-Morale at the captain’s capitulation seemed to countermand the implications he offered.
-You and your crew get back to work.
+Morale at the captain’s capitulation seemed to countermand the implications he offered. You and your crew get back to work.
 
-Several hours pass, and your vessel prepares to loop back around for a harvest pass.
-The last vestiges of twilight cling to the expanses of the western horizon, and you
-do your best to stifle the knot in your gut as you consider the approach of the storm
-the Coast Guard warned you about to the south. The swells have grown considerably and
-you wonder if you’ll have to weather the storm.
+Several hours pass, and your vessel prepares to loop back around for a harvest pass. The last vestiges of twilight cling to the expanses of the western horizon, and you do your best to stifle the knot in your gut as you consider the approach of the storm the Coast Guard warned you about to the south. The swells have grown considerably and you wonder if you’ll have to weather the storm.
 
-“Alright lads! Batten down and get below decks! We’re waiting this one out!” Captain
-Sullivan blurts over the loudspeaker. “We’ll have to finish harvest when she’s
-calmed. Hurry it up!”
+“Alright lads! Batten down and get below decks! We’re waiting this one out!” Captain Sullivan blurts over the loudspeaker. “We’ll have to finish harvest when she’s calmed. Hurry it up!”
 
-You and your crew immediately set to work in preparation for the storm. Your crew
-is like a well oiled machine, working diligently and getting it done without delay.
+You and your crew immediately set to work in preparation for the storm. Your crew is like a well oiled machine, working diligently and getting it done without delay.
 
-By the time you finish rigging the ship to lie ahull, giant swells have begun to
-breach the deck, tearing your crewmates from their footing and sending them against
-the bulkheads in a heap of dark ocean water and limbs. You scramble to help your
-crewmates, only to lose your own footing and end up nearly drowning in a massive and
-overreaching wave. Somehow, against the fury of the storm, you and your crewmates
-make it below decks. Battered, soaked, and exhausted, you make your way to your
-quarters to try and get some rest. Captain Sullivan has first watch.
+By the time you finish rigging the ship to lie ahull, giant swells have begun to breach the deck, tearing your crew-mates from their footing and sending them against the bulkheads in a heap of dark ocean water and limbs. You scramble to help your crew-mates, only to lose your own footing and end up nearly drowning in a massive and overreaching wave. Somehow, against the fury of the storm, you and your crewmates make it below decks. Battered, soaked, and exhausted, you make your way to your quarters to try and get some rest. Captain Sullivan has first watch.
 
-You awaken mid air, flying through your bunkhouse to slam against the wall.
-The room upturns with you, and you narrowly roll out of the way of your bunk as
-it shatters against the wall next to you. You lift your head from the hard surface
-and stare in disbelief at the flickering lightbulb next to you on the floor, which
-used to be a vertical wall. You fight off an overwhelming urge to vomit, suddenly
-aware of the motion parallax - the ship lists sideways below you, and soon, there
-likely won’t be much of a barrier between you and the hungry void of the Pacific
-ocean.
+You awaken mid air, flying through your bunkhouse to slam against the wall. The room upturns with you, and you narrowly roll out of the way of your bunk as it shatters against the wall next to you. You lift your head from the hard surface and stare in disbelief at the flickering lightbulb next to you on the floor, which used to be a vertical wall. You fight off an overwhelming urge to vomit, suddenly aware of the motion parallax - the ship lists sideways below you, and soon, there likely won’t be much of a barrier between you and the hungry void of the Pacific ocean.
 
-The light flickers one last time before going dark, and the capsize alarm sounds as
-the room illuminates again with red warning lights. You likely have mere moments
-before the ship begins to sink.
+The light flickers one last time before going dark, and the capsize alarm sounds as the room illuminates again with red warning lights. You likely have mere moments before the ship begins to sink.
 
-You remember there are several items and supplies that might be useful in such a
-situation, if you were to somehow find your way to land again. You always were a
-quick thinker like that.
+You remember there are several items and supplies that might be useful in such a situation, if you were to somehow find your way to land again. You always were a quick thinker like that.
 
 You make a mental note of what might be useful. What do you want to grab?
