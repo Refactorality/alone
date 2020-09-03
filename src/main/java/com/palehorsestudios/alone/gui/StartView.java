@@ -3,6 +3,7 @@ package com.palehorsestudios.alone.gui;
 import com.palehorsestudios.alone.Choice;
 import com.palehorsestudios.alone.Main;
 import com.palehorsestudios.alone.activity.Activity;
+import com.palehorsestudios.alone.activity.DrinkWaterActivity;
 import com.palehorsestudios.alone.activity.EatActivity;
 import com.palehorsestudios.alone.player.Player;
 import javafx.application.Application;
@@ -117,47 +118,49 @@ public class StartView extends Application {
     int day = 1;
     while (!Main.isPlayerDead(player) && !Main.isPlayerRescued(day)) {
       int finalDay = day;
+      String dayHalf = "Afternoon";
       String input = StartView.getInstance().getInput();
       Choice choice = parseChoice(input, player);
       Activity activity = parseActivityChoice(choice);
       if(activity == null) {
-        
+        // display help
       }
-      if(activity == EatActivity.getInstance() || activity == DrinkWaterActivity.getInstance()) {
-
+      else if(activity == EatActivity.getInstance() || activity == DrinkWaterActivity.getInstance()) {
+        activity.act(choice);
+        activity.act(choice);
+        Platform.runLater(
+            new Runnable() {
+              @Override
+              public void run() {
+                controller.getDateAndTime().setText("Day " + finalDay + " " + nextHalfDay(dayHalf));
+                getNarrative(new File("resources/iterationChoices.txt"));
+              }
+            });
       }
-
-
-      Platform.runLater(
-          new Runnable() {
-            @Override
-            public void run() {
-              controller.getDateAndTime().setText("Day " + finalDay + " Morning");
-              getNarrative(new File("resources/iterationChoices.txt"));
-            }
-          });
-
-      Main.iterate(player);
-
-      Platform.runLater(
-          new Runnable() {
-            @Override
-            public void run() {
-              controller.getDateAndTime().setText("Day " + finalDay + " Afternoon");
-              getNarrative(new File("resources/iterationChoices.txt"));
-            }
-          });
-      Main.iterate(player);
-      day++;
+      else {
+        activity.act(choice);
+        Platform.runLater(
+            new Runnable() {
+              @Override
+              public void run() {
+                controller.getDateAndTime().setText("Day " + finalDay + " " + nextHalfDay(dayHalf));
+                getNarrative(new File("resources/iterationChoices.txt"));
+              }
+            });
+        if(dayHalf.equals("Afternoon")) {
+          day++;
+        }
+      }
     }
   }
 
   private String nextHalfDay(String currentHalf) {
     if(currentHalf.equals("Morning")) {
-      return "Afternoon";
+      currentHalf = "Afternoon";
     } else {
-      return "Morning";
+      currentHalf = "Morning";
     }
+    return currentHalf;
   }
 
   // inner input signal Class
