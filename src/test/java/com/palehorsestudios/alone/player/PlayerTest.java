@@ -58,9 +58,10 @@ public class PlayerTest {
     while(player.getShelter().getWaterTank() == 0) {
       player.getWater();
     }
+    int previousHydration = player.getHydration();
     int previousWaterTank = player.getShelter().getWaterTank();
     assertEquals("That's better. Your hydration is now at "
-        + 6
+        + (previousHydration + 1)
         + ", and you have "
         + (previousWaterTank - 1)
         + " water(s) remaining.", player.drinkWater());
@@ -101,6 +102,7 @@ public class PlayerTest {
 
   @Test
   public void testGoFishingNoItems() {
+    int previousHydration = player.getHydration();
     String fishingResult = player.goFishing();
     String[] possibleResults = new String[]{"I guess that's why they don't call it catching. You didn't catch any fish.",
         "It looks like you'll be eating fresh fish tonight! You caught one lake trout.",
@@ -118,6 +120,7 @@ public class PlayerTest {
       assertEquals(
           Optional.of(1000.0).get(), player.getShelter().getFoodCache().get(Food.FISH), 0.001);
       assertEquals(MED_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.MEDIUM.getHydrationCost(SuccessRate.LOW), player.getHydration());
     } else if (fishingResult.equals("It looks like you'll be eating fresh fish tonight! You caught one lake trout.")) {
       assertEquals(7, player.getMorale());
       assertEquals(
@@ -125,6 +128,7 @@ public class PlayerTest {
           player.getShelter().getFoodCache().get(Food.FISH),
           0.001);
       assertEquals(MED_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.MEDIUM.getHydrationCost(SuccessRate.MEDIUM), player.getHydration());
     } else {
       assertEquals(8, player.getMorale());
       assertEquals(
@@ -132,6 +136,7 @@ public class PlayerTest {
           player.getShelter().getFoodCache().get(Food.FISH),
           0.001);
       assertEquals(MED_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.MEDIUM.getHydrationCost(SuccessRate.HIGH), player.getHydration());
     }
   }
 
@@ -139,6 +144,7 @@ public class PlayerTest {
   public void testGoFishingWithItems() {
     player.getItemFromShelter(Item.FISHING_LINE);
     player.getItemFromShelter(Item.FISHING_HOOKS);
+    int previousHydration = player.getHydration();
     String fishingResult = player.goFishing();
     String[] possibleResults = new String[]{"I guess that's why they don't call it catching. You didn't catch any fish.",
         "It looks like you'll be eating fresh fish tonight! You caught one lake trout.",
@@ -156,6 +162,7 @@ public class PlayerTest {
       assertEquals(
           Optional.of(1000.0).get(), player.getShelter().getFoodCache().get(Food.FISH), 0.001);
       assertEquals(MED_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.MEDIUM.getHydrationCost(SuccessRate.LOW), player.getHydration());
     } else if (fishingResult.equals("It looks like you'll be eating fresh fish tonight! You caught one lake trout.")) {
       assertEquals(7, player.getMorale());
       assertEquals(
@@ -163,6 +170,7 @@ public class PlayerTest {
           player.getShelter().getFoodCache().get(Food.FISH),
           0.001);
       assertEquals(MED_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.MEDIUM.getHydrationCost(SuccessRate.MEDIUM), player.getHydration());
     } else {
       assertEquals(8, player.getMorale());
       assertEquals(
@@ -170,11 +178,13 @@ public class PlayerTest {
           player.getShelter().getFoodCache().get(Food.FISH),
           0.001);
       assertEquals(MED_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.MEDIUM.getHydrationCost(SuccessRate.HIGH), player.getHydration());
     }
   }
 
   @Test
   public void testGoHuntingNoItems() {
+    int previousHydration = player.getHydration();
     String huntingResult = player.goHunting();
     String[] possibleResults = new String[]{"I guess that's why they don't call it killing. You couldn't get a shot on an animal.",
         "Watch out for those quills! You killed a nice fat porcupine that should keep you fed for a while.",
@@ -193,18 +203,21 @@ public class PlayerTest {
           Optional.of(1000.0).get(), player.getShelter().getFoodCache().get(Food.PORCUPINE));
       assertEquals(Optional.of(1000.0).get(), player.getShelter().getFoodCache().get(Food.MOOSE));
       assertEquals(HIGH_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.HIGH.getHydrationCost(SuccessRate.LOW), player.getHydration());
     } else if (huntingResult.equals("Watch out for those quills! You killed a nice fat porcupine that should keep you fed for a while.")) {
       assertEquals(7, player.getMorale());
       assertEquals(
           Optional.of(1000.0 + Food.PORCUPINE.getGrams()).get(),
           player.getShelter().getFoodCache().get(Food.PORCUPINE));
       assertEquals(HIGH_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.HIGH.getHydrationCost(SuccessRate.MEDIUM), player.getHydration());
     } else {
       assertEquals(9, player.getMorale());
       assertEquals(
           Optional.of(1000.0 + Food.MOOSE.getGrams()).get(),
           player.getShelter().getFoodCache().get(Food.MOOSE));
       assertEquals(HIGH_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.HIGH.getHydrationCost(SuccessRate.HIGH), player.getHydration());
     }
   }
 
@@ -213,6 +226,7 @@ public class PlayerTest {
     player.getItemFromShelter(Item.KNIFE);
     player.getItemFromShelter(Item.BOW);
     player.getItemFromShelter(Item.ARROWS);
+    int previousHydration = player.getHydration();
     String huntingResult = player.goHunting();
     String[] possibleResults = new String[]{"I guess that's why they don't call it killing. You couldn't get a shot on an animal.",
         "Watch out for those quills! You killed a nice fat porcupine that should keep you fed for a while.",
@@ -231,6 +245,7 @@ public class PlayerTest {
           Optional.of(1000.0).get(), player.getShelter().getFoodCache().get(Food.PORCUPINE));
       assertEquals(Optional.of(1000.0).get(), player.getShelter().getFoodCache().get(Food.MOOSE));
       assertEquals(HIGH_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.HIGH.getHydrationCost(SuccessRate.LOW), player.getHydration());
     } else if (huntingResult.equals("Watch out for those quills! You killed a nice fat porcupine that should keep you fed for a while.")) {
       assertEquals(7, player.getMorale());
       assertEquals(
@@ -238,6 +253,7 @@ public class PlayerTest {
           player.getShelter().getFoodCache().get(Food.PORCUPINE),
           0.001);
       assertEquals(HIGH_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.HIGH.getHydrationCost(SuccessRate.MEDIUM), player.getHydration());
     } else {
       assertEquals(9, player.getMorale());
       assertEquals(
@@ -245,11 +261,13 @@ public class PlayerTest {
           player.getShelter().getFoodCache().get(Food.MOOSE),
           0.001);
       assertEquals(HIGH_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.HIGH.getHydrationCost(SuccessRate.HIGH), player.getHydration());
     }
   }
 
   @Test
   public void testGoTrappingNoItems() {
+    int previousHydration = player.getHydration();
     String trappingResult = player.goTrapping();
     String[] possibleResults = new String[]{"Those varmints are smarter than they look. Your traps were empty.",
         "Your patience has paid off. There were two squirrels in your traps!",
@@ -268,24 +286,28 @@ public class PlayerTest {
           Optional.of(1000.0).get(), player.getShelter().getFoodCache().get(Food.SQUIRREL));
       assertEquals(Optional.of(1000.0).get(), player.getShelter().getFoodCache().get(Food.RABBIT));
       assertEquals(MED_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.MEDIUM.getHydrationCost(SuccessRate.LOW), player.getHydration());
     } else if (trappingResult.equals("Your patience has paid off. There were two squirrels in your traps!")) {
       assertEquals(6, player.getMorale());
       assertEquals(
           Optional.of(1000.0 + (Food.SQUIRREL.getGrams() * 2)).get(),
           player.getShelter().getFoodCache().get(Food.SQUIRREL));
       assertEquals(MED_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.MEDIUM.getHydrationCost(SuccessRate.MEDIUM), player.getHydration());
     } else {
       assertEquals(7, player.getMorale());
       assertEquals(
           Optional.of(1000.0 + (Food.RABBIT.getGrams() * 3)).get(),
           player.getShelter().getFoodCache().get(Food.RABBIT));
       assertEquals(MED_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.MEDIUM.getHydrationCost(SuccessRate.HIGH), player.getHydration());
     }
   }
 
   @Test
   public void testGoTrappingWithItems() {
     player.getItemFromShelter(Item.WIRE);
+    int previousHydration = player.getHydration();
     String trappingResult = player.goTrapping();
     String[] possibleResults = new String[]{"Those varmints are smarter than they look. Your traps were empty.",
         "Your patience has paid off. There were two squirrels in your traps!",
@@ -304,6 +326,7 @@ public class PlayerTest {
           Optional.of(1000.0).get(), player.getShelter().getFoodCache().get(Food.SQUIRREL));
       assertEquals(Optional.of(1000.0).get(), player.getShelter().getFoodCache().get(Food.RABBIT));
       assertEquals(MED_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.MEDIUM.getHydrationCost(SuccessRate.LOW), player.getHydration());
     } else if (trappingResult.equals("Your patience has paid off. There were two squirrels in your traps!")) {
       assertEquals(6, player.getMorale());
       assertEquals(
@@ -312,6 +335,7 @@ public class PlayerTest {
           player.getShelter().getFoodCache().get(Food.SQUIRREL),
           0.001);
       assertEquals(MED_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.MEDIUM.getHydrationCost(SuccessRate.MEDIUM), player.getHydration());
     } else {
       assertEquals(7, player.getMorale());
       assertEquals(
@@ -320,11 +344,13 @@ public class PlayerTest {
           player.getShelter().getFoodCache().get(Food.RABBIT),
           0.001);
       assertEquals(MED_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.MEDIUM.getHydrationCost(SuccessRate.HIGH), player.getHydration());
     }
   }
 
   @Test
   public void testGoForagingNoItems() {
+    int previousHydration = player.getHydration();
     String foragingResult = player.goForaging();
     String[] possibleResults = new String[]{"Lucky for you, berries are ripe this time of year. You picked as many as you could carry.",
         "Delicious fungus! You found a log covered in edible mushrooms.",
@@ -344,6 +370,7 @@ public class PlayerTest {
           Optional.of(Food.BERRIES.getGrams() * 2).get(),
           player.getShelter().getFoodCache().get(Food.BERRIES));
       assertEquals(LOW_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.LOW.getHydrationCost(SuccessRate.LOW), player.getHydration());
     } else if (foragingResult.equals("Delicious fungus! You found a log covered in edible mushrooms.")) {
       assertEquals(6, player.getMorale());
       assertEquals(
@@ -351,6 +378,7 @@ public class PlayerTest {
           player.getShelter().getFoodCache().get(Food.MUSHROOM),
           0.001);
       assertEquals(LOW_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.LOW.getHydrationCost(SuccessRate.MEDIUM), player.getHydration());
     } else {
       assertEquals(7, player.getMorale());
       assertEquals(
@@ -358,6 +386,7 @@ public class PlayerTest {
           player.getShelter().getFoodCache().get(Food.BUG),
           0.001);
       assertEquals(LOW_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.LOW.getHydrationCost(SuccessRate.HIGH), player.getHydration());
     }
   }
 
@@ -365,6 +394,7 @@ public class PlayerTest {
   public void testGoForagingWithItems() {
     player.getItemFromShelter(Item.POT);
     player.getItemFromShelter(Item.EXTRA_BOOTS);
+    int previousHydration = player.getHydration();
     String foragingResult = player.goForaging();
     String[] possibleResults = new String[]{"Lucky for you, berries are ripe this time of year. You picked as many as you could carry.",
         "Delicious fungus! You found a log covered in edible mushrooms.",
@@ -385,6 +415,7 @@ public class PlayerTest {
           player.getShelter().getFoodCache().get(Food.BERRIES),
           0.001);
       assertEquals(LOW_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.LOW.getHydrationCost(SuccessRate.LOW), player.getHydration());
     } else if (foragingResult.equals("Delicious fungus! You found a log covered in edible mushrooms.")) {
       assertEquals(6, player.getMorale());
       assertEquals(
@@ -392,6 +423,7 @@ public class PlayerTest {
           player.getShelter().getFoodCache().get(Food.MUSHROOM),
           0.001);
       assertEquals(LOW_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.LOW.getHydrationCost(SuccessRate.MEDIUM), player.getHydration());
     } else {
       assertEquals(7, player.getMorale());
       assertEquals(
@@ -399,12 +431,14 @@ public class PlayerTest {
           player.getShelter().getFoodCache().get(Food.BUG),
           0.001);
       assertEquals(LOW_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.LOW.getHydrationCost(SuccessRate.HIGH), player.getHydration());
     }
   }
 
   @Test
   public void testImproveShelterNoItems() {
     double previousIntegrity = player.getShelter().getIntegrity();
+    int previousHydration = player.getHydration();
     String shelterImprovementResult = player.improveShelter();
     String[] possibleResults = new String[]{"You can sleep a little better at night. You were able to better "
         + "insulate the walls of your shelter.",
@@ -425,14 +459,17 @@ public class PlayerTest {
       assertEquals(4.0, player.getShelter().getIntegrity(), 0.001);
       assertEquals(6, player.getMorale());
       assertEquals(HIGH_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.HIGH.getHydrationCost(SuccessRate.LOW), player.getHydration());
     } else if (shelterIntegrityChange < 3) {
       assertEquals(5.0, player.getShelter().getIntegrity(), 0.001);
       assertEquals(6, player.getMorale());
       assertEquals(HIGH_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.HIGH.getHydrationCost(SuccessRate.MEDIUM), player.getHydration());
     } else {
       assertEquals(6.0, player.getShelter().getIntegrity(), 0.001);
       assertEquals(7, player.getMorale());
       assertEquals(HIGH_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.HIGH.getHydrationCost(SuccessRate.HIGH), player.getHydration());
     }
   }
 
@@ -440,6 +477,7 @@ public class PlayerTest {
   public void testImproveShelterWithItems() {
     player.getItemFromShelter(Item.AXE);
     double previousIntegrity = player.getShelter().getIntegrity();
+    int previousHydration = player.getHydration();
     String shelterImprovementResult = player.improveShelter();
     String[] possibleResults = new String[]{"You can sleep a little better at night. You were able to better "
         + "insulate the walls of your shelter.",
@@ -460,19 +498,23 @@ public class PlayerTest {
       assertEquals(4.1, player.getShelter().getIntegrity(), 0.001);
       assertEquals(6, player.getMorale());
       assertEquals(HIGH_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.HIGH.getHydrationCost(SuccessRate.LOW), player.getHydration());
     } else if (shelterIntegrityChange < 3) {
       assertEquals(5.2, player.getShelter().getIntegrity(), 0.001);
       assertEquals(7, player.getMorale());
       assertEquals(HIGH_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.HIGH.getHydrationCost(SuccessRate.MEDIUM), player.getHydration());
     } else {
       assertEquals(6.3, player.getShelter().getIntegrity(), 0.001);
       assertEquals(7, player.getMorale());
       assertEquals(HIGH_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.HIGH.getHydrationCost(SuccessRate.HIGH), player.getHydration());
     }
   }
 
   @Test
   public void testGatherFirewoodWithoutItems() {
+    int previousHydration = player.getHydration();
     double previousFirewood = player.getShelter().getFirewood();
     String gatherFirewoodResult = player.gatherFirewood();
     double firewoodChange = player.getShelter().getFirewood() - previousFirewood;
@@ -487,14 +529,17 @@ public class PlayerTest {
     assertTrue(validFirewoodChange);
     if (firewoodChange == 1.0 ) {
       assertEquals(MED_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.MEDIUM.getHydrationCost(SuccessRate.LOW), player.getHydration());
       assertEquals(6.0, player.getMorale(), 0.01);
     }
     else if (firewoodChange == 3.0) {
       assertEquals(MED_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.MEDIUM.getHydrationCost(SuccessRate.MEDIUM), player.getHydration());
       assertEquals(7.0, player.getMorale(), 0.01);
     }
     else if (firewoodChange == 5.0) {
       assertEquals(MED_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.MEDIUM.getHydrationCost(SuccessRate.HIGH), player.getHydration());
       assertEquals(8.0, player.getMorale(), 0.01);
     }
     assertEquals("Good Job! You just gathered " + firewoodChange
@@ -504,10 +549,10 @@ public class PlayerTest {
   @Test
   public void testGatherFirewoodWithItems() {
     player.getItemFromShelter(Item.AXE);
+    int previousHydration = player.getHydration();
     double previousFirewood = player.getShelter().getFirewood();
     String gatherFirewoodResult = player.gatherFirewood();
     double firewoodChange = player.getShelter().getFirewood() - previousFirewood;
-    logger.info("firewood change: " + firewoodChange);
     boolean validFirewoodChange = false;
     double[] validFirewoodChangeValues = new double[]{1.1, 3.3, 5.5};
     for(double validFirewoodChangeValue : validFirewoodChangeValues) {
@@ -519,14 +564,17 @@ public class PlayerTest {
     assertTrue(validFirewoodChange);
     if (firewoodChange == 1.1 ) {
       assertEquals(MED_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.MEDIUM.getHydrationCost(SuccessRate.LOW), player.getHydration());
       assertEquals(6.0, player.getMorale(), 0.01);
     }
     else if (firewoodChange == 3.3) {
       assertEquals(MED_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.MEDIUM.getHydrationCost(SuccessRate.MEDIUM), player.getHydration());
       assertEquals(7.0, player.getMorale(), 0.01);
     }
     else if (firewoodChange == 5.5) {
       assertEquals(MED_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.MEDIUM.getHydrationCost(SuccessRate.HIGH), player.getHydration());
       assertEquals(8.0, player.getMorale(), 0.01);
     }
     assertEquals("Good Job! You just gathered " + firewoodChange
@@ -536,6 +584,7 @@ public class PlayerTest {
   @Test
   public void testGetWaterWithoutItems() {
     int previousWater = player.getShelter().getWaterTank();
+    int previousHydration = player.getHydration();
     String getWaterResult = player.getWater();
     int waterChange = player.getShelter().getWaterTank() - previousWater;
     boolean validWaterChange = false;
@@ -549,14 +598,17 @@ public class PlayerTest {
     if (waterChange == 1) {
       assertEquals(6, player.getMorale());
       assertEquals(LOW_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.LOW.getHydrationCost(SuccessRate.LOW), player.getHydration());
     }
     else if (waterChange == 2) {
       assertEquals(6, player.getMorale());
       assertEquals(LOW_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.LOW.getHydrationCost(SuccessRate.MEDIUM), player.getHydration());
     }
     else {
       assertEquals(7, player.getMorale());
       assertEquals(LOW_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.LOW.getHydrationCost(SuccessRate.HIGH), player.getHydration());
     }
     assertEquals("You added " + waterChange + " in the water tank.", getWaterResult);
   }
@@ -565,6 +617,7 @@ public class PlayerTest {
   public void testGetWaterWithItems() {
     player.getItemFromShelter(Item.POT);
     int previousWater = player.getShelter().getWaterTank();
+    int previousHydration = player.getHydration();
     String getWaterResult = player.getWater();
     int waterChange = player.getShelter().getWaterTank() - previousWater;
     boolean validWaterChange = false;
@@ -578,14 +631,17 @@ public class PlayerTest {
     if (waterChange == 2) {
       assertEquals(6, player.getMorale());
       assertEquals(LOW_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.LOW.getHydrationCost(SuccessRate.LOW), player.getHydration());
     }
     else if (waterChange == 3) {
       assertEquals(6, player.getMorale());
       assertEquals(LOW_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.LOW.getHydrationCost(SuccessRate.MEDIUM), player.getHydration());
     }
     else {
       assertEquals(7, player.getMorale());
       assertEquals(LOW_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.LOW.getHydrationCost(SuccessRate.HIGH), player.getHydration());
     }
     assertEquals("You added " + waterChange + " in the water tank.", getWaterResult);
   }
@@ -593,10 +649,12 @@ public class PlayerTest {
   @Test
   public void testBoostMoraleWithoutItems() {
     int previousMorale = player.getMorale();
+    int previousHydration = player.getHydration();
     String boostMoraleResult = player.boostMorale();
     int boostedMorale = player.getMorale() - previousMorale;
     assertEquals(-1, boostedMorale);
     assertEquals(LOW_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+    assertEquals(previousHydration - ActivityLevel.LOW.getHydrationCost(SuccessRate.LOW), player.getHydration());
     assertEquals("It is cold and sad here. You wish you had something to lift your spirits. " +
           "Do you want to take some rest?", boostMoraleResult);
   }
@@ -605,6 +663,7 @@ public class PlayerTest {
   public void testBoostMoraleWitItems() {
     player.getItemFromShelter(Item.HARMONICA);
     int previousMorale = player.getMorale();
+    int previousHydration = player.getHydration();
     String boostMoraleResult = player.boostMorale();
     int boostedMorale = player.getMorale() - previousMorale;
     int[] moralePossibilities = new int[]{1, 2, 3};
@@ -617,6 +676,7 @@ public class PlayerTest {
     }
     assertTrue(validMoralePossibility);
     assertEquals(LOW_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+    assertEquals(previousHydration - ActivityLevel.LOW.getHydrationCost(SuccessRate.LOW), player.getHydration());
     if (boostedMorale == 2) {
       assertEquals("You played your harmonica for an hour. Your morale is high now!",
           boostMoraleResult);
@@ -633,15 +693,18 @@ public class PlayerTest {
 
   @Test
   public void testRest() {
+    int previousHydration = player.getHydration();
     String restResult = player.rest();
     String[] restResultWords = restResult.split(" ");
     int hours = Integer.parseInt(restResultWords[3]);
     assertEquals("You rested for " + hours + " hours and are ready for the next adventure!", restResult);
     if(hours < 4) {
       assertEquals(LOW_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.LOW.getHydrationCost(SuccessRate.LOW), player.getHydration());
       assertEquals(6.0, player.getMorale(), 0.001);
     } else {
       assertEquals(LOW_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
+      assertEquals(previousHydration - ActivityLevel.LOW.getHydrationCost(SuccessRate.MEDIUM), player.getHydration());
       assertEquals(7.0, player.getMorale(), 0.001);
     }
   }
@@ -682,5 +745,76 @@ public class PlayerTest {
     assertEquals(
         "You do not have a(n) harmonica in your shelter.",
         player.getItemFromShelter(Item.HARMONICA));
+  }
+
+  @Test
+  public void testOvernightStatusUpdateHigh() {
+    assertEquals("It was a long cold night. I have to light a fire tonight!", player.overnightStatusUpdate());
+    assertEquals(MED_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.001);
+    assertEquals(2, player.getMorale());
+    assertEquals(2, player.getHydration());
+  }
+
+  @Test
+  public void testOvernightStatusUpdateMedium() {
+    while(player.getShelter().getFirewood() <= 0) {
+      player.gatherFirewood();
+    }
+    player.getItemFromShelter(Item.FLINT_AND_STEEL);
+    while(!player.getShelter().hasFire()) {
+      player.buildFire();
+    }
+    while(player.getShelter().getWaterTank() < 5) {
+      player.getWater();
+    }
+    while(player.getHydration() < 5) {
+      player.drinkWater();
+    }
+    while(player.getMorale() > 8) {
+      player.boostMorale();
+    }
+    double previousWeight = player.getWeight();
+    int previousHydration = player.getHydration();
+    int previousMorale = player.getMorale();
+    assertEquals("It was sure nice to have a fire last night, but this shelter doesn't provide much protection from the elements.", player.overnightStatusUpdate());
+    double weightChange = player.getWeight() - previousWeight;
+    int hydrationChange = player.getHydration() - previousHydration;
+    int moraleChange = player.getMorale() - previousMorale;
+    assertEquals(-(ActivityLevel.MEDIUM.getCaloriesBurned(SuccessRate.MEDIUM) / 285.7), weightChange, 0.05);
+    assertEquals(-ActivityLevel.MEDIUM.getHydrationCost(SuccessRate.MEDIUM), hydrationChange);
+    assertEquals(1, moraleChange);
+  }
+
+  @Test
+  public void testOvernightStatusUpdateLow() {
+    while(player.getShelter().getFirewood() <= 0) {
+      player.gatherFirewood();
+    }
+    player.getItemFromShelter(Item.FLINT_AND_STEEL);
+    while(!player.getShelter().hasFire()) {
+      player.buildFire();
+    }
+    while(player.getShelter().getIntegrity() < 7) {
+      player.improveShelter();
+    }
+    while(player.getShelter().getWaterTank() < 5) {
+      player.getWater();
+    }
+    while(player.getHydration() < 5) {
+      player.drinkWater();
+    }
+    while(player.getMorale() > 7) {
+      player.boostMorale();
+    }
+    double previousWeight = player.getWeight();
+    int previousHydration = player.getHydration();
+    int previousMorale = player.getMorale();
+    assertEquals("Last night was great! I feel refreshed and ready to take on whatever comes my way today.", player.overnightStatusUpdate());
+    double weightChange = player.getWeight() - previousWeight;
+    int hydrationChange = player.getHydration() - previousHydration;
+    int moraleChange = player.getMorale() - previousMorale;
+    assertEquals(-(ActivityLevel.MEDIUM.getCaloriesBurned(SuccessRate.LOW) / 285.7), weightChange, 0.05);
+    assertEquals(-ActivityLevel.MEDIUM.getHydrationCost(SuccessRate.LOW), hydrationChange);
+    assertEquals(2, moraleChange);
   }
 }
