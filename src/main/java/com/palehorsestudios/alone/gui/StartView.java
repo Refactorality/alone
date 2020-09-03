@@ -1,6 +1,9 @@
 package com.palehorsestudios.alone.gui;
 
+import com.palehorsestudios.alone.Choice;
 import com.palehorsestudios.alone.Main;
+import com.palehorsestudios.alone.activity.Activity;
+import com.palehorsestudios.alone.activity.EatActivity;
 import com.palehorsestudios.alone.player.Player;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -15,6 +18,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+
+import static com.palehorsestudios.alone.Main.parseActivityChoice;
+import static com.palehorsestudios.alone.Main.parseChoice;
 
 public class StartView extends Application {
   private static StartView instance;
@@ -111,6 +117,17 @@ public class StartView extends Application {
     int day = 1;
     while (!Main.isPlayerDead(player) && !Main.isPlayerRescued(day)) {
       int finalDay = day;
+      String input = StartView.getInstance().getInput();
+      Choice choice = parseChoice(input, player);
+      Activity activity = parseActivityChoice(choice);
+      if(activity == null) {
+        
+      }
+      if(activity == EatActivity.getInstance() || activity == DrinkWaterActivity.getInstance()) {
+
+      }
+
+
       Platform.runLater(
           new Runnable() {
             @Override
@@ -121,6 +138,7 @@ public class StartView extends Application {
           });
 
       Main.iterate(player);
+
       Platform.runLater(
           new Runnable() {
             @Override
@@ -133,6 +151,15 @@ public class StartView extends Application {
       day++;
     }
   }
+
+  private String nextHalfDay(String currentHalf) {
+    if(currentHalf.equals("Morning")) {
+      return "Afternoon";
+    } else {
+      return "Morning";
+    }
+  }
+
   // inner input signal Class
   private InputSignal inputSignal = new InputSignal();
 

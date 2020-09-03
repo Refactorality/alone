@@ -517,15 +517,15 @@ public class Player {
     int addedWater;
     int finalAddedWater;
     if (successRate == SuccessRate.LOW) {
-      addedWater = 1 + ((int) Math.ceil(boostFactor * 10));
+      addedWater = 3 + ((int) Math.ceil(boostFactor * 10));
       updateMorale(1);
     }
     else if (successRate == SuccessRate.MEDIUM) {
-      addedWater = 2 + ((int) Math.ceil(boostFactor * 10));
+      addedWater = 4 + ((int) Math.ceil(boostFactor * 10));
       updateMorale(1);
     }
     else {
-      addedWater = 3 + ((int) Math.ceil(boostFactor * 10));
+      addedWater = 5 + ((int) Math.ceil(boostFactor * 10));
       updateMorale(2);
     }
     finalAddedWater = this.shelter.updateWater(addedWater);
