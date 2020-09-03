@@ -69,6 +69,7 @@ public class StartView extends Application {
       // Show the scene containing the root layout.
       scene = new Scene(rootLayout);
       primaryStage.setScene(scene);
+      primaryStage.setResizable(true);
       primaryStage.show();
     } catch (IOException e) {
       e.printStackTrace();
