@@ -160,13 +160,11 @@ public class StartView extends Application {
   }
 
   public void getNarrative(File file) {
-    try {
+    try(BufferedReader br = new BufferedReader(new FileReader(file))) {
       String line;
-      BufferedReader br = new BufferedReader(new FileReader(file));
       while ((line = br.readLine()) != null) {
         controller.getCurActivity().appendText(line + "\n");
       }
-      br.close();
     } catch (IOException e) {
       System.out.println(
           "Whoops! We seemed to have misplaced the next segment of the story. We're working on it!");
