@@ -95,6 +95,8 @@ private static FxmlController controller;
     } else { System.out.println("What's that? Sorry, I don't understand '" + choice + "'."); }
   }
 
+
+
   public static boolean isPlayerDead(Player player) {
     boolean gameOver = false;
     if (player.getWeight() < 180.0 * 0.6) {
