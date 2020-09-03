@@ -598,6 +598,33 @@ public class Player {
     return "You rested for " + hours + " hours and are ready for the next adventure!";
   }
 
+  public String overnightStatusUpdate() {
+    String result;
+    SuccessRate successRate;
+    double overnightPreparedness = shelter.getIntegrity();
+    if(shelter.hasFire()) {
+      overnightPreparedness += 10;
+    }
+    if(overnightPreparedness < 10) {
+      successRate = SuccessRate.HIGH;
+      result = "It was a long cold night. I have to light a fire tonight!";
+      updateMorale(-3);
+    } else if(overnightPreparedness < 17) {
+      successRate = SuccessRate.MEDIUM;
+      result = "It was sure nice to have a fire last night, but this shelter doesn't provide much protection from the elements.";
+      updateMorale(1);
+    } else {
+      successRate = SuccessRate.LOW;
+      result = "Last night was great! I feel refreshed and ready to take on whatever comes my way today.";
+      updateMorale(2);
+    }
+    double caloriesBurned = ActivityLevel.MEDIUM.getCaloriesBurned(successRate);
+    updateWeight(-caloriesBurned);
+    int hydrationCost = ActivityLevel.MEDIUM.getHydrationCost(successRate);
+    setHydration(this.getHydration() - hydrationCost);
+    return result;
+  }
+
   // private helper methods
   /**
    * Private helper method for updating Player weight depending on the calories produced or expended
