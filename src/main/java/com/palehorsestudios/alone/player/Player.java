@@ -1,11 +1,9 @@
 package com.palehorsestudios.alone.player;
 
-import com.google.common.collect.ImmutableSet;
 import com.palehorsestudios.alone.Food;
 import com.palehorsestudios.alone.Item;
 import com.palehorsestudios.alone.Shelter;
 import com.palehorsestudios.alone.activity.ActivityLevel;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -123,8 +121,8 @@ public class Player {
    *
    * @return ImmutableSet of Player items.
    */
-  public ImmutableSet<Item> getItems() {
-    return ImmutableSet.copyOf(this.items);
+  public Set<Item> getItems() {
+    return this.items;
   }
 
   /**
@@ -517,15 +515,15 @@ public class Player {
     int addedWater;
     int finalAddedWater;
     if (successRate == SuccessRate.LOW) {
-      addedWater = 1 + ((int) Math.ceil(boostFactor * 10));
+      addedWater = 3 + ((int) Math.ceil(boostFactor * 10));
       updateMorale(1);
     }
     else if (successRate == SuccessRate.MEDIUM) {
-      addedWater = 2 + ((int) Math.ceil(boostFactor * 10));
+      addedWater = 4 + ((int) Math.ceil(boostFactor * 10));
       updateMorale(1);
     }
     else {
-      addedWater = 3 + ((int) Math.ceil(boostFactor * 10));
+      addedWater = 5 + ((int) Math.ceil(boostFactor * 10));
       updateMorale(2);
     }
     finalAddedWater = this.shelter.updateWater(addedWater);
