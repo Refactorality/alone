@@ -2,18 +2,21 @@ package com.palehorsestudios.alone;
 
 import com.palehorsestudios.alone.gui.FxmlController;
 import com.palehorsestudios.alone.gui.StartView;
+import com.palehorsestudios.alone.activity.Activity;
+import com.palehorsestudios.alone.activity.EatActivity;
+import com.palehorsestudios.alone.activity.FishActivity;
 import com.palehorsestudios.alone.player.Player;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import javafx.application.Application;
 
 public class Main {
-private static FxmlController controller;
-  private static String choice;
+  private static FxmlController controller;
 
   public static void main(String[] args) {
     Application.launch(StartView.class, args);
@@ -24,8 +27,13 @@ private static FxmlController controller;
     controller.getPlayerStat().clear();
     controller.getPlayerStat().appendText(player.toString());
 
-    String choice = "";
-      choice = StartView.getInstance().getInput();
+
+
+    String input = StartView.getInstance().getInput();
+    Choice choice = parseChoice(input, player);
+    parseActivityChoice(choice).act(choice);
+
+
       if (choice.toLowerCase().contains("eat")
       || (choice.toLowerCase().contains("food"))
       || (choice.toLowerCase().contains("rabbit"))
@@ -93,6 +101,99 @@ private static FxmlController controller;
       || (choice.toLowerCase().contains("arrow"))){
         controller.getDailyLog().appendText(player.putItemInShelter(Item.ARROWS) + "\n");
     } else { System.out.println("What's that? Sorry, I don't understand '" + choice + "'."); }
+  }
+
+  public static Choice parseChoice(String input, Player player) {
+    Choice choice;
+    Map<String, String> choiceKeywordMap = new HashMap<>(){{
+      put("eat", "eat");
+      put("hunt", "hunt");
+      put("hunting", "hunt");
+      put("fish", "fish");
+      put("fishing", "fish");
+    }};
+    Map<String, Food> choiceFoodMap = new HashMap<>(){{
+      put("moose", Food.MOOSE);
+    }};
+    Map<String, Item> choiceItemMap = new HashMap<>(){{
+      put("axe", Item.AXE);
+    }};
+
+    // uses input to build a choice by looking up keywords in a choice map
+    // split up input into array of words
+    String[] inputWords = input.split(" ");
+    String keyword;
+    Food food;
+    Item item;
+    if(Optional.ofNullable(choiceKeywordMap.get(inputWords[0].toLowerCase())).isPresent()) {
+      keyword = Optional.ofNullable(choiceKeywordMap.get(inputWords[0].toLowerCase())).get();
+      if(Optional.ofNullable(choiceFoodMap.get(inputWords[1].toLowerCase())).isPresent()) {
+        food = Optional.ofNullable(choiceFoodMap.get(inputWords[1].toLowerCase())).get();
+        choice = new Choice(keyword, player, food);
+      }
+      else if(Optional.ofNullable(choiceItemMap.get(inputWords[1].toLowerCase())).isPresent()) {
+        item = Optional.ofNullable(choiceItemMap.get(inputWords[1].toLowerCase())).get();
+        choice = new Choice(keyword, player, item);
+      }
+      else {
+        choice = new Choice(keyword, player);
+      }
+    } else {
+      choice = null;
+    }
+    return choice;
+  }
+
+  public static Activity parseActivityChoice(Choice choice) {
+    Activity activity;
+    if(choice == null) {
+      // display help menu
+      activity = null;
+    } else {
+      if(choice.getKeyword().equals("get")) {
+        activity =  GetItemActivity.getInstance();
+      }
+      else if(choice.getKeyword().equals("put")) {
+        activity = PutItemActivity.getInstance();
+      }
+      else if(choice.getKeyword().equals("eat")) {
+        activity = EatActivity.getInstance();
+      }
+      else if(choice.getKeyword().equals("drink")) {
+        activity = DrinkWaterActivity.getInstance();
+      }
+      else if(choice.getKeyword().equals("fish")) {
+        activity = FishActivity.getInstance();
+      }
+      else if(choice.getKeyword().equals("hunt")) {
+        activity = HuntActivity.getInstance();
+      }
+      else if(choice.getKeyword().equals("trap")) {
+        activity = TrapActivity.getInstance();
+      }
+      else if(choice.getKeyword().equals("forage")) {
+        activity = ForageActivity.getInstance();
+      }
+      else if(choice.getKeyword().equals("improve")) {
+        activity = ImproveShelterActivity.getInstance();
+      }
+      else if(choice.getKeyword().equals("gather")) {
+        activity = GatherFirewoodActivity.getInstance();
+      }
+      else if(choice.getKeyword().equals("fire")) {
+        activity = BuildFireActivity.getInstance();
+      }
+      else if(choice.getKeyword().equals("water")) {
+        activity = GetWaterActivity.getInstance();
+      }
+      else if(choice.getKeyword().equals("morale")) {
+        activity = BoostMoraleActivity.getInstance();
+      }
+      else {
+        activity = RestActivity.getInstance();
+      }
+    }
+    return activity;
   }
 
   public static boolean isPlayerDead(Player player) {

@@ -2,6 +2,7 @@ package com.palehorsestudios.alone.player;
 
 import com.palehorsestudios.alone.Food;
 import com.palehorsestudios.alone.Item;
+import com.palehorsestudios.alone.activity.ActivityLevel;
 import org.junit.Before;
 import org.junit.Test;
 
