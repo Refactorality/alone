@@ -15,8 +15,8 @@ import com.palehorsestudios.alone.activity.ImproveShelterActivity;
 import com.palehorsestudios.alone.activity.PutItemActivity;
 import com.palehorsestudios.alone.activity.RestActivity;
 import com.palehorsestudios.alone.activity.TrapActivity;
-import com.palehorsestudios.alone.gui.FxmlController;
-import com.palehorsestudios.alone.gui.StartView;
+import com.palehorsestudios.alone.gui.GameController;
+import com.palehorsestudios.alone.gui.GameApp;
 import com.palehorsestudios.alone.player.Player;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -27,7 +27,7 @@ import javafx.application.Application;
 
 public class Main {
   public static void main(String[] args) {
-    Application.launch(StartView.class, args);
+    Application.launch(GameApp.class, args);
   }
 
   public static Choice parseChoice(String input, Player player) {
@@ -494,14 +494,14 @@ public class Main {
   public static boolean isPlayerDead(Player player) {
     boolean gameOver = false;
     if (player.getWeight() < 180.0 * 0.6) {
-      StartView.getInstance().appendToCurActivity("GAME OVER\n You starved to death :-(");
+      GameApp.getInstance().appendToCurActivity("GAME OVER\n You starved to death :-(");
       gameOver = true;
     } else if (player.getMorale() <= 0) {
-      StartView.getInstance()
+      GameApp.getInstance()
           .appendToCurActivity("GAME OVER\n Your morale is too low. You died of despair.");
       gameOver = true;
     } else if (player.getHydration() <= 0) {
-      StartView.getInstance().appendToCurActivity("GAME OVER\n You died of thirst.");
+      GameApp.getInstance().appendToCurActivity("GAME OVER\n You died of thirst.");
     }
     return gameOver;
   }
@@ -511,7 +511,7 @@ public class Main {
     if (days > 15) {
       playerIsRescued = ((int) Math.floor(Math.random() * 2)) != 0;
       if (playerIsRescued) {
-        StartView.getInstance()
+        GameApp.getInstance()
             .appendToCurActivity(
                 "YOU SURVIVED!\nA search and rescue party has found you at last. No more eating bugs for you (unless you're into that sort of thing).");
       }
@@ -566,8 +566,8 @@ public class Main {
       String item = "";
       boolean validInput = false;
       while (!validInput) {
-        StartView.getInstance().appendToCurActivity("Enter an item number between 1 and 31: ");
-        item = StartView.getInstance().getInput();
+        GameApp.getInstance().appendToCurActivity("Enter an item number between 1 and 31: ");
+        item = GameApp.getInstance().getInput();
         if (item.length() == 1) {
           char char0 = item.charAt(0);
           if (char0 == '1'
@@ -602,13 +602,13 @@ public class Main {
         }
         if (validInput && items.contains(itemMap.get(Integer.parseInt(item)))) {
           validInput = false;
-          StartView.getInstance()
+          GameApp.getInstance()
               .appendToCurActivity("You already have a " + itemMap.get(Integer.parseInt(item)));
         }
       }
       Item itemAdded = itemMap.get(Integer.parseInt(item));
       items.add(itemAdded);
-      StartView.getInstance()
+      GameApp.getInstance()
           .appendToCurActivity(
               "You put the " + itemAdded + " in your bag. You have " + (9 - i) + " remaining.");
     }
