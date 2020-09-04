@@ -5,6 +5,8 @@ import com.palehorsestudios.alone.Main;
 import com.palehorsestudios.alone.activity.Activity;
 import com.palehorsestudios.alone.activity.DrinkWaterActivity;
 import com.palehorsestudios.alone.activity.EatActivity;
+import com.palehorsestudios.alone.activity.GetItemActivity;
+import com.palehorsestudios.alone.activity.PutItemActivity;
 import com.palehorsestudios.alone.player.Player;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -25,12 +27,14 @@ import static com.palehorsestudios.alone.Main.parseChoice;
 
 public class StartView extends Application {
   private static StartView instance;
+  private static Scene scene;
   private Stage primaryStage;
   private BorderPane rootLayout;
   private FxmlController controller;
   private FXMLLoader loader;
-  private static Scene scene;
   private String currentInput;
+  // inner input signal Class
+  private InputSignal inputSignal = new InputSignal();
 
   public StartView() {
     instance = this;
@@ -38,6 +42,11 @@ public class StartView extends Application {
 
   public static StartView getInstance() {
     return instance;
+  }
+
+  // getter to get the scene
+  public static Scene getScene() {
+    return scene;
   }
 
   @Override
@@ -88,12 +97,6 @@ public class StartView extends Application {
             new Runnable() {
               @Override
               public void run() {
-                try {
-                  // TODO: maybe not a delay start, instead using a start button.
-                  Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                  e.printStackTrace();
-                }
                 executeGameLoop();
               }
             });
@@ -118,36 +121,43 @@ public class StartView extends Application {
     int day = 1;
     while (!Main.isPlayerDead(player) && !Main.isPlayerRescued(day)) {
       int finalDay = day;
+      controller.getPlayerStat().clear();
+      controller.getPlayerStat().appendText(player.toString());
       String dayHalf = "Afternoon";
       String input = StartView.getInstance().getInput();
       Choice choice = parseChoice(input, player);
       Activity activity = parseActivityChoice(choice);
-      if(activity == null) {
-        // display help
-      }
-      else if(activity == EatActivity.getInstance() || activity == DrinkWaterActivity.getInstance()) {
-        activity.act(choice);
-        activity.act(choice);
+      if (activity == null) {
         Platform.runLater(
             new Runnable() {
               @Override
               public void run() {
-                controller.getDateAndTime().setText("Day " + finalDay + " " + nextHalfDay(dayHalf));
-                getNarrative(new File("resources/iterationChoices.txt"));
+                getNarrative(new File("resources/parserHelp.txt"));
               }
             });
-      }
-      else {
-        activity.act(choice);
+      } else if (activity == EatActivity.getInstance()
+          || activity == DrinkWaterActivity.getInstance()
+          || activity == GetItemActivity.getInstance()
+          || activity == PutItemActivity.getInstance()) {
+        String activityResult = activity.act(choice);
         Platform.runLater(
             new Runnable() {
               @Override
               public void run() {
-                controller.getDateAndTime().setText("Day " + finalDay + " " + nextHalfDay(dayHalf));
-                getNarrative(new File("resources/iterationChoices.txt"));
+                controller.getDailyLog().appendText(activityResult + "\n");
               }
             });
-        if(dayHalf.equals("Afternoon")) {
+      } else {
+        String activityResult = activity.act(choice);
+        Platform.runLater(
+            new Runnable() {
+              @Override
+              public void run() {
+                controller.getDailyLog().appendText(activityResult + "\n");
+                controller.getDateAndTime().setText("Day " + finalDay + " " + nextHalfDay(dayHalf));
+              }
+            });
+        if (dayHalf.equals("Afternoon")) {
           day++;
         }
       }
@@ -155,18 +165,13 @@ public class StartView extends Application {
   }
 
   private String nextHalfDay(String currentHalf) {
-    if(currentHalf.equals("Morning")) {
+    if (currentHalf.equals("Morning")) {
       currentHalf = "Afternoon";
     } else {
       currentHalf = "Morning";
     }
     return currentHalf;
   }
-
-  // inner input signal Class
-  private InputSignal inputSignal = new InputSignal();
-
-  public class InputSignal {}
 
   public void waitInput() {
     synchronized (inputSignal) {
@@ -190,7 +195,7 @@ public class StartView extends Application {
   }
 
   public void getNarrative(File file) {
-    try(BufferedReader br = new BufferedReader(new FileReader(file))) {
+    try (BufferedReader br = new BufferedReader(new FileReader(file))) {
       String line;
       while ((line = br.readLine()) != null) {
         controller.getCurActivity().appendText(line + "\n");
@@ -221,8 +226,6 @@ public class StartView extends Application {
   public FxmlController getController() {
     return controller;
   }
-  // getter to get the scene
-  public static Scene getScene() {
-    return scene;
-  }
+
+  public class InputSignal {}
 }
