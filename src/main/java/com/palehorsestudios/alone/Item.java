@@ -21,7 +21,6 @@ public enum Item {
   FLASHLIGHT("flashlight"),
   BATTERIES("batteries"),
   WIRE("18 gauge wire"),
-  WATERPROOF_JACKET("waterproof jacket"),
   POT("cooking pot"),
   AXE("axe"),
   HATCHET("hatchet"),

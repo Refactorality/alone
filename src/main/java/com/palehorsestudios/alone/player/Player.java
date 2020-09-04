@@ -1,11 +1,9 @@
 package com.palehorsestudios.alone.player;
 
-import com.google.common.collect.ImmutableSet;
 import com.palehorsestudios.alone.Food;
 import com.palehorsestudios.alone.Item;
 import com.palehorsestudios.alone.Shelter;
 import com.palehorsestudios.alone.activity.ActivityLevel;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -123,8 +121,8 @@ public class Player {
    *
    * @return ImmutableSet of Player items.
    */
-  public ImmutableSet<Item> getItems() {
-    return ImmutableSet.copyOf(this.items);
+  public Set<Item> getItems() {
+    return this.items;
   }
 
   /**
