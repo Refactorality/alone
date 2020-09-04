@@ -79,7 +79,7 @@
                               <Label text="Weight:" GridPane.rowIndex="1" />
                               <Label text="Hydration:" GridPane.rowIndex="2" />
                               <Label prefHeight="17.0" prefWidth="76.0" text="Morale:" GridPane.rowIndex="3" />
-                              <Label text="Items in Shelter:" GridPane.rowIndex="5" />
+                              <Label text="Shelter:" GridPane.rowIndex="5" />
                               <Label text="Integrity:" GridPane.rowIndex="6" />
                               <Label text="Firewood:" GridPane.rowIndex="7" />
                               <Label text="Water:" GridPane.rowIndex="8" />
@@ -92,7 +92,7 @@
                               <TextField fx:id="water" GridPane.columnIndex="1" GridPane.rowIndex="8" />
                               <ListView fx:id="foodCache" prefHeight="0.0" prefWidth="0.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
                               <ListView fx:id="equipment" prefHeight="0.0" prefWidth="0.0" GridPane.columnIndex="1" GridPane.rowIndex="10" />
-                              <TextField GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                              <TextField fx:id="firewood" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                               <Label text="Items Carrying:" GridPane.rowIndex="4" />
                               <ListView fx:id="carriedItems" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                            </children>

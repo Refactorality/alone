@@ -22,6 +22,12 @@ public class Main {
     controller.getWeight().setText(String.valueOf(player.getWeight()));
     controller.getHydration().setText(String.valueOf(player.getHydration()));
     controller.getMorale().setText(String.valueOf(player.getMorale()));
+    //controller.getCarriedItems();
+    controller.getIntegrity().setText(String.valueOf((player.getShelter().getIntegrity())));
+    controller.getFirewood().setText(String.valueOf((player.getShelter().getFirewood())));
+    controller.getWater().setText(String.valueOf((player.getShelter().getWaterTank())));;
+    controller.getFoodCache().getItems().add(player.getShelter().getFoodCache());
+    //controller.getEquipment();
     String choice = "";
       choice = GameApp.getInstance().getInput();
       if (choice.toLowerCase().contains("eat")
