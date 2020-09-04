@@ -1,7 +1,7 @@
 package com.palehorsestudios.alone;
 
-import com.palehorsestudios.alone.gui.FxmlController;
-import com.palehorsestudios.alone.gui.StartView;
+import com.palehorsestudios.alone.gui.GameController;
+import com.palehorsestudios.alone.gui.GameApp;
 import com.palehorsestudios.alone.player.Player;
 
 import java.io.File;
@@ -12,20 +12,18 @@ import java.util.Set;
 import javafx.application.Application;
 
 public class Main {
-private static FxmlController controller;
-  private static String choice;
 
   public static void main(String[] args) {
-    Application.launch(StartView.class, args);
+    Application.launch(GameApp.class, args);
   }
 
   public static void iterate(Player player) {
-    controller = StartView.getInstance().getController();
-    controller.getPlayerStat().clear();
-    controller.getPlayerStat().appendText(player.toString());
-
+    GameController controller = GameApp.getInstance().getGameController();
+    controller.getWeight().setText(String.valueOf(player.getWeight()));
+    controller.getHydration().setText(String.valueOf(player.getHydration()));
+    controller.getMorale().setText(String.valueOf(player.getMorale()));
     String choice = "";
-      choice = StartView.getInstance().getInput();
+      choice = GameApp.getInstance().getInput();
       if (choice.toLowerCase().contains("eat")
       || (choice.toLowerCase().contains("food"))
       || (choice.toLowerCase().contains("rabbit"))
@@ -38,7 +36,7 @@ private static FxmlController controller;
       || (choice.toLowerCase().contains("fish"))
       || (choice.toLowerCase().contains("porcupine"))) {
       if (player.getShelter().getFoodCache().isEmpty()) {
-        StartView.getInstance().appendToCurActivity("\nYou don't have any food to eat.");
+        GameApp.getInstance().appendToCurActivity("\nYou don't have any food to eat.");
       } else {
         Food foodToEat = null;
         int foodIdx = (int) Math.floor(Math.random() * player.getShelter().getFoodCache().size());
@@ -83,7 +81,7 @@ private static FxmlController controller;
     || (choice.toLowerCase().contains("rest"))) {
         controller.getDailyLog().appendText(player.rest() + "\n");
     } else if (choice.toLowerCase().contains("help")) {
-        StartView.getInstance().getNarrative(new File("resources/parserHelp.txt"));
+        GameApp.getInstance().getNarrative(new File("resources/parserHelp.txt"));
     } else if (choice.toLowerCase().contains("fire")
       || (choice.toLowerCase().contains("make"))
       || (choice.toLowerCase().contains("light"))
@@ -98,14 +96,14 @@ private static FxmlController controller;
   public static boolean isPlayerDead(Player player) {
     boolean gameOver = false;
     if (player.getWeight() < 180.0 * 0.6) {
-      StartView.getInstance().appendToCurActivity("GAME OVER\n You starved to death :-(");
+      GameApp.getInstance().appendToCurActivity("GAME OVER\n You starved to death :-(");
       gameOver = true;
     } else if (player.getMorale() <= 0) {
-      StartView.getInstance()
+      GameApp.getInstance()
           .appendToCurActivity("GAME OVER\n Your morale is too low. You died of despair.");
       gameOver = true;
     } else if (player.getHydration() <= 0) {
-      StartView.getInstance().appendToCurActivity("GAME OVER\n You died of thirst.");
+      GameApp.getInstance().appendToCurActivity("GAME OVER\n You died of thirst.");
     }
     return gameOver;
   }
@@ -115,7 +113,7 @@ private static FxmlController controller;
     if (days > 15) {
       playerIsRescued = ((int) Math.floor(Math.random() * 2)) != 0;
       if (playerIsRescued) {
-        StartView.getInstance()
+        GameApp.getInstance()
             .appendToCurActivity(
                 "YOU SURVIVED!\nA search and rescue party has found you at last. No more eating bugs for you (unless you're into that sort of thing).");
       }
@@ -170,8 +168,8 @@ private static FxmlController controller;
       String item = "";
       boolean validInput = false;
       while (!validInput) {
-        StartView.getInstance().appendToCurActivity("Enter an item number between 1 and 31: ");
-        item = StartView.getInstance().getInput();
+        GameApp.getInstance().appendToCurActivity("Enter an item number between 1 and 31: ");
+        item = GameApp.getInstance().getInput();
         if (item.length() == 1) {
           char char0 = item.charAt(0);
           if (char0 == '1'
@@ -206,13 +204,13 @@ private static FxmlController controller;
         }
         if (validInput && items.contains(itemMap.get(Integer.parseInt(item)))) {
           validInput = false;
-          StartView.getInstance()
+          GameApp.getInstance()
               .appendToCurActivity("You already have a " + itemMap.get(Integer.parseInt(item)));
         }
       }
       Item itemAdded = itemMap.get(Integer.parseInt(item));
       items.add(itemAdded);
-      StartView.getInstance()
+      GameApp.getInstance()
           .appendToCurActivity(
               "You put the " + itemAdded + " in your bag. You have " + (9 - i) + " remaining.");
     }
