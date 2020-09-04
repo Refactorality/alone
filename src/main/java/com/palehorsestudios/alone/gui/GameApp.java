@@ -1,6 +1,12 @@
 package com.palehorsestudios.alone.gui;
 
+import com.palehorsestudios.alone.Choice;
 import com.palehorsestudios.alone.Main;
+import com.palehorsestudios.alone.activity.Activity;
+import com.palehorsestudios.alone.activity.DrinkWaterActivity;
+import com.palehorsestudios.alone.activity.EatActivity;
+import com.palehorsestudios.alone.activity.GetItemActivity;
+import com.palehorsestudios.alone.activity.PutItemActivity;
 import com.palehorsestudios.alone.player.Player;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -15,6 +21,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+
+import static com.palehorsestudios.alone.Main.parseActivityChoice;
+import static com.palehorsestudios.alone.Main.parseChoice;
 
 public class GameApp extends Application {
   private GameController gameController;
@@ -120,27 +129,53 @@ public class GameApp extends Application {
       });
     // TODO: need to allow for two iterations per day
     int day = 1;
+    gameController.getDateAndTime().setText("Day " + day + " Morning");
     while (!Main.isPlayerDead(player) && !Main.isPlayerRescued(day)) {
       int finalDay = day;
+      String dayHalf = "Afternoon";
 
-      Platform.runLater(
-        new Runnable() {
-          @Override
-          public void run() {
-            gameController.getDateAndTime().setText("Day " + finalDay + " Morning");
-          }
-        });
+      gameController.getWeight().setText(String.valueOf(player.getWeight()));
+      gameController.getHydration().setText(String.valueOf(player.getHydration()));
+      gameController.getMorale().setText(String.valueOf(player.getMorale()));
 
-      Main.iterate(player);
-      Platform.runLater(
-        new Runnable() {
-          @Override
-          public void run() {
-            gameController.getDateAndTime().setText("Day " + finalDay + " Afternoon");
-          }
-        });
-      Main.iterate(player);
-      day++;
+      String input = GameApp.getInstance().getInput();
+      Choice choice = parseChoice(input, player);
+      Activity activity = parseActivityChoice(choice);
+
+      if (activity == null) {
+        Platform.runLater(
+            new Runnable() {
+              @Override
+              public void run() {
+                getNarrative(new File("resources/parserHelp.txt"));
+              }
+            });
+      } else if (activity == EatActivity.getInstance()
+          || activity == DrinkWaterActivity.getInstance()
+          || activity == GetItemActivity.getInstance()
+          || activity == PutItemActivity.getInstance()) {
+        String activityResult = activity.act(choice);
+        Platform.runLater(
+            new Runnable() {
+              @Override
+              public void run() {
+                gameController.getDailyLog().appendText("Day " + finalDay + " " + dayHalf + ": " + activityResult + "\n");
+              }
+            });
+      } else {
+        String activityResult = activity.act(choice);
+        Platform.runLater(
+            new Runnable() {
+              @Override
+              public void run() {
+                gameController.getDailyLog().appendText("Day " + finalDay + " " + nextHalfDay(dayHalf) + ": " + activityResult + "\n");
+                gameController.getDateAndTime().setText("Day " + finalDay + " " + dayHalf);
+              }
+            });
+        if (dayHalf.equals("Afternoon")) {
+          day++;
+        }
+      }
     }
   }
 
