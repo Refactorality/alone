@@ -1,6 +1,14 @@
 package com.palehorsestudios.alone.gui;
 
+import com.palehorsestudios.alone.Choice;
+import com.palehorsestudios.alone.Food;
+import com.palehorsestudios.alone.Item;
 import com.palehorsestudios.alone.Main;
+import com.palehorsestudios.alone.activity.Activity;
+import com.palehorsestudios.alone.activity.DrinkWaterActivity;
+import com.palehorsestudios.alone.activity.EatActivity;
+import com.palehorsestudios.alone.activity.GetItemActivity;
+import com.palehorsestudios.alone.activity.PutItemActivity;
 import com.palehorsestudios.alone.player.Player;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -15,12 +23,16 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Map;
+
+import static com.palehorsestudios.alone.Main.parseActivityChoice;
+import static com.palehorsestudios.alone.Main.parseChoice;
 
 public class GameApp extends Application {
   private GameController gameController;
   private IntroController introController;
   private String currentInput;
-
+  private Player player;
   private static GameApp instance;
 
   public GameApp() {
@@ -33,7 +45,7 @@ public class GameApp extends Application {
 
   @Override
   public void start(Stage primaryStage) throws Exception {
-    // Load root layout from fxml file.
+    // Load intro layout from fxml file.
     FXMLLoader introLoader = new FXMLLoader();
     introController = new IntroController();
     introLoader.setController(introController);
@@ -47,60 +59,60 @@ public class GameApp extends Application {
 
     // config event listener
     EventHandler<ActionEvent> startGameHandler =
-      new EventHandler<ActionEvent>() {
-        @Override
-        public void handle(ActionEvent event) {
-          FXMLLoader gameViewLoader = new FXMLLoader();
-          try {
-            gameController = new GameController();
-            gameViewLoader.setController(gameController);
-            gameViewLoader.setLocation(GameApp.class.getResource("game.fxml"));
-            VBox gameLayout = gameViewLoader.load();
-            // Show the scene containing the root layout.
-            Scene gameScene = new Scene(gameLayout);
-            Stage gameStage = new Stage();
-            gameStage.setScene(gameScene);
-            getNarrative(new File("resources/itemselection.txt"));
-            // hide intro scene
-            introScene.getWindow().hide();
-            // show game scene
-            gameStage.show();
-            // start the background game thread
-            runGameThread();
-          } catch (IOException e) {
-            e.printStackTrace();
+        new EventHandler<ActionEvent>() {
+          @Override
+          public void handle(ActionEvent event) {
+            FXMLLoader gameViewLoader = new FXMLLoader();
+            try {
+              gameController = new GameController();
+              gameViewLoader.setController(gameController);
+              gameViewLoader.setLocation(GameApp.class.getResource("game.fxml"));
+              VBox gameLayout = gameViewLoader.load();
+              // Show the scene containing the root layout.
+              Scene gameScene = new Scene(gameLayout);
+              Stage gameStage = new Stage();
+              gameStage.setScene(gameScene);
+              getNarrative(new File("resources/itemselection.txt"));
+              // hide intro scene
+              introScene.getWindow().hide();
+              // show game scene
+              gameStage.show();
+              // start the background game thread
+              runGameThread();
+            } catch (IOException e) {
+              e.printStackTrace();
+            }
           }
-        }
-      };
+        };
     introController.getStartGame().setOnAction(startGameHandler);
   }
 
   private void runGameThread() {
     EventHandler<ActionEvent> eventHandler =
-      new EventHandler<ActionEvent>() {
-        @Override
-        public void handle(ActionEvent event) {
-          currentInput = gameController.getPlayerInput().getText();
-          gameController.getPlayerInput().clear();
-          notifyInput();
-        }
-      };
+        new EventHandler<ActionEvent>() {
+          @Override
+          public void handle(ActionEvent event) {
+            currentInput = gameController.getPlayerInput().getText();
+            gameController.getPlayerInput().clear();
+            notifyInput();
+          }
+        };
 
     gameController.getEnterButton().setOnAction(eventHandler);
     Thread gameLoop =
-      new Thread(
-        new Runnable() {
-          @Override
-          public void run() {
-            try {
-              // TODO: maybe not a delay start, instead using a start button.
-              Thread.sleep(3000);
-            } catch (InterruptedException e) {
-              e.printStackTrace();
-            }
-            executeGameLoop();
-          }
-        });
+        new Thread(
+            new Runnable() {
+              @Override
+              public void run() {
+                try {
+                  // TODO: maybe not a delay start, instead using a start button.
+                  Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                  e.printStackTrace();
+                }
+                executeGameLoop();
+              }
+            });
 
     // don't let thread prevent JVM shutdown
     gameLoop.setDaemon(true);
@@ -109,48 +121,164 @@ public class GameApp extends Application {
 
   // game thread logic, so we should also wrap the UI access calls
   private void executeGameLoop() {
-    Player player = new Player(Main.getInitialItems());
+    player = new Player(Main.getInitialItems());
     // must run in ui thread
     Platform.runLater(
-      new Runnable() {
-        @Override
-        public void run() {
-          getNarrative(new File("resources/parserHelp.txt"));
-        }
-      });
+        new Runnable() {
+          @Override
+          public void run() {
+            getNarrative(new File("resources/parserHelp.txt"));
+          }
+        });
     // TODO: need to allow for two iterations per day
     int day = 1;
+    gameController.getDateAndTime().setText("Day " + day + " Morning");
+    if (Main.isPlayerDead(player) || Main.isPlayerRescued(day)) {
+      GameApp.getInstance().getGameController().getPlayerInput().setVisible(false);
+      GameApp.getInstance().getGameController().getEnterButton().setVisible(false);
+    }
     while (!Main.isPlayerDead(player) && !Main.isPlayerRescued(day)) {
       int finalDay = day;
+      String dayHalf = "Afternoon";
+      // update the UI fields
+      updateUI();
+      String input = GameApp.getInstance().getInput();
+      Choice choice = parseChoice(input, player);
+      Activity activity = parseActivityChoice(choice);
 
-      Platform.runLater(
-        new Runnable() {
-          @Override
-          public void run() {
-            gameController.getDateAndTime().setText("Day " + finalDay + " Morning");
-          }
-        });
-
-      Main.iterate(player);
-      Platform.runLater(
-        new Runnable() {
-          @Override
-          public void run() {
-            gameController.getDateAndTime().setText("Day " + finalDay + " Afternoon");
-          }
-        });
-      Main.iterate(player);
-      day++;
+      if (activity == null) {
+        Platform.runLater(
+            new Runnable() {
+              @Override
+              public void run() {
+                getNarrative(new File("resources/parserHelp.txt"));
+              }
+            });
+      } else if (activity == EatActivity.getInstance()
+          || activity == DrinkWaterActivity.getInstance()
+          || activity == GetItemActivity.getInstance()
+          || activity == PutItemActivity.getInstance()) {
+        String activityResult = activity.act(choice);
+        Platform.runLater(
+            new Runnable() {
+              @Override
+              public void run() {
+                gameController
+                    .getDailyLog()
+                    .appendText("Day " + finalDay + " " + dayHalf + ": " + activityResult + "\n");
+              }
+            });
+      } else {
+        String activityResult = activity.act(choice);
+        Platform.runLater(
+            new Runnable() {
+              @Override
+              public void run() {
+                gameController
+                    .getDailyLog()
+                    .appendText(
+                        "Day "
+                            + finalDay
+                            + " "
+                            + nextHalfDay(dayHalf)
+                            + ": "
+                            + activityResult
+                            + "\n");
+                gameController.getDateAndTime().setText("Day " + finalDay + " " + dayHalf);
+              }
+            });
+        if (dayHalf.equals("Afternoon")) {
+          day++;
+        }
+      }
     }
   }
 
   private String nextHalfDay(String currentHalf) {
-    if(currentHalf.equals("Morning")) {
+    if (currentHalf.equals("Morning")) {
       currentHalf = "Afternoon";
     } else {
       currentHalf = "Morning";
     }
     return currentHalf;
+  }
+
+  // update UI status
+
+  public void updateUI() {
+    // update player status
+    gameController.getWeight().setText(String.valueOf(player.getWeight()));
+    gameController.getHydration().setText(String.valueOf(player.getHydration()));
+    gameController.getMorale().setText(String.valueOf(player.getMorale()));
+    // clear item in the list view
+    gameController.getCarriedItems().getItems().clear();
+    // add new carried items to items list view
+    for (Item item : player.getItems()) {
+      gameController.getCarriedItems().getItems().add(item);
+    }
+    // update shelter status
+    gameController.getIntegrity().setText(String.valueOf((player.getShelter().getIntegrity())));
+    gameController.getFirewood().setText(String.valueOf((player.getShelter().getFirewood())));
+    gameController.getWater().setText(String.valueOf((player.getShelter().getWaterTank())));
+    ;
+    // clear food cache list view
+    Platform.runLater(
+        new Runnable() {
+          @Override
+          public void run() {
+            try {
+              gameController.getFoodCache().getItems().clear();
+            } catch (Exception e) {
+              e.printStackTrace();
+            }
+          }
+        });
+    // add new food cache to food list view
+    Platform.runLater(
+        new Runnable() {
+          @Override
+          public void run() {
+            try {
+              for (Map.Entry<Food, Double> entry : player.getShelter().getFoodCache().entrySet()) {
+                gameController
+                    .getFoodCache()
+                    .getItems()
+                    .add(entry.getValue() + " " + entry.getKey());
+              }
+            } catch (Exception e) {
+              e.printStackTrace();
+            }
+          }
+        });
+    // clear equipment list view
+    Platform.runLater(
+        new Runnable() {
+          @Override
+          public void run() {
+            try {
+              gameController.getEquipment().getItems().clear();
+            } catch (Exception e) {
+              e.printStackTrace();
+            }
+          }
+        });
+    // add new equipment to equipment list view
+    Platform.runLater(
+        new Runnable() {
+          @Override
+          public void run() {
+            try {
+              for (Map.Entry<Item, Integer> entry : player.getShelter().getEquipment().entrySet()) {
+                gameController
+                    .getEquipment()
+                    .getItems()
+                    .add(entry.getValue() + " " + entry.getKey());
+              }
+            } catch (Exception e) {
+              e.printStackTrace();
+            }
+          }
+        });
   }
 
   // inner input signal Class
@@ -181,7 +309,7 @@ public class GameApp extends Application {
   }
 
   public void getNarrative(File file) {
-    try(BufferedReader br = new BufferedReader(new FileReader(file))) {
+    try (BufferedReader br = new BufferedReader(new FileReader(file))) {
       String line;
       while ((line = br.readLine()) != null) {
         gameController.getCurActivity().appendText(line + "\n");
@@ -194,7 +322,7 @@ public class GameApp extends Application {
   }
 
   public void getIntro(File file) {
-    try(BufferedReader br = new BufferedReader(new FileReader(file))) {
+    try (BufferedReader br = new BufferedReader(new FileReader(file))) {
       String line;
       while ((line = br.readLine()) != null) {
         introController.getIntro().appendText(line + "\n");
@@ -209,16 +337,16 @@ public class GameApp extends Application {
   // call from game logic thread to update the UI for current activity
   public void appendToCurActivity(String txt) {
     Platform.runLater(
-      new Runnable() {
-        @Override
-        public void run() {
-          try {
-            gameController.getCurActivity().appendText(txt + "\n");
-          } catch (Exception e) {
-            e.printStackTrace();
+        new Runnable() {
+          @Override
+          public void run() {
+            try {
+              gameController.getCurActivity().appendText(txt + "\n");
+            } catch (Exception e) {
+              e.printStackTrace();
+            }
           }
-        }
-      });
+        });
   }
 
   public GameController getGameController() {
