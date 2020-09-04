@@ -17,11 +17,11 @@ public class PutItemActivity extends Activity{
   @Override
   public String act(Choice choice) {
     String result;
-    if (choice.getPlayer().getItems().remove(items))) {
-      choice.getPlayer().getShelter().addEquipment(item, 1);
-      result = "One " + item + " moved to your shelter.";
+    if (choice.getPlayer().getItems().remove(choice.getItem())) {
+      choice.getPlayer().getShelter().addEquipment(choice.getItem(), 1);
+      result = "One " + choice.getItem() + " moved to your shelter.";
     } else {
-      result = "You do not have a(n) " + item + " on you.";
+      result = "You do not have a(n) " + choice.getItem() + " on you.";
     }
     return result;
   }

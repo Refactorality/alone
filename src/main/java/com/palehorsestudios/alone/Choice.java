@@ -1,5 +1,6 @@
 package com.palehorsestudios.alone;
 
+import com.google.common.base.Objects;
 import com.palehorsestudios.alone.Food;
 import com.palehorsestudios.alone.Item;
 import com.palehorsestudios.alone.player.Player;
@@ -39,5 +40,31 @@ public class Choice {
 
   public Food getFood() {
     return food;
+  }
+
+  @Override
+  public String toString() {
+    return "Choice{" +
+        "keyword='" + keyword + '\'' +
+        ", item=" + item +
+        ", food=" + food +
+        ", player=" + player +
+        '}';
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Choice choice = (Choice) o;
+    return Objects.equal(keyword, choice.keyword) &&
+        item == choice.item &&
+        food == choice.food &&
+        Objects.equal(player, choice.player);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(keyword, item, food, player);
   }
 }

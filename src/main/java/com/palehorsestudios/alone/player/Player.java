@@ -1,5 +1,6 @@
 package com.palehorsestudios.alone.player;
 
+import com.google.common.base.Objects;
 import com.palehorsestudios.alone.Food;
 import com.palehorsestudios.alone.Item;
 import com.palehorsestudios.alone.Shelter;
@@ -726,5 +727,22 @@ public class Player {
       sb.append("\n  ").append(item).append(": ").append(itemCount);
     }
     return sb.toString();
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Player player = (Player) o;
+    return hydration == player.hydration &&
+        Double.compare(player.weight, weight) == 0 &&
+        morale == player.morale &&
+        Objects.equal(items, player.items) &&
+        Objects.equal(shelter, player.shelter);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(items, shelter, hydration, weight, morale);
   }
 }

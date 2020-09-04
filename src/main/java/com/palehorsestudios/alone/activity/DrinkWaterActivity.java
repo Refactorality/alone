@@ -1,4 +1,5 @@
 package com.palehorsestudios.alone.activity;
+
 import com.palehorsestudios.alone.Choice;
 
 public class DrinkWaterActivity extends Activity{
@@ -28,6 +29,5 @@ public class DrinkWaterActivity extends Activity{
       result = "There isn't a drop left in your water tank. You should go fetch some water soon before you die of thirst!";
     }
     return result;
-
   }
 }
