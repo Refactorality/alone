@@ -141,6 +141,7 @@ public class Main {
       put("get pistol", "get");
       put("get gun", "get");
       put("get ammunition", "get");
+      put("get cartridges", "get");
       put("get ammo", "get");
       put("get rounds", "get");
       put("get shovel", "get");

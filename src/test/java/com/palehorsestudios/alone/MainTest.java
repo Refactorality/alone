@@ -157,6 +157,22 @@ public class MainTest {
     assertEquals(new Choice("get", player, Item.POT), Main.parseChoice("get cooking pot", player));
     assertEquals(new Choice("get", player, Item.AXE), Main.parseChoice("get axe", player));
     assertEquals(new Choice("get", player, Item.HATCHET), Main.parseChoice("get hatchet", player));
+    assertEquals(new Choice("get", player, Item.IODINE_TABLETS), Main.parseChoice("get iodine tablets", player));
+    assertEquals(new Choice("get", player, Item.IODINE_TABLETS), Main.parseChoice("get iodine", player));
+    assertEquals(new Choice("get", player, Item.IODINE_TABLETS), Main.parseChoice("get tablets", player));
+    assertEquals(new Choice("get", player, Item.PISTOL), Main.parseChoice("get pistol", player));
+    assertEquals(new Choice("get", player, Item.PISTOL), Main.parseChoice("get gun", player));
+    assertEquals(new Choice("get", player, Item.PISTOL_CARTRIDGES), Main.parseChoice("get ammunition", player));
+    assertEquals(new Choice("get", player, Item.PISTOL_CARTRIDGES), Main.parseChoice("get cartridges", player));
+    assertEquals(new Choice("get", player, Item.PISTOL_CARTRIDGES), Main.parseChoice("get ammo", player));
+    assertEquals(new Choice("get", player, Item.PISTOL_CARTRIDGES), Main.parseChoice("get rounds", player));
+    assertEquals(new Choice("get", player, Item.SHOVEL), Main.parseChoice("get shovel", player));
+    assertEquals(new Choice("get", player, Item.HARMONICA), Main.parseChoice("get harmonica", player));
+    assertEquals(new Choice("get", player, Item.LIGHTER), Main.parseChoice("get lighter", player));
+    assertEquals(new Choice("get", player, Item.SURVIVAL_MANUAL), Main.parseChoice("get survival manual", player));
+    assertEquals(new Choice("get", player, Item.SURVIVAL_MANUAL), Main.parseChoice("get manual", player));
+    assertEquals(new Choice("get", player, Item.JOURNAL), Main.parseChoice("get journal and pen", player));
+    assertEquals(new Choice("get", player, Item.JOURNAL), Main.parseChoice("get journal", player));
   }
 
   @Test
