@@ -29,18 +29,18 @@
    <bottom>
       <AnchorPane id="leftBottom" prefHeight="587.0" prefWidth="857.0" BorderPane.alignment="CENTER">
          <children>
-            <TextArea fx:id="dailyLog" layoutX="471.0" layoutY="325.0" prefHeight="240.0" prefWidth="319.0" wrapText="true" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="19.0">
+            <TextArea fx:id="dailyLog" editable="false" layoutX="471.0" layoutY="325.0" prefHeight="240.0" prefWidth="319.0" wrapText="true" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="19.0">
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding></TextArea>
-            <TextArea fx:id="curActivity" layoutX="21.0" layoutY="31.0" prefHeight="457.0" prefWidth="418.0" wrapText="true" AnchorPane.leftAnchor="21.0" AnchorPane.topAnchor="31.0">
+            <TextArea fx:id="curActivity" editable="false" layoutX="21.0" layoutY="31.0" prefHeight="457.0" prefWidth="418.0" wrapText="true" AnchorPane.leftAnchor="21.0" AnchorPane.topAnchor="31.0">
                <font>
                   <Font name="Courier New" size="12.0" />
                </font>
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding></TextArea>
-            <TextArea fx:id="playerStat" layoutX="470.0" layoutY="31.0" prefHeight="266.0" prefWidth="321.0" wrapText="true" AnchorPane.rightAnchor="18.0" AnchorPane.topAnchor="31.0">
+            <TextArea fx:id="playerStat" editable="false" layoutX="470.0" layoutY="31.0" prefHeight="266.0" prefWidth="321.0" wrapText="true" AnchorPane.rightAnchor="18.0" AnchorPane.topAnchor="31.0">
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding></TextArea>
