@@ -1,4 +1,6 @@
-package com.palehorsestudios.alone.player;
+package com.palehorsestudios.alone.activity;
+
+import com.palehorsestudios.alone.player.SuccessRate;
 
 public enum ActivityLevel {
   LOW(37.5, 75, 150, 1, 1, 2),

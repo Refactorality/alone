@@ -1,10 +1,10 @@
 package com.palehorsestudios.alone.player;
 
-import com.google.common.collect.ImmutableSet;
+import com.google.common.base.Objects;
 import com.palehorsestudios.alone.Food;
 import com.palehorsestudios.alone.Item;
 import com.palehorsestudios.alone.Shelter;
-
+import com.palehorsestudios.alone.activity.ActivityLevel;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -122,8 +122,8 @@ public class Player {
    *
    * @return ImmutableSet of Player items.
    */
-  public ImmutableSet<Item> getItems() {
-    return ImmutableSet.copyOf(this.items);
+  public Set<Item> getItems() {
+    return this.items;
   }
 
   /**
@@ -516,15 +516,15 @@ public class Player {
     int addedWater;
     int finalAddedWater;
     if (successRate == SuccessRate.LOW) {
-      addedWater = 1 + ((int) Math.ceil(boostFactor * 10));
+      addedWater = 3 + ((int) Math.ceil(boostFactor * 10));
       updateMorale(1);
     }
     else if (successRate == SuccessRate.MEDIUM) {
-      addedWater = 2 + ((int) Math.ceil(boostFactor * 10));
+      addedWater = 4 + ((int) Math.ceil(boostFactor * 10));
       updateMorale(1);
     }
     else {
-      addedWater = 3 + ((int) Math.ceil(boostFactor * 10));
+      addedWater = 5 + ((int) Math.ceil(boostFactor * 10));
       updateMorale(2);
     }
     finalAddedWater = this.shelter.updateWater(addedWater);
@@ -625,24 +625,25 @@ public class Player {
     return result;
   }
 
-  // private helper methods
+  // helper methods
+
   /**
-   * Private helper method for updating Player weight depending on the calories produced or expended
+   * Helper method for updating Player weight depending on the calories produced or expended
    * during a Player activity.
    *
    * @param calories Calories produced or expended during a Player activity.
    */
-  private void updateWeight(double calories) {
+  public void updateWeight(double calories) {
     this.weight += round(calories / CALORIES_PER_POUND, 1);
   }
 
   /**
-   * Private helper method for rounding double values. Thank you to https://www.baeldung.com/java-round-decimal-number
+   * Helper method for rounding double values. Thank you to https://www.baeldung.com/java-round-decimal-number
    * @param value Value to be rounded.
    * @param places Desired decimal places.
    * @return Rounded value.
    */
-  private static double round(double value, int places) {
+  public static double round(double value, int places) {
     if (places < 0) throw new IllegalArgumentException();
 
     BigDecimal bd = new BigDecimal(Double.toString(value));
@@ -651,12 +652,12 @@ public class Player {
   }
 
   /**
-   * Private helper method for determining if Result of player activity gets amplified.
+   * Helper method for determining if Result of player activity gets amplified.
    *
    * @param boosterItems Items that could boost activity Result if Player possesses them.
    * @return Factor by which Player activity Result gets boosted.
    */
-  private double getActivityBoostFactor(Item[] boosterItems) {
+  public double getActivityBoostFactor(Item[] boosterItems) {
     double boostValue = 0.0;
     for (Item item : boosterItems) {
       if (this.items.contains(item)) {
@@ -667,10 +668,10 @@ public class Player {
   }
 
   /**
-   * Private helper method for generating a random SuccessRate.
+   * Helper method for generating a random SuccessRate.
    * @return Random SuccessRate.
    */
-  private static SuccessRate generateSuccessRate() {
+  public static SuccessRate generateSuccessRate() {
     int seed = ((int) Math.floor(Math.random() * 3));
     if (seed == 0) {
       return SuccessRate.LOW;
@@ -728,4 +729,20 @@ public class Player {
     return sb.toString();
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Player player = (Player) o;
+    return hydration == player.hydration &&
+        Double.compare(player.weight, weight) == 0 &&
+        morale == player.morale &&
+        Objects.equal(items, player.items) &&
+        Objects.equal(shelter, player.shelter);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(items, shelter, hydration, weight, morale);
+  }
 }
