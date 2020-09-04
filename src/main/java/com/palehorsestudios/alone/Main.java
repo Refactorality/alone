@@ -502,6 +502,11 @@ public class Main {
       gameOver = true;
     } else if (player.getHydration() <= 0) {
       GameApp.getInstance().appendToCurActivity("GAME OVER\n You died of thirst.");
+      gameOver = true;
+    }
+    if (gameOver) {
+      GameApp.getInstance().getGameController().getPlayerInput().setVisible(false);
+      GameApp.getInstance().getGameController().getEnterButton().setVisible(false);
     }
     return gameOver;
   }
@@ -515,6 +520,10 @@ public class Main {
             .appendToCurActivity(
                 "YOU SURVIVED!\nA search and rescue party has found you at last. No more eating bugs for you (unless you're into that sort of thing).");
       }
+    }
+    if (playerIsRescued) {
+      GameApp.getInstance().getGameController().getPlayerInput().setVisible(false);
+      GameApp.getInstance().getGameController().getEnterButton().setVisible(false);
     }
     return playerIsRescued;
   }

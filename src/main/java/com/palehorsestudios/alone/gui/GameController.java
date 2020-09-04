@@ -16,6 +16,7 @@ public class GameController {
   @FXML private TextField weight;
   @FXML private TextField hydration;
   @FXML private TextField morale;
+  @FXML private ListView carriedItems;
   @FXML private TextField integrity;
   @FXML private TextField firewood;
   @FXML private TextField water;
@@ -33,6 +34,8 @@ public class GameController {
   public TextField getMorale() {
     return morale;
   }
+
+  public ListView getCarriedItems() { return carriedItems; }
 
   public TextField getIntegrity() {
     return integrity;
