@@ -72,26 +72,29 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
                               <Label prefHeight="25.0" prefWidth="93.0" text="Player Statistics:" />
                               <Label text="Weight:" GridPane.rowIndex="1" />
                               <Label text="Hydration:" GridPane.rowIndex="2" />
                               <Label prefHeight="17.0" prefWidth="76.0" text="Morale:" GridPane.rowIndex="3" />
-                              <Label text="Items in Shelter:" GridPane.rowIndex="4" />
-                              <Label text="Integrity:" GridPane.rowIndex="5" />
-                              <Label text="Firewood:" GridPane.rowIndex="6" />
-                              <Label text="Water:" GridPane.rowIndex="7" />
-                              <Label text="Food Cache:" GridPane.rowIndex="8" />
-                              <Label text="Equipment:" GridPane.rowIndex="9" />
+                              <Label text="Items in Shelter:" GridPane.rowIndex="5" />
+                              <Label text="Integrity:" GridPane.rowIndex="6" />
+                              <Label text="Firewood:" GridPane.rowIndex="7" />
+                              <Label text="Water:" GridPane.rowIndex="8" />
+                              <Label text="Food Cache:" GridPane.rowIndex="9" />
+                              <Label text="Equipment:" GridPane.rowIndex="10" />
                               <TextField fx:id="weight" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                               <TextField fx:id="hydration" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                               <TextField fx:id="morale" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                              <TextField fx:id="integrity" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                              <TextField fx:id="water" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                              <ListView fx:id="foodCache" prefHeight="0.0" prefWidth="0.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-                              <ListView fx:id="equipment" prefHeight="0.0" prefWidth="0.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
-                              <TextField GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                               <TextField fx:id="integrity" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                              <TextField fx:id="water" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                              <ListView fx:id="foodCache" prefHeight="0.0" prefWidth="0.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                              <ListView fx:id="equipment" prefHeight="0.0" prefWidth="0.0" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+                              <TextField GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                              <Label text="Items Carrying:" GridPane.rowIndex="4" />
+                              <ListView fx:id="carriedItems" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                            </children>
                            <padding>
                               <Insets left="10.0" right="10.0" />
@@ -113,8 +116,8 @@
               <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="373.0" prefWidth="475.0">
                      <children>
-                        <TextArea fx:id="curActivity" editable="false" layoutX="152.0" layoutY="71.0" prefHeight="375.0" prefWidth="475.0" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                        <TextField fx:id="dateAndTime" editable="false" layoutX="85.0" layoutY="1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <TextArea fx:id="curActivity" editable="false" layoutX="152.0" layoutY="71.0" prefHeight="378.0" prefWidth="475.0" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <TextField fx:id="dateAndTime" editable="false" layoutX="85.0" layoutY="1.0" prefHeight="29.0" prefWidth="475.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                      </children></AnchorPane>
                 <AnchorPane focusTraversable="true" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                      <children>

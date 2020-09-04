@@ -141,44 +141,6 @@ public class GameApp extends Application {
         });
       Main.iterate(player);
       day++;
-
-
-      /*
-      String dayHalf = "Afternoon";
-      String input = StartView.getInstance().getInput();
-      Choice choice = parseChoice(input, player);
-      Activity activity = parseActivityChoice(choice);
-      if(activity == null) {
-        // display help
-      }
-      else if(activity == EatActivity.getInstance() || activity == DrinkWaterActivity.getInstance()) {
-        activity.act(choice);
-        activity.act(choice);
-        Platform.runLater(
-            new Runnable() {
-              @Override
-              public void run() {
-                controller.getDateAndTime().setText("Day " + finalDay + " " + nextHalfDay(dayHalf));
-                getNarrative(new File("resources/iterationChoices.txt"));
-              }
-            });
-      }
-      else {
-        activity.act(choice);
-        Platform.runLater(
-            new Runnable() {
-              @Override
-              public void run() {
-                controller.getDateAndTime().setText("Day " + finalDay + " " + nextHalfDay(dayHalf));
-                getNarrative(new File("resources/iterationChoices.txt"));
-              }
-            });
-        if(dayHalf.equals("Afternoon")) {
-          day++;
-        }
-      }
-
-       */
     }
   }
 
