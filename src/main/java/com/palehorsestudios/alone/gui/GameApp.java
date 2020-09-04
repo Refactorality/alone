@@ -122,7 +122,7 @@ public class GameApp extends Application {
     int day = 1;
     while (!Main.isPlayerDead(player) && !Main.isPlayerRescued(day)) {
       int finalDay = day;
-      /*
+
       Platform.runLater(
         new Runnable() {
           @Override
@@ -142,7 +142,7 @@ public class GameApp extends Application {
       Main.iterate(player);
       day++;
 
-       */
+
       /*
       String dayHalf = "Afternoon";
       String input = StartView.getInstance().getInput();
