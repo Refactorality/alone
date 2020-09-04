@@ -23,7 +23,7 @@ public class BuildFireActivity extends Activity{
       result = "You don't have any firewood.";
     } else {
       double boostFactor =
-          choice.getPlayer().getActivityBoostFactor(new Item[] {Item.SURVIVAL_MANUAL, Item.LIGHTER, Item.MATCHES, Item.FLINT_AND_STEEL});
+          Activity.getActivityBoostFactor(new Item[] {Item.SURVIVAL_MANUAL, Item.LIGHTER, Item.MATCHES, Item.FLINT_AND_STEEL}, choice.getPlayer());
       SuccessRate successRate;
       if(boostFactor == 0.0) {
         successRate = SuccessRate.LOW;

@@ -3,11 +3,13 @@ package com.palehorsestudios.alone.gui;
 import com.palehorsestudios.alone.Choice;
 import com.palehorsestudios.alone.Main;
 import com.palehorsestudios.alone.activity.Activity;
+import com.palehorsestudios.alone.activity.ActivityLevel;
 import com.palehorsestudios.alone.activity.DrinkWaterActivity;
 import com.palehorsestudios.alone.activity.EatActivity;
 import com.palehorsestudios.alone.activity.GetItemActivity;
 import com.palehorsestudios.alone.activity.PutItemActivity;
 import com.palehorsestudios.alone.player.Player;
+import com.palehorsestudios.alone.player.SuccessRate;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -130,7 +132,7 @@ public class GameApp extends Application {
     // TODO: need to allow for two iterations per day
     int day = 1;
     gameController.getDateAndTime().setText("Day " + day + " Morning");
-    while (!Main.isPlayerDead(player) && !Main.isPlayerRescued(day)) {
+    while (!player.isDead() && !player.isRescued(day)) {
       int finalDay = day;
       String dayHalf = "Afternoon";
 
@@ -177,15 +179,55 @@ public class GameApp extends Application {
         }
       }
     }
+    if(player.isDead()) {
+      if (player.getWeight() < 180.0 * 0.6) {
+        appendToCurActivity("GAME OVER\n You starved to death :-(");
+      } else if (player.getMorale() <= 0) {
+        appendToCurActivity("GAME OVER\n Your morale is too low. You died of despair.");
+      } else {
+        appendToCurActivity("GAME OVER\n You died of thirst.");
+      }
+    }
+    else {
+      appendToCurActivity(
+              "YOU SURVIVED!\nA search and rescue party has found you at last. No more eating bugs for you (unless you're into that sort of thing).");
+    }
   }
 
-  private String nextHalfDay(String currentHalf) {
+  private static String nextHalfDay(String currentHalf) {
     if(currentHalf.equals("Morning")) {
       currentHalf = "Afternoon";
     } else {
       currentHalf = "Morning";
     }
     return currentHalf;
+  }
+
+  public static String overnightStatusUpdate(Player player) {
+    String result;
+    SuccessRate successRate;
+    double overnightPreparedness = player.getShelter().getIntegrity();
+    if(player.getShelter().hasFire()) {
+      overnightPreparedness += 10;
+    }
+    if(overnightPreparedness < 10) {
+      successRate = SuccessRate.HIGH;
+      result = "It was a long cold night. I have to light a fire tonight!";
+      player.updateMorale(-3);
+    } else if(overnightPreparedness < 17) {
+      successRate = SuccessRate.MEDIUM;
+      result = "It was sure nice to have a fire last night, but this shelter doesn't provide much protection from the elements.";
+      player.updateMorale(1);
+    } else {
+      successRate = SuccessRate.LOW;
+      result = "Last night was great! I feel refreshed and ready to take on whatever comes my way today.";
+      player.updateMorale(2);
+    }
+    double caloriesBurned = ActivityLevel.MEDIUM.getCaloriesBurned(successRate);
+    player.updateWeight(-caloriesBurned);
+    int hydrationCost = ActivityLevel.MEDIUM.getHydrationCost(successRate);
+    player.setHydration(player.getHydration() - hydrationCost);
+    return result;
   }
 
   // inner input signal Class
