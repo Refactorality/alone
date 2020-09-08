@@ -20,6 +20,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import nightencounter.NightEncounter;
@@ -62,6 +64,7 @@ public class GameApp extends Application {
     Scene introScene = new Scene(introLayout);
     primaryStage.setScene(introScene);
     primaryStage.show();
+    introController.getIntro().setScrollTop(0);
 
     // config event listener
     EventHandler<ActionEvent> startGameHandler =
@@ -104,6 +107,18 @@ public class GameApp extends Application {
           }
         };
 
+    EventHandler<KeyEvent> enterPressedHandler =
+        keyEvent -> {
+          if(keyEvent.getCode() == KeyCode.ENTER) {
+            currentInput = gameController.getPlayerInput().getText().trim();
+            notifyInput();
+            gameController.getPlayerInput().clear();
+            gameController.getPlayerInput().requestFocus();
+          }
+        };
+
+    gameController.getPlayerInput().setOnKeyPressed(enterPressedHandler);
+
     gameController.getEnterButton().setOnAction(eventHandler);
     Thread gameLoop =
         new Thread(
@@ -136,7 +151,7 @@ public class GameApp extends Application {
     while (!player.isDead() && !player.isRescued(day[0])) {
       // update the UI fields
       updateUI();
-      String input = GameApp.getInstance().getInput();
+      String input = getInput();
       Choice choice = parseChoice(input, player);
       Activity activity = parseActivityChoice(choice);
 
@@ -167,16 +182,19 @@ public class GameApp extends Application {
           dayHalf[0] = "Afternoon";
         } else {
           seed[0] = (int) Math.floor(Math.random() * 10);
-          String nightEncounterResult;
+          String nightResult;
           if (seed[0] > 7) {
             NightEncounter[] nightEncounters = new NightEncounter[] {RainStorm.getInstance()};
             int randomNightEncounterIndex =
                 (int) Math.floor(Math.random() * nightEncounters.length);
-            nightEncounterResult = nightEncounters[randomNightEncounterIndex].encounter(player);
-            gameController
-                .getDailyLog()
-                .appendText("Day " + day[0] + " Night: " + nightEncounterResult + "\n");
+            nightResult = nightEncounters[randomNightEncounterIndex].encounter(player);
+
+          } else {
+            nightResult = overnightStatusUpdate(player);
           }
+          gameController
+              .getDailyLog()
+              .appendText("Day " + day[0] + " Night: " + nightResult + "\n");
           dayHalf[0] = "Morning";
           day[0]++;
         }
@@ -255,7 +273,7 @@ public class GameApp extends Application {
           public void run() {
             try {
               for (Item item : player.getItems()) {
-                gameController.getCarriedItems().getItems().add(item);
+                gameController.getCarriedItems().getItems().add(item.toString());
               }
             } catch (Exception e) {
               e.printStackTrace();
@@ -329,9 +347,9 @@ public class GameApp extends Application {
   }
 
   // inner input signal Class
-  private InputSignal inputSignal = new InputSignal();
+  private final InputSignal inputSignal = new InputSignal();
 
-  public class InputSignal {}
+  public static class InputSignal {}
 
   public void waitInput() {
     synchronized (inputSignal) {
