@@ -16,11 +16,13 @@ import org.junit.Test;
 public class DrinkWaterActivityTest {
   Logger logger = Logger.getLogger(DrinkWaterActivityTest.class.getName());
   Activity drinkWater;
+  Activity getWater;
   Player player;
 
   @Before
   public void setUp() {
     drinkWater = DrinkWaterActivity.getInstance();
+    getWater = GetWaterActivity.getInstance();
     Set<Item> items =
         new HashSet<>(
             Arrays.asList(
