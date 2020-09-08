@@ -499,7 +499,6 @@ public class Main {
     return activity;
   }
 
-
   public static Set<Item> getInitialItems() {
     // lookup map for grabbing possible items
     final Map<Integer, Item> itemMap =
