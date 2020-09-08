@@ -1,5 +1,8 @@
 package com.palehorsestudios.alone.gui;
 
+import static com.palehorsestudios.alone.Main.parseActivityChoice;
+import static com.palehorsestudios.alone.Main.parseChoice;
+
 import com.palehorsestudios.alone.Choice;
 import com.palehorsestudios.alone.Food;
 import com.palehorsestudios.alone.Item;
@@ -12,8 +15,13 @@ import com.palehorsestudios.alone.activity.GetItemActivity;
 import com.palehorsestudios.alone.activity.PutItemActivity;
 import com.palehorsestudios.alone.player.Player;
 import com.palehorsestudios.alone.player.SuccessRate;
-import dayencounter.BearMaul;
+import dayencounter.BearEncounterDay;
 import dayencounter.DayEncounter;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Map;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -24,17 +32,9 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import nightencounter.BearEncounterNight;
 import nightencounter.NightEncounter;
 import nightencounter.RainStorm;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.Map;
-
-import static com.palehorsestudios.alone.Main.parseActivityChoice;
-import static com.palehorsestudios.alone.Main.parseChoice;
 
 public class GameApp extends Application {
   private GameController gameController;
@@ -169,7 +169,7 @@ public class GameApp extends Application {
         final int[] seed = {(int) Math.floor(Math.random() * 10)};
         String activityResult;
         if (seed[0] > 7) {
-          DayEncounter[] dayEncounters = new DayEncounter[] {BearMaul.getInstance()};
+          DayEncounter[] dayEncounters = new DayEncounter[] {BearEncounterDay.getInstance()};
           int randomDayEncounterIndex = (int) Math.floor(Math.random() * dayEncounters.length);
           activityResult = dayEncounters[randomDayEncounterIndex].encounter(player);
         } else {
@@ -184,7 +184,8 @@ public class GameApp extends Application {
           seed[0] = (int) Math.floor(Math.random() * 10);
           String nightResult;
           if (seed[0] > 7) {
-            NightEncounter[] nightEncounters = new NightEncounter[] {RainStorm.getInstance()};
+            NightEncounter[] nightEncounters =
+                new NightEncounter[] {RainStorm.getInstance(), BearEncounterNight.getInstance()};
             int randomNightEncounterIndex =
                 (int) Math.floor(Math.random() * nightEncounters.length);
             nightResult = nightEncounters[randomNightEncounterIndex].encounter(player);
