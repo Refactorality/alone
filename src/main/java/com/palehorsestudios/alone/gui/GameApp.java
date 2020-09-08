@@ -12,6 +12,8 @@ import com.palehorsestudios.alone.activity.GetItemActivity;
 import com.palehorsestudios.alone.activity.PutItemActivity;
 import com.palehorsestudios.alone.player.Player;
 import com.palehorsestudios.alone.player.SuccessRate;
+import dayencounter.BearMaul;
+import dayencounter.DayEncounter;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -20,6 +22,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import nightencounter.NightEncounter;
+import nightencounter.RainStorm;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -168,7 +172,15 @@ public class GameApp extends Application {
               }
             });
       } else {
-        String activityResult = activity.act(choice);
+        int seed = (int) Math.floor(Math.random() * 10);
+        String activityResult;
+        if(seed > 7) {
+          DayEncounter[] dayEncounters = new DayEncounter[]{BearMaul.getInstance()};
+          int randomDayEncounterIndex = (int) Math.floor(Math.random() * dayEncounters.length);
+          activityResult = dayEncounters[randomDayEncounterIndex].encounter(player);
+        } else {
+          activityResult = activity.act(choice);
+        }
         Platform.runLater(
             new Runnable() {
               @Override
@@ -189,6 +201,21 @@ public class GameApp extends Application {
         if (dayHalfForThread.equals("Morning")) {
           day++;
           dayHalf = dayHalfForThread;
+          seed = (int) Math.floor(Math.random() * 10);
+          String nightEncounterResult;
+          if(seed > 7) {
+            NightEncounter[] nightEncounters = new NightEncounter[]{RainStorm.getInstance()};
+            int randomNightEncounterIndex = (int) Math.floor(Math.random() * nightEncounters.length);
+            nightEncounterResult = nightEncounters[randomNightEncounterIndex].encounter(player);
+            gameController
+                .getDailyLog()
+                .appendText(
+                    "Day "
+                        + dayForThread
+                        + " Night: "
+                        + nightEncounterResult
+                        + "\n");
+          }
         }
       }
     }
