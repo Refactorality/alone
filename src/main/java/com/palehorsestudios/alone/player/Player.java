@@ -158,11 +158,6 @@ public class Player {
     } else if (this.hydration <= 0) {
       gameOver = true;
     }
-    if (gameOver) {
-      GameApp.getInstance().getGameController().getPlayerInput().setVisible(false);
-      GameApp.getInstance().getGameController().getEnterButton().setVisible(false);
-      GameApp.getInstance().updateUI();
-    }
     return gameOver;
   }
 
@@ -170,11 +165,6 @@ public class Player {
     boolean playerIsRescued = false;
     if (days > 15) {
       playerIsRescued = ((int) Math.floor(Math.random() * 2)) != 0;
-    }
-    if (playerIsRescued) {
-      GameApp.getInstance().getGameController().getPlayerInput().setVisible(false);
-      GameApp.getInstance().getGameController().getEnterButton().setVisible(false);
-      GameApp.getInstance().updateUI();
     }
     return playerIsRescued;
   }

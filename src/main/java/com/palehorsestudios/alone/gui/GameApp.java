@@ -262,6 +262,7 @@ public class GameApp extends Application {
     }
     gameController.getPlayerInput().setVisible(false);
     gameController.getEnterButton().setVisible(false);
+    updateUI();
     if (player.isDead()) {
       if (player.getWeight() < 180.0 * 0.6) {
         appendToCurActivity("GAME OVER\n You starved to death :-(");

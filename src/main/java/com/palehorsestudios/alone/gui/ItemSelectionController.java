@@ -195,7 +195,6 @@ public class ItemSelectionController {
       initItems.add(Item.JOURNAL);
     }
 
-
     return initItems;
   }
 
