@@ -417,7 +417,6 @@ public class Main {
             put("put survival manual", Item.SURVIVAL_MANUAL);
             put("put manual", Item.SURVIVAL_MANUAL);
             put("put journal and pen", Item.JOURNAL);
-            put("put journal", Item.JOURNAL);
           }
         };
 

@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Set;
 
 import static com.palehorsestudios.alone.Main.parseActivityChoice;
 import static com.palehorsestudios.alone.Main.parseChoice;
@@ -88,6 +89,35 @@ public class GameApp extends Application {
           }
         };
     introController.getStartGame().setOnAction(startGameHandler);
+
+    // config next button listener
+    EventHandler<ActionEvent> nextHandler =
+        new EventHandler<ActionEvent>() {
+          @Override
+          public void handle(ActionEvent event) {
+            FXMLLoader gameViewLoader = new FXMLLoader();
+            try {
+              gameController = new GameController();
+              gameViewLoader.setController(gameController);
+              gameViewLoader.setLocation(GameApp.class.getResource("game.fxml"));
+              VBox gameLayout = gameViewLoader.load();
+              // Show the scene containing the root layout.
+              Scene gameScene = new Scene(gameLayout);
+              Stage gameStage = new Stage();
+              gameStage.setScene(gameScene);
+              getNarrative(new File("resources/itemselection.txt"));
+
+              // hide intro scene
+              introScene.getWindow().hide();
+              // show game scene
+              gameStage.show();
+              // start the background game thread
+              runGameThread();
+            } catch (IOException e) {
+              e.printStackTrace();
+            }
+          }
+        };
   }
 
   private void runGameThread() {
