@@ -1,6 +1,5 @@
 package com.palehorsestudios.alone.activity;
 
-import static com.palehorsestudios.alone.player.Player.generateSuccessRate;
 import com.palehorsestudios.alone.Choice;
 import com.palehorsestudios.alone.Item;
 import com.palehorsestudios.alone.player.SuccessRate;
@@ -26,7 +25,7 @@ public class GetWaterActivity extends Activity{
     int hydrationCost = ActivityLevel.LOW.getHydrationCost(successRate);
     choice.getPlayer().setHydration(choice.getPlayer().getHydration() - hydrationCost);
     double boostFactor =
-        choice.getPlayer().getActivityBoostFactor(new Item[] {Item.IODINE_TABLETS, Item.POT, Item.EXTRA_BOOTS});
+        Activity.getActivityBoostFactor(new Item[] {Item.IODINE_TABLETS, Item.POT, Item.EXTRA_BOOTS}, choice.getPlayer());
     int addedWater;
     int finalAddedWater;
     if (successRate == SuccessRate.LOW) {

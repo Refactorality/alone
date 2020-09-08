@@ -5,11 +5,13 @@ import com.palehorsestudios.alone.Food;
 import com.palehorsestudios.alone.Item;
 import com.palehorsestudios.alone.Main;
 import com.palehorsestudios.alone.activity.Activity;
+import com.palehorsestudios.alone.activity.ActivityLevel;
 import com.palehorsestudios.alone.activity.DrinkWaterActivity;
 import com.palehorsestudios.alone.activity.EatActivity;
 import com.palehorsestudios.alone.activity.GetItemActivity;
 import com.palehorsestudios.alone.activity.PutItemActivity;
 import com.palehorsestudios.alone.player.Player;
+import com.palehorsestudios.alone.player.SuccessRate;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -133,10 +135,11 @@ public class GameApp extends Application {
         });
     // TODO: need to allow for two iterations per day
     int day = 1;
-    gameController.getDateAndTime().setText("Day " + day + " Morning");
-    while (!Main.isPlayerDead(player) && !Main.isPlayerRescued(day)) {
-      int finalDay = day;
-      String dayHalf = "Afternoon";
+    String dayHalf = "Morning";
+    gameController.getDateAndTime().setText("Day " + day + " " + dayHalf);
+    while (!player.isDead() && !player.isRescued(day)) {
+      int dayForThread = day;
+      String dayHalfForThread = dayHalf;
       // update the UI fields
       updateUI();
       String input = GameApp.getInstance().getInput();
@@ -162,7 +165,14 @@ public class GameApp extends Application {
               public void run() {
                 gameController
                     .getDailyLog()
-                    .appendText("Day " + finalDay + " " + dayHalf + ": " + activityResult + "\n");
+                    .appendText(
+                        "Day "
+                            + dayForThread
+                            + " "
+                            + dayHalfForThread
+                            + ": "
+                            + activityResult
+                            + "\n");
               }
             });
       } else {
@@ -175,29 +185,75 @@ public class GameApp extends Application {
                     .getDailyLog()
                     .appendText(
                         "Day "
-                            + finalDay
+                            + dayForThread
                             + " "
-                            + nextHalfDay(dayHalf)
+                            + dayHalfForThread
                             + ": "
                             + activityResult
                             + "\n");
-                gameController.getDateAndTime().setText("Day " + finalDay + " " + dayHalf);
+                gameController
+                    .getDateAndTime()
+                    .setText("Day " + dayForThread + " " + nextHalfDay(dayHalfForThread));
               }
             });
-        if (dayHalf.equals("Afternoon")) {
+        if (dayHalfForThread.equals("Morning")) {
           day++;
+          dayHalf = dayHalfForThread;
         }
       }
     }
+    gameController.getPlayerInput().setVisible(false);
+    gameController.getEnterButton().setVisible(false);
+    if (player.isDead()) {
+      if (player.getWeight() < 180.0 * 0.6) {
+        appendToCurActivity("GAME OVER\n You starved to death :-(");
+      } else if (player.getMorale() <= 0) {
+        appendToCurActivity("GAME OVER\n Your morale is too low. You died of despair.");
+      } else {
+        appendToCurActivity("GAME OVER\n You died of thirst.");
+      }
+    } else {
+      appendToCurActivity(
+          "YOU SURVIVED!\nA search and rescue party has found you at last. No more eating bugs for you (unless you're into that sort of thing).");
+    }
   }
 
-  private String nextHalfDay(String currentHalf) {
+  private static String nextHalfDay(String currentHalf) {
     if (currentHalf.equals("Morning")) {
       currentHalf = "Afternoon";
     } else {
       currentHalf = "Morning";
     }
     return currentHalf;
+  }
+
+  public static String overnightStatusUpdate(Player player) {
+    String result;
+    SuccessRate successRate;
+    double overnightPreparedness = player.getShelter().getIntegrity();
+    if (player.getShelter().hasFire()) {
+      overnightPreparedness += 10;
+    }
+    if (overnightPreparedness < 10) {
+      successRate = SuccessRate.HIGH;
+      result = "It was a long cold night. I have to light a fire tonight!";
+      player.updateMorale(-3);
+    } else if (overnightPreparedness < 17) {
+      successRate = SuccessRate.MEDIUM;
+      result =
+          "It was sure nice to have a fire last night, but this shelter doesn't provide much protection from the elements.";
+      player.updateMorale(1);
+    } else {
+      successRate = SuccessRate.LOW;
+      result =
+          "Last night was great! I feel refreshed and ready to take on whatever comes my way today.";
+      player.updateMorale(2);
+    }
+    double caloriesBurned = ActivityLevel.MEDIUM.getCaloriesBurned(successRate);
+    player.updateWeight(-caloriesBurned);
+    int hydrationCost = ActivityLevel.MEDIUM.getHydrationCost(successRate);
+    player.setHydration(player.getHydration() - hydrationCost);
+    return result;
   }
 
   // update UI status
@@ -208,11 +264,32 @@ public class GameApp extends Application {
     gameController.getHydration().setText(String.valueOf(player.getHydration()));
     gameController.getMorale().setText(String.valueOf(player.getMorale()));
     // clear item in the list view
-    gameController.getCarriedItems().getItems().clear();
+    Platform.runLater(
+        new Runnable() {
+          @Override
+          public void run() {
+            try {
+              gameController.getCarriedItems().getItems().clear();
+            } catch (Exception e) {
+              e.printStackTrace();
+            }
+          }
+        });
     // add new carried items to items list view
-    for (Item item : player.getItems()) {
-      gameController.getCarriedItems().getItems().add(item);
-    }
+    Platform.runLater(
+        new Runnable() {
+          @Override
+          public void run() {
+            try {
+              for (Item item : player.getItems()) {
+                gameController.getCarriedItems().getItems().add(item);
+              }
+            } catch (Exception e) {
+              e.printStackTrace();
+            }
+          }
+        });
+
     // update shelter status
     gameController.getIntegrity().setText(String.valueOf((player.getShelter().getIntegrity())));
     gameController.getFirewood().setText(String.valueOf((player.getShelter().getFirewood())));
