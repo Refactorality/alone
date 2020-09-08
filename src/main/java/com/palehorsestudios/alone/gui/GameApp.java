@@ -310,9 +310,77 @@ public class GameApp extends Application {
 
   public void updateUI() {
     // update player status
-    gameController.getWeight().setText(String.valueOf(player.getWeight()));
-    gameController.getHydration().setText(String.valueOf(player.getHydration()));
-    gameController.getMorale().setText(String.valueOf(player.getMorale()));
+    Platform.runLater(
+        new Runnable() {
+          @Override
+          public void run() {
+            if(!gameController.getWeight().getText().isEmpty() && !gameController.getWeight().getText().isBlank()
+                && !gameController.getHydration().getText().isEmpty() && !gameController.getHydration().getText().isBlank()
+                && !gameController.getMorale().getText().isEmpty() && !gameController.getMorale().getText().isBlank()
+                && !gameController.getIntegrity().getText().isEmpty() && !gameController.getIntegrity().getText().isBlank()
+                && !gameController.getFirewood().getText().isEmpty() && !gameController.getFirewood().getText().isBlank()
+                && !gameController.getWater().getText().isEmpty() && !gameController.getWater().getText().isBlank()) {
+              try {
+                double currentWeight = Double.parseDouble(gameController.getWeight().getText());
+                if(currentWeight < player.getWeight()) {
+                  gameController.getWeight().setStyle("-fx-text-inner-color: green;");
+                } else if(currentWeight > player.getWeight()) {
+                  gameController.getWeight().setStyle("-fx-text-inner-color: red;");
+                } else {
+                  gameController.getWeight().setStyle("-fx-text-inner-color: black;");
+                }
+                int currentHydration = Integer.parseInt(gameController.getHydration().getText());
+                if(currentHydration < player.getHydration()) {
+                  gameController.getHydration().setStyle("-fx-text-inner-color: green;");
+                } else if(currentHydration > player.getHydration()) {
+                  gameController.getHydration().setStyle("-fx-text-inner-color: red;");
+                } else {
+                  gameController.getHydration().setStyle("-fx-text-inner-color: black;");
+                }
+                int currentMorale = Integer.parseInt(gameController.getMorale().getText());
+                if(currentMorale < player.getMorale()) {
+                  gameController.getMorale().setStyle("-fx-text-inner-color: green;");
+                } else if(currentMorale > player.getMorale()) {
+                  gameController.getMorale().setStyle("-fx-text-inner-color: red;");
+                } else {
+                  gameController.getMorale().setStyle("-fx-text-inner-color: black;");
+                }
+                double currentIntegrity = Double.parseDouble(gameController.getIntegrity().getText());
+                if(currentIntegrity < player.getShelter().getIntegrity()) {
+                  gameController.getIntegrity().setStyle("-fx-text-inner-color: green;");
+                } else if(currentIntegrity > player.getShelter().getIntegrity()) {
+                  gameController.getIntegrity().setStyle("-fx-text-inner-color: red;");
+                } else {
+                  gameController.getIntegrity().setStyle("-fx-text-inner-color: black;");
+                }
+                double currentFirewood = Double.parseDouble(gameController.getFirewood().getText());
+                if(currentFirewood < player.getShelter().getFirewood()) {
+                  gameController.getFirewood().setStyle("-fx-text-inner-color: green;");
+                } else if(currentFirewood > player.getShelter().getFirewood()) {
+                  gameController.getFirewood().setStyle("-fx-text-inner-color: red;");
+                } else {
+                  gameController.getFirewood().setStyle("-fx-text-inner-color: black;");
+                }
+                int currentWater = Integer.parseInt(gameController.getWater().getText());
+                if(currentWater < player.getShelter().getWaterTank()) {
+                  gameController.getWater().setStyle("-fx-text-inner-color: green;");
+                } else if(currentWater > player.getShelter().getWaterTank()) {
+                  gameController.getWater().setStyle("-fx-text-inner-color: red;");
+                } else {
+                  gameController.getWater().setStyle("-fx-text-inner-color: black;");
+                }
+              } catch(Exception e) { }
+            }
+            gameController.getWeight().setText(String.valueOf(player.getWeight()));
+            gameController.getHydration().setText(String.valueOf(player.getHydration()));
+            gameController.getMorale().setText(String.valueOf(player.getMorale()));
+            gameController.getIntegrity().setText(String.valueOf((player.getShelter().getIntegrity())));
+            gameController.getFirewood().setText(String.valueOf((player.getShelter().getFirewood())));
+            gameController.getWater().setText(String.valueOf((player.getShelter().getWaterTank())));
+          }
+        }
+    );
+
     // clear item in the list view
     Platform.runLater(
         new Runnable() {
@@ -340,11 +408,6 @@ public class GameApp extends Application {
           }
         });
 
-    // update shelter status
-    gameController.getIntegrity().setText(String.valueOf((player.getShelter().getIntegrity())));
-    gameController.getFirewood().setText(String.valueOf((player.getShelter().getFirewood())));
-    gameController.getWater().setText(String.valueOf((player.getShelter().getWaterTank())));
-    ;
     // clear food cache list view
     Platform.runLater(
         new Runnable() {
