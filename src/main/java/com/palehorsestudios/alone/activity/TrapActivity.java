@@ -8,7 +8,7 @@ import com.palehorsestudios.alone.player.SuccessRate;
 public class TrapActivity extends Activity {
   private static TrapActivity activityReference;
 
-  private TrapActivity() {}
+  private TrapActivity(){}
 
   public static Activity getInstance() {
     if (activityReference == null) {
