@@ -32,6 +32,7 @@ public class Main {
 
   public static Choice parseChoice(String input, Player player) {
     Choice choice;
+
     Map<String, String> choiceKeywordMap = new HashMap<>(){{
       put("eat moose", "eat");
       put("eat fish", "eat");
@@ -430,31 +431,26 @@ public class Main {
     String keyword;
     Food food;
     Item item;
-    if(Optional.ofNullable(choiceKeywordMap.get(input.toLowerCase())).isPresent()) {
+    if (Optional.ofNullable(choiceKeywordMap.get(input.toLowerCase())).isPresent()) {
       keyword = Optional.ofNullable(choiceKeywordMap.get(input.toLowerCase())).get();
-      if(keyword.equals("eat")) {
-        if(Optional.ofNullable(choiceFoodMap.get(input.toLowerCase())).isPresent()) {
+      if (keyword.equals("eat")) {
+        if (Optional.ofNullable(choiceFoodMap.get(input.toLowerCase())).isPresent()) {
           food = Optional.ofNullable(choiceFoodMap.get(input.toLowerCase())).get();
           choice = new Choice(keyword, player, food);
-        }
-        else {
+        } else {
           choice = new Choice(keyword, player);
         }
-      }
-      else if(keyword.equals("get") || keyword.equals("put")) {
-        if(Optional.ofNullable(choiceItemMap.get(input.toLowerCase())).isPresent()) {
+      } else if (keyword.equals("get") || keyword.equals("put")) {
+        if (Optional.ofNullable(choiceItemMap.get(input.toLowerCase())).isPresent()) {
           item = Optional.ofNullable(choiceItemMap.get(input.toLowerCase())).get();
           choice = new Choice(keyword, player, item);
-        }
-        else {
+        } else {
           choice = null;
         }
-      }
-      else {
+      } else {
         choice = new Choice(keyword, player);
       }
-    }
-    else {
+    } else {
       choice = null;
     }
     return choice;
@@ -462,50 +458,37 @@ public class Main {
 
   public static Activity parseActivityChoice(Choice choice) {
     Activity activity;
-    if(choice == null) {
+    if (choice == null) {
       // display help menu
       activity = null;
     } else {
-      if(choice.getKeyword().equals("get")) {
+      if (choice.getKeyword().equals("get")) {
         activity = GetItemActivity.getInstance();
-      }
-      else if(choice.getKeyword().equals("put")) {
+      } else if (choice.getKeyword().equals("put")) {
         activity = PutItemActivity.getInstance();
-      }
-      else if(choice.getKeyword().equals("eat")) {
+      } else if (choice.getKeyword().equals("eat")) {
         activity = EatActivity.getInstance();
-      }
-      else if(choice.getKeyword().equals("drink")) {
+      } else if (choice.getKeyword().equals("drink")) {
         activity = DrinkWaterActivity.getInstance();
-      }
-      else if(choice.getKeyword().equals("fish")) {
+      } else if (choice.getKeyword().equals("fish")) {
         activity = FishActivity.getInstance();
-      }
-      else if(choice.getKeyword().equals("hunt")) {
+      } else if (choice.getKeyword().equals("hunt")) {
         activity = HuntActivity.getInstance();
-      }
-      else if(choice.getKeyword().equals("trap")) {
+      } else if (choice.getKeyword().equals("trap")) {
         activity = TrapActivity.getInstance();
-      }
-      else if(choice.getKeyword().equals("forage")) {
+      } else if (choice.getKeyword().equals("forage")) {
         activity = ForageActivity.getInstance();
-      }
-      else if(choice.getKeyword().equals("improve")) {
+      } else if (choice.getKeyword().equals("improve")) {
         activity = ImproveShelterActivity.getInstance();
-      }
-      else if(choice.getKeyword().equals("gather")) {
+      } else if (choice.getKeyword().equals("gather")) {
         activity = GatherFirewoodActivity.getInstance();
-      }
-      else if(choice.getKeyword().equals("fire")) {
+      } else if (choice.getKeyword().equals("fire")) {
         activity = BuildFireActivity.getInstance();
-      }
-      else if(choice.getKeyword().equals("water")) {
+      } else if (choice.getKeyword().equals("water")) {
         activity = GetWaterActivity.getInstance();
-      }
-      else if(choice.getKeyword().equals("morale")) {
+      } else if (choice.getKeyword().equals("morale")) {
         activity = BoostMoraleActivity.getInstance();
-      }
-      else {
+      } else {
         activity = RestActivity.getInstance();
       }
     }
