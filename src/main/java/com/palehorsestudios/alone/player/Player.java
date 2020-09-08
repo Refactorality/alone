@@ -5,6 +5,7 @@ import com.palehorsestudios.alone.Food;
 import com.palehorsestudios.alone.HelperMethods;
 import com.palehorsestudios.alone.Item;
 import com.palehorsestudios.alone.Shelter;
+import com.palehorsestudios.alone.gui.GameApp;
 
 import java.util.HashSet;
 import java.util.Set;
