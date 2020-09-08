@@ -58,19 +58,19 @@ public class GetWaterActivityTest {
     String getWaterResult = getWater.act(new Choice("get water", player));
     int waterChange = player.getShelter().getWaterTank() - previousWater;
     boolean validWaterChange = false;
-    for(int i = 1; i < 4; i++) {
+    for(int i = 3; i < 6; i++) {
       if(waterChange == i) {
         validWaterChange = true;
         break;
       }
     }
     assertTrue(validWaterChange);
-    if (waterChange == 1) {
+    if (waterChange == 3) {
       assertEquals(6, player.getMorale());
       assertEquals(LOW_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
       assertEquals(previousHydration - ActivityLevel.LOW.getHydrationCost(SuccessRate.LOW), player.getHydration());
     }
-    else if (waterChange == 2) {
+    else if (waterChange == 4) {
       assertEquals(6, player.getMorale());
       assertEquals(LOW_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
       assertEquals(previousHydration - ActivityLevel.LOW.getHydrationCost(SuccessRate.MEDIUM), player.getHydration());
@@ -91,19 +91,19 @@ public class GetWaterActivityTest {
     String getWaterResult = getWater.act(new Choice("get water", player));
     int waterChange = player.getShelter().getWaterTank() - previousWater;
     boolean validWaterChange = false;
-    for(int i = 2; i < 5; i++) {
+    for(int i = 4; i < 7; i++) {
       if(waterChange == i) {
         validWaterChange = true;
         break;
       }
     }
     assertTrue(validWaterChange);
-    if (waterChange == 2) {
+    if (waterChange == 4) {
       assertEquals(6, player.getMorale());
       assertEquals(LOW_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
       assertEquals(previousHydration - ActivityLevel.LOW.getHydrationCost(SuccessRate.LOW), player.getHydration());
     }
-    else if (waterChange == 3) {
+    else if (waterChange == 5) {
       assertEquals(6, player.getMorale());
       assertEquals(LOW_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
       assertEquals(previousHydration - ActivityLevel.LOW.getHydrationCost(SuccessRate.MEDIUM), player.getHydration());
