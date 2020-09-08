@@ -251,9 +251,47 @@ public class GameApp extends Application {
 
   public void updateUI() {
     // update player status
-    gameController.getWeight().setText(String.valueOf(player.getWeight()));
-    gameController.getHydration().setText(String.valueOf(player.getHydration()));
-    gameController.getMorale().setText(String.valueOf(player.getMorale()));
+    Platform.runLater(
+        new Runnable() {
+          @Override
+          public void run() {
+            if(!gameController.getWeight().getText().isEmpty() && !gameController.getWeight().getText().isBlank()
+                && !gameController.getHydration().getText().isEmpty() && !gameController.getHydration().getText().isBlank()
+                && !gameController.getMorale().getText().isEmpty() && !gameController.getMorale().getText().isBlank()) {
+              try {
+                double currentWeight = Double.parseDouble(gameController.getWeight().getText());
+                if(currentWeight < player.getWeight()) {
+                  gameController.getWeight().setStyle("-fx-text-inner-color: green;");
+                } else if(currentWeight > player.getWeight()) {
+                  gameController.getWeight().setStyle("-fx-text-inner-color: red;");
+                } else {
+                  gameController.getWeight().setStyle("-fx-text-inner-color: black;");
+                }
+                int currentHydration = Integer.parseInt(gameController.getHydration().getText());
+                if(currentHydration < player.getHydration()) {
+                  gameController.getHydration().setStyle("-fx-text-inner-color: green;");
+                } else if(currentHydration > player.getHydration()) {
+                  gameController.getHydration().setStyle("-fx-text-inner-color: red;");
+                } else {
+                  gameController.getHydration().setStyle("-fx-text-inner-color: black;");
+                }
+                int currentMorale = Integer.parseInt(gameController.getMorale().getText());
+                if(currentMorale < player.getMorale()) {
+                  gameController.getMorale().setStyle("-fx-text-inner-color: green;");
+                } else if(currentMorale > player.getMorale()) {
+                  gameController.getMorale().setStyle("-fx-text-inner-color: red;");
+                } else {
+                  gameController.getMorale().setStyle("-fx-text-inner-color: black;");
+                }
+              } catch(Exception e) { }
+            }
+            gameController.getWeight().setText(String.valueOf(player.getWeight()));
+            gameController.getHydration().setText(String.valueOf(player.getHydration()));
+            gameController.getMorale().setText(String.valueOf(player.getMorale()));
+          }
+        }
+    );
+
     // clear item in the list view
     Platform.runLater(
         new Runnable() {
