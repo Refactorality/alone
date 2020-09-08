@@ -1,12 +1,19 @@
 package com.palehorsestudios.alone.player;
 
+import com.google.common.base.Objects;
 import com.palehorsestudios.alone.Food;
+import com.palehorsestudios.alone.HelperMethods;
 import com.palehorsestudios.alone.Item;
 import com.palehorsestudios.alone.Shelter;
+import com.palehorsestudios.alone.activity.Activity;
 import com.palehorsestudios.alone.activity.ActivityLevel;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 import java.util.Set;
 
 public class Player {
@@ -141,35 +148,6 @@ public class Player {
 
   // business methods
 
-  public String overnightStatusUpdate() {
-    String result;
-    SuccessRate successRate;
-    double overnightPreparedness = shelter.getIntegrity();
-    if(shelter.hasFire()) {
-      overnightPreparedness += 10;
-    }
-    if(overnightPreparedness < 10) {
-      successRate = SuccessRate.HIGH;
-      result = "It was a long cold night. I have to light a fire tonight!";
-      updateMorale(-3);
-    } else if(overnightPreparedness < 17) {
-      successRate = SuccessRate.MEDIUM;
-      result = "It was sure nice to have a fire last night, but this shelter doesn't provide much protection from the elements.";
-      updateMorale(1);
-    } else {
-      successRate = SuccessRate.LOW;
-      result = "Last night was great! I feel refreshed and ready to take on whatever comes my way today.";
-      updateMorale(2);
-    }
-    double caloriesBurned = ActivityLevel.MEDIUM.getCaloriesBurned(successRate);
-    updateWeight(-caloriesBurned);
-    int hydrationCost = ActivityLevel.MEDIUM.getHydrationCost(successRate);
-    setHydration(this.getHydration() - hydrationCost);
-    return result;
-  }
-
-  // helper methods
-
   /**
    * Helper method for updating Player weight depending on the calories produced or expended
    * during a Player activity.
@@ -177,52 +155,27 @@ public class Player {
    * @param calories Calories produced or expended during a Player activity.
    */
   public void updateWeight(double calories) {
-    this.weight += round(calories / CALORIES_PER_POUND, 1);
+    this.weight += HelperMethods.round(calories / CALORIES_PER_POUND, 1);
   }
 
-  /**
-   * Helper method for rounding double values. Thank you to https://www.baeldung.com/java-round-decimal-number
-   * @param value Value to be rounded.
-   * @param places Desired decimal places.
-   * @return Rounded value.
-   */
-  public static double round(double value, int places) {
-    if (places < 0) throw new IllegalArgumentException();
-
-    BigDecimal bd = new BigDecimal(Double.toString(value));
-    bd = bd.setScale(places, RoundingMode.HALF_UP);
-    return bd.doubleValue();
-  }
-
-  /**
-   * Helper method for determining if Result of player activity gets amplified.
-   *
-   * @param boosterItems Items that could boost activity Result if Player possesses them.
-   * @return Factor by which Player activity Result gets boosted.
-   */
-  public double getActivityBoostFactor(Item[] boosterItems) {
-    double boostValue = 0.0;
-    for (Item item : boosterItems) {
-      if (this.items.contains(item)) {
-        boostValue += 0.1;
-      }
+  public boolean isDead() {
+    boolean gameOver = false;
+    if (this.weight < 180.0 * 0.6) {
+      gameOver = true;
+    } else if (this.morale <= 0) {
+      gameOver = true;
+    } else if (this.hydration <= 0) {
+      gameOver = true;
     }
-    return boostValue;
+    return gameOver;
   }
 
-  /**
-   * Helper method for generating a random SuccessRate.
-   * @return Random SuccessRate.
-   */
-  public static SuccessRate generateSuccessRate() {
-    int seed = ((int) Math.floor(Math.random() * 3));
-    if (seed == 0) {
-      return SuccessRate.LOW;
-    } else if (seed == 1) {
-      return SuccessRate.MEDIUM;
-    } else {
-      return SuccessRate.HIGH;
+  public boolean isRescued(int days) {
+    boolean playerIsRescued = false;
+    if (days > 15) {
+      playerIsRescued = ((int) Math.floor(Math.random() * 2)) != 0;
     }
+    return playerIsRescued;
   }
 
   /**
@@ -248,15 +201,15 @@ public class Player {
         .append("\nFood Cache");
     for(Food food : this.getShelter().getFoodCache().keySet()) {
       sb.append("\n  ").append(food).append(": ");
-      double foodWeightInGrams = round(this.getShelter().getFoodCache().get(food), 1);
+      double foodWeightInGrams = HelperMethods.round(this.getShelter().getFoodCache().get(food), 1);
       // if food weight greater than a pound, display in pounds
       if(foodWeightInGrams > 456) {
-        double foodWeightInPounds = round(foodWeightInGrams / 436, 1);
+        double foodWeightInPounds = HelperMethods.round(foodWeightInGrams / 436, 1);
         sb.append(foodWeightInPounds).append(" pounds");
       }
       // if food weight greater than an ounce, display in ounces
       else if(foodWeightInGrams > 28) {
-        double foodWeightInOunces = round(foodWeightInGrams / 28, 1);
+        double foodWeightInOunces = HelperMethods.round(foodWeightInGrams / 28, 1);
         sb.append(foodWeightInOunces).append(" ounces");
       }
       // else display in grams
@@ -270,5 +223,22 @@ public class Player {
       sb.append("\n  ").append(item).append(": ").append(itemCount);
     }
     return sb.toString();
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Player player = (Player) o;
+    return hydration == player.hydration &&
+        Double.compare(player.weight, weight) == 0 &&
+        morale == player.morale &&
+        Objects.equal(items, player.items) &&
+        Objects.equal(shelter, player.shelter);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(items, shelter, hydration, weight, morale);
   }
 }
