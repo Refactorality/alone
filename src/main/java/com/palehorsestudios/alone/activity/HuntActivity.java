@@ -1,7 +1,5 @@
 package com.palehorsestudios.alone.activity;
 
-import static com.palehorsestudios.alone.player.Player.generateSuccessRate;
-
 import com.palehorsestudios.alone.Choice;
 import com.palehorsestudios.alone.Food;
 import com.palehorsestudios.alone.Item;
@@ -29,7 +27,7 @@ public class HuntActivity extends Activity{
       choice.getPlayer().setHydration(choice.getPlayer().getHydration() - hydrationCost);
       // get boost factor based on items the player is carrying
       double boostFactor =
-          choice.getPlayer().getActivityBoostFactor(
+          Activity.getActivityBoostFactor(
               new Item[] {
                   Item.SURVIVAL_MANUAL,
                   Item.ARROWS,
@@ -37,7 +35,8 @@ public class HuntActivity extends Activity{
                   Item.PISTOL,
                   Item.PISTOL_CARTRIDGES,
                   Item.KNIFE
-              });
+              },
+              choice.getPlayer());
       // gear, maybe we should eliminate low success rate possibility.
       if (successRate == SuccessRate.LOW) {
         choice.getPlayer().updateMorale(-2);

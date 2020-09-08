@@ -3,7 +3,6 @@ package com.palehorsestudios.alone.activity;
 import com.palehorsestudios.alone.Choice;
 import com.palehorsestudios.alone.Food;
 import com.palehorsestudios.alone.Item;
-import com.palehorsestudios.alone.player.Player;
 import com.palehorsestudios.alone.player.SuccessRate;
 
 public class FishActivity extends Activity {
@@ -21,17 +20,17 @@ public class FishActivity extends Activity {
   @Override
   public String act(Choice choice) {
     String result;
-    SuccessRate successRate = Player.generateSuccessRate();
+    SuccessRate successRate = Activity.generateSuccessRate();
     double caloriesBurned = ActivityLevel.MEDIUM.getCaloriesBurned(successRate);
     choice.getPlayer().updateWeight(-caloriesBurned);
     int hydrationCost = ActivityLevel.MEDIUM.getHydrationCost(successRate);
     choice.getPlayer().setHydration(choice.getPlayer().getHydration() - hydrationCost);
     // get boost factor based on items the player is carrying
     double boostFactor =
-        choice.getPlayer().getActivityBoostFactor(
+        Activity.getActivityBoostFactor(
             new Item[] {
                 Item.SURVIVAL_MANUAL, Item.FISHING_HOOKS, Item.FISHING_LINE, Item.FISHING_LURES
-            });
+            }, choice.getPlayer());
     // gear, maybe we should eliminate low success rate possibility.
     if (successRate == SuccessRate.LOW) {
       choice.getPlayer().updateMorale(-2);

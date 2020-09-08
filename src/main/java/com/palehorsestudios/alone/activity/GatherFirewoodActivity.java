@@ -1,7 +1,6 @@
 package com.palehorsestudios.alone.activity;
 
-import static com.palehorsestudios.alone.player.Player.generateSuccessRate;
-import static com.palehorsestudios.alone.player.Player.round;
+import static com.palehorsestudios.alone.HelperMethods.round;
 
 import com.palehorsestudios.alone.Choice;
 import com.palehorsestudios.alone.Item;
@@ -29,7 +28,7 @@ public class GatherFirewoodActivity extends Activity{
       choice.getPlayer().setHydration(choice.getPlayer().getHydration() - hydrationCost);
       double firewoodAmount = 0.0;
       double boostFactor =
-          choice.getPlayer().getActivityBoostFactor(new Item[] {Item.PARACHUTE_CHORD, Item.AXE, Item.HATCHET});
+          Activity.getActivityBoostFactor(new Item[] {Item.PARACHUTE_CHORD, Item.AXE, Item.HATCHET}, choice.getPlayer());
       if (successRate == SuccessRate.LOW) {
         firewoodAmount = FIREWOOD_BUNDLE * 1.0 * (1.0 + boostFactor);
       } else if (successRate == SuccessRate.MEDIUM) {
