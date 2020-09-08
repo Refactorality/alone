@@ -15,15 +15,15 @@ import com.palehorsestudios.alone.activity.ImproveShelterActivity;
 import com.palehorsestudios.alone.activity.PutItemActivity;
 import com.palehorsestudios.alone.activity.RestActivity;
 import com.palehorsestudios.alone.activity.TrapActivity;
-import com.palehorsestudios.alone.gui.GameController;
 import com.palehorsestudios.alone.gui.GameApp;
 import com.palehorsestudios.alone.player.Player;
+import javafx.application.Application;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import javafx.application.Application;
 
 public class Main {
   public static void main(String[] args) {
@@ -44,12 +44,16 @@ public class Main {
       put("eat mushrooms", "eat");
       put("eat berry", "eat");
       put("eat berries", "eat");
+      put("go hunt", "hunt");
+      put("go hunting", "hunt");
       put("hunt", "hunt");
       put("hunt moose", "hunt");
       put("hunt squirrel", "hunt");
       put("hunt rabbit", "hunt");
       put("hunt porcupine", "hunt");
       put("forage", "forage");
+      put("go forage", "forage");
+      put("go foraging", "forage");
       put("hunt bug", "forage");
       put("hunt mushrooms", "forage");
       put("hunt berry", "forage");
