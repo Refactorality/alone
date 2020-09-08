@@ -507,6 +507,7 @@ public class Main {
     if (gameOver) {
       GameApp.getInstance().getGameController().getPlayerInput().setVisible(false);
       GameApp.getInstance().getGameController().getEnterButton().setVisible(false);
+      GameApp.getInstance().updateUI();
     }
     return gameOver;
   }
@@ -524,6 +525,7 @@ public class Main {
     if (playerIsRescued) {
       GameApp.getInstance().getGameController().getPlayerInput().setVisible(false);
       GameApp.getInstance().getGameController().getEnterButton().setVisible(false);
+      GameApp.getInstance().updateUI();
     }
     return playerIsRescued;
   }

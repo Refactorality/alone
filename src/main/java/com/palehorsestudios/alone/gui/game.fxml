@@ -52,7 +52,7 @@
     </MenuBar>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="300.0" prefWidth="400.0" VBox.vgrow="ALWAYS">
          <children>
-            <SplitPane dividerPositions="0.5" layoutX="295.0" layoutY="1.0" maxWidth="800.0" minWidth="273.0" orientation="VERTICAL" prefHeight="513.0" prefWidth="273.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <SplitPane dividerPositions="0.5" layoutX="295.0" layoutY="1.0" maxWidth="600.0" minWidth="273.0" orientation="VERTICAL" prefHeight="513.0" prefWidth="273.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="175.0" prefWidth="173.0">
                      <children>
@@ -112,7 +112,7 @@
                      </children></AnchorPane>
               </items>
             </SplitPane>
-            <SplitPane dividerPositions="0.7994350282485876" layoutX="43.0" layoutY="25.0" maxWidth="800.0" minWidth="450.0" orientation="VERTICAL" prefHeight="513.0" prefWidth="477.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="274.0" AnchorPane.topAnchor="0.0">
+            <SplitPane dividerPositions="0.7994350282485876" layoutX="43.0" layoutY="25.0" maxWidth="600.0" minWidth="450.0" orientation="VERTICAL" prefHeight="513.0" prefWidth="477.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="274.0" AnchorPane.topAnchor="0.0">
               <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="373.0" prefWidth="475.0">
                      <children>

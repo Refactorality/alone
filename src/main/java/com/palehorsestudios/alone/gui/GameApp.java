@@ -56,6 +56,7 @@ public class GameApp extends Application {
     Scene introScene = new Scene(introLayout);
     primaryStage.setScene(introScene);
     primaryStage.show();
+    introController.getIntro().setScrollTop(0);
 
     // config event listener
     EventHandler<ActionEvent> startGameHandler =
@@ -133,10 +134,6 @@ public class GameApp extends Application {
     // TODO: need to allow for two iterations per day
     int day = 1;
     gameController.getDateAndTime().setText("Day " + day + " Morning");
-    if (Main.isPlayerDead(player) || Main.isPlayerRescued(day)) {
-      GameApp.getInstance().getGameController().getPlayerInput().setVisible(false);
-      GameApp.getInstance().getGameController().getEnterButton().setVisible(false);
-    }
     while (!Main.isPlayerDead(player) && !Main.isPlayerRescued(day)) {
       int finalDay = day;
       String dayHalf = "Afternoon";
