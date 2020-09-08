@@ -95,7 +95,7 @@ public class ItemSelectionController {
           }else {
             count++;
           }
-          //initItems.add(entry.getValue());
+          //initItems.add(entry.getValue()) TODO maybe get this to work to eliminate the lines below;
         }
       });
     }
@@ -207,131 +207,8 @@ public class ItemSelectionController {
     return countdown;
   }
 
-  public CheckBox getFishingLine() {
-    return fishingLine;
-  }
-
-  public CheckBox getFishingHooks() {
-    return fishingHooks;
-  }
-
-  public CheckBox getFishingLures() {
-    return fishingLures;
-  }
-
-  public CheckBox getKnife() {
-    return knife;
-  }
-
-  public CheckBox getFlintandsteel() {
-    return flintandsteel;
-  }
-
-  public CheckBox getBow() {
-    return bow;
-  }
-
-  public CheckBox getArrows() {
-    return arrows;
-  }
-
-  public CheckBox getFamilyPhoto() {
-    return familyPhoto;
-  }
-
-  public CheckBox getParachuteChord() {
-    return parachuteChord;
-  }
-
-  public CheckBox getFlare() {
-    return flare;
-  }
-
-  public CheckBox getExtraBoots() {
-    return extraBoots;
-  }
-
-  public CheckBox getExtraPants() {
-    return extraPants;
-  }
-
-  public CheckBox getSleepingGear() {
-    return sleepingGear;
-  }
-
-  public CheckBox getColdWeatherGear() {
-    return coldWeatherGear;
-  }
-
-  public CheckBox getFootTarp() {
-    return footTarp;
-  }
-
-  public CheckBox getMatches() {
-    return matches;
-  }
-
-  public CheckBox getFirstAid() {
-    return firstAid;
-  }
-
-  public CheckBox getFlashlight() {
-    return flashlight;
-  }
-
-  public CheckBox getExtraBatteries() {
-    return extraBatteries;
-  }
-
-  public CheckBox getGaugeWire() {
-    return gaugeWire;
-  }
-
-  public CheckBox getCookingPot() {
-    return cookingPot;
-  }
-
-  public CheckBox getAxe() {
-    return axe;
-  }
-
-  public CheckBox getHatchet() {
-    return hatchet;
-  }
-
-  public CheckBox getMagnumRevolver() {
-    return magnumRevolver;
-  }
-
-  public CheckBox getCartridges() {
-    return cartridges;
-  }
-
-  public CheckBox getShovel() {
-    return shovel;
-  }
-
-  public CheckBox getHarmonica() {
-    return harmonica;
-  }
-
-  public CheckBox getLighter() {
-    return lighter;
-  }
-
-  public CheckBox getSurvivalManual() {
-    return survivalManual;
-  }
-
-  public CheckBox getJournalandpen() {
-    return journalandpen;
-  }
-
   public GridPane getPaneSelected() {
     return paneSelected;
   }
 
-  public CheckBox getIodineTablets() {
-    return iodineTablets;
-  }
 }
