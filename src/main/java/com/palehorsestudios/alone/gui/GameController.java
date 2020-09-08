@@ -1,7 +1,5 @@
 package com.palehorsestudios.alone.gui;
 
-import com.palehorsestudios.alone.Food;
-import com.palehorsestudios.alone.Item;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
@@ -17,12 +15,12 @@ public class GameController {
   @FXML private TextField weight;
   @FXML private TextField hydration;
   @FXML private TextField morale;
-  @FXML private ListView<Item> carriedItems;
+  @FXML private ListView<String> carriedItems;
   @FXML private TextField integrity;
   @FXML private TextField firewood;
   @FXML private TextField water;
-  @FXML private ListView<Food> foodCache;
-  @FXML private ListView<Item> equipment;
+  @FXML private ListView<String> foodCache;
+  @FXML private ListView<String> equipment;
 
   public TextField getWeight() {
     return weight;
@@ -36,7 +34,7 @@ public class GameController {
     return morale;
   }
 
-  public ListView getCarriedItems() { return carriedItems; }
+  public ListView<String> getCarriedItems() { return carriedItems; }
 
   public TextField getIntegrity() {
     return integrity;
@@ -50,11 +48,11 @@ public class GameController {
     return water;
   }
 
-  public ListView getFoodCache() {
+  public ListView<String> getFoodCache() {
     return foodCache;
   }
 
-  public ListView getEquipment() {
+  public ListView<String> getEquipment() {
     return equipment;
   }
 
