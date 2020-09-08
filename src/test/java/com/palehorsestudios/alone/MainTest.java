@@ -65,6 +65,8 @@ public class MainTest {
   @Test
   public void testParseChoiceHunt() {
     assertEquals(new Choice("hunt", player), Main.parseChoice("hunt", player));
+    assertEquals(new Choice("hunt", player), Main.parseChoice("go hunt", player));
+    assertEquals(new Choice("hunt", player), Main.parseChoice("go hunting", player));
     assertEquals(new Choice("hunt", player), Main.parseChoice("hunt moose", player));
     assertEquals(new Choice("hunt", player), Main.parseChoice("hunt squirrel", player));
     assertEquals(new Choice("hunt", player), Main.parseChoice("hunt rabbit", player));
@@ -82,6 +84,8 @@ public class MainTest {
   @Test
   public void testParseChoiceForage() {
     assertEquals(new Choice("forage", player), Main.parseChoice("forage", player));
+    assertEquals(new Choice("forage", player), Main.parseChoice("go forage", player));
+    assertEquals(new Choice("forage", player), Main.parseChoice("go foraging", player));
     assertEquals(new Choice("forage", player), Main.parseChoice("hunt bug", player));
     assertEquals(new Choice("forage", player), Main.parseChoice("hunt bugs", player));
     assertEquals(new Choice("forage", player), Main.parseChoice("hunt mushrooms", player));
