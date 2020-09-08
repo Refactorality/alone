@@ -3,9 +3,9 @@ package com.palehorsestudios.alone.activity;
 import com.palehorsestudios.alone.player.SuccessRate;
 
 public enum ActivityLevel {
-  LOW(37.5, 75, 150, 1, 1, 2),
-  MEDIUM(75, 150, 300, 1, 2, 3),
-  HIGH(350, 700, 1300, 2, 3, 4);
+  LOW(37.5, 75, 150, 1, 1, 1),
+  MEDIUM(75, 150, 300, 1, 2, 2),
+  HIGH(350, 700, 1300, 1, 2, 3);
   private final double caloriesBurnedPerHourLow;
   private final double caloriesBurnedPerHourMid;
   private final double caloriesBurnedPerHourHigh;
