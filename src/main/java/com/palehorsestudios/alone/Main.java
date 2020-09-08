@@ -141,6 +141,7 @@ public class Main {
       put("get pistol", "get");
       put("get gun", "get");
       put("get ammunition", "get");
+      put("get cartridges", "get");
       put("get ammo", "get");
       put("get rounds", "get");
       put("get shovel", "get");
@@ -151,6 +152,7 @@ public class Main {
       put("get journal and pen", "get");
       put("get journal", "get");
       put("put fishing line", "put");
+      put("put fishing lines", "put");
       put("put fishing hooks", "put");
       put("put fishing hook", "put");
       put("put fishing lure", "put");
@@ -203,6 +205,7 @@ public class Main {
       put("put gun", "put");
       put("put ammunition", "put");
       put("put ammo", "put");
+      put("put cartridges", "put");
       put("put rounds", "put");
       put("put shovel", "put");
       put("put harmonica", "put");
@@ -213,6 +216,8 @@ public class Main {
       put("put journal", "put");
       put("build shelter", "improve");
       put("make camp", "improve");
+      put("work on camp", "improve");
+      put("work on shelter", "improve");
       put("improve shelter", "improve");
       put("improve camp", "improve");
       put("build camp", "improve");
@@ -258,7 +263,7 @@ public class Main {
       put("break", "rest");
       put("take rest", "rest");
       put("take break", "rest");
-      put("take a reset", "rest");
+      put("take a rest", "rest");
       put("take a break", "rest");
       put("relax", "rest");
       put("nap", "rest");
@@ -332,6 +337,7 @@ public class Main {
       put("get pistol", Item.PISTOL);
       put("get gun", Item.PISTOL);
       put("get ammunition", Item.PISTOL_CARTRIDGES);
+      put("get cartridges", Item.PISTOL_CARTRIDGES);
       put("get ammo", Item.PISTOL_CARTRIDGES);
       put("get rounds", Item.PISTOL_CARTRIDGES);
       put("get shovel", Item.SHOVEL);
@@ -342,6 +348,7 @@ public class Main {
       put("get journal and pen", Item.JOURNAL);
       put("get journal", Item.JOURNAL);
       put("put fishing line", Item.FISHING_LINE);
+      put("put fishing lines", Item.FISHING_LINE);
       put("put fishing hooks", Item.FISHING_HOOKS);
       put("put fishing hook", Item.FISHING_HOOKS);
       put("put fishing lure", Item.FISHING_LURES);
@@ -394,6 +401,7 @@ public class Main {
       put("put gun", Item.PISTOL);
       put("put ammunition", Item.PISTOL_CARTRIDGES);
       put("put ammo", Item.PISTOL_CARTRIDGES);
+      put("put cartridges", Item.PISTOL_CARTRIDGES);
       put("put rounds", Item.PISTOL_CARTRIDGES);
       put("put shovel", Item.SHOVEL);
       put("put harmonica", Item.HARMONICA);
@@ -490,36 +498,6 @@ public class Main {
     }
     return activity;
   }
-
-  public static boolean isPlayerDead(Player player) {
-    boolean gameOver = false;
-    if (player.getWeight() < 180.0 * 0.6) {
-      GameApp.getInstance().appendToCurActivity("GAME OVER\n You starved to death :-(");
-      gameOver = true;
-    } else if (player.getMorale() <= 0) {
-      GameApp.getInstance()
-          .appendToCurActivity("GAME OVER\n Your morale is too low. You died of despair.");
-      gameOver = true;
-    } else if (player.getHydration() <= 0) {
-      GameApp.getInstance().appendToCurActivity("GAME OVER\n You died of thirst.");
-    }
-    return gameOver;
-  }
-
-  public static boolean isPlayerRescued(int days) {
-    boolean playerIsRescued = false;
-    if (days > 15) {
-      playerIsRescued = ((int) Math.floor(Math.random() * 2)) != 0;
-      if (playerIsRescued) {
-        GameApp.getInstance()
-            .appendToCurActivity(
-                "YOU SURVIVED!\nA search and rescue party has found you at last. No more eating bugs for you (unless you're into that sort of thing).");
-      }
-    }
-    return playerIsRescued;
-  }
-
-
 
   public static Set<Item> getInitialItems() {
     // lookup map for grabbing possible items
