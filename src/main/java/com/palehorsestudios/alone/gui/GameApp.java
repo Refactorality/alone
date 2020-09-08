@@ -12,9 +12,12 @@ import com.palehorsestudios.alone.activity.GetItemActivity;
 import com.palehorsestudios.alone.activity.PutItemActivity;
 import com.palehorsestudios.alone.player.Player;
 import com.palehorsestudios.alone.player.SuccessRate;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -25,18 +28,24 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.Time;
+import java.time.Duration;
 import java.util.Map;
 import java.util.Set;
 
 import static com.palehorsestudios.alone.Main.parseActivityChoice;
 import static com.palehorsestudios.alone.Main.parseChoice;
+import static java.time.Duration.*;
+import static javafx.util.Duration.seconds;
 
 public class GameApp extends Application {
+  private ItemSelectionController itemSelectionController;
   private GameController gameController;
   private IntroController introController;
   private String currentInput;
   private Player player;
   private static GameApp instance;
+  private static Set<Item> initItems;
 
   public GameApp() {
     instance = this;
@@ -61,63 +70,87 @@ public class GameApp extends Application {
     primaryStage.show();
     introController.getIntro().setScrollTop(0);
 
-    // config event listener
+    // config event listener for select items scene
     EventHandler<ActionEvent> startGameHandler =
         new EventHandler<ActionEvent>() {
           @Override
           public void handle(ActionEvent event) {
-            FXMLLoader gameViewLoader = new FXMLLoader();
+            FXMLLoader itemSelectLoader = new FXMLLoader();
             try {
-              gameController = new GameController();
-              gameViewLoader.setController(gameController);
-              gameViewLoader.setLocation(GameApp.class.getResource("game.fxml"));
-              VBox gameLayout = gameViewLoader.load();
+              itemSelectionController = new ItemSelectionController();
+              itemSelectLoader.setController(itemSelectionController);
+              itemSelectLoader.setLocation(GameApp.class.getResource("selectItems.fxml"));
+              VBox itemSelectLayout = itemSelectLoader.load();
               // Show the scene containing the root layout.
-              Scene gameScene = new Scene(gameLayout);
-              Stage gameStage = new Stage();
-              gameStage.setScene(gameScene);
-              getNarrative(new File("resources/itemselection.txt"));
+              Scene selectItemsScene = new Scene(itemSelectLayout);
+              Stage selectItemsStage = new Stage();
+              selectItemsStage.setScene(selectItemsScene);
               // hide intro scene
               introScene.getWindow().hide();
               // show game scene
-              gameStage.show();
-              // start the background game thread
-              runGameThread();
+              selectItemsStage.show();
+              // start the count down timer
+              final Integer[] timeSeconds = {15};
+              Timeline timeline = new Timeline();
+              timeline.setCycleCount(Timeline.INDEFINITE);
+              timeline
+                  .getKeyFrames()
+                  .add(
+                      new KeyFrame(
+                          seconds(1),
+                          new EventHandler() {
+                            @Override
+                            public void handle(Event event) {
+                              timeSeconds[0]--;
+                              // update timerLabel
+                              itemSelectionController
+                                  .getCountdown()
+                                  .setText(timeSeconds[0].toString());
+                              if (timeSeconds[0] <= 0) {
+                                itemSelectionController.getPaneSelected().setDisable(true);
+                                timeline.stop();
+                              }
+                            }
+                          }));
+              timeline.playFromStart();
+              itemSelectionController.selectItems();
+              // config next button listener
+              EventHandler<ActionEvent> nextHandler =
+                  new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                      FXMLLoader gameViewLoader = new FXMLLoader();
+                      try {
+                        gameController = new GameController();
+                        gameViewLoader.setController(gameController);
+                        gameViewLoader.setLocation(GameApp.class.getResource("game.fxml"));
+                        VBox gameLayout = gameViewLoader.load();
+                        // Show the scene containing the root layout.
+                        Scene gameScene = new Scene(gameLayout);
+                        Stage gameStage = new Stage();
+                        gameStage.setScene(gameScene);
+                        // get initial items from the checkboxes
+                        initItems = itemSelectionController.selectItems();
+                        // hide item selection scene
+                        selectItemsScene.getWindow().hide();
+                        System.out.println(initItems.size());
+                        // show game scene
+                        gameStage.show();
+                        // start the background game thread
+                        runGameThread();
+                      } catch (IOException e) {
+                        e.printStackTrace();
+                      }
+                    }
+                  };
+
+              itemSelectionController.getNext().setOnAction(nextHandler);
             } catch (IOException e) {
               e.printStackTrace();
             }
           }
         };
     introController.getStartGame().setOnAction(startGameHandler);
-
-    // config next button listener
-    EventHandler<ActionEvent> nextHandler =
-        new EventHandler<ActionEvent>() {
-          @Override
-          public void handle(ActionEvent event) {
-            FXMLLoader gameViewLoader = new FXMLLoader();
-            try {
-              gameController = new GameController();
-              gameViewLoader.setController(gameController);
-              gameViewLoader.setLocation(GameApp.class.getResource("game.fxml"));
-              VBox gameLayout = gameViewLoader.load();
-              // Show the scene containing the root layout.
-              Scene gameScene = new Scene(gameLayout);
-              Stage gameStage = new Stage();
-              gameStage.setScene(gameScene);
-              getNarrative(new File("resources/itemselection.txt"));
-
-              // hide intro scene
-              introScene.getWindow().hide();
-              // show game scene
-              gameStage.show();
-              // start the background game thread
-              runGameThread();
-            } catch (IOException e) {
-              e.printStackTrace();
-            }
-          }
-        };
   }
 
   private void runGameThread() {
@@ -154,7 +187,7 @@ public class GameApp extends Application {
 
   // game thread logic, so we should also wrap the UI access calls
   private void executeGameLoop() {
-    player = new Player(Main.getInitialItems());
+    player = new Player(initItems);
     // must run in ui thread
     Platform.runLater(
         new Runnable() {
