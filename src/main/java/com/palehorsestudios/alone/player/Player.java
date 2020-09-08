@@ -5,15 +5,7 @@ import com.palehorsestudios.alone.Food;
 import com.palehorsestudios.alone.HelperMethods;
 import com.palehorsestudios.alone.Item;
 import com.palehorsestudios.alone.Shelter;
-import com.palehorsestudios.alone.activity.Activity;
-import com.palehorsestudios.alone.activity.ActivityLevel;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
 import java.util.Set;
 
 public class Player {
