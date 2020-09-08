@@ -143,6 +143,7 @@ public class GameApp extends Application {
           @Override
           public void run() {
             getNarrative(new File("resources/parserHelp.txt"));
+            getNarrative(new File("resources/scene1.txt"));
           }
         });
     final int[] day = {1};

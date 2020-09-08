@@ -60,11 +60,11 @@ public class BearEncounterDay extends DayEncounter {
               + "this fact is never far from your thoughts. \n"
               + "There's always the possibility of a run in with a Grizzly, and during this such outing, "
               + "you are charged by a large male asserting his claim on the territory you're in. "
-              + "Without much in the way to defend yourself besides a knife and your knowledge garnered"
+              + "Without much in the way to defend yourself besides a knife and your knowledge garnered "
               + "from the survival manual you have dutifully read in your downtime, you know what to do "
               + "in the event of a bear attack. The large grizzly descends upon you, but you successfully "
               + "defend with an equal amount of ferocity! \n"
-              + "Though the bear has been wounded, he leaves you lying in a heap, battered and bloody."
+              + "Though the bear has been wounded, he leaves you lying in a heap, battered and bloody. "
               + "You had better get some rest before you succumb to your wounds!";
         }
     } else {
@@ -74,8 +74,8 @@ public class BearEncounterDay extends DayEncounter {
           + "this fact is never far from your thoughts. \n"
           + "There's always the possibility of a run in with a Grizzly, and during this such outing, "
           + "you are charged by a large male asserting his claim on the territory you're in. "
-          + "Without much in the way to defend yourself, and no knowledge of what to do in the"
-          + "event of a bear attack, the large grizzly descends upon you."
+          + "Without much in the way to defend yourself, and no knowledge of what to do in the "
+          + "event of a bear attack, the large grizzly descends upon you. "
           + "You have died! Game over.";
     }
   }
