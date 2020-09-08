@@ -16,11 +16,13 @@ import org.junit.Test;
 public class DrinkWaterActivityTest {
   Logger logger = Logger.getLogger(DrinkWaterActivityTest.class.getName());
   Activity drinkWater;
+  Activity getWater;
   Player player;
 
   @Before
   public void setUp() {
     drinkWater = DrinkWaterActivity.getInstance();
+    getWater = GetWaterActivity.getInstance();
     Set<Item> items =
         new HashSet<>(
             Arrays.asList(
@@ -45,7 +47,7 @@ public class DrinkWaterActivityTest {
   @Test
   public void testDrinkWaterHappy() {
     while(player.getShelter().getWaterTank() == 0) {
-      drinkWater.act(new Choice("drink", player));
+      getWater.act(new Choice("get water", player));
     }
     int previousHydration = player.getHydration();
     int previousWaterTank = player.getShelter().getWaterTank();
