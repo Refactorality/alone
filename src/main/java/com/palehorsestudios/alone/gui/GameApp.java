@@ -12,14 +12,20 @@ import com.palehorsestudios.alone.activity.GetItemActivity;
 import com.palehorsestudios.alone.activity.PutItemActivity;
 import com.palehorsestudios.alone.player.Player;
 import com.palehorsestudios.alone.player.SuccessRate;
+import dayencounter.BearMaul;
+import dayencounter.DayEncounter;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import nightencounter.NightEncounter;
+import nightencounter.RainStorm;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -58,6 +64,7 @@ public class GameApp extends Application {
     Scene introScene = new Scene(introLayout);
     primaryStage.setScene(introScene);
     primaryStage.show();
+    introController.getIntro().setScrollTop(0);
 
     // config event listener
     EventHandler<ActionEvent> startGameHandler =
@@ -100,18 +107,24 @@ public class GameApp extends Application {
           }
         };
 
+    EventHandler<KeyEvent> enterPressedHandler =
+        keyEvent -> {
+          if(keyEvent.getCode() == KeyCode.ENTER) {
+            currentInput = gameController.getPlayerInput().getText().trim();
+            notifyInput();
+            gameController.getPlayerInput().clear();
+            gameController.getPlayerInput().requestFocus();
+          }
+        };
+
+    gameController.getPlayerInput().setOnKeyPressed(enterPressedHandler);
+
     gameController.getEnterButton().setOnAction(eventHandler);
     Thread gameLoop =
         new Thread(
             new Runnable() {
               @Override
               public void run() {
-                try {
-                  // TODO: maybe not a delay start, instead using a start button.
-                  Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                  e.printStackTrace();
-                }
                 executeGameLoop();
               }
             });
@@ -132,64 +145,60 @@ public class GameApp extends Application {
             getNarrative(new File("resources/parserHelp.txt"));
           }
         });
-    // TODO: need to allow for two iterations per day
-    int day = 1;
-    String dayHalf = "Morning";
-    gameController.getDateAndTime().setText("Day " + day + " " + dayHalf);
-    while (!player.isDead() && !player.isRescued(day)) {
-      int dayForThread = day;
-      String dayHalfForThread = dayHalf;
+    final int[] day = {1};
+    final String[] dayHalf = {"Morning"};
+    gameController.getDateAndTime().setText("Day " + day[0] + " " + dayHalf[0]);
+    while (!player.isDead() && !player.isRescued(day[0])) {
       // update the UI fields
       updateUI();
-      String input = GameApp.getInstance().getInput();
+      String input = getInput();
       Choice choice = parseChoice(input, player);
       Activity activity = parseActivityChoice(choice);
 
       if (activity == null) {
-        Platform.runLater(
-            new Runnable() {
-              @Override
-              public void run() {
-                getNarrative(new File("resources/parserHelp.txt"));
-              }
-            });
+        getNarrative(new File("resources/parserHelp.txt"));
       } else if (activity == EatActivity.getInstance()
           || activity == DrinkWaterActivity.getInstance()
           || activity == GetItemActivity.getInstance()
           || activity == PutItemActivity.getInstance()) {
         String activityResult = activity.act(choice);
-        Platform.runLater(
-            new Runnable() {
-              @Override
-              public void run() {
-                gameController
-                    .getDailyLog()
-                    .appendText("Day " + dayForThread + " " + dayHalfForThread + ": " + activityResult + "\n");
-              }
-            });
+        gameController
+            .getDailyLog()
+            .appendText("Day " + day[0] + " " + dayHalf[0] + ": " + activityResult + "\n");
       } else {
-        String activityResult = activity.act(choice);
-        Platform.runLater(
-            new Runnable() {
-              @Override
-              public void run() {
-                gameController
-                    .getDailyLog()
-                    .appendText(
-                        "Day "
-                            + dayForThread
-                            + " "
-                            + dayHalfForThread
-                            + ": "
-                            + activityResult
-                            + "\n");
-                gameController.getDateAndTime().setText("Day " + dayForThread + " " + nextHalfDay(dayHalfForThread));
-              }
-            });
-        if (dayHalfForThread.equals("Morning")) {
-          day++;
-          dayHalf = dayHalfForThread;
+        final int[] seed = {(int) Math.floor(Math.random() * 10)};
+        String activityResult;
+        if (seed[0] > 7) {
+          DayEncounter[] dayEncounters = new DayEncounter[] {BearMaul.getInstance()};
+          int randomDayEncounterIndex = (int) Math.floor(Math.random() * dayEncounters.length);
+          activityResult = dayEncounters[randomDayEncounterIndex].encounter(player);
+        } else {
+          activityResult = activity.act(choice);
         }
+        gameController
+            .getDailyLog()
+            .appendText("Day " + day[0] + " " + dayHalf[0] + ": " + activityResult + "\n");
+        if (dayHalf[0].equals("Morning")) {
+          dayHalf[0] = "Afternoon";
+        } else {
+          seed[0] = (int) Math.floor(Math.random() * 10);
+          String nightResult;
+          if (seed[0] > 7) {
+            NightEncounter[] nightEncounters = new NightEncounter[] {RainStorm.getInstance()};
+            int randomNightEncounterIndex =
+                (int) Math.floor(Math.random() * nightEncounters.length);
+            nightResult = nightEncounters[randomNightEncounterIndex].encounter(player);
+
+          } else {
+            nightResult = overnightStatusUpdate(player);
+          }
+          gameController
+              .getDailyLog()
+              .appendText("Day " + day[0] + " Night: " + nightResult + "\n");
+          dayHalf[0] = "Morning";
+          day[0]++;
+        }
+        gameController.getDateAndTime().setText("Day " + day[0] + " " + dayHalf[0]);
       }
     }
     gameController.getPlayerInput().setVisible(false);
@@ -207,15 +216,6 @@ public class GameApp extends Application {
       appendToCurActivity(
               "YOU SURVIVED!\nA search and rescue party has found you at last. No more eating bugs for you (unless you're into that sort of thing).");
     }
-  }
-
-  private static String nextHalfDay(String currentHalf) {
-    if(currentHalf.equals("Morning")) {
-      currentHalf = "Afternoon";
-    } else {
-      currentHalf = "Morning";
-    }
-    return currentHalf;
   }
 
   public static String overnightStatusUpdate(Player player) {
@@ -273,7 +273,7 @@ public class GameApp extends Application {
           public void run() {
             try {
               for (Item item : player.getItems()) {
-                gameController.getCarriedItems().getItems().add(item);
+                gameController.getCarriedItems().getItems().add(item.toString());
               }
             } catch (Exception e) {
               e.printStackTrace();
@@ -347,9 +347,9 @@ public class GameApp extends Application {
   }
 
   // inner input signal Class
-  private InputSignal inputSignal = new InputSignal();
+  private final InputSignal inputSignal = new InputSignal();
 
-  public class InputSignal {}
+  public static class InputSignal {}
 
   public void waitInput() {
     synchronized (inputSignal) {

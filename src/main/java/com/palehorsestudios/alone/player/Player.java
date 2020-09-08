@@ -5,15 +5,8 @@ import com.palehorsestudios.alone.Food;
 import com.palehorsestudios.alone.HelperMethods;
 import com.palehorsestudios.alone.Item;
 import com.palehorsestudios.alone.Shelter;
-import com.palehorsestudios.alone.activity.Activity;
-import com.palehorsestudios.alone.activity.ActivityLevel;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
 import java.util.Set;
 
 public class Player {
@@ -23,10 +16,7 @@ public class Player {
   private static final int MIN_WEIGHT = 0;
   private static final int MIN_MORALE = 0;
   private static final int MAX_MORALE = 10;
-  private static final int SERVING_SIZE = 340;
-  private static final double FIREWOOD_BUNDLE = 1;
   private static final double CALORIES_PER_POUND = 285.7;
-  private static final int MAX_ITEM_CARRY_SIZE = 3;
   private final Set<Item> items;
   private final Shelter shelter;
   // instance vars
