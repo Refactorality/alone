@@ -7,6 +7,7 @@ import com.palehorsestudios.alone.Item;
 import com.palehorsestudios.alone.Shelter;
 import com.palehorsestudios.alone.activity.Activity;
 import com.palehorsestudios.alone.activity.ActivityLevel;
+import com.palehorsestudios.alone.gui.GameApp;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -167,6 +168,11 @@ public class Player {
     } else if (this.hydration <= 0) {
       gameOver = true;
     }
+    if (gameOver) {
+      GameApp.getInstance().getGameController().getPlayerInput().setVisible(false);
+      GameApp.getInstance().getGameController().getEnterButton().setVisible(false);
+      GameApp.getInstance().updateUI();
+    }
     return gameOver;
   }
 
@@ -174,6 +180,11 @@ public class Player {
     boolean playerIsRescued = false;
     if (days > 15) {
       playerIsRescued = ((int) Math.floor(Math.random() * 2)) != 0;
+    }
+    if (playerIsRescued) {
+      GameApp.getInstance().getGameController().getPlayerInput().setVisible(false);
+      GameApp.getInstance().getGameController().getEnterButton().setVisible(false);
+      GameApp.getInstance().updateUI();
     }
     return playerIsRescued;
   }
