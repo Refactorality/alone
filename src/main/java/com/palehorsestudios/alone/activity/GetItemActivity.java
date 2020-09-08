@@ -23,17 +23,17 @@ public class GetItemActivity extends Activity{
       /* determine if player has less than the maximum carry limit
       and item is in shelter. */
       Optional<Integer> shelterItemCount = Optional.ofNullable
-          (choice.getPlayer().getShelter().getEquipment().remove(new Choice("remove", player, item)));
+          (choice.getPlayer().getShelter().getEquipment().get(choice.getItem()));
       if (shelterItemCount.isPresent() && shelterItemCount.get() > 0) {
         if(choice.getPlayer().getItems().size() < MAX_ITEM_CARRY_SIZE) {
-          int retrievalResult = choice.getPlayer().getShelter().removeEquipment(item, 1);
-          result = "You retrieved " + retrievalResult + " " + item + " from your shelter.";
-          this.items.add(item);
+          int retrievalResult = choice.getPlayer().getShelter().removeEquipment(choice.getItem(), 1);
+          result = "You retrieved " + retrievalResult + " " + choice.getItem() + " from your shelter.";
+          choice.getPlayer().getItems().add(choice.getItem());
         } else {
           result = "You can only carry " + MAX_ITEM_CARRY_SIZE + " items.";
         }
       } else {
-        result = "You do not have a(n) " + item + " in your shelter.";
+        result = "You do not have a(n) " + choice.getItem() + " in your shelter.";
       }
       return result;
     }
