@@ -2,6 +2,7 @@ package com.palehorsestudios.alone.gui;
 
 import static com.palehorsestudios.alone.Main.parseActivityChoice;
 import static com.palehorsestudios.alone.Main.parseChoice;
+import static javafx.util.Duration.seconds;
 
 import com.palehorsestudios.alone.Choice;
 import com.palehorsestudios.alone.Food;
@@ -15,14 +16,15 @@ import com.palehorsestudios.alone.activity.PutItemActivity;
 import com.palehorsestudios.alone.player.Player;
 import com.palehorsestudios.alone.player.SuccessRate;
 import dayencounter.BearEncounterDay;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import dayencounter.DayEncounter;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Set;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -37,8 +39,6 @@ import javafx.stage.Stage;
 import nightencounter.BearEncounterNight;
 import nightencounter.NightEncounter;
 import nightencounter.RainStorm;
-import java.util.Set;
-import static javafx.util.Duration.seconds;
 
 public class GameApp extends Application {
   private ItemSelectionController itemSelectionController;
@@ -92,7 +92,7 @@ public class GameApp extends Application {
               // show game scene
               selectItemsStage.show();
               // start the count down timer
-              final Integer[] timeSeconds = {15};
+              final Integer[] timeSeconds = {30};
               Timeline timeline = new Timeline();
               timeline.setCycleCount(Timeline.INDEFINITE);
               timeline

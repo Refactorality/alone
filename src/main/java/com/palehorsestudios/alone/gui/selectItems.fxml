@@ -51,7 +51,7 @@
     </MenuBar>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="394.0" prefWidth="670.0" VBox.vgrow="ALWAYS">
       <children>
-            <Label layoutX="14.0" prefHeight="58.0" prefWidth="775.0" text="Before the boat sinks, select 10 items from the list below to take with you within 15 seconds:" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="0.0">
+            <Label layoutX="14.0" prefHeight="58.0" prefWidth="775.0" text="Before the boat sinks select 10 items from the list below to take with you within 30 seconds:" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="0.0">
                <font>
                   <Font size="20.0" />
                </font>
@@ -108,7 +108,7 @@
                </children>
             </GridPane>
             <Button fx:id="next" layoutX="636.0" layoutY="519.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="110.0" text="Next" AnchorPane.bottomAnchor="23.0" AnchorPane.rightAnchor="55.0" />
-            <Label fx:id="countdown" alignment="CENTER" contentDisplay="CENTER" layoutX="320.0" layoutY="58.0" prefHeight="37.0" prefWidth="180.0" text="15" textAlignment="CENTER" textFill="crimson" AnchorPane.leftAnchor="320.0" AnchorPane.rightAnchor="301.0" AnchorPane.topAnchor="58.0">
+            <Label fx:id="countdown" alignment="CENTER" contentDisplay="CENTER" layoutX="320.0" layoutY="58.0" prefHeight="37.0" prefWidth="180.0" text="30" textAlignment="CENTER" textFill="crimson" AnchorPane.leftAnchor="320.0" AnchorPane.rightAnchor="301.0" AnchorPane.topAnchor="58.0">
                <font>
                   <Font size="28.0" />
                </font></Label>
