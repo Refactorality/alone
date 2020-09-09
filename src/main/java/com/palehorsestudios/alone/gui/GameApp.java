@@ -413,7 +413,7 @@ public class GameApp extends Application {
               } catch (Exception e) {
               }
             }
-            gameController.getWeight().setText(String.valueOf(player.getWeight()));
+            gameController.getWeight().setText(String.valueOf(HelperMethods.round(player.getWeight(),1)));
             gameController.getHydration().setText(String.valueOf(player.getHydration()));
             gameController.getMorale().setText(String.valueOf(player.getMorale()));
             gameController
