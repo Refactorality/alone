@@ -52,21 +52,7 @@ public class BuildFireActivityTest {
   @Test
   public void testBuildFireWithWoodNoItem() {
     List<String> results = new LinkedList<>();
-    for(int i = 0; i < 10; i++) {
-      while(player.getShelter().getFirewood() == 0) {
-        GatherFirewoodActivity.getInstance().act(new Choice("gather", player));
-      }
-      results.add((BuildFireActivity.getInstance().act(new Choice("fire", player))));
-    }
-    assertTrue(results.contains("It's amazing how much more bearable surviving is with a warm fire."));
-    assertTrue(results.contains("That is depressing. You can't seem to get the fire started."));
-  }
-
-  @Test
-  public void testBuildFireWithWoodAndItems() {
-    GetItemActivity.getInstance().act(new Choice("get", player, Item.FLINT_AND_STEEL));
-    List<String> results = new LinkedList<>();
-    for(int i = 0; i < 10; i++) {
+    for(int i = 0; i < 1000; i++) {
       while(player.getShelter().getFirewood() == 0) {
         GatherFirewoodActivity.getInstance().act(new Choice("gather", player));
       }
@@ -80,6 +66,27 @@ public class BuildFireActivityTest {
         fireCount++;
       }
     }
-    assertTrue(fireCount > 3);
+    assertTrue(fireCount > 250);
+  }
+
+  @Test
+  public void testBuildFireWithWoodAndItems() {
+    GetItemActivity.getInstance().act(new Choice("get", player, Item.FLINT_AND_STEEL));
+    List<String> results = new LinkedList<>();
+    for(int i = 0; i < 1000; i++) {
+      while(player.getShelter().getFirewood() == 0) {
+        GatherFirewoodActivity.getInstance().act(new Choice("gather", player));
+      }
+      results.add((BuildFireActivity.getInstance().act(new Choice("fire", player))));
+    }
+    assertTrue(results.contains("It's amazing how much more bearable surviving is with a warm fire."));
+    assertTrue(results.contains("That is depressing. You can't seem to get the fire started."));
+    int fireCount = 0;
+    for(String result : results) {
+      if(result.equals("It's amazing how much more bearable surviving is with a warm fire.")) {
+        fireCount++;
+      }
+    }
+    assertTrue(fireCount > 450);
   }
 }
