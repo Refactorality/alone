@@ -16,8 +16,8 @@ import com.palehorsestudios.alone.player.Player;
 import com.palehorsestudios.alone.player.SuccessRate;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import dayencounter.BearEncounterDay;
-import dayencounter.DayEncounter;
+import com.palehorsestudios.alone.dayencounter.BearEncounterDay;
+import com.palehorsestudios.alone.dayencounter.DayEncounter;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -34,9 +34,9 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import nightencounter.BearEncounterNight;
-import nightencounter.NightEncounter;
-import nightencounter.RainStorm;
+import com.palehorsestudios.alone.nightencounter.BearEncounterNight;
+import com.palehorsestudios.alone.nightencounter.NightEncounter;
+import com.palehorsestudios.alone.nightencounter.RainStorm;
 
 import java.util.Set;
 

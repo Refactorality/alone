@@ -1,7 +1,7 @@
-package dayencounter;
+package com.palehorsestudios.alone.nightencounter;
 
 import com.palehorsestudios.alone.player.Player;
 
-public abstract class DayEncounter {
+public abstract class NightEncounter {
   public abstract String encounter(Player player);
 }

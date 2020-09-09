@@ -135,6 +135,11 @@ public class Player {
     this.morale = this.morale < MIN_MORALE ? MIN_MORALE : Math.min(this.morale, MAX_MORALE);
   }
 
+  public void updateHydration(int hydration) {
+    this.hydration += hydration;
+    this.hydration = this.hydration < MIN_HYDRATION ? MIN_HYDRATION : Math.min(this.hydration, MAX_HYDRATION);
+  }
+
   // business methods
 
   /**

@@ -22,7 +22,7 @@ public class FishActivityTest {
   static final double MED_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT = 179.5;
   static final double MED_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT = 178.9;
 
-  Logger logger = Logger.getLogger(DrinkWaterActivityTest.class.getName());
+  Logger logger = Logger.getLogger(FishActivityTest.class.getName());
   Activity getItemFromShelter;
   Activity goFishing;
   Player player;

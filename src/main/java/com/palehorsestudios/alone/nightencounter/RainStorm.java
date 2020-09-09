@@ -1,4 +1,4 @@
-package nightencounter;
+package com.palehorsestudios.alone.nightencounter;
 
 import com.palehorsestudios.alone.player.Player;
 
