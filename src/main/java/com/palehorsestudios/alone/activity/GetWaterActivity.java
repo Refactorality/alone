@@ -18,7 +18,6 @@ public class GetWaterActivity extends Activity{
 
   @Override
   public String act(Choice choice) {
-    String result;
     SuccessRate successRate = generateSuccessRate();
     double caloriesBurned = ActivityLevel.LOW.getCaloriesBurned(successRate);
     choice.getPlayer().updateWeight(-caloriesBurned);
@@ -29,15 +28,15 @@ public class GetWaterActivity extends Activity{
     int addedWater;
     int finalAddedWater;
     if (successRate == SuccessRate.LOW) {
-      addedWater = 3 + ((int) Math.ceil(boostFactor * 10));
-      choice.getPlayer().updateMorale(1);
-    }
-    else if (successRate == SuccessRate.MEDIUM) {
       addedWater = 4 + ((int) Math.ceil(boostFactor * 10));
       choice.getPlayer().updateMorale(1);
     }
-    else {
+    else if (successRate == SuccessRate.MEDIUM) {
       addedWater = 5 + ((int) Math.ceil(boostFactor * 10));
+      choice.getPlayer().updateMorale(1);
+    }
+    else {
+      addedWater = 6 + ((int) Math.ceil(boostFactor * 10));
       choice.getPlayer().updateMorale(2);
     }
     finalAddedWater = choice.getPlayer().getShelter().updateWater(addedWater);
