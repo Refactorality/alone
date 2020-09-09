@@ -19,8 +19,6 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import dayencounter.BearEncounterDay;
 import dayencounter.DayEncounter;
-
-import java.awt.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -264,7 +262,7 @@ public class GameApp extends Application {
                 .appendText("Day " + day[0] + " Night: " + nightResult + "\n");
             dayHalf[0] = "Morning";
             day[0]++;
-            }
+          }
         }
         gameController.getDateAndTime().setText("Day " + day[0] + " " + dayHalf[0]);
       }
@@ -280,18 +278,20 @@ public class GameApp extends Application {
         getGameController().getGameOver().appendText("You starved to death :-(");
       } else if (player.getMorale() <= 0) {
         getGameController().getGameOver().appendText("GAME OVER\n");
-        getGameController().getGameOver().appendText("Your morale is too low. You died of despair.");
+        getGameController()
+            .getGameOver()
+            .appendText("Your morale is too low. You died of despair.");
       } else {
         getGameController().getGameOver().appendText("GAME OVER\n");
         getGameController().getGameOver().appendText("You died of thirst.");
       }
     } else {
-      getGameController().getGameOver().appendText(
-          "YOU SURVIVED!\n");
-      getGameController().getGameOver().appendText(
-          "A search and rescue party has found you at last. No more eating bugs for you (unless you're into that sort of thing).");
+      getGameController().getGameOver().appendText("YOU SURVIVED!\n");
+      getGameController()
+          .getGameOver()
+          .appendText(
+              "A search and rescue party has found you at last. No more eating bugs for you (unless you're into that sort of thing).");
     }
-
   }
 
   public static String overnightStatusUpdate(Player player) {
