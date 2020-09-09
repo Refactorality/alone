@@ -54,7 +54,7 @@ public class GatherFirewoodActivityTest {
   public void testGatherFirewoodWithoutItems() {
     int previousHydration = player.getHydration();
     double previousFirewood = player.getShelter().getFirewood();
-    String gatherFirewoodResult = gatherFirewood.act(new Choice("get firewood", player));
+    String gatherFirewoodResult = gatherFirewood.act(new Choice("gather", player));
     double firewoodChange = player.getShelter().getFirewood() - previousFirewood;
     boolean validFirewoodChange = false;
     double[] validFirewoodChangeValues = new double[]{1.0, 3.0, 5.0};
@@ -89,7 +89,7 @@ public class GatherFirewoodActivityTest {
     getItemFromShelter.act(new Choice("axe", player, (Item.AXE)));
     int previousHydration = player.getHydration();
     double previousFirewood = player.getShelter().getFirewood();
-    String gatherFirewoodResult = gatherFirewood.act(new Choice("get firewood", player));
+    String gatherFirewoodResult = gatherFirewood.act(new Choice("gather", player));
     double firewoodChange = player.getShelter().getFirewood() - previousFirewood;
     boolean validFirewoodChange = false;
     double[] validFirewoodChangeValues = new double[]{1.1, 3.3, 5.5};
