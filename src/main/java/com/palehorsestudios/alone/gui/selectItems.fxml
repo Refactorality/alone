@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
 <?import java.lang.*?>
 <?import java.net.*?>
 <?import java.util.*?>
@@ -55,6 +56,9 @@
                <font>
                   <Font size="20.0" />
                </font>
+               <effect>
+                  <InnerShadow />
+               </effect>
             </Label>
             <GridPane fx:id="paneSelected" layoutX="19.0" layoutY="152.0" minHeight="340.0" minWidth="750.0" prefHeight="341.0" prefWidth="764.0" AnchorPane.leftAnchor="19.0" AnchorPane.rightAnchor="21.0" AnchorPane.topAnchor="152.0">
               <columnConstraints>
@@ -107,11 +111,17 @@
                   <CheckBox fx:id="journalandpen" mnemonicParsing="false" text="Journal and Pen" GridPane.rowIndex="6" />
                </children>
             </GridPane>
-            <Button fx:id="next" layoutX="636.0" layoutY="519.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="110.0" stylesheets="@BasicApplication.css" text="Next" AnchorPane.bottomAnchor="23.0" AnchorPane.rightAnchor="55.0" />
+            <Button fx:id="next" layoutX="636.0" layoutY="519.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="110.0" stylesheets="@BasicApplication.css" text="Next" AnchorPane.bottomAnchor="23.0" AnchorPane.rightAnchor="55.0">
+               <effect>
+                  <InnerShadow />
+               </effect></Button>
             <Label fx:id="countdown" alignment="CENTER" contentDisplay="CENTER" layoutX="320.0" layoutY="58.0" prefHeight="37.0" prefWidth="180.0" text="30" textAlignment="CENTER" textFill="crimson" AnchorPane.leftAnchor="320.0" AnchorPane.rightAnchor="301.0" AnchorPane.topAnchor="58.0">
                <font>
                   <Font size="28.0" />
-               </font></Label>
+               </font>
+               <effect>
+                  <Blend />
+               </effect></Label>
       </children>
     </AnchorPane>
   </children>
