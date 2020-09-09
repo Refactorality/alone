@@ -5,13 +5,13 @@ import com.palehorsestudios.alone.Food;
 import com.palehorsestudios.alone.Item;
 import com.palehorsestudios.alone.player.SuccessRate;
 
-public class TrapActivity extends Activity{
+public class TrapActivity extends Activity {
   private static TrapActivity activityReference;
 
   private TrapActivity(){}
 
   public static Activity getInstance() {
-    if(activityReference == null) {
+    if (activityReference == null) {
       activityReference = new TrapActivity();
     }
     return activityReference;
@@ -21,40 +21,35 @@ public class TrapActivity extends Activity{
   public String act(Choice choice) {
     String result;
     SuccessRate successRate = generateSuccessRate();
-    double caloriesBurned = ActivityLevel.HIGH.getCaloriesBurned(successRate);
+    double caloriesBurned = ActivityLevel.MEDIUM.getCaloriesBurned(successRate);
     choice.getPlayer().updateWeight(-caloriesBurned);
-    int hydrationCost = ActivityLevel.HIGH.getHydrationCost(successRate);
+    int hydrationCost = ActivityLevel.MEDIUM.getHydrationCost(successRate);
     choice.getPlayer().setHydration(choice.getPlayer().getHydration() - hydrationCost);
-    // get boost factor based on items the player is carrying
     double boostFactor =
         Activity.getActivityBoostFactor(
-            new Item[] {
-                Item.SURVIVAL_MANUAL,
-                Item.ARROWS,
-                Item.BOW,
-                Item.PISTOL,
-                Item.PISTOL_CARTRIDGES,
-                Item.KNIFE
-            },
-            choice.getPlayer());
+            new Item[] {Item.SURVIVAL_MANUAL, Item.WIRE, Item.KNIFE}, choice.getPlayer());
     // gear, maybe we should eliminate low success rate possibility.
     if (successRate == SuccessRate.LOW) {
       choice.getPlayer().updateMorale(-2);
-      result = "I guess that's why they don't call it killing. You couldn't get a shot on an animal.";
+      result = "Those varmints are smarter than they look. Your traps were empty.";
     } else if (successRate == SuccessRate.MEDIUM) {
-      choice.getPlayer().getShelter()
+      choice
+          .getPlayer()
+          .getShelter()
           .addFoodToCache(
-              Food.PORCUPINE, Food.PORCUPINE.getGrams() + Food.PORCUPINE.getGrams() * boostFactor);
-      choice.getPlayer().updateMorale(2);
-      result = "Watch out for those quills! You killed a nice fat porcupine that should keep you fed for a while.";
+              Food.SQUIRREL,
+              Food.SQUIRREL.getGrams() * 2 + Food.SQUIRREL.getGrams() * 2 * boostFactor);
+      choice.getPlayer().updateMorale(1);
+      result = "Your patience has paid off. There were two squirrels in your traps!";
     } else {
-      choice.getPlayer().getShelter()
-          .addFoodToCache(Food.MOOSE, Food.MOOSE.getGrams() + Food.MOOSE.getGrams() * boostFactor);
-      choice.getPlayer().updateMorale(4);
-      result = "Moose down! It took five trips, but you were able to process the meat and transport it back to " +
-          "your shelter before a predator got to it first.";
+      choice
+          .getPlayer()
+          .getShelter()
+          .addFoodToCache(
+              Food.RABBIT, Food.RABBIT.getGrams() * 3 + Food.RABBIT.getGrams() * 3 * boostFactor);
+      choice.getPlayer().updateMorale(2);
+      result = "You'll have plenty of lucky rabbit feet now. Your snared three rabbits!";
+      }
+      return result;
     }
-    return result;
   }
-}
-

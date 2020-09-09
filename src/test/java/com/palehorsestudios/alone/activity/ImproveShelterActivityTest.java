@@ -56,12 +56,9 @@ public class ImproveShelterActivityTest {
     double previousIntegrity = player.getShelter().getIntegrity();
     int previousHydration = player.getHydration();
     String shelterImprovementResult = improveShelter.act(new Choice("improve shelter", player));
-    String[] possibleResults = new String[]{"You can sleep a little better at night. You were able to better "
-        + "insulate the walls of your shelter.",
-        "It's always nice to be able to get out of the rain and snow. "
-            + "Your roof is in better shape now.",
-        "It was a lot of work, but your improved fireplace will keep "
-            + "you much warmer tonight"};
+    String[] possibleResults = new String[]{"Slowly but surely, you continue to improve on some semblance of a shelter.",
+        "You have a new idea on a way to improve your shelter. You're confident that it will be more comfortable now.",
+        "Your shelter is coming along nicely, with several improvements you were able to implement."};
     boolean validResult = false;
     for(String possibleResult : possibleResults) {
       if (shelterImprovementResult.equals(possibleResult)) {
@@ -95,12 +92,9 @@ public class ImproveShelterActivityTest {
     double previousIntegrity = player.getShelter().getIntegrity();
     int previousHydration = player.getHydration();
     String shelterImprovementResult = improveShelter.act(new Choice("improve shelter", player));
-    String[] possibleResults = new String[]{"You can sleep a little better at night. You were able to better "
-        + "insulate the walls of your shelter.",
-        "It's always nice to be able to get out of the rain and snow. "
-            + "Your roof is in better shape now.",
-        "It was a lot of work, but your improved fireplace will keep "
-            + "you much warmer tonight"};
+    String[] possibleResults = new String[]{"Slowly but surely, you continue to improve on some semblance of a shelter.",
+        "You have a new idea on a way to improve your shelter. You're confident that it will be more comfortable now.",
+        "Your shelter is coming along nicely, with several improvements you were able to implement."};
     boolean validResult = false;
     for(String possibleResult : possibleResults) {
       if (shelterImprovementResult.equals(possibleResult)) {
