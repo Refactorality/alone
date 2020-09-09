@@ -79,7 +79,7 @@ public class BearEncounterDay extends DayEncounter {
               + "your wounds!";
         }
     } else {
-      player.updateMorale(-10);
+      player.updateMorale(-20);
       return "While in the northern territories, you're just another link in the food chain. Every time "
           + "you leave to venture out into the wilderness, whatever you might be doing, "
           + "this fact is never far from your thoughts. \n"
