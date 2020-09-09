@@ -47,7 +47,7 @@ public class DrinkWaterActivityTest {
   @Test
   public void testDrinkWaterHappy() {
     while(player.getShelter().getWaterTank() == 0) {
-      getWater.act(new Choice("get water", player));
+      GetWaterActivity.getInstance().act(new Choice("drink", player));
     }
     int previousHydration = player.getHydration();
     int previousWaterTank = player.getShelter().getWaterTank();
@@ -62,7 +62,7 @@ public class DrinkWaterActivityTest {
   public void testDrinkWaterFail() {
     assertEquals(
         "There isn't a drop left in your water tank. You should go fetch some water soon before you die of thirst!",
-        drinkWater.act(new Choice("drink", player)));
+        DrinkWaterActivity.getInstance().act(new Choice("drink", player)));
     assertEquals(0, player.getShelter().getWaterTank());
   }
 }
