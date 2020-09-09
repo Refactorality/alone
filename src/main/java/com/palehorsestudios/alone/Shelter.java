@@ -103,10 +103,10 @@ public class Shelter {
   /**
    * Getter for Shelter food cache.
    *
-   * @return Immutable copy of Shelter food cache.
+   * @return foodCache Map.
    */
-  public ImmutableMap<Food, Double> getFoodCache() {
-    return ImmutableMap.copyOf(foodCache);
+  public Map<Food, Double> getFoodCache() {
+    return foodCache;
   }
 
   /**

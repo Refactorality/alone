@@ -1,4 +1,4 @@
-package dayencounter;
+package com.palehorsestudios.alone.dayencounter;
 
 import static com.palehorsestudios.alone.Item.KNIFE;
 import static com.palehorsestudios.alone.Item.PISTOL;
@@ -26,9 +26,9 @@ public class BearEncounterDay extends DayEncounter {
     if (player.getItems().contains(PISTOL_CARTRIDGES) && player.getItems().contains(PISTOL)) {
 //        || player.getItems().contains(BOW) && player.getItems().contains(ARROWS))
 //      TODO: add else if for bow and arrow
-      player.setHydration(player.getHydration() - 1); //adjust according to ActivityLevel?
-      player.updateWeight(player.getWeight() - 500); //adjust according to ActivityLevel?
-      player.updateMorale(player.getMorale() + 3);
+      player.updateHydration(-1);; //adjust according to ActivityLevel?
+      player.updateWeight(- 500); //adjust according to ActivityLevel?
+      player.updateMorale(3);
       player.getShelter().addFoodToCache(Food.BEAR, Food.BEAR.getGrams());
       return "While in the northern territories, you're just another link in the food chain. Every time "
           + "you leave to venture out into the wilderness, whatever you might be doing, "
@@ -48,11 +48,21 @@ public class BearEncounterDay extends DayEncounter {
 //    || player.getItems().contains(HATCHET)
 //    || player.getItems().contains(AXE)); {
 //      TODO: add else if for hatchet and axe
-      player.updateMorale(- 5);
-      player.setHydration(player.getHydration() - 3);
-      player.updateWeight(- 700);
+      player.updateMorale(-4);
+      player.updateHydration(-3);
+      player.updateWeight(-700);
         if (player.isDead()) {
-          return "Mother Nature is an unmerciful matron. \n"
+          return "While in the northern territories, you're just another link in the food chain. Every time "
+              + "you leave to venture out into the wilderness, whatever you might be doing, "
+              + "this fact is never far from your thoughts. \n"
+              + "There's always the possibility of a run in with a Grizzly, and during this such outing, "
+              + "you are charged by a large male asserting his claim on the territory you're in. "
+              + "Without much in the way to defend yourself besides a knife and your knowledge garnered "
+              + "from the survival manual you have dutifully read in your downtime, you know what to do "
+              + "in the event of a bear attack. The large grizzly descends upon you, but you successfully "
+              + "defend with an equal amount of ferocity! \n"
+              + "Though the bear has been wounded, he leaves you lying in a heap, battered and bloody. "
+              + "You have lost a lot of blood. Mother Nature is an unmerciful matron. \n"
             + "Although you were able to fend off the bear, you have died from your wounds. Game over."; }
         else {
           return "While in the northern territories, you're just another link in the food chain. Every time "
@@ -60,15 +70,16 @@ public class BearEncounterDay extends DayEncounter {
               + "this fact is never far from your thoughts. \n"
               + "There's always the possibility of a run in with a Grizzly, and during this such outing, "
               + "you are charged by a large male asserting his claim on the territory you're in. "
-              + "Without much in the way to defend yourself besides a knife and your knowledge garnered"
+              + "Without much in the way to defend yourself besides a knife and your knowledge garnered "
               + "from the survival manual you have dutifully read in your downtime, you know what to do "
               + "in the event of a bear attack. The large grizzly descends upon you, but you successfully "
               + "defend with an equal amount of ferocity! \n"
-              + "Though the bear has been wounded, he leaves you lying in a heap, battered and bloody."
-              + "You had better get some rest before you succumb to your wounds!";
+              + "Though the bear has been wounded, he leaves you lying in a heap, battered and bloody. "
+              + "You have lost a lot of blood. You had better get some rest before you succumb to "
+              + "your wounds!";
         }
     } else {
-      player.updateMorale(-10);
+      player.updateMorale(-20);
       return "While in the northern territories, you're just another link in the food chain. Every time "
           + "you leave to venture out into the wilderness, whatever you might be doing, "
           + "this fact is never far from your thoughts. \n"

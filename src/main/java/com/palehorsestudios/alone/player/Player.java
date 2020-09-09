@@ -5,8 +5,6 @@ import com.palehorsestudios.alone.Food;
 import com.palehorsestudios.alone.HelperMethods;
 import com.palehorsestudios.alone.Item;
 import com.palehorsestudios.alone.Shelter;
-import com.palehorsestudios.alone.gui.GameApp;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -137,6 +135,11 @@ public class Player {
   public void updateMorale(int morale) {
     this.morale += morale;
     this.morale = this.morale < MIN_MORALE ? MIN_MORALE : Math.min(this.morale, MAX_MORALE);
+  }
+
+  public void updateHydration(int hydration) {
+    this.hydration += hydration;
+    this.hydration = this.hydration < MIN_HYDRATION ? MIN_HYDRATION : Math.min(this.hydration, MAX_HYDRATION);
   }
 
   // business methods

@@ -1,4 +1,4 @@
-package dayencounter;
+package com.palehorsestudios.alone.dayencounter;
 
 import com.palehorsestudios.alone.Item;
 import com.palehorsestudios.alone.player.Player;

@@ -22,7 +22,7 @@ public class HuntActivityTest {
   static final double HIGH_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT = 177.1;
   static final double HIGH_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT = 174.5;
 
-  Logger logger = Logger.getLogger(DrinkWaterActivityTest.class.getName());
+  Logger logger = Logger.getLogger(HuntActivityTest.class.getName());
   Activity getItemFromShelter;
   Activity goHunting;
   Player player;

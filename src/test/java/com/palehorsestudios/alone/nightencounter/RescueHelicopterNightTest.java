@@ -1,8 +1,6 @@
-package dayencounter;
+package com.palehorsestudios.alone.nightencounter;
 
-import com.palehorsestudios.alone.Choice;
 import com.palehorsestudios.alone.Item;
-import com.palehorsestudios.alone.activity.GetItemActivity;
 import com.palehorsestudios.alone.player.Player;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,7 +11,7 @@ import java.util.Set;
 
 import static org.junit.Assert.*;
 
-public class RescueHelicopterDayTest {
+public class RescueHelicopterNightTest {
 
   Player player;
 
@@ -29,32 +27,31 @@ public class RescueHelicopterDayTest {
                 Item.WIRE,
                 Item.HARMONICA,
                 Item.FLINT_AND_STEEL,
-                Item.FLARE,
+                Item.POT,
                 Item.FIRST_AID_KIT,
                 Item.COLD_WEATHER_GEAR));
     player = new Player(items);
   }
 
   @Test
-  public void testEncounterNoFlare() {
+  public void testEncounterWithoutFire() {
+    player.getShelter().setFire(false);
     int previousMorale = player.getMorale();
-    assertEquals("You hear a helicopter approaching your position rapidly from the north."
+    assertEquals("You wake from a deep slumber to the sound of an approaching helicopter."
         + " You wave your arms and scream your lungs out, but it is no use."
-        + " They continue flying south and pass your position half a mile to west."
-        + " Perhaps if you had a flare they would have seen it.",
-        RescueHelicopterDay.getInstance().encounter(player));
+        + " They fly right over your camp. Perhaps if you had a fire they would have seen it.",
+        RescueHelicopterNight.getInstance().encounter(player));
     assertEquals(previousMorale - 5, player.getMorale());
   }
 
   @Test
-  public void testEncounterWithFlare() {
-    GetItemActivity.getInstance().act(new Choice("get", player, Item.FLARE));
-    assertEquals("You hear a helicopter approaching your position rapidly from the north."
-        + " You ignite your flare and wave it wildly over your head."
-        + " Incredibly, they spot your flare and land on a nearby beach."
-        + " They greet you with a warm blanket and tell you to hop in."
+  public void testEncounterWithFire() {
+    player.getShelter().setFire(true);
+    assertEquals("You wake from a deep slumber to the sound of an approaching helicopter."
+        + " Amazingly, they were ferrying people to a nearby island when they spotted your fire."
+        + " They land on the beach, and greet you with a warm blanket and tell you to hop in."
         + " You are saved, but you will never forget this incredible experience.",
-        RescueHelicopterDay.getInstance().encounter(player));
+        RescueHelicopterNight.getInstance().encounter(player));
     assertTrue(player.isRescued());
   }
 }
