@@ -55,5 +55,6 @@ public class RescueHelicopterDayTest {
         + " They greet you with a warm blanket and tell you to hop in."
         + " You are saved, but you will never forget this incredible experience.",
         RescueHelicopterDay.getInstance().encounter(player));
+    assertTrue(player.isRescued());
   }
 }

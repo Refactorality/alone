@@ -1,12 +1,6 @@
 package nightencounter;
 
-import com.palehorsestudios.alone.Food;
 import com.palehorsestudios.alone.player.Player;
-
-import static com.palehorsestudios.alone.Item.KNIFE;
-import static com.palehorsestudios.alone.Item.PISTOL;
-import static com.palehorsestudios.alone.Item.PISTOL_CARTRIDGES;
-import static com.palehorsestudios.alone.Item.SURVIVAL_MANUAL;
 
 public class RescueHelicopterNight extends NightEncounter {
 
@@ -27,6 +21,7 @@ public class RescueHelicopterNight extends NightEncounter {
     if (player.getShelter().hasFire()) {
       player.setHydration(20);
       player.updateMorale(20);
+      player.setRescued(true);
       return "You wake from a deep slumber to the sound of an approaching helicopter."
           + " Amazingly, they were ferrying people to a nearby island when they spotted your fire."
           + " They land on the beach, and greet you with a warm blanket and tell you to hop in."

@@ -22,6 +22,7 @@ public class RescueHelicopterDay extends DayEncounter {
     if (player.getItems().contains(Item.FLARE)) {
       player.setHydration(20);
       player.updateMorale(20);
+      player.setRescued(true);
       return "You hear a helicopter approaching your position rapidly from the north."
           + " You ignite your flare and wave it wildly over your head."
           + " Incredibly, they spot your flare and land on a nearby beach."

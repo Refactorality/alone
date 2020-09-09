@@ -52,5 +52,6 @@ public class RescueHelicopterNightTest {
         + " They land on the beach, and greet you with a warm blanket and tell you to hop in."
         + " You are saved, but you will never forget this incredible experience.",
         RescueHelicopterNight.getInstance().encounter(player));
+    assertTrue(player.isRescued());
   }
 }

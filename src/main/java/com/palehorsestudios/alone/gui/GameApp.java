@@ -166,9 +166,10 @@ public class GameApp extends Application {
         new EventHandler<ActionEvent>() {
           @Override
           public void handle(ActionEvent event) {
-            currentInput = gameController.getPlayerInput().getText();
-            gameController.getPlayerInput().clear();
+            currentInput = gameController.getPlayerInput().getText().trim();
             notifyInput();
+            gameController.getPlayerInput().clear();
+            gameController.getPlayerInput().requestFocus();
           }
         };
 
@@ -204,6 +205,7 @@ public class GameApp extends Application {
     player = new Player(initItems);
     // flag for encounter the encounters
     boolean encounterDeath = false;
+    boolean encounterRescue = false;
     // encounter results
     String encounterResults = "Killed by the encounter";
     // must run in ui thread
@@ -244,8 +246,10 @@ public class GameApp extends Application {
           activityResult = dayEncounters[randomDayEncounterIndex].encounter(player);
           if (player.isDead()) {
             encounterDeath = true;
-            encounterResults = activityResult;
+          } else if (player.isRescued()) {
+            encounterRescue = true;
           }
+          encounterResults = activityResult;
         } else {
           activityResult = activity.act(choice);
         }
@@ -308,14 +312,20 @@ public class GameApp extends Application {
       } else {
         getGameController().getGameOver().appendText("GAME OVER\n");
         getGameController().getGameOver().appendText("\nYou died of thirst.");
+        }
       }
-    }
-      }else {
-      getGameController().getGameOver().appendText("YOU SURVIVED!\n");
-      getGameController()
-          .getGameOver()
-          .appendText(
-              "\nA search and rescue party has found you at last. No more eating bugs for you (unless you're into that sort of thing).");
+    } else {
+      getGameController().getGameOver().setVisible(true);
+      getGameController().getGameOver().setStyle("-fx-text-alignment: center");
+      if(encounterRescue) {
+        getGameController().getGameOver().appendText("YOU SURVIVED!\n" + encounterResults);
+      } else {
+        getGameController().getGameOver().appendText("YOU SURVIVED!\n");
+        getGameController()
+            .getGameOver()
+            .appendText(
+                "\nA search and rescue party has found you at last. No more eating bugs for you (unless you're into that sort of thing).");
+      }
     }
 
   }
