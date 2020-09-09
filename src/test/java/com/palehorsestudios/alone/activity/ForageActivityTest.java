@@ -18,11 +18,11 @@ import org.junit.Test;
 
 public class ForageActivityTest {
 
-  static final double LOW_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT = 179.9;
+  static final double LOW_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT = 179.8;
   static final double LOW_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT = 179.7;
-  static final double LOW_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT = 179.5;
+  static final double LOW_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT = 179.4;
 
-  Logger logger = Logger.getLogger(DrinkWaterActivityTest.class.getName());
+  Logger logger = Logger.getLogger(ForageActivityTest.class.getName());
   Activity getItemFromShelter;
   Activity goForaging;
   Player player;

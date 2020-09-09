@@ -45,16 +45,42 @@ public class DrinkWaterActivityTest {
   }
 
   @Test
-  public void testDrinkWaterHappy() {
-    while(player.getShelter().getWaterTank() == 0) {
-      GetWaterActivity.getInstance().act(new Choice("drink", player));
-    }
+  public void testDrinkWaterHappyOneWater() {
+    player.getShelter().updateWater(-100);
+    player.getShelter().updateWater(1);
     int previousHydration = player.getHydration();
     int previousWaterTank = player.getShelter().getWaterTank();
     assertEquals("That's better. Your hydration is now at "
         + (previousHydration + 1)
         + ", and you have "
         + (previousWaterTank - 1)
+        + " water(s) remaining.", drinkWater.act(new Choice("drink", player)));
+  }
+
+  @Test
+  public void testDrinkWaterHappyTwoWaters() {
+    player.getShelter().updateWater(-100);
+    player.getShelter().updateWater(2);
+    int previousHydration = player.getHydration();
+    int previousWaterTank = player.getShelter().getWaterTank();
+    assertEquals("That's better. Your hydration is now at "
+        + (previousHydration + 2)
+        + ", and you have "
+        + (previousWaterTank - 2)
+        + " water(s) remaining.", drinkWater.act(new Choice("drink", player)));
+  }
+
+  @Test
+  public void testDrinkWaterHappyThreeWaters() {
+    while(player.getShelter().getWaterTank() < 3) {
+      GetWaterActivity.getInstance().act(new Choice("water", player));
+    }
+    int previousHydration = player.getHydration();
+    int previousWaterTank = player.getShelter().getWaterTank();
+    assertEquals("That's better. Your hydration is now at "
+        + (previousHydration + 3)
+        + ", and you have "
+        + (previousWaterTank - 3)
         + " water(s) remaining.", drinkWater.act(new Choice("drink", player)));
   }
 

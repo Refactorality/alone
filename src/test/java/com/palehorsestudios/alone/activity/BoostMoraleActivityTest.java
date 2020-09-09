@@ -18,9 +18,9 @@ import org.junit.Test;
 
 public class BoostMoraleActivityTest {
 
-  static final double LOW_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT = 179.9;
+  static final double LOW_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT = 179.8;
 
-  Logger logger = Logger.getLogger(DrinkWaterActivityTest.class.getName());
+  Logger logger = Logger.getLogger(BoostMoraleActivityTest.class.getName());
   Activity getItemFromShelter;
   Activity boostMorale;
   Player player;

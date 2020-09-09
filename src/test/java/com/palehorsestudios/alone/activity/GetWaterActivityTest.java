@@ -17,11 +17,11 @@ import org.junit.Test;
 
 public class GetWaterActivityTest {
 
-  static final double LOW_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT = 179.9;
+  static final double LOW_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT = 179.8;
   static final double LOW_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT = 179.7;
-  static final double LOW_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT = 179.5;
+  static final double LOW_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT = 179.4;
 
-  Logger logger = Logger.getLogger(DrinkWaterActivityTest.class.getName());
+  Logger logger = Logger.getLogger(GetWaterActivityTest.class.getName());
   Activity getItemFromShelter;
   Activity getWater;
   Player player;
@@ -58,19 +58,19 @@ public class GetWaterActivityTest {
     String getWaterResult = getWater.act(new Choice("get water", player));
     int waterChange = player.getShelter().getWaterTank() - previousWater;
     boolean validWaterChange = false;
-    for(int i = 3; i < 6; i++) {
+    for(int i = 4; i < 7; i++) {
       if(waterChange == i) {
         validWaterChange = true;
         break;
       }
     }
     assertTrue(validWaterChange);
-    if (waterChange == 3) {
+    if (waterChange == 4) {
       assertEquals(6, player.getMorale());
       assertEquals(LOW_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
       assertEquals(previousHydration - ActivityLevel.LOW.getHydrationCost(SuccessRate.LOW), player.getHydration());
     }
-    else if (waterChange == 4) {
+    else if (waterChange == 5) {
       assertEquals(6, player.getMorale());
       assertEquals(LOW_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
       assertEquals(previousHydration - ActivityLevel.LOW.getHydrationCost(SuccessRate.MEDIUM), player.getHydration());
@@ -91,19 +91,19 @@ public class GetWaterActivityTest {
     String getWaterResult = getWater.act(new Choice("get water", player));
     int waterChange = player.getShelter().getWaterTank() - previousWater;
     boolean validWaterChange = false;
-    for(int i = 4; i < 7; i++) {
+    for(int i = 5; i < 8; i++) {
       if(waterChange == i) {
         validWaterChange = true;
         break;
       }
     }
     assertTrue(validWaterChange);
-    if (waterChange == 4) {
+    if (waterChange == 5) {
       assertEquals(6, player.getMorale());
       assertEquals(LOW_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
       assertEquals(previousHydration - ActivityLevel.LOW.getHydrationCost(SuccessRate.LOW), player.getHydration());
     }
-    else if (waterChange == 5) {
+    else if (waterChange == 6) {
       assertEquals(6, player.getMorale());
       assertEquals(LOW_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
       assertEquals(previousHydration - ActivityLevel.LOW.getHydrationCost(SuccessRate.MEDIUM), player.getHydration());

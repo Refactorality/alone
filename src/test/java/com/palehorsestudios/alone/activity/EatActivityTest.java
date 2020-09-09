@@ -15,7 +15,7 @@ import org.junit.Test;
 
 public class EatActivityTest {
 
-    Logger logger = Logger.getLogger(DrinkWaterActivityTest.class.getName());
+    Logger logger = Logger.getLogger(EatActivityTest.class.getName());
     Activity eat;
     Activity getFirewood;
     Activity getItemFromShelter;

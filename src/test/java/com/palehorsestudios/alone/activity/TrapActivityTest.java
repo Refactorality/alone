@@ -19,10 +19,10 @@ import org.junit.Test;
 public class TrapActivityTest {
 
   static final double MED_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT = 179.7;
-  static final double MED_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT = 179.5;
-  static final double MED_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT = 178.9;
+  static final double MED_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT = 179.4;
+  static final double MED_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT = 178.7;
 
-  Logger logger = Logger.getLogger(DrinkWaterActivityTest.class.getName());
+  Logger logger = Logger.getLogger(TrapActivityTest.class.getName());
   Activity getItemFromShelter;
   Activity goTrapping;
   Player player;

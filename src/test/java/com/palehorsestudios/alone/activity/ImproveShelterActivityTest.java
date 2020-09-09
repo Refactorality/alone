@@ -17,11 +17,11 @@ import org.junit.Test;
 
 public class ImproveShelterActivityTest {
 
-  static final double HIGH_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT = 178.8;
-  static final double HIGH_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT = 177.5;
-  static final double HIGH_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT = 175.4;
+  static final double HIGH_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT = 178.5;
+  static final double HIGH_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT = 177.1;
+  static final double HIGH_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT = 174.5;
 
-  Logger logger = Logger.getLogger(DrinkWaterActivityTest.class.getName());
+  Logger logger = Logger.getLogger(ImproveShelterActivityTest.class.getName());
   Activity getItemFromShelter;
   Activity improveShelter;
   Player player;
