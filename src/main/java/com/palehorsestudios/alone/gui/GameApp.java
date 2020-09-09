@@ -200,6 +200,10 @@ public class GameApp extends Application {
   // game thread logic, so we should also wrap the UI access calls
   private void executeGameLoop() {
     player = new Player(initItems);
+    // flag for encounter the encounters
+    boolean encounterDeath = false;
+    // encounter results
+    String encounterResults = "Killed by the encounter";
     // must run in ui thread
     Platform.runLater(
         new Runnable() {
@@ -217,7 +221,6 @@ public class GameApp extends Application {
       String input = getInput();
       Choice choice = parseChoice(input, player);
       Activity activity = parseActivityChoice(choice);
-
       if (activity == null) {
         getNarrative(new File("resources/parserHelp.txt"));
       } else if (activity == EatActivity.getInstance()
@@ -235,6 +238,10 @@ public class GameApp extends Application {
           DayEncounter[] dayEncounters = new DayEncounter[] {BearEncounterDay.getInstance()};
           int randomDayEncounterIndex = (int) Math.floor(Math.random() * dayEncounters.length);
           activityResult = dayEncounters[randomDayEncounterIndex].encounter(player);
+          if (player.isDead()) {
+            encounterDeath = true;
+            encounterResults = activityResult;
+          }
         } else {
           activityResult = activity.act(choice);
         }
@@ -257,6 +264,10 @@ public class GameApp extends Application {
             } else {
               nightResult = overnightStatusUpdate(player);
             }
+            if (player.isDead()) {
+              encounterDeath = true;
+              encounterResults = nightResult;
+            }
             gameController
                 .getDailyLog()
                 .appendText("Day " + day[0] + " Night: " + nightResult + "\n");
@@ -273,25 +284,31 @@ public class GameApp extends Application {
     if (player.isDead()) {
       getGameController().getGameOver().setVisible(true);
       getGameController().getGameOver().setStyle("-fx-text-alignment: center");
+      if (encounterDeath) {
+        getGameController().getGameOver().appendText(encounterResults);
+      }
+      else {
       if (player.getWeight() < 180.0 * 0.6) {
         getGameController().getGameOver().appendText("GAME OVER\n");
-        getGameController().getGameOver().appendText("You starved to death :-(");
+        getGameController().getGameOver().appendText("\nYou starved to death :-(");
       } else if (player.getMorale() <= 0) {
         getGameController().getGameOver().appendText("GAME OVER\n");
         getGameController()
             .getGameOver()
-            .appendText("Your morale is too low. You died of despair.");
+            .appendText("\nYour morale is too low. You died of despair.");
       } else {
         getGameController().getGameOver().appendText("GAME OVER\n");
-        getGameController().getGameOver().appendText("You died of thirst.");
+        getGameController().getGameOver().appendText("\nYou died of thirst.");
       }
-    } else {
+    }
+      }else {
       getGameController().getGameOver().appendText("YOU SURVIVED!\n");
       getGameController()
           .getGameOver()
           .appendText(
-              "A search and rescue party has found you at last. No more eating bugs for you (unless you're into that sort of thing).");
+              "\nA search and rescue party has found you at last. No more eating bugs for you (unless you're into that sort of thing).");
     }
+
   }
 
   public static String overnightStatusUpdate(Player player) {

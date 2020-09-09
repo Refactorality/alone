@@ -48,9 +48,9 @@ public class BearEncounterDay extends DayEncounter {
 //    || player.getItems().contains(HATCHET)
 //    || player.getItems().contains(AXE)); {
 //      TODO: add else if for hatchet and axe
-      player.updateMorale(player.getMorale() - 5);
+      player.updateMorale(- 5);
       player.setHydration(player.getHydration() - 3);
-      player.setWeight(player.getWeight() - 700);
+      player.updateWeight(- 700);
         if (player.isDead()) {
           return "Mother Nature is an unmerciful matron. \n"
             + "Although you were able to fend off the bear, you have died from your wounds. Game over."; }

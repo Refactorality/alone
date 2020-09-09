@@ -167,7 +167,7 @@
                            <effect>
                               <InnerShadow />
                            </effect></TextField>
-                        <TextArea fx:id="gameOver" editable="false" layoutX="94.0" layoutY="220.0" prefHeight="71.0" prefWidth="310.0" text="       " visible="false" wrapText="true" AnchorPane.leftAnchor="94.0" AnchorPane.rightAnchor="143.0" AnchorPane.topAnchor="220.0">
+                        <TextArea fx:id="gameOver" editable="false" layoutX="94.0" layoutY="167.0" prefHeight="230.0" prefWidth="547.0" text="       " visible="false" wrapText="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="167.0">
                            <font>
                               <Font name="Chalkduster" size="15.0" />
                            </font>
