@@ -10,7 +10,7 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<VBox prefHeight="533.0" prefWidth="978.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="531.0" prefWidth="1019.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
   <children>
     <MenuBar prefHeight="0.0" prefWidth="517.0" VBox.vgrow="NEVER">
       <menus>
@@ -53,14 +53,14 @@
     </MenuBar>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="300.0" prefWidth="400.0" VBox.vgrow="ALWAYS">
          <children>
-            <SplitPane dividerPositions="0.5" layoutX="295.0" layoutY="1.0" maxWidth="600.0" minWidth="350.0" orientation="VERTICAL" prefHeight="507.0" prefWidth="433.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <SplitPane dividerPositions="0.5" layoutX="295.0" layoutY="1.0" maxWidth="600.0" minWidth="350.0" orientation="VERTICAL" prefHeight="502.0" prefWidth="470.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="249.0" prefWidth="422.0">
                      <children>
-                        <GridPane layoutX="460.0" prefHeight="247.0" prefWidth="186.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="245.0" AnchorPane.topAnchor="0.0">
+                        <GridPane layoutX="460.0" prefHeight="246.0" prefWidth="178.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="290.0" AnchorPane.topAnchor="0.0">
                           <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="123.0" minWidth="10.0" prefWidth="109.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="145.0" minWidth="6.0" prefWidth="79.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="123.0" minWidth="10.0" prefWidth="91.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="145.0" minWidth="6.0" prefWidth="67.0" />
                           </columnConstraints>
                           <rowConstraints>
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -110,23 +110,25 @@
                               <Insets left="10.0" right="10.0" />
                            </padding>
                         </GridPane>
-                        <ListView fx:id="carriedItems" layoutX="199.0" layoutY="24.0" prefHeight="80.0" prefWidth="105.0" AnchorPane.rightAnchor="139.0" AnchorPane.topAnchor="24.0">
+                        <ListView fx:id="carriedItems" layoutX="193.0" layoutY="24.0" prefHeight="80.0" prefWidth="114.0" AnchorPane.rightAnchor="161.0" AnchorPane.topAnchor="24.0">
                            <effect>
                               <InnerShadow />
                            </effect></ListView>
-                        <Label layoutX="199.0" layoutY="6.0" text="Items Carrying:" AnchorPane.rightAnchor="149.0" AnchorPane.topAnchor="6.0" />
-                        <Label layoutX="199.0" layoutY="115.0" text="Food Cache:" AnchorPane.rightAnchor="162.0" AnchorPane.topAnchor="115.0" />
-                        <ListView fx:id="foodCache" layoutX="199.0" layoutY="136.0" prefHeight="111.0" prefWidth="105.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="139.0" AnchorPane.topAnchor="136.0">
+                        <Label layoutX="193.0" layoutY="6.0" text="Items Carrying:" AnchorPane.rightAnchor="192.0" AnchorPane.topAnchor="6.0" />
+                        <Label layoutX="193.0" layoutY="115.0" text="Food Cache:" AnchorPane.rightAnchor="205.0" AnchorPane.topAnchor="115.0" />
+                        <ListView fx:id="foodCache" layoutX="193.0" layoutY="135.0" prefHeight="110.0" prefWidth="114.0" AnchorPane.bottomAnchor="2.0" AnchorPane.rightAnchor="161.0" AnchorPane.topAnchor="135.0">
                            <effect>
                               <InnerShadow />
                            </effect></ListView>
-                        <Label layoutX="307.0" layoutY="6.0" text="Equipment:" />
-                        <ListView fx:id="equipment" layoutX="282.0" layoutY="24.0" prefHeight="223.0" prefWidth="134.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="-2.0" AnchorPane.topAnchor="24.0">
+                        <Label layoutX="320.0" layoutY="6.0" text="Equipment:" />
+                        <ListView fx:id="equipment" layoutX="312.0" layoutY="24.0" prefHeight="222.0" prefWidth="148.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="24.0">
                            <effect>
                               <InnerShadow />
                            </effect></ListView>
+                        <Separator layoutX="1.0" layoutY="128.0" prefHeight="3.0" prefWidth="178.0" AnchorPane.leftAnchor="0.0" />
+                        <Separator layoutX="176.0" orientation="VERTICAL" prefHeight="246.0" prefWidth="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" />
                      </children></AnchorPane>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="269.0" prefWidth="766.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="230.0" prefWidth="430.0">
                      <children>
                         <TextArea fx:id="dailyLog" editable="false" layoutX="478.0" layoutY="41.0" prefHeight="210.0" prefWidth="271.0" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="41.0">
                            <opaqueInsets>
@@ -139,14 +141,14 @@
                               <Font name="Chalkboard SE Bold" size="13.0" />
                            </font>
                         </TextArea>
-                        <Label layoutX="478.0" layoutY="12.0" prefHeight="17.0" prefWidth="271.0" text="Daily Log:" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
+                        <Label layoutX="478.0" layoutY="12.0" prefHeight="17.0" prefWidth="430.0" text="Daily Log:" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
                            <padding>
                               <Insets left="10.0" />
                            </padding></Label>
                      </children></AnchorPane>
               </items>
             </SplitPane>
-            <SplitPane dividerPositions="0.7994350282485876" layoutX="43.0" layoutY="25.0" maxWidth="600.0" minWidth="420.0" orientation="VERTICAL" prefHeight="507.0" prefWidth="420.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="430.0" AnchorPane.topAnchor="0.0">
+            <SplitPane dividerPositions="0.7994350282485876" layoutX="43.0" layoutY="25.0" maxWidth="600.0" minWidth="420.0" orientation="VERTICAL" prefHeight="502.0" prefWidth="550.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="470.0" AnchorPane.topAnchor="0.0">
               <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="373.0" prefWidth="475.0">
                      <children>
@@ -165,6 +167,14 @@
                            <effect>
                               <InnerShadow />
                            </effect></TextField>
+                        <TextArea fx:id="gameOver" editable="false" layoutX="94.0" layoutY="220.0" prefHeight="71.0" prefWidth="310.0" text="       " visible="false" wrapText="true" AnchorPane.leftAnchor="94.0" AnchorPane.rightAnchor="143.0" AnchorPane.topAnchor="220.0">
+                           <font>
+                              <Font name="Chalkduster" size="15.0" />
+                           </font>
+                           <effect>
+                              <SepiaTone />
+                           </effect>
+                        </TextArea>
                      </children></AnchorPane>
                 <AnchorPane focusTraversable="true" minHeight="0.0" minWidth="0.0" prefHeight="97.0" prefWidth="428.0">
                      <children>

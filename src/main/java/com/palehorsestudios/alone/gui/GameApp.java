@@ -244,6 +244,7 @@ public class GameApp extends Application {
         if (dayHalf[0].equals("Morning")) {
           dayHalf[0] = "Afternoon";
         } else {
+          if (!player.isDead() && !player.isRescued(day[0])) {
             seed[0] = (int) Math.floor(Math.random() * 10);
             String nightResult;
             if (seed[0] > 7) {
@@ -261,6 +262,7 @@ public class GameApp extends Application {
                 .appendText("Day " + day[0] + " Night: " + nightResult + "\n");
             dayHalf[0] = "Morning";
             day[0]++;
+          }
         }
         gameController.getDateAndTime().setText("Day " + day[0] + " " + dayHalf[0]);
       }
@@ -269,16 +271,26 @@ public class GameApp extends Application {
     gameController.getEnterButton().setVisible(false);
     updateUI();
     if (player.isDead()) {
+      getGameController().getGameOver().setVisible(true);
+      getGameController().getGameOver().setStyle("-fx-text-alignment: center");
       if (player.getWeight() < 180.0 * 0.6) {
-        appendToCurActivity("GAME OVER\n You starved to death :-(");
+        getGameController().getGameOver().appendText("GAME OVER\n");
+        getGameController().getGameOver().appendText("You starved to death :-(");
       } else if (player.getMorale() <= 0) {
-        appendToCurActivity("GAME OVER\n Your morale is too low. You died of despair.");
+        getGameController().getGameOver().appendText("GAME OVER\n");
+        getGameController()
+            .getGameOver()
+            .appendText("Your morale is too low. You died of despair.");
       } else {
-        appendToCurActivity("GAME OVER\n You died of thirst.");
+        getGameController().getGameOver().appendText("GAME OVER\n");
+        getGameController().getGameOver().appendText("You died of thirst.");
       }
     } else {
-      appendToCurActivity(
-          "YOU SURVIVED!\nA search and rescue party has found you at last. No more eating bugs for you (unless you're into that sort of thing).");
+      getGameController().getGameOver().appendText("YOU SURVIVED!\n");
+      getGameController()
+          .getGameOver()
+          .appendText(
+              "A search and rescue party has found you at last. No more eating bugs for you (unless you're into that sort of thing).");
     }
   }
 

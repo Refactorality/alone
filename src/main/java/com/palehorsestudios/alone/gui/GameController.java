@@ -21,6 +21,7 @@ public class GameController {
   @FXML private TextField water;
   @FXML private ListView<String> foodCache;
   @FXML private ListView<String> equipment;
+  @FXML private TextArea gameOver;
 
   public TextField getWeight() {
     return weight;
@@ -78,4 +79,5 @@ public class GameController {
     return enterBtn;
   }
 
+  public TextArea getGameOver() { return gameOver; }
 }
