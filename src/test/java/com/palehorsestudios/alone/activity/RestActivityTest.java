@@ -16,7 +16,7 @@ import org.junit.Test;
 
 public class RestActivityTest {
 
-  static final double LOW_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT = 179.9;
+  static final double LOW_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT = 179.8;
   static final double LOW_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT = 179.7;
 
   Logger logger = Logger.getLogger(RestActivityTest.class.getName());

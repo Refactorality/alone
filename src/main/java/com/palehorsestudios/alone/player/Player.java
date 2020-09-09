@@ -11,10 +11,10 @@ import java.util.Set;
 public class Player {
   // static constants
   private static final int MIN_HYDRATION = 0;
-  private static final int MAX_HYDRATION = 10;
+  private static final int MAX_HYDRATION = 20;
   private static final int MIN_WEIGHT = 0;
   private static final int MIN_MORALE = 0;
-  private static final int MAX_MORALE = 10;
+  private static final int MAX_MORALE = 20;
   private static final double CALORIES_PER_POUND = 285.7;
   private final Set<Item> items;
   private final Shelter shelter;
@@ -28,9 +28,9 @@ public class Player {
    * @param items Set of Items to be added to Player Shelter.
    */
   public Player(Set<Item> items) {
-    this.hydration = 5;
+    this.hydration = 15;
     this.weight = 180;
-    this.morale = 5;
+    this.morale = 15;
     this.items = new HashSet<>();
     this.shelter = new Shelter();
     for (Item item : items) {
@@ -196,20 +196,7 @@ public class Player {
     for(Food food : this.getShelter().getFoodCache().keySet()) {
       sb.append("\n  ").append(food).append(": ");
       double foodWeightInGrams = HelperMethods.round(this.getShelter().getFoodCache().get(food), 1);
-      // if food weight greater than a pound, display in pounds
-      if(foodWeightInGrams > 456) {
-        double foodWeightInPounds = HelperMethods.round(foodWeightInGrams / 436, 1);
-        sb.append(foodWeightInPounds).append(" pounds");
-      }
-      // if food weight greater than an ounce, display in ounces
-      else if(foodWeightInGrams > 28) {
-        double foodWeightInOunces = HelperMethods.round(foodWeightInGrams / 28, 1);
-        sb.append(foodWeightInOunces).append(" ounces");
-      }
-      // else display in grams
-      else {
-        sb.append(foodWeightInGrams).append(" grams");
-      }
+      sb.append(HelperMethods.getLargestFoodUnit(foodWeightInGrams));
     }
     sb.append("\nItems in Shelter");
     for(Item item : this.getShelter().getEquipment().keySet()) {

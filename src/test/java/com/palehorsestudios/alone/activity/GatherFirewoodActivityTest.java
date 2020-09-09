@@ -17,8 +17,8 @@ import org.junit.Test;
 
 public class GatherFirewoodActivityTest {
   static final double MED_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT = 179.7;
-  static final double MED_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT = 179.5;
-  static final double MED_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT = 178.9;
+  static final double MED_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT = 179.4;
+  static final double MED_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT = 178.7;
 
   Logger logger = Logger.getLogger(GatherFirewoodActivityTest.class.getName());
   Activity getItemFromShelter;
@@ -54,7 +54,7 @@ public class GatherFirewoodActivityTest {
   public void testGatherFirewoodWithoutItems() {
     int previousHydration = player.getHydration();
     double previousFirewood = player.getShelter().getFirewood();
-    String gatherFirewoodResult = gatherFirewood.act(new Choice("get firewood", player));
+    String gatherFirewoodResult = gatherFirewood.act(new Choice("gather", player));
     double firewoodChange = player.getShelter().getFirewood() - previousFirewood;
     boolean validFirewoodChange = false;
     double[] validFirewoodChangeValues = new double[]{1.0, 3.0, 5.0};
@@ -89,7 +89,7 @@ public class GatherFirewoodActivityTest {
     getItemFromShelter.act(new Choice("axe", player, (Item.AXE)));
     int previousHydration = player.getHydration();
     double previousFirewood = player.getShelter().getFirewood();
-    String gatherFirewoodResult = gatherFirewood.act(new Choice("get firewood", player));
+    String gatherFirewoodResult = gatherFirewood.act(new Choice("gather", player));
     double firewoodChange = player.getShelter().getFirewood() - previousFirewood;
     boolean validFirewoodChange = false;
     double[] validFirewoodChangeValues = new double[]{1.1, 3.3, 5.5};

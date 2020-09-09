@@ -44,7 +44,7 @@ public class BuildFireActivity extends Activity{
       }
       int attemptOutcome;
       if (successRate == SuccessRate.LOW) {
-        attemptOutcome = (int) Math.floor(Math.random() * 4);
+        attemptOutcome = (int) Math.floor(Math.random() * 3);
       } else if (successRate == SuccessRate.MEDIUM) {
         attemptOutcome = (int) Math.floor(Math.random() * 2);
       } else {

@@ -79,15 +79,16 @@ public class BearEncounterDay extends DayEncounter {
               + "your wounds!";
         }
     } else {
-      player.updateMorale(player.getMorale() - 10);
+      player.updateMorale(-10);
       return "While in the northern territories, you're just another link in the food chain. Every time "
           + "you leave to venture out into the wilderness, whatever you might be doing, "
           + "this fact is never far from your thoughts. \n"
           + "There's always the possibility of a run in with a Grizzly, and during this such outing, "
           + "you are charged by a large male asserting his claim on the territory you're in. "
-          + "Without much in the way to defend yourself, and no knowledge of what to do in the "
-          + "event of a bear attack, the large grizzly descends upon you. "
-          + "You have died! Game over.";
+          + "Without much in the way to defend yourself, and no knowledge of what to do in the"
+          + "event of a bear attack, the large grizzly descends upon you."
+          + "You have died! " +
+          "\n\nGame over.";
     }
   }
 }

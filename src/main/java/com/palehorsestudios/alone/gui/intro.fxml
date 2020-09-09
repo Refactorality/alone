@@ -58,7 +58,7 @@
                      <effect>
                         <SepiaTone>
                            <input>
-                              <DropShadow />
+                              <InnerShadow />
                            </input>
                         </SepiaTone>
                      </effect>
@@ -68,14 +68,14 @@
                         <Font size="24.0" />
                      </font>
                      <effect>
-                        <DropShadow />
+                        <InnerShadow />
                      </effect></Button>
                   <TextField alignment="CENTER" editable="false" layoutX="102.0" layoutY="14.0" promptText="Game Introduction" text="Game Introduction" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <font>
                         <Font size="19.0" />
                      </font>
                      <effect>
-                        <DropShadow />
+                        <InnerShadow />
                      </effect>
                   </TextField>
                </children>
