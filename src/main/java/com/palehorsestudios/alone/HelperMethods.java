@@ -17,4 +17,22 @@ public class HelperMethods {
     bd = bd.setScale(places, RoundingMode.HALF_UP);
     return bd.doubleValue();
   }
+
+  public static String getLargestFoodUnit(double grams) {
+    StringBuilder sb = new StringBuilder();
+    if(grams > 456) {
+      double foodWeightInPounds = HelperMethods.round(grams / 436, 1);
+      sb.append(foodWeightInPounds).append(" lb");
+    }
+    // if food weight greater than an ounce, display in ounces
+    else if(grams > 28) {
+      double foodWeightInOunces = HelperMethods.round(grams / 28, 1);
+      sb.append(foodWeightInOunces).append(" oz");
+    }
+    // else display in grams
+    else {
+      sb.append(grams).append(" g");
+    }
+    return sb.toString();
+  }
 }
