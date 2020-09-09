@@ -458,7 +458,7 @@ public class GameApp extends Application {
                 gameController
                     .getFoodCache()
                     .getItems()
-                    .add(HelperMethods.round(entry.getValue(), 1) + "g " + entry.getKey());
+                    .add(HelperMethods.getLargestFoodUnit(entry.getValue()) + " " + entry.getKey());
               }
             } catch (Exception e) {
               e.printStackTrace();

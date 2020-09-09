@@ -193,20 +193,7 @@ public class Player {
     for(Food food : this.getShelter().getFoodCache().keySet()) {
       sb.append("\n  ").append(food).append(": ");
       double foodWeightInGrams = HelperMethods.round(this.getShelter().getFoodCache().get(food), 1);
-      // if food weight greater than a pound, display in pounds
-      if(foodWeightInGrams > 456) {
-        double foodWeightInPounds = HelperMethods.round(foodWeightInGrams / 436, 1);
-        sb.append(foodWeightInPounds).append(" pounds");
-      }
-      // if food weight greater than an ounce, display in ounces
-      else if(foodWeightInGrams > 28) {
-        double foodWeightInOunces = HelperMethods.round(foodWeightInGrams / 28, 1);
-        sb.append(foodWeightInOunces).append(" ounces");
-      }
-      // else display in grams
-      else {
-        sb.append(foodWeightInGrams).append(" grams");
-      }
+      sb.append(HelperMethods.getLargestFoodUnit(foodWeightInGrams));
     }
     sb.append("\nItems in Shelter");
     for(Item item : this.getShelter().getEquipment().keySet()) {
