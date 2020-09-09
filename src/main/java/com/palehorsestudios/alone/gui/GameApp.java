@@ -269,7 +269,7 @@ public class GameApp extends Application {
     gameController.getEnterButton().setVisible(false);
     updateUI();
     if (player.isDead()) {
-      if (player.getWeight() < 180.0 * 0.6) {
+      if (player.getWeight() < 180.0 * 0.8) {
         appendToCurActivity("GAME OVER\n You starved to death :-(");
       } else if (player.getMorale() <= 0) {
         appendToCurActivity("GAME OVER\n Your morale is too low. You died of despair.");
