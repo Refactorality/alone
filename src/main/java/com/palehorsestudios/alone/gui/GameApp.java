@@ -15,6 +15,7 @@ import com.palehorsestudios.alone.activity.GetItemActivity;
 import com.palehorsestudios.alone.activity.PutItemActivity;
 import com.palehorsestudios.alone.player.Player;
 import com.palehorsestudios.alone.player.SuccessRate;
+import dayencounter.RescueHelicopterDay;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import dayencounter.BearEncounterDay;
@@ -38,6 +39,7 @@ import javafx.stage.Stage;
 import nightencounter.BearEncounterNight;
 import nightencounter.NightEncounter;
 import nightencounter.RainStorm;
+import nightencounter.RescueHelicopterNight;
 
 import java.util.Set;
 
@@ -232,7 +234,9 @@ public class GameApp extends Application {
         final int[] seed = {(int) Math.floor(Math.random() * 10)};
         String activityResult;
         if (seed[0] > 7) {
-          DayEncounter[] dayEncounters = new DayEncounter[] {BearEncounterDay.getInstance()};
+          DayEncounter[] dayEncounters = new DayEncounter[] {
+              BearEncounterDay.getInstance(),
+              RescueHelicopterDay.getInstance()};
           int randomDayEncounterIndex = (int) Math.floor(Math.random() * dayEncounters.length);
           activityResult = dayEncounters[randomDayEncounterIndex].encounter(player);
         } else {
@@ -249,7 +253,10 @@ public class GameApp extends Application {
             String nightResult;
             if (seed[0] > 7) {
               NightEncounter[] nightEncounters =
-                  new NightEncounter[] {RainStorm.getInstance(), BearEncounterNight.getInstance()};
+                  new NightEncounter[] {
+                      RainStorm.getInstance(),
+                      BearEncounterNight.getInstance(),
+                      RescueHelicopterNight.getInstance()};
               int randomNightEncounterIndex =
                   (int) Math.floor(Math.random() * nightEncounters.length);
               nightResult = nightEncounters[randomNightEncounterIndex].encounter(player);
