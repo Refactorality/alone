@@ -43,6 +43,7 @@ public class Main {
       put("eat mushrooms", "eat");
       put("eat berry", "eat");
       put("eat berries", "eat");
+      put("eat bear", "eat");
       put("go hunt", "hunt");
       put("go hunting", "hunt");
       put("hunt", "hunt");
@@ -343,6 +344,10 @@ public class Main {
       put("get cartridges", Item.PISTOL_CARTRIDGES);
       put("get ammo", Item.PISTOL_CARTRIDGES);
       put("get rounds", Item.PISTOL_CARTRIDGES);
+      put("get pistol ammo", Item.PISTOL_CARTRIDGES);
+      put("get pistol ammunition", Item.PISTOL_CARTRIDGES);
+      put("get pistol rounds", Item.PISTOL_CARTRIDGES);
+      put("get pistol cartridges", Item.PISTOL_CARTRIDGES);
       put("get shovel", Item.SHOVEL);
       put("get harmonica", Item.HARMONICA);
       put("get lighter", Item.LIGHTER);
@@ -404,6 +409,10 @@ public class Main {
       put("put gun", Item.PISTOL);
       put("put ammunition", Item.PISTOL_CARTRIDGES);
       put("put ammo", Item.PISTOL_CARTRIDGES);
+      put("put pistol ammo", Item.PISTOL_CARTRIDGES);
+      put("put pistol ammunition", Item.PISTOL_CARTRIDGES);
+      put("put pistol rounds", Item.PISTOL_CARTRIDGES);
+      put("put pistol cartridges", Item.PISTOL_CARTRIDGES);
       put("put cartridges", Item.PISTOL_CARTRIDGES);
       put("put rounds", Item.PISTOL_CARTRIDGES);
       put("put shovel", Item.SHOVEL);
