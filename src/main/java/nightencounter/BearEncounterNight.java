@@ -31,8 +31,8 @@ public class BearEncounterNight extends NightEncounter {
 //        || player.getItems().contains(BOW) && player.getItems().contains(ARROWS))
 //      TODO: add else if for bow and arrow
       player.setHydration(player.getHydration() - 1);
-      player.setWeight(player.getWeight() - 500);
-      player.updateMorale(player.getMorale() - 1);
+      player.updateWeight(- 500);
+      player.updateMorale(- 1);
       player.getShelter().addFoodToCache(Food.BEAR, Food.BEAR.getGrams());
       // description for if the player defends the camp with pistol
       return "You wake in the middle of the night... something is nearby. \n"
