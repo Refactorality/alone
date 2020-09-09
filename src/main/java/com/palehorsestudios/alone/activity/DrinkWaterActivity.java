@@ -17,9 +17,18 @@ public class DrinkWaterActivity extends Activity{
   @Override
   public String act(Choice choice) {
     String result;
-    if (choice.getPlayer().getShelter().getWaterTank() > 0) {
-      choice.getPlayer().getShelter().updateWater(-1);
-      choice.getPlayer().setHydration(choice.getPlayer().getHydration() + 1);
+    int waterLevel = choice.getPlayer().getShelter().getWaterTank();
+    if (waterLevel > 0) {
+      if(waterLevel > 2) {
+        choice.getPlayer().getShelter().updateWater(-3);
+        choice.getPlayer().setHydration(choice.getPlayer().getHydration() + 3);
+      } else if (waterLevel > 1) {
+        choice.getPlayer().getShelter().updateWater(-2);
+        choice.getPlayer().setHydration(choice.getPlayer().getHydration() + 2);
+      } else {
+        choice.getPlayer().getShelter().updateWater(-1);
+        choice.getPlayer().setHydration(choice.getPlayer().getHydration() + 1);
+      }
       result = "That's better. Your hydration is now at "
           + choice.getPlayer().getHydration()
           + ", and you have "
