@@ -13,10 +13,10 @@ import java.util.Set;
 public class Player {
   // static constants
   private static final int MIN_HYDRATION = 0;
-  private static final int MAX_HYDRATION = 10;
+  private static final int MAX_HYDRATION = 20;
   private static final int MIN_WEIGHT = 0;
   private static final int MIN_MORALE = 0;
-  private static final int MAX_MORALE = 10;
+  private static final int MAX_MORALE = 20;
   private static final double CALORIES_PER_POUND = 285.7;
   private final Set<Item> items;
   private final Shelter shelter;
@@ -30,9 +30,9 @@ public class Player {
    * @param items Set of Items to be added to Player Shelter.
    */
   public Player(Set<Item> items) {
-    this.hydration = 5;
+    this.hydration = 15;
     this.weight = 180;
-    this.morale = 5;
+    this.morale = 15;
     this.items = new HashSet<>();
     this.shelter = new Shelter();
     for (Item item : items) {
