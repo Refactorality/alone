@@ -9,12 +9,14 @@ import com.palehorsestudios.alone.HelperMethods;
 import com.palehorsestudios.alone.Item;
 import com.palehorsestudios.alone.activity.Activity;
 import com.palehorsestudios.alone.activity.ActivityLevel;
+import com.palehorsestudios.alone.activity.BuildFireActivity;
 import com.palehorsestudios.alone.activity.DrinkWaterActivity;
 import com.palehorsestudios.alone.activity.EatActivity;
 import com.palehorsestudios.alone.activity.GetItemActivity;
 import com.palehorsestudios.alone.activity.PutItemActivity;
 import com.palehorsestudios.alone.player.Player;
 import com.palehorsestudios.alone.player.SuccessRate;
+import com.palehorsestudios.alone.dayencounter.RescueHelicopterDay;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import com.palehorsestudios.alone.dayencounter.BearEncounterDay;
@@ -35,6 +37,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import com.palehorsestudios.alone.nightencounter.RescueHelicopterNight;
 import com.palehorsestudios.alone.nightencounter.BearEncounterNight;
 import com.palehorsestudios.alone.nightencounter.NightEncounter;
 import com.palehorsestudios.alone.nightencounter.RainStorm;
@@ -164,9 +167,10 @@ public class GameApp extends Application {
         new EventHandler<ActionEvent>() {
           @Override
           public void handle(ActionEvent event) {
-            currentInput = gameController.getPlayerInput().getText();
-            gameController.getPlayerInput().clear();
+            currentInput = gameController.getPlayerInput().getText().trim();
             notifyInput();
+            gameController.getPlayerInput().clear();
+            gameController.getPlayerInput().requestFocus();
           }
         };
 
@@ -200,8 +204,9 @@ public class GameApp extends Application {
   // game thread logic, so we should also wrap the UI access calls
   private void executeGameLoop() {
     player = new Player(initItems);
-    // flag for encounter the encounters
+    // flag for encounter results
     boolean encounterDeath = false;
+    boolean encounterRescue = false;
     // encounter results
     String encounterResults = "Killed by the encounter";
     // must run in ui thread
@@ -216,7 +221,7 @@ public class GameApp extends Application {
     final int[] day = {1};
     final String[] dayHalf = {"Morning"};
     gameController.getDateAndTime().setText("Day " + day[0] + " " + dayHalf[0]);
-    while (!player.isDead() && !player.isRescued(day[0])) {
+    while (!player.isDead() && !player.isRescued() && !player.isRescued(day[0])) {
       // update the UI fields
       updateUI();
       String input = getInput();
@@ -227,7 +232,8 @@ public class GameApp extends Application {
       } else if (activity == EatActivity.getInstance()
           || activity == DrinkWaterActivity.getInstance()
           || activity == GetItemActivity.getInstance()
-          || activity == PutItemActivity.getInstance()) {
+          || activity == PutItemActivity.getInstance()
+          || activity == BuildFireActivity.getInstance()) {
         String activityResult = activity.act(choice);
         gameController
             .getDailyLog()
@@ -236,13 +242,17 @@ public class GameApp extends Application {
         final int[] seed = {(int) Math.floor(Math.random() * 10)};
         String activityResult;
         if (seed[0] > 7) {
-          DayEncounter[] dayEncounters = new DayEncounter[] {BearEncounterDay.getInstance()};
+          DayEncounter[] dayEncounters = new DayEncounter[] {
+              BearEncounterDay.getInstance(),
+              RescueHelicopterDay.getInstance()};
           int randomDayEncounterIndex = (int) Math.floor(Math.random() * dayEncounters.length);
           activityResult = dayEncounters[randomDayEncounterIndex].encounter(player);
           if (player.isDead()) {
             encounterDeath = true;
-            encounterResults = activityResult;
+          } else if (player.isRescued()) {
+            encounterRescue = true;
           }
+          encounterResults = activityResult;
         } else {
           activityResult = activity.act(choice);
         }
@@ -257,17 +267,21 @@ public class GameApp extends Application {
             String nightResult;
             if (seed[0] > 7) {
               NightEncounter[] nightEncounters =
-                  new NightEncounter[] {RainStorm.getInstance(), BearEncounterNight.getInstance()};
+                  new NightEncounter[] {
+                      RainStorm.getInstance(),
+                      BearEncounterNight.getInstance(),
+                      RescueHelicopterNight.getInstance()};
               int randomNightEncounterIndex =
                   (int) Math.floor(Math.random() * nightEncounters.length);
               nightResult = nightEncounters[randomNightEncounterIndex].encounter(player);
-
+              if (player.isDead()) {
+                encounterDeath = true;
+              } else if(player.isRescued()) {
+                encounterRescue = true;
+              }
+              encounterResults = nightResult;
             } else {
               nightResult = overnightStatusUpdate(player);
-            }
-            if (player.isDead()) {
-              encounterDeath = true;
-              encounterResults = nightResult;
             }
             gameController
                 .getDailyLog()
@@ -282,32 +296,34 @@ public class GameApp extends Application {
     gameController.getPlayerInput().setVisible(false);
     gameController.getEnterButton().setVisible(false);
     updateUI();
+    getGameController().getGameOver().setVisible(true);
+    getGameController().getGameOver().setStyle("-fx-text-alignment: center");
     if (player.isDead()) {
-      getGameController().getGameOver().setVisible(true);
-      getGameController().getGameOver().setStyle("-fx-text-alignment: center");
       if (encounterDeath) {
-        getGameController().getGameOver().appendText(encounterResults);
+        getGameController().getGameOver().appendText("GAME OVER\n" + encounterResults);
       }
       else {
-      if (player.getWeight() < 180.0 * 0.6) {
-        getGameController().getGameOver().appendText("GAME OVER\n");
-        getGameController().getGameOver().appendText("\nYou starved to death :-(");
+        if (player.getWeight() < 180.0 * 0.8) {
+          getGameController()
+              .getGameOver()
+              .appendText("GAME OVER\nYour malnutrition caused you to die of hypothermia. :-(");
       } else if (player.getMorale() <= 0) {
-        getGameController().getGameOver().appendText("GAME OVER\n");
+          getGameController()
+              .getGameOver()
+              .appendText("GAME OVER\nYour morale is too low. You died of despair.");
+      } else {
+          getGameController().getGameOver().appendText("GAME OVER\nYou died of thirst.");
+        }
+      }
+    } else {
+      if(encounterRescue) {
+        getGameController().getGameOver().appendText("YOU SURVIVED!\n" + encounterResults);
+      } else {
         getGameController()
             .getGameOver()
-            .appendText("\nYour morale is too low. You died of despair.");
-      } else {
-        getGameController().getGameOver().appendText("GAME OVER\n");
-        getGameController().getGameOver().appendText("\nYou died of thirst.");
+            .appendText(
+                "YOU SURVIVED!\nA search and rescue party has found you at last. No more eating bugs for you (unless you're into that sort of thing).");
       }
-    }
-      }else {
-      getGameController().getGameOver().appendText("YOU SURVIVED!\n");
-      getGameController()
-          .getGameOver()
-          .appendText(
-              "\nA search and rescue party has found you at last. No more eating bugs for you (unless you're into that sort of thing).");
     }
 
   }
@@ -336,16 +352,15 @@ public class GameApp extends Application {
     }
     double caloriesBurned = ActivityLevel.MEDIUM.getCaloriesBurned(successRate);
     player.updateWeight(-caloriesBurned);
-    if (player.getWeight() < 180.0 * 0.6) {
+    if (player.getWeight() < 180.0 * 0.8) {
       result = result + " But you die of losing too much weight! /n/n Game Over!";
     }
     int hydrationCost = ActivityLevel.MEDIUM.getHydrationCost(successRate);
     player.setHydration(player.getHydration() - hydrationCost);
-
     if (player.getHydration() < 0 ) {
       result = result + " But you die of thirst! /n/n Game Over!";
     }
-
+    player.getShelter().setFire(false);
     return result;
   }
 

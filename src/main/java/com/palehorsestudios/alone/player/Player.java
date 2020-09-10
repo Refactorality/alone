@@ -22,12 +22,14 @@ public class Player {
   private int hydration;
   private double weight;
   private int morale;
+  private boolean isRescued;
 
   /**
    * Public Player constructor.
    * @param items Set of Items to be added to Player Shelter.
    */
   public Player(Set<Item> items) {
+    this.isRescued = false;
     this.hydration = 15;
     this.weight = 180;
     this.morale = 15;
@@ -164,12 +166,20 @@ public class Player {
     return gameOver;
   }
 
+  public void setRescued(boolean isRescued) {
+    this.isRescued = isRescued;
+  }
+
   public boolean isRescued(int days) {
-    boolean playerIsRescued = false;
+    boolean isRescued = false;
     if (days > 15) {
-      playerIsRescued = ((int) Math.floor(Math.random() * 2)) != 0;
+      isRescued = ((int) Math.floor(Math.random() * 2)) != 0;
     }
-    return playerIsRescued;
+    return isRescued;
+  }
+
+  public boolean isRescued() {
+    return this.isRescued;
   }
 
   /**
