@@ -277,6 +277,7 @@ public class Main {
     Map<String, Food> choiceFoodMap = new HashMap<>(){{
       put("eat moose", Food.MOOSE);
       put("eat fish", Food.FISH);
+      put("eat bear", Food.BEAR);
       put("eat squirrel", Food.SQUIRREL);
       put("eat rabbit", Food.RABBIT);
       put("eat porcupine", Food.PORCUPINE);
