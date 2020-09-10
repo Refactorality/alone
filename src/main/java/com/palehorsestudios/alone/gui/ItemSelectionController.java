@@ -51,6 +51,7 @@ public class ItemSelectionController {
   @FXML private CheckBox journalandpen;
 
   private static int count = 0;
+
   public Set<Item> selectItems() {
     Map<CheckBox, Item> inventory = new HashMap<>();
     inventory.put(fishingLine, Item.FISHING_LINE);
@@ -88,16 +89,26 @@ public class ItemSelectionController {
     Set<Item> initItems = new HashSet<>();
 
     for (Map.Entry<CheckBox, Item> entry : inventory.entrySet()) {
-      entry.getKey().selectedProperty().addListener(new ChangeListener<Boolean>() {
-        public void changed(ObservableValue ov, Boolean old_val, Boolean new_val) {
-          if(count == 9) {
-            paneSelected.setDisable(true);
-          }else {
-            count++;
-          }
-          //initItems.add(entry.getValue()) TODO maybe get this to work to eliminate the lines below;
-        }
-      });
+      entry
+          .getKey()
+          .selectedProperty()
+          .addListener(
+              new ChangeListener<Boolean>() {
+                public void changed(ObservableValue ov, Boolean old_val, Boolean new_val) {
+                  if (count == 9) {
+                    paneSelected.setDisable(true);
+                  } else {
+                    if (entry.getKey().isSelected()) {
+                      initItems.add(entry.getValue());
+                      count++;
+                    } else if (!entry.getKey().isSelected()
+                        && initItems.contains(entry.getValue())) {
+                      count--;
+                      initItems.remove(entry.getValue());
+                    }
+                  }
+                }
+              });
     }
 
     if (fishingLine.isSelected()) {
@@ -209,5 +220,4 @@ public class ItemSelectionController {
   public GridPane getPaneSelected() {
     return paneSelected;
   }
-
 }
