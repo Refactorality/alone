@@ -18,6 +18,7 @@ public class ItemSelectionController {
   @FXML private GridPane paneSelected;
   @FXML private Button next;
   @FXML private Label countdown;
+  @FXML private Label itemsSelectedCount;
   @FXML private CheckBox fishingLine;
   @FXML private CheckBox fishingHooks;
   @FXML private CheckBox fishingLures;
@@ -95,8 +96,9 @@ public class ItemSelectionController {
           .addListener(
               new ChangeListener<Boolean>() {
                 public void changed(ObservableValue ov, Boolean old_val, Boolean new_val) {
-                  if (count == 9) {
-                    paneSelected.setDisable(true);
+                  //if user selected 10 items, un-select their selection
+                  if (count == 10 && entry.getKey().isSelected()) {
+                    entry.getKey().setSelected(false);
                   } else {
                     if (entry.getKey().isSelected()) {
                       initItems.add(entry.getValue());
@@ -106,6 +108,8 @@ public class ItemSelectionController {
                       count--;
                       initItems.remove(entry.getValue());
                     }
+                    //change display of gui item count to mirror this.count value every time this.count changes
+                    itemsSelectedCount.setText(String.valueOf(count));
                   }
                 }
               });

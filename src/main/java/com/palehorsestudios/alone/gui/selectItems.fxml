@@ -122,6 +122,28 @@
                <effect>
                   <Blend />
                </effect></Label>
+          <Label fx:id="selectedItems" alignment="CENTER" contentDisplay="CENTER" layoutX="320.0" layoutY="18.0"
+                 prefHeight="37.0" prefWidth="180.0" text="Number of Items Currently Selected"
+                 textAlignment="CENTER"
+                 AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="301.0" AnchorPane.bottomAnchor="53.0">
+              <font>
+                  <Font size="20.0"/>
+              </font>
+              <effect>
+                  <Blend/>
+              </effect>
+          </Label>
+          <Label fx:id="itemsSelectedCount" alignment="CENTER" contentDisplay="CENTER" layoutX="320.0"
+                 layoutY="18.0"
+                 prefHeight="37.0" prefWidth="180.0" text="0" textAlignment="CENTER" textFill="crimson"
+                 AnchorPane.leftAnchor="280.0" AnchorPane.rightAnchor="351.0" AnchorPane.bottomAnchor="23.0">
+              <font>
+                  <Font size="20.0"/>
+              </font>
+              <effect>
+                  <Blend/>
+              </effect>
+          </Label>
       </children>
     </AnchorPane>
   </children>
