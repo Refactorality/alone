@@ -17,6 +17,7 @@ import com.palehorsestudios.alone.activity.PutItemActivity;
 import com.palehorsestudios.alone.player.Player;
 import com.palehorsestudios.alone.player.SuccessRate;
 import com.palehorsestudios.alone.dayencounter.RescueHelicopterDay;
+import com.palehorsestudios.alone.util.Sound;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import com.palehorsestudios.alone.dayencounter.BearEncounterDay;
@@ -43,7 +44,6 @@ import com.palehorsestudios.alone.nightencounter.NightEncounter;
 import com.palehorsestudios.alone.nightencounter.RainStorm;
 
 import java.util.Set;
-
 import static javafx.util.Duration.seconds;
 
 public class GameApp extends Application {
@@ -55,6 +55,8 @@ public class GameApp extends Application {
   private static GameApp instance;
   private static Set<Item> initItems;
   private static final int COUNT_DOWN = 30;
+  Thread soundThread;
+  Sound introSound;
 
   public GameApp() {
     instance = this;
@@ -98,6 +100,11 @@ public class GameApp extends Application {
               introScene.getWindow().hide();
               // show game scene
               selectItemsStage.show();
+              // start sound
+              introSound = new Sound("resources/Sound/Intro/Alone.wav",30000);
+              soundThread = new Thread(introSound);
+              soundThread.start();
+
               // start the count down timer
               final Integer[] timeSeconds = {COUNT_DOWN};
               Timeline timeline = new Timeline();
@@ -223,6 +230,7 @@ public class GameApp extends Application {
     gameController.getDateAndTime().setText("Day " + day[0] + " " + dayHalf[0]);
     while (!player.isDead() && !player.isRescued() && !player.isRescued(day[0])) {
       // update the UI fields
+      introSound.doTerminateSound();
       updateUI();
       String input = getInput();
       Choice choice = parseChoice(input, player);
