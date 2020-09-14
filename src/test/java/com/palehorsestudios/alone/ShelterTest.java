@@ -38,20 +38,20 @@ public class ShelterTest {
 
   @Test
   public void addEquipmentHappy() {
-    shelter.addEquipment(Item.WIRE, 1);
-    assertEquals(1, shelter.getEquipment().get(Item.WIRE), 0.0);
+    shelter.addEquipment(GameAssets.gameItems.get("WIRE"), 1);
+    assertEquals(1, shelter.getEquipment().get(GameAssets.gameItems.get("WIRE")), 0.0);
   }
 
   @Test
   public void removeEquipmentHappy() {
-    shelter.addEquipment(Item.FISHING_HOOKS, 3);
-    assertEquals(1, shelter.removeEquipment(Item.FISHING_HOOKS, 1));
-    assertEquals(Optional.of(2).get(), shelter.getEquipment().get(Item.FISHING_HOOKS));
+    shelter.addEquipment(GameAssets.gameItems.get("FISHING_HOOKS"), 3);
+    assertEquals(1, shelter.removeEquipment(GameAssets.gameItems.get("FISHING_HOOKS"), 1));
+    assertEquals(Optional.of(2).get(), shelter.getEquipment().get(GameAssets.gameItems.get("FISHING_HOOKS")));
   }
 
   @Test
   public void removeEquipmentFail() {
-    assertEquals(0, shelter.removeEquipment(Item.FAMILY_PHOTO, 500));
+    assertEquals(0, shelter.removeEquipment(GameAssets.gameItems.get("FAMILY_PHOTO"), 500));
   }
 
   @Test

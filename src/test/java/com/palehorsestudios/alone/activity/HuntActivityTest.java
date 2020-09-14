@@ -34,16 +34,16 @@ public class HuntActivityTest {
     Set<Item> items =
         new HashSet<>(
             Arrays.asList(
-                Item.AXE,
-                Item.KNIFE,
-                Item.FISHING_LINE,
-                Item.FISHING_HOOKS,
-                Item.WIRE,
-                Item.HARMONICA,
-                Item.FLINT_AND_STEEL,
-                Item.POT,
-                Item.FIRST_AID_KIT,
-                Item.COLD_WEATHER_GEAR));
+                GameAssets.gameItems.get("AXE,
+                GameAssets.gameItems.get("KNIFE,
+                GameAssets.gameItems.get("FISHING_LINE,
+                GameAssets.gameItems.get("FISHING_HOOKS,
+                GameAssets.gameItems.get("WIRE,
+                GameAssets.gameItems.get("HARMONICA,
+                GameAssets.gameItems.get("FLINT_AND_STEEL,
+                GameAssets.gameItems.get("POT,
+                GameAssets.gameItems.get("FIRST_AID_KIT,
+                GameAssets.gameItems.get("COLD_WEATHER_GEAR));
     player = new Player(items);
     player.getShelter().addFoodToCache(Food.FISH, 1000);
     player.getShelter().addFoodToCache(Food.SQUIRREL, 1000);
@@ -93,9 +93,9 @@ public class HuntActivityTest {
 
   @Test
   public void testGoHuntingWithItems() {
-    getItemFromShelter.act(new Choice("knife", player, (Item.KNIFE)));
-    getItemFromShelter.act(new Choice("bow", player, (Item.BOW)));
-    getItemFromShelter.act(new Choice("arrows", player, (Item.ARROWS)));
+    getItemFromShelter.act(new Choice("knife", player, (GameAssets.gameItems.get("KNIFE)));
+    getItemFromShelter.act(new Choice("bow", player, (GameAssets.gameItems.get("BOW)));
+    getItemFromShelter.act(new Choice("arrows", player, (GameAssets.gameItems.get("ARROWS)));
     int previousHydration = player.getHydration();
     String huntingResult = goHunting.act(new Choice("hunting", player));
     String[] possibleResults = new String[]{"I guess that's why they don't call it killing. You couldn't get a shot on an animal.",

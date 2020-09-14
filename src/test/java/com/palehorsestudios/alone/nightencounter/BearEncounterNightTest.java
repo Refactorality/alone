@@ -33,10 +33,10 @@ public class BearEncounterNightTest {
   public void testBearEncounterNightKnifeAndSurvivalManualPlayerLives() {
     Set<Item> items =
         new HashSet<>(
-            Arrays.asList(Item.KNIFE, Item.SURVIVAL_MANUAL));
+            Arrays.asList(GameAssets.gameItems.get("KNIFE, GameAssets.gameItems.get("SURVIVAL_MANUAL));
     player = new Player(items);
-    player.getShelter().addEquipment(Item.KNIFE, 1);
-    player.getShelter().addEquipment(Item.SURVIVAL_MANUAL, 1);
+    player.getShelter().addEquipment(GameAssets.gameItems.get("KNIFE, 1);
+    player.getShelter().addEquipment(GameAssets.gameItems.get("SURVIVAL_MANUAL, 1);
     String encounterResult = bearEncounterNight.encounter(player);
     String expectedString =
         "You wake in the middle of the night... something is nearby. \n"
@@ -136,10 +136,10 @@ public class BearEncounterNightTest {
   public void testBearEncounterNightWithPistolAndCartridgesItems() {
     Set<Item> items =
         new HashSet<>(
-            Arrays.asList(Item.PISTOL_CARTRIDGES, Item.PISTOL));
+            Arrays.asList(GameAssets.gameItems.get("PISTOL_CARTRIDGES, GameAssets.gameItems.get("PISTOL));
     player = new Player(items);
-    getItemFromShelter.act(new Choice("pistol", player, (Item.PISTOL)));
-    getItemFromShelter.act(new Choice("ammo", player, (Item.PISTOL_CARTRIDGES)));
+    getItemFromShelter.act(new Choice("pistol", player, (GameAssets.gameItems.get("PISTOL)));
+    getItemFromShelter.act(new Choice("ammo", player, (GameAssets.gameItems.get("PISTOL_CARTRIDGES)));
     String encounterResult = bearEncounterNight.encounter(player);
     String expectedString =
         "You wake in the middle of the night... something is nearby. \n"
@@ -163,9 +163,9 @@ public class BearEncounterNightTest {
 
   @Test
   public void testBearEncounterNightWithKnifeAndSurvivalManualItemsPlayerSurvives() {
-    player.getShelter().addEquipment(Item.KNIFE, 1);
-    player.getShelter().addEquipment(Item.SURVIVAL_MANUAL, 1);
-    getItemFromShelter.act(new Choice("knife", player, (Item.KNIFE)));
+    player.getShelter().addEquipment(GameAssets.gameItems.get("KNIFE, 1);
+    player.getShelter().addEquipment(GameAssets.gameItems.get("SURVIVAL_MANUAL, 1);
+    getItemFromShelter.act(new Choice("knife", player, (GameAssets.gameItems.get("KNIFE)));
     String encounterResult = bearEncounterNight.encounter(player);
     String expectedString =
         "You wake in the middle of the night... something is nearby. \n"

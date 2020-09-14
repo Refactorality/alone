@@ -2,6 +2,7 @@ package com.palehorsestudios.alone.activity;
 
 import com.palehorsestudios.alone.Choice;
 import com.palehorsestudios.alone.Food;
+import com.palehorsestudios.alone.GameAssets;
 import com.palehorsestudios.alone.Item;
 import com.palehorsestudios.alone.player.SuccessRate;
 
@@ -29,7 +30,7 @@ public class FishActivity extends Activity {
     double boostFactor =
         Activity.getActivityBoostFactor(
             new Item[] {
-                Item.SURVIVAL_MANUAL, Item.FISHING_HOOKS, Item.FISHING_LINE, Item.FISHING_LURES
+                GameAssets.gameItems.get("SURVIVAL_MANUAL"), GameAssets.gameItems.get("FISHING_HOOKS"), GameAssets.gameItems.get("FISHING_LINE"), GameAssets.gameItems.get("FISHING_LURES")
             }, choice.getPlayer());
     // gear, maybe we should eliminate low success rate possibility.
     if (successRate == SuccessRate.LOW) {

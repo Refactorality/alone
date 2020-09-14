@@ -1,10 +1,8 @@
 package com.palehorsestudios.alone.player;
 
 import com.google.common.base.Objects;
-import com.palehorsestudios.alone.Food;
-import com.palehorsestudios.alone.HelperMethods;
-import com.palehorsestudios.alone.Item;
-import com.palehorsestudios.alone.Shelter;
+import com.palehorsestudios.alone.*;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -39,23 +37,23 @@ public class Player {
       this.shelter.addEquipment(item, 1);
     }
     // boost shelter if Player has fire starting items
-    if(items.contains(Item.FLINT_AND_STEEL) || items.contains(Item.MATCHES) || items.contains(Item.LIGHTER)) {
+    if(items.contains(GameAssets.gameItems.get("FLINT_AND_STEEL")) || items.contains(GameAssets.gameItems.get("MATCHES")) || items.contains(GameAssets.gameItems.get("LIGHTER"))) {
       this.shelter.setIntegrity(this.shelter.getIntegrity() + 1);
     }
     // boost shelter if Player has a tarp
-    if(items.contains(Item.TARP)) {
+    if(items.contains(GameAssets.gameItems.get("TARP"))) {
       this.shelter.setIntegrity(this.shelter.getIntegrity() + 1);
     }
     // boost shelter if Player has items to assist in shelter construction
-    if(items.contains(Item.PARACHUTE_CHORD) || items.contains(Item.AXE) || items.contains(Item.HATCHET) || items.contains(Item.SHOVEL) || items.contains(Item.KNIFE) || items.contains(Item.TARP)){
+    if(items.contains(GameAssets.gameItems.get("PARACHUTE_CHORD")) || items.contains(GameAssets.gameItems.get("AXE")) || items.contains(GameAssets.gameItems.get("HATCHET")) || items.contains(GameAssets.gameItems.get("SHOVEL")) || items.contains(GameAssets.gameItems.get("KNIFE")) || items.contains(GameAssets.gameItems.get("TARP"))){
       this.shelter.setIntegrity(this.shelter.getIntegrity() + 1);
     }
     // boost shelter if Player has sleeping gear
-    if(items.contains(Item.SLEEPING_GEAR)) {
+    if(items.contains(GameAssets.gameItems.get("SLEEPING_GEAR"))) {
       this.shelter.setIntegrity(this.shelter.getIntegrity() + 1);
     }
     // boost shelter if Player has other "nice to have" items
-    if((items.contains(Item.FLASHLIGHT) && items.contains(Item.BATTERIES)) || items.contains(Item.POT) || items.contains(Item.SURVIVAL_MANUAL)) {
+    if((items.contains(GameAssets.gameItems.get("FLASHLIGHT")) && items.contains(GameAssets.gameItems.get("BATTERIES"))) || items.contains(GameAssets.gameItems.get("POT")) || items.contains(GameAssets.gameItems.get("SURVIVAL_MANUAL"))) {
       this.shelter.setIntegrity(this.shelter.getIntegrity() + 1);
     }
   }

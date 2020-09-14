@@ -1,5 +1,6 @@
 package com.palehorsestudios.alone.gui;
 
+import com.palehorsestudios.alone.GameAssets;
 import com.palehorsestudios.alone.Item;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -55,37 +56,37 @@ public class ItemSelectionController {
 
   public Set<Item> selectItems() {
     Map<CheckBox, Item> inventory = new HashMap<>();
-    inventory.put(fishingLine, Item.FISHING_LINE);
-    inventory.put(fishingHooks, Item.FISHING_HOOKS);
-    inventory.put(fishingLures, Item.FISHING_LURES);
-    inventory.put(knife, Item.KNIFE);
-    inventory.put(flintandsteel, Item.FLINT_AND_STEEL);
-    inventory.put(bow, Item.BOW);
-    inventory.put(arrows, Item.ARROWS);
-    inventory.put(familyPhoto, Item.FAMILY_PHOTO);
-    inventory.put(parachuteChord, Item.PARACHUTE_CHORD);
-    inventory.put(flare, Item.FLARE);
-    inventory.put(extraBoots, Item.EXTRA_BOOTS);
-    inventory.put(extraPants, Item.EXTRA_PANTS);
-    inventory.put(sleepingGear, Item.SLEEPING_GEAR);
-    inventory.put(coldWeatherGear, Item.COLD_WEATHER_GEAR);
-    inventory.put(footTarp, Item.TARP);
-    inventory.put(matches, Item.MATCHES);
-    inventory.put(firstAid, Item.FIRST_AID_KIT);
-    inventory.put(flashlight, Item.FLASHLIGHT);
-    inventory.put(extraBatteries, Item.BATTERIES);
-    inventory.put(gaugeWire, Item.WIRE);
-    inventory.put(cookingPot, Item.POT);
-    inventory.put(axe, Item.AXE);
-    inventory.put(hatchet, Item.HATCHET);
-    inventory.put(iodineTablets, Item.IODINE_TABLETS);
-    inventory.put(magnumRevolver, Item.PISTOL);
-    inventory.put(cartridges, Item.PISTOL_CARTRIDGES);
-    inventory.put(shovel, Item.SHOVEL);
-    inventory.put(harmonica, Item.HARMONICA);
-    inventory.put(lighter, Item.LIGHTER);
-    inventory.put(survivalManual, Item.SURVIVAL_MANUAL);
-    inventory.put(journalandpen, Item.JOURNAL);
+    inventory.put(fishingLine, GameAssets.gameItems.get("FISHING_LINE"));
+    inventory.put(fishingHooks, GameAssets.gameItems.get("FISHING_HOOKS"));
+    inventory.put(fishingLures, GameAssets.gameItems.get("FISHING_LURES"));
+    inventory.put(knife, GameAssets.gameItems.get("KNIFE"));
+    inventory.put(flintandsteel, GameAssets.gameItems.get("FLINT_AND_STEEL"));
+    inventory.put(bow, GameAssets.gameItems.get("BOW"));
+    inventory.put(arrows, GameAssets.gameItems.get("ARROWS"));
+    inventory.put(familyPhoto, GameAssets.gameItems.get("FAMILY_PHOTO"));
+    inventory.put(parachuteChord, GameAssets.gameItems.get("PARACHUTE_CHORD"));
+    inventory.put(flare, GameAssets.gameItems.get("FLARE"));
+    inventory.put(extraBoots, GameAssets.gameItems.get("EXTRA_BOOTS"));
+    inventory.put(extraPants, GameAssets.gameItems.get("EXTRA_PANTS"));
+    inventory.put(sleepingGear, GameAssets.gameItems.get("SLEEPING_GEAR"));
+    inventory.put(coldWeatherGear, GameAssets.gameItems.get("COLD_WEATHER_GEAR"));
+    inventory.put(footTarp, GameAssets.gameItems.get("TARP"));
+    inventory.put(matches, GameAssets.gameItems.get("MATCHES"));
+    inventory.put(firstAid, GameAssets.gameItems.get("FIRST_AID_KIT"));
+    inventory.put(flashlight, GameAssets.gameItems.get("FLASHLIGHT"));
+    inventory.put(extraBatteries, GameAssets.gameItems.get("BATTERIES"));
+    inventory.put(gaugeWire, GameAssets.gameItems.get("WIRE"));
+    inventory.put(cookingPot, GameAssets.gameItems.get("POT"));
+    inventory.put(axe, GameAssets.gameItems.get("AXE"));
+    inventory.put(hatchet, GameAssets.gameItems.get("HATCHET"));
+    inventory.put(iodineTablets, GameAssets.gameItems.get("IODINE_TABLETS"));
+    inventory.put(magnumRevolver, GameAssets.gameItems.get("PISTOL"));
+    inventory.put(cartridges, GameAssets.gameItems.get("PISTOL_CARTRIDGES"));
+    inventory.put(shovel, GameAssets.gameItems.get("SHOVEL"));
+    inventory.put(harmonica, GameAssets.gameItems.get("HARMONICA"));
+    inventory.put(lighter, GameAssets.gameItems.get("LIGHTER"));
+    inventory.put(survivalManual, GameAssets.gameItems.get("SURVIVAL_MANUAL"));
+    inventory.put(journalandpen, GameAssets.gameItems.get("JOURNAL"));
 
     Set<Item> initItems = new HashSet<>();
 
@@ -116,98 +117,98 @@ public class ItemSelectionController {
     }
 
     if (fishingLine.isSelected()) {
-      initItems.add(Item.FISHING_LINE);
+      initItems.add(GameAssets.gameItems.get("FISHING_LINE"));
     }
     if (fishingHooks.isSelected()) {
-      initItems.add(Item.FISHING_HOOKS);
+      initItems.add(GameAssets.gameItems.get("FISHING_HOOKS"));
     }
     if (fishingLures.isSelected()) {
-      initItems.add(Item.FISHING_LURES);
+      initItems.add(GameAssets.gameItems.get("FISHING_LURES"));
     }
     if (knife.isSelected()) {
-      initItems.add(Item.KNIFE);
+      initItems.add(GameAssets.gameItems.get("KNIFE"));
     }
     if (flintandsteel.isSelected()) {
-      initItems.add(Item.FLINT_AND_STEEL);
+      initItems.add(GameAssets.gameItems.get("FLINT_AND_STEEL"));
     }
     if (bow.isSelected()) {
-      initItems.add(Item.BOW);
+      initItems.add(GameAssets.gameItems.get("BOW"));
     }
     if (arrows.isSelected()) {
-      initItems.add(Item.ARROWS);
+      initItems.add(GameAssets.gameItems.get("ARROWS"));
     }
     if (familyPhoto.isSelected()) {
-      initItems.add(Item.FAMILY_PHOTO);
+      initItems.add(GameAssets.gameItems.get("FAMILY_PHOTO"));
     }
     if (parachuteChord.isSelected()) {
-      initItems.add(Item.PARACHUTE_CHORD);
+      initItems.add(GameAssets.gameItems.get("PARACHUTE_CHORD"));
     }
     if (flare.isSelected()) {
-      initItems.add(Item.FLARE);
+      initItems.add(GameAssets.gameItems.get("FLARE"));
     }
     if (extraBoots.isSelected()) {
-      initItems.add(Item.EXTRA_BOOTS);
+      initItems.add(GameAssets.gameItems.get("EXTRA_BOOTS"));
     }
     if (extraPants.isSelected()) {
-      initItems.add(Item.EXTRA_PANTS);
+      initItems.add(GameAssets.gameItems.get("EXTRA_PANTS"));
     }
     if (sleepingGear.isSelected()) {
-      initItems.add(Item.SLEEPING_GEAR);
+      initItems.add(GameAssets.gameItems.get("SLEEPING_GEAR"));
     }
     if (coldWeatherGear.isSelected()) {
-      initItems.add(Item.COLD_WEATHER_GEAR);
+      initItems.add(GameAssets.gameItems.get("COLD_WEATHER_GEAR"));
     }
     if (footTarp.isSelected()) {
-      initItems.add(Item.TARP);
+      initItems.add(GameAssets.gameItems.get("TARP"));
     }
     if (matches.isSelected()) {
-      initItems.add(Item.MATCHES);
+      initItems.add(GameAssets.gameItems.get("MATCHES"));
     }
     if (firstAid.isSelected()) {
-      initItems.add(Item.FIRST_AID_KIT);
+      initItems.add(GameAssets.gameItems.get("FIRST_AID_KIT"));
     }
     if (flashlight.isSelected()) {
-      initItems.add(Item.FLASHLIGHT);
+      initItems.add(GameAssets.gameItems.get("FLASHLIGHT"));
     }
     if (extraBatteries.isSelected()) {
-      initItems.add(Item.BATTERIES);
+      initItems.add(GameAssets.gameItems.get("BATTERIES"));
     }
     if (gaugeWire.isSelected()) {
-      initItems.add(Item.WIRE);
+      initItems.add(GameAssets.gameItems.get("WIRE"));
     }
     if (cookingPot.isSelected()) {
-      initItems.add(Item.POT);
+      initItems.add(GameAssets.gameItems.get("POT"));
     }
     if (axe.isSelected()) {
-      initItems.add(Item.AXE);
+      initItems.add(GameAssets.gameItems.get("AXE"));
     }
     if (hatchet.isSelected()) {
-      initItems.add(Item.HATCHET);
+      initItems.add(GameAssets.gameItems.get("HATCHET"));
     }
     if (iodineTablets.isSelected()) {
-      initItems.add(Item.IODINE_TABLETS);
+      initItems.add(GameAssets.gameItems.get("IODINE_TABLETS"));
     }
     if (magnumRevolver.isSelected()) {
-      initItems.add(Item.PISTOL);
+      initItems.add(GameAssets.gameItems.get("PISTOL"));
     }
     if (cartridges.isSelected()) {
-      initItems.add(Item.PISTOL_CARTRIDGES);
+      initItems.add(GameAssets.gameItems.get("PISTOL_CARTRIDGES"));
     }
     if (shovel.isSelected()) {
-      initItems.add(Item.SHOVEL);
+      initItems.add(GameAssets.gameItems.get("SHOVEL"));
     }
 
     if (harmonica.isSelected()) {
-      initItems.add(Item.HARMONICA);
+      initItems.add(GameAssets.gameItems.get("HARMONICA"));
     }
     if (lighter.isSelected()) {
-      initItems.add(Item.LIGHTER);
+      initItems.add(GameAssets.gameItems.get("LIGHTER"));
     }
     if (survivalManual.isSelected()) {
-      initItems.add(Item.SURVIVAL_MANUAL);
+      initItems.add(GameAssets.gameItems.get("SURVIVAL_MANUAL"));
     }
     if (journalandpen.isSelected()) {
-      initItems.add(Item.JOURNAL);
+      initItems.add(GameAssets.gameItems.get("JOURNAL"));
     }
 
     return initItems;

@@ -2,6 +2,7 @@ package com.palehorsestudios.alone.activity;
 
 import com.palehorsestudios.alone.Choice;
 import com.palehorsestudios.alone.Food;
+import com.palehorsestudios.alone.GameAssets;
 import com.palehorsestudios.alone.Item;
 import com.palehorsestudios.alone.player.SuccessRate;
 
@@ -27,7 +28,7 @@ public class ForageActivity extends Activity{
     choice.getPlayer().setHydration(choice.getPlayer().getHydration() - hydrationCost);
     double boostFactor =
         Activity.getActivityBoostFactor(
-            new Item[] {Item.SURVIVAL_MANUAL, Item.EXTRA_BOOTS, Item.KNIFE, Item.POT}, choice.getPlayer());
+            new Item[] {GameAssets.gameItems.get("SURVIVAL_MANUAL"), GameAssets.gameItems.get("EXTRA_BOOTS"), GameAssets.gameItems.get("KNIFE"), GameAssets.gameItems.get("POT")}, choice.getPlayer());
     // gear, maybe we should eliminate low success rate possibility.
     if (successRate == SuccessRate.LOW) {
       choice.getPlayer().getShelter()

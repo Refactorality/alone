@@ -29,7 +29,7 @@ public class BearEncounterDayTest {
     getItemFromShelter = GetItemActivity.getInstance();
     Set<Item> items =
         new HashSet<>(
-            Arrays.asList(Item.KNIFE, Item.PISTOL, Item.PISTOL_CARTRIDGES));
+            Arrays.asList(GameAssets.gameItems.get("KNIFE, GameAssets.gameItems.get("PISTOL, GameAssets.gameItems.get("PISTOL_CARTRIDGES));
     player = new Player(items);
     player.getShelter().addFoodToCache(Food.BEAR, 1000);
   }
@@ -58,8 +58,8 @@ public class BearEncounterDayTest {
 
   @Test
   public void testBearEncounterDayWithPistolAndCartridgesItems() {
-    getItemFromShelter.act(new Choice("pistol", player, (Item.PISTOL)));
-    getItemFromShelter.act(new Choice("ammo", player, (Item.PISTOL_CARTRIDGES)));
+    getItemFromShelter.act(new Choice("pistol", player, (GameAssets.gameItems.get("PISTOL)));
+    getItemFromShelter.act(new Choice("ammo", player, (GameAssets.gameItems.get("PISTOL_CARTRIDGES)));
     int previousMorale = player.getMorale();
     double previousWeight = player.getWeight();
     int previousHydration = player.getHydration();
@@ -92,8 +92,8 @@ public class BearEncounterDayTest {
 
   @Test
   public void testBearEncounterDayWithKnifeAndSurvivalManualItemsPlayerSurvives() {
-    player.getShelter().addEquipment(Item.SURVIVAL_MANUAL, 1);
-    getItemFromShelter.act(new Choice("knife", player, (Item.KNIFE)));
+    player.getShelter().addEquipment(GameAssets.gameItems.get("SURVIVAL_MANUAL, 1);
+    getItemFromShelter.act(new Choice("knife", player, (GameAssets.gameItems.get("KNIFE)));
     int previousMorale = player.getMorale();
     double previousWeight = player.getWeight();
     int previousHydration = player.getHydration();
@@ -122,8 +122,8 @@ public class BearEncounterDayTest {
   }
   @Test
   public void testBearEncounterDayWithKnifeAndSurvivalManualItemsPlayerDies() {
-    player.getShelter().addEquipment(Item.SURVIVAL_MANUAL, 1);
-    getItemFromShelter.act(new Choice("knife", player, (Item.KNIFE)));
+    player.getShelter().addEquipment(GameAssets.gameItems.get("SURVIVAL_MANUAL, 1);
+    getItemFromShelter.act(new Choice("knife", player, (GameAssets.gameItems.get("KNIFE)));
     this.player.updateMorale(-1);
     this.player.updateWeight(-700);
     this.player.updateHydration(-2);

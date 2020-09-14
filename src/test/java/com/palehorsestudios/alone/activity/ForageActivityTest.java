@@ -34,16 +34,16 @@ public class ForageActivityTest {
     Set<Item> items =
         new HashSet<>(
             Arrays.asList(
-                Item.AXE,
-                Item.KNIFE,
-                Item.FISHING_LINE,
-                Item.FISHING_HOOKS,
-                Item.WIRE,
-                Item.HARMONICA,
-                Item.FLINT_AND_STEEL,
-                Item.POT,
-                Item.FIRST_AID_KIT,
-                Item.COLD_WEATHER_GEAR));
+                GameAssets.gameItems.get("AXE,
+                GameAssets.gameItems.get("KNIFE,
+                GameAssets.gameItems.get("FISHING_LINE,
+                GameAssets.gameItems.get("FISHING_HOOKS,
+                GameAssets.gameItems.get("WIRE,
+                GameAssets.gameItems.get("HARMONICA,
+                GameAssets.gameItems.get("FLINT_AND_STEEL,
+                GameAssets.gameItems.get("POT,
+                GameAssets.gameItems.get("FIRST_AID_KIT,
+                GameAssets.gameItems.get("COLD_WEATHER_GEAR));
     player = new Player(items);
     player.getShelter().addFoodToCache(Food.FISH, 1000);
     player.getShelter().addFoodToCache(Food.SQUIRREL, 1000);
@@ -96,8 +96,8 @@ public class ForageActivityTest {
 
   @Test
   public void testGoForagingWithItems() {
-    getItemFromShelter.act(new Choice("pot", player, (Item.POT)));
-    getItemFromShelter.act(new Choice("pot", player, (Item.EXTRA_BOOTS)));
+    getItemFromShelter.act(new Choice("pot", player, (GameAssets.gameItems.get("POT)));
+    getItemFromShelter.act(new Choice("pot", player, (GameAssets.gameItems.get("EXTRA_BOOTS)));
     int previousHydration = player.getHydration();
     String foragingResult = goForaging.act(new Choice("forage", player));
     String[] possibleResults = new String[]{"Lucky for you, berries are ripe this time of year. You picked as many as you could carry.",

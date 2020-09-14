@@ -2,6 +2,7 @@ package com.palehorsestudios.alone.activity;
 
 import com.palehorsestudios.alone.Choice;
 import com.palehorsestudios.alone.Food;
+import com.palehorsestudios.alone.GameAssets;
 import com.palehorsestudios.alone.Item;
 import com.palehorsestudios.alone.player.SuccessRate;
 
@@ -29,12 +30,12 @@ public class HuntActivity extends Activity{
       double boostFactor =
           Activity.getActivityBoostFactor(
               new Item[] {
-                  Item.SURVIVAL_MANUAL,
-                  Item.ARROWS,
-                  Item.BOW,
-                  Item.PISTOL,
-                  Item.PISTOL_CARTRIDGES,
-                  Item.KNIFE
+                  GameAssets.gameItems.get("SURVIVAL_MANUAL"),
+                  GameAssets.gameItems.get("ARROWS"),
+                  GameAssets.gameItems.get("BOW"),
+                  GameAssets.gameItems.get("PISTOL"),
+                  GameAssets.gameItems.get("PISTOL_CARTRIDGES"),
+                  GameAssets.gameItems.get("KNIFE")
               },
               choice.getPlayer());
       // gear, maybe we should eliminate low success rate possibility.

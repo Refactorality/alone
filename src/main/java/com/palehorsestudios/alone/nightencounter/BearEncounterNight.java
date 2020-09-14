@@ -1,11 +1,8 @@
 package com.palehorsestudios.alone.nightencounter;
 
-import static com.palehorsestudios.alone.Item.KNIFE;
-import static com.palehorsestudios.alone.Item.PISTOL;
-import static com.palehorsestudios.alone.Item.PISTOL_CARTRIDGES;
-import static com.palehorsestudios.alone.Item.SURVIVAL_MANUAL;
 
 import com.palehorsestudios.alone.Food;
+import com.palehorsestudios.alone.GameAssets;
 import com.palehorsestudios.alone.player.Player;
 
 public class BearEncounterNight extends NightEncounter {
@@ -24,10 +21,10 @@ public class BearEncounterNight extends NightEncounter {
   @Override
   public String encounter(Player player) {
 
-    if (player.getItems().contains(PISTOL_CARTRIDGES)
-        && player.getItems().contains(PISTOL)
-    || player.getShelter().getEquipment().containsKey(PISTOL)
-        && player.getShelter().getEquipment().containsKey(PISTOL_CARTRIDGES)) {
+    if (player.getItems().contains(GameAssets.gameItems.get("PISTOL_CARTRIDGES"))
+        && player.getItems().contains(GameAssets.gameItems.get("PISTOL"))
+    || player.getShelter().getEquipment().containsKey(GameAssets.gameItems.get("PISTOL"))
+        && player.getShelter().getEquipment().containsKey(GameAssets.gameItems.get("PISTOL_CARTRIDGES"))) {
 //        || player.getItems().contains(BOW) && player.getItems().contains(ARROWS))
 //      TODO: add else if for bow and arrow
       player.updateHydration(- 1);
@@ -44,10 +41,10 @@ public class BearEncounterNight extends NightEncounter {
           + "in quick succession. The bear attempts to bite at whatever is stinging him, but your "
           + "aim is true and the bear slumps to the ground. You set about harvesting the bear before "
           + "the meat goes to waste.";
-    } else if (player.getShelter().getEquipment().containsKey(SURVIVAL_MANUAL)
-        && player.getItems().contains(KNIFE)
-        || player.getShelter().getEquipment().containsKey(KNIFE)
-        && player.getShelter().getEquipment().containsKey(SURVIVAL_MANUAL)) {
+    } else if (player.getShelter().getEquipment().containsKey(GameAssets.gameItems.get("SURVIVAL_MANUAL"))
+        && player.getItems().contains(GameAssets.gameItems.get("KNIFE"))
+        || player.getShelter().getEquipment().containsKey(GameAssets.gameItems.get("KNIFE"))
+        && player.getShelter().getEquipment().containsKey(GameAssets.gameItems.get("SURVIVAL_MANUAL"))) {
 //    || player.getItems().contains(HATCHET)
 //    || player.getItems().contains(AXE)); {
 //      TODO: add else if for hatchet and axe

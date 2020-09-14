@@ -1,5 +1,6 @@
 package com.palehorsestudios.alone.dayencounter;
 
+import com.palehorsestudios.alone.GameAssets;
 import com.palehorsestudios.alone.Item;
 import com.palehorsestudios.alone.player.Player;
 
@@ -19,7 +20,7 @@ public class RescueHelicopterDay extends DayEncounter {
   @Override
   public String encounter(Player player) {
 
-    if (player.getItems().contains(Item.FLARE)) {
+    if (player.getItems().contains(GameAssets.gameItems.get("FLARE"))) {
       player.setHydration(20);
       player.updateMorale(20);
       player.setRescued(true);
