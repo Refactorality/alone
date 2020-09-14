@@ -20,20 +20,20 @@ public class ShelterTest {
 
   @Test
   public void testAddFoodToCacheHappy() {
-    shelter.addFoodToCache(Food.FISH, 1000);
-    assertEquals(Optional.of(1000.0).get(), shelter.getFoodCache().get(Food.FISH));
+    shelter.addFoodToCache(GameAssets.gameFoods.get("FISH"), 1000);
+    assertEquals(Optional.of(1000.0).get(), shelter.getFoodCache().get(GameAssets.gameFoods.get("FISH")));
   }
 
   @Test
   public void testRemoveFoodHappy() {
-    shelter.addFoodToCache(Food.SQUIRREL, 1000.0);
-    assertEquals(500.0, shelter.removeFoodFromCache(Food.SQUIRREL, 500.0), 0.001);
-    assertEquals(500.0, shelter.getFoodCache().get(Food.SQUIRREL), 0.001);
+    shelter.addFoodToCache(GameAssets.gameFoods.get("SQUIRREL"), 1000.0);
+    assertEquals(500.0, shelter.removeFoodFromCache(GameAssets.gameFoods.get("SQUIRREL"), 500.0), 0.001);
+    assertEquals(500.0, shelter.getFoodCache().get(GameAssets.gameFoods.get("SQUIRREL")), 0.001);
   }
 
   @Test
   public void testRemoveFoodFail() {
-    assertEquals(0.0, shelter.removeFoodFromCache(Food.RABBIT, 2000.0), 0.001);
+    assertEquals(0.0, shelter.removeFoodFromCache(GameAssets.gameFoods.get("RABBIT"), 2000.0), 0.001);
   }
 
   @Test

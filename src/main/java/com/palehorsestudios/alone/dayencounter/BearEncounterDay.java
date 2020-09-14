@@ -26,7 +26,7 @@ public class BearEncounterDay extends DayEncounter {
       player.updateHydration(-1);; //adjust according to ActivityLevel?
       player.updateWeight(- 500); //adjust according to ActivityLevel?
       player.updateMorale(3);
-      player.getShelter().addFoodToCache(Food.BEAR, Food.BEAR.getGrams());
+      player.getShelter().addFoodToCache(GameAssets.gameFoods.get("BEAR"), GameAssets.gameFoods.get("BEAR").getGrams());
       return "While in the northern territories, you're just another link in the food chain. Every time "
           + "you leave to venture out into the wilderness, whatever you might be doing, "
           + "this fact is never far from your thoughts. \n"

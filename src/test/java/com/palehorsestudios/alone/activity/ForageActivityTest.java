@@ -45,11 +45,11 @@ public class ForageActivityTest {
                 GameAssets.gameItems.get("FIRST_AID_KIT,
                 GameAssets.gameItems.get("COLD_WEATHER_GEAR));
     player = new Player(items);
-    player.getShelter().addFoodToCache(Food.FISH, 1000);
-    player.getShelter().addFoodToCache(Food.SQUIRREL, 1000);
-    player.getShelter().addFoodToCache(Food.RABBIT, 1000);
-    player.getShelter().addFoodToCache(Food.PORCUPINE, 1000);
-    player.getShelter().addFoodToCache(Food.MOOSE, 1000);
+    player.getShelter().addFoodToCache(GameAssets.gameFoods.get("FISH"), 1000);
+    player.getShelter().addFoodToCache(GameAssets.gameFoods.get("SQUIRREL"), 1000);
+    player.getShelter().addFoodToCache(GameAssets.gameFoods.get("RABBIT"), 1000);
+    player.getShelter().addFoodToCache(GameAssets.gameFoods.get("PORCUPINE"), 1000);
+    player.getShelter().addFoodToCache(GameAssets.gameFoods.get("MOOSE"), 1000);
   }
 
   @Test
@@ -71,23 +71,23 @@ public class ForageActivityTest {
     if (foragingResult.equals("Lucky for you, berries are ripe this time of year. You picked as many as you could carry.")) {
       assertEquals(6, player.getMorale());
       assertEquals(
-          Optional.of(Food.BERRIES.getGrams() * 2).get(),
-          player.getShelter().getFoodCache().get(Food.BERRIES));
+          Optional.of(GameAssets.gameFoods.get("BERRIES").getGrams() * 2).get(),
+          player.getShelter().getFoodCache().get(GameAssets.gameFoods.get("BERRIES")));
       assertEquals(LOW_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
       assertEquals(previousHydration - ActivityLevel.LOW.getHydrationCost(SuccessRate.LOW), player.getHydration());
     } else if (foragingResult.equals("Delicious fungus! You found a log covered in edible mushrooms.")) {
       assertEquals(6, player.getMorale());
       assertEquals(
-          Optional.of(Food.MUSHROOM.getGrams() * 4).get(),
-          player.getShelter().getFoodCache().get(Food.MUSHROOM),
+          Optional.of(GameAssets.gameFoods.get("MUSHROOM").getGrams() * 4).get(),
+          player.getShelter().getFoodCache().get(GameAssets.gameFoods.get("MUSHROOM")),
           0.001);
       assertEquals(LOW_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
       assertEquals(previousHydration - ActivityLevel.LOW.getHydrationCost(SuccessRate.MEDIUM), player.getHydration());
     } else {
       assertEquals(7, player.getMorale());
       assertEquals(
-          Optional.of(Food.BUG.getGrams() * 3).get(),
-          player.getShelter().getFoodCache().get(Food.BUG),
+          Optional.of(GameAssets.gameFoods.get("BUG").getGrams() * 3).get(),
+          player.getShelter().getFoodCache().get(GameAssets.gameFoods.get("BUG")),
           0.001);
       assertEquals(LOW_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
       assertEquals(previousHydration - ActivityLevel.LOW.getHydrationCost(SuccessRate.HIGH), player.getHydration());
@@ -115,24 +115,24 @@ public class ForageActivityTest {
     if (foragingResult.equals("Lucky for you, berries are ripe this time of year. You picked as many as you could carry.")) {
       assertEquals(6, player.getMorale());
       assertEquals(
-          Optional.of(Food.BERRIES.getGrams() * 2 + Food.BERRIES.getGrams() * 2 * 0.1).get(),
-          player.getShelter().getFoodCache().get(Food.BERRIES),
+          Optional.of(GameAssets.gameFoods.get("BERRIES").getGrams() * 2 + GameAssets.gameFoods.get("BERRIES").getGrams() * 2 * 0.1).get(),
+          player.getShelter().getFoodCache().get(GameAssets.gameFoods.get("BERRIES")),
           0.001);
       assertEquals(LOW_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
       assertEquals(previousHydration - ActivityLevel.LOW.getHydrationCost(SuccessRate.LOW), player.getHydration());
     } else if (foragingResult.equals("Delicious fungus! You found a log covered in edible mushrooms.")) {
       assertEquals(6, player.getMorale());
       assertEquals(
-          Optional.of(Food.MUSHROOM.getGrams() * 4 + Food.MUSHROOM.getGrams() * 4 * 0.1).get(),
-          player.getShelter().getFoodCache().get(Food.MUSHROOM),
+          Optional.of(GameAssets.gameFoods.get("MUSHROOM").getGrams() * 4 + GameAssets.gameFoods.get("MUSHROOM").getGrams() * 4 * 0.1).get(),
+          player.getShelter().getFoodCache().get(GameAssets.gameFoods.get("MUSHROOM")),
           0.001);
       assertEquals(LOW_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
       assertEquals(previousHydration - ActivityLevel.LOW.getHydrationCost(SuccessRate.MEDIUM), player.getHydration());
     } else {
       assertEquals(7, player.getMorale());
       assertEquals(
-          Optional.of(Food.BUG.getGrams() * 3 + Food.BUG.getGrams() * 3 * 0.1).get(),
-          player.getShelter().getFoodCache().get(Food.BUG),
+          Optional.of(GameAssets.gameFoods.get("BUG").getGrams() * 3 + GameAssets.gameFoods.get("BUG").getGrams() * 3 * 0.1).get(),
+          player.getShelter().getFoodCache().get(GameAssets.gameFoods.get("BUG")),
           0.001);
       assertEquals(LOW_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
       assertEquals(previousHydration - ActivityLevel.LOW.getHydrationCost(SuccessRate.HIGH), player.getHydration());

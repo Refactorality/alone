@@ -33,21 +33,21 @@ public class ForageActivity extends Activity{
     if (successRate == SuccessRate.LOW) {
       choice.getPlayer().getShelter()
           .addFoodToCache(
-              Food.BERRIES,
-              Food.BERRIES.getGrams() * 2 + Food.BERRIES.getGrams() * 2 * boostFactor);
+              GameAssets.gameFoods.get("BERRIES"),
+              GameAssets.gameFoods.get("BERRIES").getGrams() * 2 + GameAssets.gameFoods.get("BERRIES").getGrams() * 2 * boostFactor);
       choice.getPlayer().updateMorale(1);
       result = "Lucky for you, berries are ripe this time of year. You picked as many as you could carry.";
     } else if (successRate == SuccessRate.MEDIUM) {
       choice.getPlayer().getShelter()
           .addFoodToCache(
-              Food.MUSHROOM,
-              Food.MUSHROOM.getGrams() * 4 + Food.MUSHROOM.getGrams() * 4 * boostFactor);
+              GameAssets.gameFoods.get("MUSHROOM"),
+              GameAssets.gameFoods.get("MUSHROOM").getGrams() * 4 + GameAssets.gameFoods.get("MUSHROOM").getGrams() * 4 * boostFactor);
       choice.getPlayer().updateMorale(1);
       result = "Delicious fungus! You found a log covered in edible mushrooms.";
     } else {
       choice.getPlayer().getShelter()
           .addFoodToCache(
-              Food.BUG, Food.BUG.getGrams() * 3 + Food.BUG.getGrams() * 3 * boostFactor);
+              GameAssets.gameFoods.get("BUG"), GameAssets.gameFoods.get("BUG").getGrams() * 3 + GameAssets.gameFoods.get("BUG").getGrams() * 3 * boostFactor);
       choice.getPlayer().updateMorale(2);
       result = "You never thought you would say this, but you are thrilled to have found a large group "
           + "of leaf beetles under a decayed log. These critters are packed full of protein!";

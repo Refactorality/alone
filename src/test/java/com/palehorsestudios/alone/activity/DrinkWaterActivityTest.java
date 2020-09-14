@@ -37,11 +37,11 @@ public class DrinkWaterActivityTest {
                 GameAssets.gameItems.get("FIRST_AID_KIT,
                 GameAssets.gameItems.get("COLD_WEATHER_GEAR));
     player = new Player(items);
-    player.getShelter().addFoodToCache(Food.FISH, 1000);
-    player.getShelter().addFoodToCache(Food.SQUIRREL, 1000);
-    player.getShelter().addFoodToCache(Food.RABBIT, 1000);
-    player.getShelter().addFoodToCache(Food.PORCUPINE, 1000);
-    player.getShelter().addFoodToCache(Food.MOOSE, 1000);
+    player.getShelter().addFoodToCache(GameAssets.gameFoods.get("FISH"), 1000);
+    player.getShelter().addFoodToCache(GameAssets.gameFoods.get("SQUIRREL"), 1000);
+    player.getShelter().addFoodToCache(GameAssets.gameFoods.get("RABBIT"), 1000);
+    player.getShelter().addFoodToCache(GameAssets.gameFoods.get("PORCUPINE"), 1000);
+    player.getShelter().addFoodToCache(GameAssets.gameFoods.get("MOOSE"), 1000);
   }
 
   @Test

@@ -1,5 +1,6 @@
 package com.palehorsestudios.alone;
 
+import com.palehorsestudios.alone.util.reader.FoodReader;
 import com.palehorsestudios.alone.util.reader.ItemReader;
 
 import java.util.HashMap;
@@ -7,17 +8,30 @@ import java.util.Map;
 
 public class GameAssets {
     public static HashMap<String, Item> gameItems;
+    public static HashMap<String, Food> gameFoods;
     public static Map<String, String> choiceKeywordMap;
     public static Map<String, Food> choiceFoodMap;
     public static Map<String, Item> choiceItemMap;
 
     public void loadAssets() {
         loadItems();
+        loadFood();
         loadCommands();
     }
 
     public static void loadItems() {
         gameItems = ItemReader.readItemsXML("./resources/xml/items.xml");
+    }
+
+    public static void loadFood() {
+        gameFoods = FoodReader.readFoodsXML("./resources/xml/foods.xml");
+
+        for (Food food : gameFoods.values()) {
+            System.out.println(food.getName());
+            System.out.println(food.getFoodName());
+            System.out.println(food.getCaloriesPerGram());
+            System.out.println(food.getGrams());
+        }
     }
 
     public static void loadCommands() {
@@ -266,18 +280,18 @@ public class GameAssets {
         }};
 
         choiceFoodMap = new HashMap<>(){{
-            put("eat moose", Food.MOOSE);
-            put("eat fish", Food.FISH);
-            put("eat bear", Food.BEAR);
-            put("eat squirrel", Food.SQUIRREL);
-            put("eat rabbit", Food.RABBIT);
-            put("eat porcupine", Food.PORCUPINE);
-            put("eat bug", Food.BUG);
-            put("eat bugs", Food.BUG);
-            put("eat mushroom", Food.MUSHROOM);
-            put("eat mushrooms", Food.MUSHROOM);
-            put("eat berry", Food.BERRIES);
-            put("eat berries", Food.BERRIES);
+            put("eat moose", gameFoods.get("MOOSE"));
+            put("eat fish", gameFoods.get("FISH"));
+            put("eat bear", gameFoods.get("BEAR"));
+            put("eat squirrel", gameFoods.get("SQUIRREL"));
+            put("eat rabbit", gameFoods.get("RABBIT"));
+            put("eat porcupine", gameFoods.get("PORCUPINE"));
+            put("eat bug", gameFoods.get("BUG"));
+            put("eat bugs", gameFoods.get("BUG"));
+            put("eat mushroom", gameFoods.get("MUSHROOM"));
+            put("eat mushrooms", gameFoods.get("MUSHROOM"));
+            put("eat berry", gameFoods.get("BERRIES"));
+            put("eat berries", gameFoods.get("BERRIES"));
         }};
 
         choiceItemMap = new HashMap<>(){{

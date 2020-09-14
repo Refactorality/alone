@@ -45,11 +45,11 @@ public class FishActivityTest {
                 GameAssets.gameItems.get("FIRST_AID_KIT,
                 GameAssets.gameItems.get("COLD_WEATHER_GEAR));
     player = new Player(items);
-    player.getShelter().addFoodToCache(Food.FISH, 1000);
-    player.getShelter().addFoodToCache(Food.SQUIRREL, 1000);
-    player.getShelter().addFoodToCache(Food.RABBIT, 1000);
-    player.getShelter().addFoodToCache(Food.PORCUPINE, 1000);
-    player.getShelter().addFoodToCache(Food.MOOSE, 1000);
+    player.getShelter().addFoodToCache(GameAssets.gameFoods.get("FISH"), 1000);
+    player.getShelter().addFoodToCache(GameAssets.gameFoods.get("SQUIRREL"), 1000);
+    player.getShelter().addFoodToCache(GameAssets.gameFoods.get("RABBIT"), 1000);
+    player.getShelter().addFoodToCache(GameAssets.gameFoods.get("PORCUPINE"), 1000);
+    player.getShelter().addFoodToCache(GameAssets.gameFoods.get("MOOSE"), 1000);
   }
 
   @Test
@@ -70,22 +70,22 @@ public class FishActivityTest {
     if (fishingResult.equals("I guess that's why they don't call it catching. You didn't catch any fish.")) {
       assertEquals(3, player.getMorale());
       assertEquals(
-          Optional.of(1000.0).get(), player.getShelter().getFoodCache().get(Food.FISH), 0.001);
+          Optional.of(1000.0).get(), player.getShelter().getFoodCache().get(GameAssets.gameFoods.get("FISH")), 0.001);
       assertEquals(MED_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
       assertEquals(previousHydration - ActivityLevel.MEDIUM.getHydrationCost(SuccessRate.LOW), player.getHydration());
     } else if (fishingResult.equals("It looks like you'll be eating fresh fish tonight! You caught one lake trout.")) {
       assertEquals(7, player.getMorale());
       assertEquals(
-          Optional.of(1000.0 + Food.FISH.getGrams()).get(),
-          player.getShelter().getFoodCache().get(Food.FISH),
+          Optional.of(1000.0 + GameAssets.gameFoods.get("FISH").getGrams()).get(),
+          player.getShelter().getFoodCache().get(GameAssets.gameFoods.get("FISH")),
           0.001);
       assertEquals(MED_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
       assertEquals(previousHydration - ActivityLevel.MEDIUM.getHydrationCost(SuccessRate.MEDIUM), player.getHydration());
     } else {
       assertEquals(8, player.getMorale());
       assertEquals(
-          Optional.of(1000.0 + (Food.FISH.getGrams() * 3)).get(),
-          player.getShelter().getFoodCache().get(Food.FISH),
+          Optional.of(1000.0 + (GameAssets.gameFoods.get("FISH").getGrams() * 3)).get(),
+          player.getShelter().getFoodCache().get(GameAssets.gameFoods.get("FISH")),
           0.001);
       assertEquals(MED_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
       assertEquals(previousHydration - ActivityLevel.MEDIUM.getHydrationCost(SuccessRate.HIGH), player.getHydration());
@@ -113,22 +113,22 @@ public class FishActivityTest {
     if (fishingResult.equals("I guess that's why they don't call it catching. You didn't catch any fish.")) {
       assertEquals(3, player.getMorale());
       assertEquals(
-          Optional.of(1000.0).get(), player.getShelter().getFoodCache().get(Food.FISH), 0.001);
+          Optional.of(1000.0).get(), player.getShelter().getFoodCache().get(GameAssets.gameFoods.get("FISH")), 0.001);
       assertEquals(MED_ACTIVITY_LOW_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
       assertEquals(previousHydration - ActivityLevel.MEDIUM.getHydrationCost(SuccessRate.LOW), player.getHydration());
     } else if (fishingResult.equals("It looks like you'll be eating fresh fish tonight! You caught one lake trout.")) {
       assertEquals(7, player.getMorale());
       assertEquals(
-          Optional.of(1000.0 + Food.FISH.getGrams() + Food.FISH.getGrams() * 0.2).get(),
-          player.getShelter().getFoodCache().get(Food.FISH),
+          Optional.of(1000.0 + GameAssets.gameFoods.get("FISH").getGrams() + GameAssets.gameFoods.get("FISH").getGrams() * 0.2).get(),
+          player.getShelter().getFoodCache().get(GameAssets.gameFoods.get("FISH")),
           0.001);
       assertEquals(MED_ACTIVITY_MED_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
       assertEquals(previousHydration - ActivityLevel.MEDIUM.getHydrationCost(SuccessRate.MEDIUM), player.getHydration());
     } else {
       assertEquals(8, player.getMorale());
       assertEquals(
-          Optional.of(1000.0 + (Food.FISH.getGrams() * 3 + Food.FISH.getGrams() * 3 * 0.2)).get(),
-          player.getShelter().getFoodCache().get(Food.FISH),
+          Optional.of(1000.0 + (GameAssets.gameFoods.get("FISH").getGrams() * 3 + GameAssets.gameFoods.get("FISH").getGrams() * 3 * 0.2)).get(),
+          player.getShelter().getFoodCache().get(GameAssets.gameFoods.get("FISH")),
           0.001);
       assertEquals(MED_ACTIVITY_HIGH_SUCCESS_PLAYER_WEIGHT, player.getWeight(), 0.005);
       assertEquals(previousHydration - ActivityLevel.MEDIUM.getHydrationCost(SuccessRate.HIGH), player.getHydration());

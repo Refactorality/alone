@@ -1,6 +1,7 @@
 package com.palehorsestudios.alone;
 
 public class Item {
+  private String name;
   private String itemName;
 
   public Item() {
@@ -9,6 +10,14 @@ public class Item {
 
   public Item(String itemName) {
     this.itemName = itemName;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
   }
 
   public String getItemName() {

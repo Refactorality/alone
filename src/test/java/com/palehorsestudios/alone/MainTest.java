@@ -49,18 +49,18 @@ public class MainTest {
 
   @Test
   public void testParseChoiceEat() {
-    assertEquals(new Choice("eat", player, Food.MOOSE), Main.parseChoice("eat moose", player));
-    assertEquals(new Choice("eat", player, Food.FISH), Main.parseChoice("eat fish", player));
-    assertEquals(new Choice("eat", player, Food.SQUIRREL), Main.parseChoice("eat squirrel", player));
-    assertEquals(new Choice("eat", player, Food.BEAR), Main.parseChoice("eat bear", player));
-    assertEquals(new Choice("eat", player, Food.RABBIT), Main.parseChoice("eat rabbit", player));
-    assertEquals(new Choice("eat", player, Food.PORCUPINE), Main.parseChoice("eat porcupine", player));
-    assertEquals(new Choice("eat", player, Food.BUG), Main.parseChoice("eat bug", player));
-    assertEquals(new Choice("eat", player, Food.BUG), Main.parseChoice("eat bugs", player));
-    assertEquals(new Choice("eat", player, Food.MUSHROOM), Main.parseChoice("eat mushroom", player));
-    assertEquals(new Choice("eat", player, Food.MUSHROOM), Main.parseChoice("eat mushrooms", player));
-    assertEquals(new Choice("eat", player, Food.BERRIES), Main.parseChoice("eat berry", player));
-    assertEquals(new Choice("eat", player, Food.BERRIES), Main.parseChoice("eat berries", player));
+    assertEquals(new Choice("eat", player, GameAssets.gameFoods.get("MOOSE")), Main.parseChoice("eat moose", player));
+    assertEquals(new Choice("eat", player, GameAssets.gameFoods.get("FISH")), Main.parseChoice("eat fish", player));
+    assertEquals(new Choice("eat", player, GameAssets.gameFoods.get("SQUIRREL")), Main.parseChoice("eat squirrel", player));
+    assertEquals(new Choice("eat", player, GameAssets.gameFoods.get("BEAR")), Main.parseChoice("eat bear", player));
+    assertEquals(new Choice("eat", player, GameAssets.gameFoods.get("RABBIT")), Main.parseChoice("eat rabbit", player));
+    assertEquals(new Choice("eat", player, GameAssets.gameFoods.get("PORCUPINE")), Main.parseChoice("eat porcupine", player));
+    assertEquals(new Choice("eat", player, GameAssets.gameFoods.get("BUG")), Main.parseChoice("eat bug", player));
+    assertEquals(new Choice("eat", player, GameAssets.gameFoods.get("BUG")), Main.parseChoice("eat bugs", player));
+    assertEquals(new Choice("eat", player, GameAssets.gameFoods.get("MUSHROOM")), Main.parseChoice("eat mushroom", player));
+    assertEquals(new Choice("eat", player, GameAssets.gameFoods.get("MUSHROOM")), Main.parseChoice("eat mushrooms", player));
+    assertEquals(new Choice("eat", player, GameAssets.gameFoods.get("BERRIES")), Main.parseChoice("eat berry", player));
+    assertEquals(new Choice("eat", player, GameAssets.gameFoods.get("BERRIES")), Main.parseChoice("eat berries", player));
   }
 
   @Test

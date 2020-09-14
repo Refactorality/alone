@@ -38,8 +38,8 @@ public class TrapActivity extends Activity {
           .getPlayer()
           .getShelter()
           .addFoodToCache(
-              Food.SQUIRREL,
-              Food.SQUIRREL.getGrams() * 2 + Food.SQUIRREL.getGrams() * 2 * boostFactor);
+              GameAssets.gameFoods.get("SQUIRREL"),
+              GameAssets.gameFoods.get("SQUIRREL").getGrams() * 2 + GameAssets.gameFoods.get("SQUIRREL").getGrams() * 2 * boostFactor);
       choice.getPlayer().updateMorale(1);
       result = "Your patience has paid off. There were two squirrels in your traps!";
     } else {
@@ -47,7 +47,7 @@ public class TrapActivity extends Activity {
           .getPlayer()
           .getShelter()
           .addFoodToCache(
-              Food.RABBIT, Food.RABBIT.getGrams() * 3 + Food.RABBIT.getGrams() * 3 * boostFactor);
+              GameAssets.gameFoods.get("RABBIT"), GameAssets.gameFoods.get("RABBIT").getGrams() * 3 + GameAssets.gameFoods.get("RABBIT").getGrams() * 3 * boostFactor);
       choice.getPlayer().updateMorale(2);
       result = "You'll have plenty of lucky rabbit feet now. Your snared three rabbits!";
       }
