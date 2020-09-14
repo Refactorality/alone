@@ -17,6 +17,7 @@ import com.palehorsestudios.alone.activity.PutItemActivity;
 import com.palehorsestudios.alone.player.Player;
 import com.palehorsestudios.alone.player.SuccessRate;
 import com.palehorsestudios.alone.dayencounter.RescueHelicopterDay;
+import com.palehorsestudios.alone.util.InputValidator;
 import com.palehorsestudios.alone.util.Sound;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -175,7 +176,7 @@ public class GameApp extends Application {
           @Override
           public void handle(ActionEvent event) {
             currentInput = gameController.getPlayerInput().getText().trim();
-            notifyInput();
+            InputValidator.checkInput(currentInput,player,instance);
             gameController.getPlayerInput().clear();
             gameController.getPlayerInput().requestFocus();
           }
@@ -185,7 +186,7 @@ public class GameApp extends Application {
         keyEvent -> {
           if (keyEvent.getCode() == KeyCode.ENTER) {
             currentInput = gameController.getPlayerInput().getText().trim();
-            notifyInput();
+            InputValidator.checkInput(currentInput,player,instance);
             gameController.getPlayerInput().clear();
             gameController.getPlayerInput().requestFocus();
           }
@@ -615,5 +616,11 @@ public class GameApp extends Application {
 
   public GameController getGameController() {
     return gameController;
+  }
+
+  // Makes sure to terminate all threads when closing game window.
+  @Override
+  public void stop() throws Exception {
+    System.exit(0);
   }
 }
