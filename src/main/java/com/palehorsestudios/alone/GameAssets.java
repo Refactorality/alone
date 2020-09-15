@@ -1,5 +1,8 @@
 package com.palehorsestudios.alone;
 
+import com.palehorsestudios.alone.dayencounter.BearEncounterDay;
+import com.palehorsestudios.alone.dayencounter.DayEncounter;
+import com.palehorsestudios.alone.dayencounter.RescueHelicopterDay;
 import com.palehorsestudios.alone.dayencounter.WeatherEncounter;
 import com.palehorsestudios.alone.util.reader.EncounterReader;
 import com.palehorsestudios.alone.util.reader.ItemReader;
@@ -12,7 +15,7 @@ public class GameAssets {
     public static Map<String, String> choiceKeywordMap;
     public static Map<String, Food> choiceFoodMap;
     public static Map<String, Item> choiceItemMap;
-    public static Map<String, WeatherEncounter> encounters;
+    public static HashMap<String, DayEncounter> encounters;
 
     public void loadAssets() {
         loadItems();
@@ -426,9 +429,13 @@ public class GameAssets {
 
     public static void loadEncounters(){
         encounters = EncounterReader.readEncountersXML("./resources/xml/encounters.xml", gameItems);
+        //add day encounters already coded to encounters hashmap.
+        encounters.put("Bear", BearEncounterDay.getInstance());
+        encounters.put("Helicopter", RescueHelicopterDay.getInstance());
     }
 
     public static HashMap<String, Item> getGameItems() {
         return gameItems;
     }
+    public static HashMap<String, DayEncounter> getEncounters(){return encounters;}
 }

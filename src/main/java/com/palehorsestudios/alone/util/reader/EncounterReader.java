@@ -2,6 +2,7 @@ package com.palehorsestudios.alone.util.reader;
 
 import com.palehorsestudios.alone.GameAssets;
 import com.palehorsestudios.alone.Item;
+import com.palehorsestudios.alone.dayencounter.DayEncounter;
 import com.palehorsestudios.alone.dayencounter.WeatherEncounter;
 
 import javax.xml.namespace.QName;
@@ -20,7 +21,7 @@ import java.util.Iterator;
 
 public class EncounterReader {
   static final String ENCOUNTER = "encounter";
-  static final String ENCOUNTER_NAME = "name";
+  static final String ENCOUNTER_NAME = "encounterName";
   static final String PROTECTIVE_ITEM = "protectiveItem";
   static final String WEIGHT_CHANGE = "weightChange";
   static final String MORALE_CHANGE = "moraleChange";
@@ -29,8 +30,8 @@ public class EncounterReader {
   static final String RESPONSE_BAD = "responseBad";
 
   @SuppressWarnings( {"null"})
-  public static HashMap<String, WeatherEncounter> readEncountersXML(String itemsFile, HashMap<String, Item> gameItems) {
-    HashMap<String, WeatherEncounter> encounters = new HashMap<>();
+  public static HashMap<String, DayEncounter> readEncountersXML(String itemsFile, HashMap<String, Item> gameItems) {
+    HashMap<String, DayEncounter> encounters = new HashMap<>();
 
     try {
       XMLInputFactory inputFactory = XMLInputFactory.newInstance();
@@ -45,8 +46,57 @@ public class EncounterReader {
           StartElement startElement = event.asStartElement();
           String elementName = startElement.getName().getLocalPart();
 //          System.out.println("Element name: " + elementName);
-          if (ENCOUNTER.equals(elementName)){
-            encounter = new WeatherEncounter();
+          switch(elementName){
+            case ENCOUNTER ->{
+              encounter = new WeatherEncounter();
+            }
+            case ENCOUNTER_NAME ->{
+              event = eventReader.nextEvent();
+              if(encounter != null){
+                encounter.setName(event.asCharacters().getData());
+              }else{
+                System.out.println("EncounterReader error");
+              }
+            }
+            case WEIGHT_CHANGE->{
+              event = eventReader.nextEvent();
+              if(encounter != null){
+                encounter.setProtectiveItem(GameAssets.getGameItems().get(event.asCharacters().getData()));
+              }else{
+                System.out.println("EncounterReader error");
+              }
+            }
+            case MORALE_CHANGE->{
+              event = eventReader.nextEvent();
+              if(encounter != null){
+                encounter.setMoraleChange(Integer.parseInt(event.asCharacters().getData()));
+              }else{
+                System.out.println("EncounterReader error");
+              }
+            }
+            case HYDRATION_CHANGE->{
+              event = eventReader.nextEvent();
+              if(encounter != null){
+                encounter.setHydrationChange(Integer.parseInt(event.asCharacters().getData()));
+              }else{
+                System.out.println("EncounterReader error");
+              }
+            }
+            case RESPONSE_GOOD->{
+              event = eventReader.nextEvent();
+              if(encounter != null){
+                encounter.setResponseGood(event.asCharacters().getData());
+              }else{
+                System.out.println("EncounterReader error");
+              }
+            }case RESPONSE_BAD->{
+              event = eventReader.nextEvent();
+              if(encounter != null){
+                encounter.setResponseBad(event.asCharacters().getData());
+              }else{
+                System.out.println("EncounterReader error");
+              }
+            }
           }
         }
 
@@ -66,8 +116,7 @@ public class EncounterReader {
       e.printStackTrace();
     }
 
-    for (WeatherEncounter x : encounters.values()) {
-      System.out.println(x.getResponseBad());
+    for (DayEncounter x : encounters.values()) {
     }
 
     return encounters;
