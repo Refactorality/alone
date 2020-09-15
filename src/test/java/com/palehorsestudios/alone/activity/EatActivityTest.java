@@ -1,17 +1,18 @@
 package com.palehorsestudios.alone.activity;
 
-import static org.junit.Assert.assertEquals;
-
 import com.palehorsestudios.alone.Choice;
 import com.palehorsestudios.alone.Food;
 import com.palehorsestudios.alone.Item;
 import com.palehorsestudios.alone.player.Player;
+import org.junit.Before;
+import org.junit.Test;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
-import org.junit.Before;
-import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 public class EatActivityTest {
 

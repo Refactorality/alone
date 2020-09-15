@@ -20,6 +20,7 @@ public class GameController {
   @FXML private ListView<String> equipment;
   @FXML private TextArea gameOver;
   @FXML private Label labelPlayerInput;
+  @FXML private Menu MenuTopTen;
 
   public TextField getWeight() {
     return weight;
@@ -81,5 +82,10 @@ public class GameController {
     return labelPlayerInput;
   }
 
+  public Menu getMenuTopTen(){
+    return MenuTopTen;
+  }
+
   public TextArea getGameOver() { return gameOver; }
+
 }

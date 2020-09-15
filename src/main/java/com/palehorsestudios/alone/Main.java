@@ -1,20 +1,6 @@
 package com.palehorsestudios.alone;
 
-import com.palehorsestudios.alone.activity.Activity;
-import com.palehorsestudios.alone.activity.BoostMoraleActivity;
-import com.palehorsestudios.alone.activity.BuildFireActivity;
-import com.palehorsestudios.alone.activity.DrinkWaterActivity;
-import com.palehorsestudios.alone.activity.EatActivity;
-import com.palehorsestudios.alone.activity.FishActivity;
-import com.palehorsestudios.alone.activity.ForageActivity;
-import com.palehorsestudios.alone.activity.GatherFirewoodActivity;
-import com.palehorsestudios.alone.activity.GetItemActivity;
-import com.palehorsestudios.alone.activity.GetWaterActivity;
-import com.palehorsestudios.alone.activity.HuntActivity;
-import com.palehorsestudios.alone.activity.ImproveShelterActivity;
-import com.palehorsestudios.alone.activity.PutItemActivity;
-import com.palehorsestudios.alone.activity.RestActivity;
-import com.palehorsestudios.alone.activity.TrapActivity;
+import com.palehorsestudios.alone.activity.*;
 import com.palehorsestudios.alone.gui.GameApp;
 import com.palehorsestudios.alone.player.Player;
 import javafx.application.Application;

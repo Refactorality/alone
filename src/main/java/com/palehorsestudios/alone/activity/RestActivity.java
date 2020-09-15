@@ -2,6 +2,7 @@ package com.palehorsestudios.alone.activity;
 
 import com.palehorsestudios.alone.Choice;
 import com.palehorsestudios.alone.player.SuccessRate;
+
 import java.util.Random;
 
 public class RestActivity extends Activity{

@@ -1,6 +1,5 @@
 package com.palehorsestudios.alone.util;
 
-import com.palehorsestudios.alone.gui.GameApp;
 import com.palehorsestudios.alone.player.Player;
 
 public class ScoreCalculator {

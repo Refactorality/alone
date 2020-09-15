@@ -4,12 +4,8 @@ import com.palehorsestudios.alone.Choice;
 import com.palehorsestudios.alone.GameAssets;
 import com.palehorsestudios.alone.Item;
 import com.palehorsestudios.alone.player.SuccessRate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+
+import java.util.*;
 
 public class BoostMoraleActivity extends Activity{
   private static BoostMoraleActivity activityReference;
