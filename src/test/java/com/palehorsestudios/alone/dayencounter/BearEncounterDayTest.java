@@ -29,9 +29,9 @@ public class BearEncounterDayTest {
     getItemFromShelter = GetItemActivity.getInstance();
     Set<Item> items =
         new HashSet<>(
-            Arrays.asList(GameAssets.gameItems.get("KNIFE, GameAssets.gameItems.get("PISTOL, GameAssets.gameItems.get("PISTOL_CARTRIDGES));
+            Arrays.asList(GameAssets.gameItems.get("KNIFE"), GameAssets.gameItems.get("PISTOL, GameAssets.gameItems.get("PISTOL_CARTRIDGES));
     player = new Player(items);
-    player.getShelter().addFoodToCache(Food.BEAR, 1000);
+    player.getShelter().addFoodToCache(GameAssets.gameFoods.get("BEAR"), 1000);
   }
 
   @Test
@@ -87,7 +87,7 @@ public class BearEncounterDayTest {
     assertEquals(previousHydration -1, player.getHydration(), .001);
     assertEquals(previousMorale + 3, player.getMorale(), .001);
     assertEquals(previousWeight - 1.8, player.getWeight(), .001);
-    assertEquals(Optional.of(1000.0 + Food.BEAR.getGrams()).get(), player.getShelter().getFoodCache().get(Food.BEAR), .001);
+    assertEquals(Optional.of(1000.0 + GameAssets.gameFoods.get("BEAR").getGrams()).get(), player.getShelter().getFoodCache().get(GameAssets.gameFoods.get("BEAR")), .001);
   }
 
   @Test

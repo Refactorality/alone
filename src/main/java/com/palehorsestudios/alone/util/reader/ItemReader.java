@@ -1,5 +1,6 @@
 package com.palehorsestudios.alone.util.reader;
 
+import com.palehorsestudios.alone.Food;
 import com.palehorsestudios.alone.Item;
 
 import javax.xml.stream.XMLEventReader;
@@ -17,12 +18,12 @@ import java.util.Iterator;
 
 public class ItemReader {
     static final String ITEM = "item";
-    static final String ITEM_NAME = "name";
+    static final String NAME = "name";
+    static final String ITEM_NAME = "itemName";
 
     @SuppressWarnings( {"null"})
     public static HashMap<String, Item> readItemsXML(String itemsFile) {
         HashMap<String, Item> items = new HashMap<>();
-
         try {
             XMLInputFactory inputFactory = XMLInputFactory.newInstance();
             InputStream in = new FileInputStream(itemsFile);
@@ -35,16 +36,27 @@ public class ItemReader {
                 if (event.isStartElement()) {
                     StartElement startElement = event.asStartElement();
                     String elementName = startElement.getName().getLocalPart();
-                    System.out.println("Element name: " + elementName);
 
-                    if (ITEM.equals(elementName)) {
-                        item = new Item();
-                        Iterator<Attribute> attributes = startElement.getAttributes();
-                        while (attributes.hasNext()) {
-                            Attribute attribute = attributes.next();
-                            if (attribute.getName().toString().equals(ITEM_NAME)) {
-                                System.out.println(attribute.getValue());
-                                item.setItemName(attribute.getValue());
+                    switch (elementName) {
+                        case ITEM -> {
+                            item = new Item();
+                            Iterator<Attribute> attributes = startElement.getAttributes();
+                            while (attributes.hasNext()) {
+                                Attribute attribute = attributes.next();
+                                if (attribute.getName().toString().equals(NAME)) {
+                                    System.out.println(NAME + ": " + attribute.getValue());
+                                    item.setName(attribute.getValue());
+                                }
+                            }
+                        }
+                        case ITEM_NAME -> {
+                            event = eventReader.nextEvent();
+                            if (item != null) {
+                                item.setItemName(event.asCharacters().getData());
+                                System.out.println(item.getItemName());
+                            } else {
+                                System.out.println("Food not initialized, check foods.xml for error");
+                                System.exit(-1);
                             }
                         }
                     }
@@ -54,9 +66,9 @@ public class ItemReader {
                     EndElement endElement = event.asEndElement();
                     if (endElement.getName().getLocalPart().equals(ITEM)) {
                         if (item != null) {
-                            items.put(item.getItemName(), item);
+                            items.put(item.getName(), item);
                         } else {
-                            System.out.println("Room not initialized, check rooms.xml for error");
+                            System.out.println("Food not initialized, check food.xml for error");
                             System.exit(-1);
                         }
                     }
@@ -65,11 +77,6 @@ public class ItemReader {
         } catch (FileNotFoundException | XMLStreamException e) {
             e.printStackTrace();
         }
-
-        for (Item x : items.values()) {
-            System.out.println(x.getItemName());
-        }
-
         return items;
     }
 }

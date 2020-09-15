@@ -33,9 +33,9 @@ public class BearEncounterNightTest {
   public void testBearEncounterNightKnifeAndSurvivalManualPlayerLives() {
     Set<Item> items =
         new HashSet<>(
-            Arrays.asList(GameAssets.gameItems.get("KNIFE, GameAssets.gameItems.get("SURVIVAL_MANUAL));
+            Arrays.asList(GameAssets.gameItems.get("KNIFE"), GameAssets.gameItems.get("SURVIVAL_MANUAL));
     player = new Player(items);
-    player.getShelter().addEquipment(GameAssets.gameItems.get("KNIFE, 1);
+    player.getShelter().addEquipment(GameAssets.gameItems.get("KNIFE"), 1);
     player.getShelter().addEquipment(GameAssets.gameItems.get("SURVIVAL_MANUAL, 1);
     String encounterResult = bearEncounterNight.encounter(player);
     String expectedString =
@@ -163,7 +163,7 @@ public class BearEncounterNightTest {
 
   @Test
   public void testBearEncounterNightWithKnifeAndSurvivalManualItemsPlayerSurvives() {
-    player.getShelter().addEquipment(GameAssets.gameItems.get("KNIFE, 1);
+    player.getShelter().addEquipment(GameAssets.gameItems.get("KNIFE"), 1);
     player.getShelter().addEquipment(GameAssets.gameItems.get("SURVIVAL_MANUAL, 1);
     getItemFromShelter.act(new Choice("knife", player, (GameAssets.gameItems.get("KNIFE)));
     String encounterResult = bearEncounterNight.encounter(player);

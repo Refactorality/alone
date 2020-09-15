@@ -45,12 +45,12 @@ public class HuntActivity extends Activity{
       } else if (successRate == SuccessRate.MEDIUM) {
         choice.getPlayer().getShelter()
             .addFoodToCache(
-                Food.PORCUPINE, Food.PORCUPINE.getGrams() + Food.PORCUPINE.getGrams() * boostFactor);
+                GameAssets.gameFoods.get("PORCUPINE"), GameAssets.gameFoods.get("PORCUPINE").getGrams() + GameAssets.gameFoods.get("PORCUPINE").getGrams() * boostFactor);
         choice.getPlayer().updateMorale(2);
         result = "Watch out for those quills! You killed a nice fat porcupine that should keep you fed for a while.";
       } else {
         choice.getPlayer().getShelter()
-            .addFoodToCache(Food.MOOSE, Food.MOOSE.getGrams() + Food.MOOSE.getGrams() * boostFactor);
+            .addFoodToCache(GameAssets.gameFoods.get("MOOSE"), GameAssets.gameFoods.get("MOOSE").getGrams() + GameAssets.gameFoods.get("MOOSE").getGrams() * boostFactor);
         choice.getPlayer().updateMorale(4);
         result = "Moose down! It took five trips, but you were able to process the meat and transport it back to " +
             "your shelter before a predator got to it first.";
