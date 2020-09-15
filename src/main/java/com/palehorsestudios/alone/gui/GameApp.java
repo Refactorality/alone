@@ -11,6 +11,7 @@ import com.palehorsestudios.alone.activity.DrinkWaterActivity;
 import com.palehorsestudios.alone.activity.EatActivity;
 import com.palehorsestudios.alone.activity.GetItemActivity;
 import com.palehorsestudios.alone.activity.PutItemActivity;
+import com.palehorsestudios.alone.dayencounter.WeatherEncounter;
 import com.palehorsestudios.alone.player.Player;
 import com.palehorsestudios.alone.player.SuccessRate;
 import com.palehorsestudios.alone.dayencounter.RescueHelicopterDay;
@@ -24,7 +25,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Map;
+import java.lang.reflect.Array;
+import java.util.*;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -41,7 +44,6 @@ import com.palehorsestudios.alone.nightencounter.BearEncounterNight;
 import com.palehorsestudios.alone.nightencounter.NightEncounter;
 import com.palehorsestudios.alone.nightencounter.RainStorm;
 
-import java.util.Set;
 import static javafx.util.Duration.seconds;
 
 public class GameApp extends Application {
@@ -247,12 +249,16 @@ public class GameApp extends Application {
       } else {
         final int[] seed = {(int) Math.floor(Math.random() * 10)};
         String activityResult;
-        if (seed[0] > 7) {
-          DayEncounter[] dayEncounters = new DayEncounter[] {
-              BearEncounterDay.getInstance(),
-              RescueHelicopterDay.getInstance()};
-          int randomDayEncounterIndex = (int) Math.floor(Math.random() * dayEncounters.length);
-          activityResult = dayEncounters[randomDayEncounterIndex].encounter(player);
+        //seed is at seven encounters low
+        if (seed[0] > 1) {
+//          DayEncounter[] dayEncounters = new DayEncounter[] {
+//              BearEncounterDay.getInstance(),
+//              RescueHelicopterDay.getInstance()};
+//          int randomDayEncounterIndex = (int) Math.floor(Math.random() * dayEncounters.length);
+
+          //refactored activityResult to include GameAssets encounters
+          int randomDayEncounterIndex = (int) Math.floor(Math.random() * GameAssets.getEncounters().values().size());
+          activityResult = ((DayEncounter)GameAssets.getEncounters().values().toArray()[randomDayEncounterIndex]).encounter(player);
           if (player.isDead()) {
             encounterDeath = true;
           } else if (player.isRescued()) {
