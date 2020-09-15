@@ -21,6 +21,7 @@ public class Player {
   private double weight;
   private int morale;
   private boolean isRescued;
+  private int score;
 
   /**
    * Public Player constructor.
@@ -78,6 +79,10 @@ public class Player {
     this.hydration = hydration < MIN_HYDRATION ? MIN_HYDRATION : Math.min(hydration, MAX_HYDRATION);
   }
 
+  public void setScore(int score) {
+    this.score = score;
+  }
+
   /**
    * Getter for Player weight.
    *
@@ -105,6 +110,10 @@ public class Player {
    */
   public int getMorale() {
     return morale;
+  }
+
+  public int getScore() {
+    return score;
   }
 
   /**
