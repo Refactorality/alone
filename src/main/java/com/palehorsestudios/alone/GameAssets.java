@@ -1,5 +1,7 @@
 package com.palehorsestudios.alone;
 
+import com.palehorsestudios.alone.dayencounter.WeatherEncounter;
+import com.palehorsestudios.alone.util.reader.EncounterReader;
 import com.palehorsestudios.alone.util.reader.ItemReader;
 
 import java.util.HashMap;
@@ -10,10 +12,14 @@ public class GameAssets {
     public static Map<String, String> choiceKeywordMap;
     public static Map<String, Food> choiceFoodMap;
     public static Map<String, Item> choiceItemMap;
+    public static Map<String, WeatherEncounter> encounters;
 
     public void loadAssets() {
         loadItems();
         loadCommands();
+
+        //needs to come after loadItems, uses instantiated items
+        loadEncounters();
     }
 
     public static void loadItems() {
@@ -416,6 +422,10 @@ public class GameAssets {
             put("put journal and pen", gameItems.get("JOURNAL"));
             put("put journal", gameItems.get("JOURNAL"));
         }};
+    }
+
+    public static void loadEncounters(){
+        encounters = EncounterReader.readEncountersXML("./resources/xml/encounters.xml", gameItems);
     }
 
     public static HashMap<String, Item> getGameItems() {
