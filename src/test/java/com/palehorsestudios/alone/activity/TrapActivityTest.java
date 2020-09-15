@@ -34,15 +34,15 @@ public class TrapActivityTest {
     Set<Item> items =
         new HashSet<>(
             Arrays.asList(
-                GameAssets.gameItems.get("AXE,
-                GameAssets.gameItems.get("KNIFE,
-                GameAssets.gameItems.get("FISHING_LINE,
-                GameAssets.gameItems.get("FISHING_HOOKS,
-                GameAssets.gameItems.get("WIRE,
-                GameAssets.gameItems.get("HARMONICA,
-                GameAssets.gameItems.get("FLINT_AND_STEEL,
-                GameAssets.gameItems.get("POT,
-                GameAssets.gameItems.get("FIRST_AID_KIT,
+                GameAssets.gameItems.get("AXE"),
+                GameAssets.gameItems.get("KNIFE"),
+                GameAssets.gameItems.get("FISHING_LINE"),
+                GameAssets.gameItems.get("FISHING_HOOKS"),
+                GameAssets.gameItems.get("WIRE"),
+                GameAssets.gameItems.get("HARMONICA"),
+                GameAssets.gameItems.get("FLINT_AND_STEEL"),
+                GameAssets.gameItems.get("POT"),
+                GameAssets.gameItems.get("FIRST_AID_KIT"),
                 GameAssets.gameItems.get("COLD_WEATHER_GEAR));
     player = new Player(items);
     player.getShelter().addFoodToCache(GameAssets.gameFoods.get("FISH"), 1000);

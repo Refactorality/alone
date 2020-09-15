@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import com.palehorsestudios.alone.Choice;
 import com.palehorsestudios.alone.Food;
+import com.palehorsestudios.alone.GameAssets;
 import com.palehorsestudios.alone.Item;
 import com.palehorsestudios.alone.player.Player;
 import com.palehorsestudios.alone.player.SuccessRate;
@@ -32,18 +33,19 @@ public class FishActivityTest {
     goFishing = FishActivity.getInstance();
     getItemFromShelter = GetItemActivity.getInstance();
     Set<Item> items =
-        new HashSet<>(
+        new HashSet<Item>(
             Arrays.asList(
-                GameAssets.gameItems.get("AXE,
-                GameAssets.gameItems.get("KNIFE,
-                GameAssets.gameItems.get("FISHING_LINE,
-                GameAssets.gameItems.get("FISHING_HOOKS,
-                GameAssets.gameItems.get("WIRE,
-                GameAssets.gameItems.get("HARMONICA,
-                GameAssets.gameItems.get("FLINT_AND_STEEL,
-                GameAssets.gameItems.get("POT,
-                GameAssets.gameItems.get("FIRST_AID_KIT,
-                GameAssets.gameItems.get("COLD_WEATHER_GEAR));
+                GameAssets.gameItems.get("AXE"),
+                GameAssets.gameItems.get("KNIFE"),
+                GameAssets.gameItems.get("FISHING_LINE"),
+                GameAssets.gameItems.get("FISHING_HOOKS"),
+                GameAssets.gameItems.get("WIRE"),
+                GameAssets.gameItems.get("HARMONICA"),
+                GameAssets.gameItems.get("FLINT_AND_STEEL"),
+                GameAssets.gameItems.get("POT"),
+                GameAssets.gameItems.get("FIRST_AID_KIT"),
+                GameAssets.gameItems.get("COLD_WEATHER_GEAR")));
+
     player = new Player(items);
     player.getShelter().addFoodToCache(GameAssets.gameFoods.get("FISH"), 1000);
     player.getShelter().addFoodToCache(GameAssets.gameFoods.get("SQUIRREL"), 1000);
@@ -94,9 +96,9 @@ public class FishActivityTest {
 
   @Test
   public void testGoFishingWithItems() {
-    getItemFromShelter.act(new Choice("fishing line", player, (GameAssets.gameItems.get("FISHING_LINE)));
-    getItemFromShelter.act(new Choice("fishing hooks", player, (GameAssets.gameItems.get("FISHING_HOOKS)));
-    getItemFromShelter.act(new Choice("fishing lures", player, (GameAssets.gameItems.get("FISHING_LURES)));
+    getItemFromShelter.act(new Choice("fishing line", player, (GameAssets.gameItems.get("FISHING_LINE"))));
+    getItemFromShelter.act(new Choice("fishing hooks", player, (GameAssets.gameItems.get("FISHING_HOOKS"))));
+    getItemFromShelter.act(new Choice("fishing lures", player, (GameAssets.gameItems.get("FISHING_LURES"))));
     int previousHydration = player.getHydration();
     String fishingResult = goFishing.act(new Choice("go fishing", player));
     String[] possibleResults = new String[]{"I guess that's why they don't call it catching. You didn't catch any fish.",

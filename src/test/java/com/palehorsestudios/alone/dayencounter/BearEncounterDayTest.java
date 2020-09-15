@@ -29,7 +29,7 @@ public class BearEncounterDayTest {
     getItemFromShelter = GetItemActivity.getInstance();
     Set<Item> items =
         new HashSet<>(
-            Arrays.asList(GameAssets.gameItems.get("KNIFE, GameAssets.gameItems.get("PISTOL, GameAssets.gameItems.get("PISTOL_CARTRIDGES));
+            Arrays.asList(GameAssets.gameItems.get("KNIFE"), GameAssets.gameItems.get("PISTOL, GameAssets.gameItems.get("PISTOL_CARTRIDGES));
     player = new Player(items);
     player.getShelter().addFoodToCache(GameAssets.gameFoods.get("BEAR"), 1000);
   }
