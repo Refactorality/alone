@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import com.palehorsestudios.alone.Choice;
 import com.palehorsestudios.alone.Food;
+import com.palehorsestudios.alone.GameAssets;
 import com.palehorsestudios.alone.Item;
 import com.palehorsestudios.alone.player.Player;
 import com.palehorsestudios.alone.player.SuccessRate;
@@ -32,22 +33,22 @@ public class BoostMoraleActivityTest {
     Set<Item> items =
         new HashSet<>(
             Arrays.asList(
-                Item.AXE,
-                Item.KNIFE,
-                Item.FISHING_LINE,
-                Item.FISHING_HOOKS,
-                Item.WIRE,
-                Item.HARMONICA,
-                Item.FLINT_AND_STEEL,
-                Item.POT,
-                Item.FIRST_AID_KIT,
-                Item.COLD_WEATHER_GEAR));
+                GameAssets.gameItems.get("AXE"),
+                GameAssets.gameItems.get("KNIFE"),
+                GameAssets.gameItems.get("FISHING_LINE"),
+                GameAssets.gameItems.get("FISHING_HOOKS"),
+                GameAssets.gameItems.get("WIRE"),
+                GameAssets.gameItems.get("HARMONICA"),
+                GameAssets.gameItems.get("FLINT_AND_STEEL"),
+                GameAssets.gameItems.get("POT"),
+                GameAssets.gameItems.get("FIRST_AID_KIT"),
+                GameAssets.gameItems.get("COLD_WEATHER_GEAR")));
     player = new Player(items);
-    player.getShelter().addFoodToCache(Food.FISH, 1000);
-    player.getShelter().addFoodToCache(Food.SQUIRREL, 1000);
-    player.getShelter().addFoodToCache(Food.RABBIT, 1000);
-    player.getShelter().addFoodToCache(Food.PORCUPINE, 1000);
-    player.getShelter().addFoodToCache(Food.MOOSE, 1000);
+    player.getShelter().addFoodToCache(GameAssets.gameFoods.get("FISH"), 1000);
+    player.getShelter().addFoodToCache(GameAssets.gameFoods.get("SQUIRREL"), 1000);
+    player.getShelter().addFoodToCache(GameAssets.gameFoods.get("RABBIT"), 1000);
+    player.getShelter().addFoodToCache(GameAssets.gameFoods.get("PORCUPINE"), 1000);
+    player.getShelter().addFoodToCache(GameAssets.gameFoods.get("MOOSE"), 1000);
 }
 
   @Test
@@ -64,10 +65,10 @@ public class BoostMoraleActivityTest {
   }
     @Test
     public void testBoostMoraleWitItems() {
-      getItemFromShelter.act(new Choice("get harmonica", player, (Item.HARMONICA)));
+      getItemFromShelter.act(new Choice("get harmonica", player, (GameAssets.gameItems.get("HARMONICA"))));
       int previousMorale = player.getMorale();
       int previousHydration = player.getHydration();
-      String boostMoraleResult = boostMorale.act(new Choice("play harmonica", player, (Item.HARMONICA)));
+      String boostMoraleResult = boostMorale.act(new Choice("play harmonica", player, (GameAssets.gameItems.get("HARMONICA"))));
       int boostedMorale = player.getMorale() - previousMorale;
       int[] moralePossibilities = new int[]{1, 2, 3};
       boolean validMoralePossibility = false;

@@ -1,6 +1,7 @@
 package com.palehorsestudios.alone.activity;
 
 import com.palehorsestudios.alone.Choice;
+import com.palehorsestudios.alone.GameAssets;
 import com.palehorsestudios.alone.Item;
 import com.palehorsestudios.alone.player.SuccessRate;
 import java.util.ArrayList;
@@ -30,7 +31,8 @@ public class BoostMoraleActivity extends Activity{
     int hydrationCost = ActivityLevel.LOW.getHydrationCost(SuccessRate.LOW);
     choice.getPlayer().setHydration(choice.getPlayer().getHydration() - hydrationCost);
     List<Item> moraleBoostItemsOwn = new ArrayList<>();
-    Set<Item> moraleBoostItems = new HashSet<>(Arrays.asList(Item.FAMILY_PHOTO, Item.HARMONICA, Item.JOURNAL));
+    Set<Item> moraleBoostItems = new HashSet<>(Arrays.asList(GameAssets.gameItems.get("FAMILY_PHOTO"),
+            GameAssets.gameItems.get("HARMONICA"), GameAssets.gameItems.get("JOURNAL")));
     for (Item i : moraleBoostItems ) {
       if (choice.getPlayer().getItems().contains(i)) {
         moraleBoostItemsOwn.add(i);
@@ -43,12 +45,12 @@ public class BoostMoraleActivity extends Activity{
       // randomly pick a item from the moralBoostItemsOwn
       Random rand = new Random();
       int randomIndex = rand.nextInt(moraleBoostItemsOwn.size());
-      if (moraleBoostItemsOwn.get(randomIndex) == Item.FAMILY_PHOTO ) {
+      if (moraleBoostItemsOwn.get(randomIndex) == GameAssets.gameItems.get("FAMILY_PHOTO")) {
         choice.getPlayer().updateMorale(3);
         result = "You found your family photo, and it reminds you all the good memories with your family! Your" +
             " morale is high now!";
       }
-      else if (moraleBoostItemsOwn.get(randomIndex) == Item.HARMONICA ) {
+      else if (moraleBoostItemsOwn.get(randomIndex) == GameAssets.gameItems.get("HARMONICA")) {
         choice.getPlayer().updateMorale(2);
         result = "You played your harmonica for an hour. Your morale is high now!";
       }

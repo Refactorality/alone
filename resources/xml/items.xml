@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <item name="FISHING_LINE">
+        <itemName>fishing line</itemName>
+    </item>
+    <item name="FISHING_HOOKS">
+        <itemName>fishing hooks</itemName>
+    </item>
+    <item name="FISHING_LURES">
+        <itemName>fishing lures</itemName>
+    </item>
+    <item name="KNIFE">
+        <itemName>knife</itemName>
+    </item>
+    <item name="FLINT_AND_STEEL">
+        <itemName>flint and steel</itemName>
+    </item>
+    <item name="BOW">
+        <itemName>bow</itemName>
+    </item>
+    <item name="ARROWS">
+        <itemName>arrows</itemName>
+    </item>
+    <item name="FAMILY_PHOTO">
+        <itemName>family photo</itemName>
+    </item>
+    <item name="PARACHUTE_CHORD">
+        <itemName>parachute chord</itemName>
+    </item>
+    <item name="FLARE">
+        <itemName>flare</itemName>
+    </item>
+    <item name="EXTRA_BOOTS">
+        <itemName>extra boots</itemName>
+    </item>
+    <item name="EXTRA_PANTS">
+        <itemName>extra pants</itemName>
+    </item>
+    <item name="SLEEPING_GEAR">
+        <itemName>sleeping gear</itemName>
+    </item>
+    <item name="COLD_WEATHER_GEAR">
+        <itemName>cold weather gear</itemName>
+    </item>
+    <item name="TARP">
+        <itemName>tarp</itemName>
+    </item>
+    <item name="MATCHES">
+        <itemName>matches</itemName>
+    </item>
+    <item name="FIRST_AID_KIT">
+        <itemName>first aid kit</itemName>
+    </item>
+    <item name="FLASHLIGHT">
+        <itemName>flashlight</itemName>
+    </item>
+    <item name="BATTERIES">
+        <itemName>batteries</itemName>
+    </item>
+    <item name="WIRE">
+        <itemName>18 gauge wire</itemName>
+    </item>
+    <item name="POT">
+        <itemName>cooking pot</itemName>
+    </item>
+    <item name="AXE">
+        <itemName>axe</itemName>
+    </item>
+    <item name="HATCHET">
+        <itemName>hatchet</itemName>
+    </item>
+    <item name="IODINE_TABLETS">
+        <itemName>iodine tablets</itemName>
+    </item>
+    <item name="PISTOL">
+        <itemName>pistol</itemName>
+    </item>
+    <item name="PISTOL_CARTRIDGES">
+        <itemName>12 pistol cartridges</itemName>
+    </item>
+    <item name="SHOVEL">
+        <itemName>shovel</itemName>
+    </item>
+    <item name="HARMONICA">
+        <itemName>harmonica</itemName>
+    </item>
+    <item name="LIGHTER">
+        <itemName>lighter</itemName>
+    </item>
+    <item name="SURVIVAL_MANUAL">
+        <itemName>survival manual</itemName>
+    </item>
+    <item name="JOURNAL">
+        <itemName>journal and pen</itemName>
+    </item>
+</config>

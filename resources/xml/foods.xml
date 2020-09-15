@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <food name="FISH">
+        <foodName>fish</foodName>
+        <caloriesPerGram>0.84</caloriesPerGram>
+        <grams>3401.94</grams>
+    </food>
+    <food name="SQUIRREL">
+        <foodName>squirrel</foodName>
+        <caloriesPerGram>1.20</caloriesPerGram>
+        <grams>340.1943</grams>
+    </food>
+    <food name="RABBIT">
+        <foodName>rabbit</foodName>
+        <caloriesPerGram>1.36</caloriesPerGram>
+        <grams>907.185</grams>
+    </food>
+    <food name="MOOSE">
+        <foodName>moose</foodName>
+        <caloriesPerGram>1.02</caloriesPerGram>
+        <grams>226796</grams>
+    </food>
+    <food name="BEAR">
+        <foodName>bear</foodName>
+        <caloriesPerGram>1.63</caloriesPerGram>
+        <grams>45400</grams>
+    </food>
+    <food name="PORCUPINE">
+        <foodName>porcupine</foodName>
+        <caloriesPerGram>1.52</caloriesPerGram>
+        <grams>9071.85</grams>
+    </food>
+    <food name="BUG">
+        <foodName>bug</foodName>
+        <caloriesPerGram>5.00</caloriesPerGram>
+        <grams>100</grams>
+    </food>
+    <food name="MUSHROOM">
+        <foodName>mushroom</foodName>
+        <caloriesPerGram>0.28</caloriesPerGram>
+        <grams>210</grams>
+    </food>
+    <food name="BERRIES">
+        <foodName>berries</foodName>
+        <caloriesPerGram>0.57</caloriesPerGram>
+        <grams>450</grams>
+    </food>
+</config>

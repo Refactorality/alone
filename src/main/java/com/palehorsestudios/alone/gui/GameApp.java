@@ -3,10 +3,7 @@ package com.palehorsestudios.alone.gui;
 import static com.palehorsestudios.alone.Main.parseActivityChoice;
 import static com.palehorsestudios.alone.Main.parseChoice;
 
-import com.palehorsestudios.alone.Choice;
-import com.palehorsestudios.alone.Food;
-import com.palehorsestudios.alone.HelperMethods;
-import com.palehorsestudios.alone.Item;
+import com.palehorsestudios.alone.*;
 import com.palehorsestudios.alone.activity.Activity;
 import com.palehorsestudios.alone.activity.ActivityLevel;
 import com.palehorsestudios.alone.activity.BuildFireActivity;

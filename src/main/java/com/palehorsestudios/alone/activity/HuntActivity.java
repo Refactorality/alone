@@ -2,6 +2,7 @@ package com.palehorsestudios.alone.activity;
 
 import com.palehorsestudios.alone.Choice;
 import com.palehorsestudios.alone.Food;
+import com.palehorsestudios.alone.GameAssets;
 import com.palehorsestudios.alone.Item;
 import com.palehorsestudios.alone.player.SuccessRate;
 
@@ -29,12 +30,12 @@ public class HuntActivity extends Activity{
       double boostFactor =
           Activity.getActivityBoostFactor(
               new Item[] {
-                  Item.SURVIVAL_MANUAL,
-                  Item.ARROWS,
-                  Item.BOW,
-                  Item.PISTOL,
-                  Item.PISTOL_CARTRIDGES,
-                  Item.KNIFE
+                  GameAssets.gameItems.get("SURVIVAL_MANUAL"),
+                  GameAssets.gameItems.get("ARROWS"),
+                  GameAssets.gameItems.get("BOW"),
+                  GameAssets.gameItems.get("PISTOL"),
+                  GameAssets.gameItems.get("PISTOL_CARTRIDGES"),
+                  GameAssets.gameItems.get("KNIFE")
               },
               choice.getPlayer());
       // gear, maybe we should eliminate low success rate possibility.
@@ -44,12 +45,12 @@ public class HuntActivity extends Activity{
       } else if (successRate == SuccessRate.MEDIUM) {
         choice.getPlayer().getShelter()
             .addFoodToCache(
-                Food.PORCUPINE, Food.PORCUPINE.getGrams() + Food.PORCUPINE.getGrams() * boostFactor);
+                GameAssets.gameFoods.get("PORCUPINE"), GameAssets.gameFoods.get("PORCUPINE").getGrams() + GameAssets.gameFoods.get("PORCUPINE").getGrams() * boostFactor);
         choice.getPlayer().updateMorale(2);
         result = "Watch out for those quills! You killed a nice fat porcupine that should keep you fed for a while.";
       } else {
         choice.getPlayer().getShelter()
-            .addFoodToCache(Food.MOOSE, Food.MOOSE.getGrams() + Food.MOOSE.getGrams() * boostFactor);
+            .addFoodToCache(GameAssets.gameFoods.get("MOOSE"), GameAssets.gameFoods.get("MOOSE").getGrams() + GameAssets.gameFoods.get("MOOSE").getGrams() * boostFactor);
         choice.getPlayer().updateMorale(4);
         result = "Moose down! It took five trips, but you were able to process the meat and transport it back to " +
             "your shelter before a predator got to it first.";

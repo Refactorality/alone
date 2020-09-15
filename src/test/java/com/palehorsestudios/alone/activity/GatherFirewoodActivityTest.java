@@ -32,22 +32,22 @@ public class GatherFirewoodActivityTest {
     Set<Item> items =
         new HashSet<>(
             Arrays.asList(
-                Item.AXE,
-                Item.KNIFE,
-                Item.FISHING_LINE,
-                Item.FISHING_HOOKS,
-                Item.WIRE,
-                Item.HARMONICA,
-                Item.FLINT_AND_STEEL,
-                Item.POT,
-                Item.FIRST_AID_KIT,
-                Item.COLD_WEATHER_GEAR));
+                GameAssets.gameItems.get("AXE"),
+                GameAssets.gameItems.get("KNIFE"),
+                GameAssets.gameItems.get("FISHING_LINE"),
+                GameAssets.gameItems.get("FISHING_HOOKS"),
+                GameAssets.gameItems.get("WIRE"),
+                GameAssets.gameItems.get("HARMONICA"),
+                GameAssets.gameItems.get("FLINT_AND_STEEL"),
+                GameAssets.gameItems.get("POT"),
+                GameAssets.gameItems.get("FIRST_AID_KIT"),
+                GameAssets.gameItems.get("COLD_WEATHER_GEAR));
     player = new Player(items);
-    player.getShelter().addFoodToCache(Food.FISH, 1000);
-    player.getShelter().addFoodToCache(Food.SQUIRREL, 1000);
-    player.getShelter().addFoodToCache(Food.RABBIT, 1000);
-    player.getShelter().addFoodToCache(Food.PORCUPINE, 1000);
-    player.getShelter().addFoodToCache(Food.MOOSE, 1000);
+    player.getShelter().addFoodToCache(GameAssets.gameFoods.get("FISH"), 1000);
+    player.getShelter().addFoodToCache(GameAssets.gameFoods.get("SQUIRREL"), 1000);
+    player.getShelter().addFoodToCache(GameAssets.gameFoods.get("RABBIT"), 1000);
+    player.getShelter().addFoodToCache(GameAssets.gameFoods.get("PORCUPINE"), 1000);
+    player.getShelter().addFoodToCache(GameAssets.gameFoods.get("MOOSE"), 1000);
   }
 
   @Test
@@ -86,7 +86,7 @@ public class GatherFirewoodActivityTest {
 
   @Test
   public void testGatherFirewoodWithItems() {
-    getItemFromShelter.act(new Choice("axe", player, (Item.AXE)));
+    getItemFromShelter.act(new Choice("axe", player, (GameAssets.gameItems.get("AXE)));
     int previousHydration = player.getHydration();
     double previousFirewood = player.getShelter().getFirewood();
     String gatherFirewoodResult = gatherFirewood.act(new Choice("gather", player));
