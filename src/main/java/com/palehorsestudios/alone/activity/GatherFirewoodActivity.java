@@ -1,10 +1,10 @@
 package com.palehorsestudios.alone.activity;
 
-import static com.palehorsestudios.alone.HelperMethods.round;
-
 import com.palehorsestudios.alone.Choice;
 import com.palehorsestudios.alone.Item;
 import com.palehorsestudios.alone.player.SuccessRate;
+
+import static com.palehorsestudios.alone.HelperMethods.round;
 
 public class GatherFirewoodActivity extends Activity{
   private static final double FIREWOOD_BUNDLE = 1;

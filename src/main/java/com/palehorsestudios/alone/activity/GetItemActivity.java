@@ -1,6 +1,7 @@
 package com.palehorsestudios.alone.activity;
 
 import com.palehorsestudios.alone.Choice;
+
 import java.util.Optional;
 
 public class GetItemActivity extends Activity{

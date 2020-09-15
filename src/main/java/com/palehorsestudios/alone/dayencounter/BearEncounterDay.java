@@ -1,12 +1,9 @@
 package com.palehorsestudios.alone.dayencounter;
 
-import static com.palehorsestudios.alone.Item.KNIFE;
-import static com.palehorsestudios.alone.Item.PISTOL;
-import static com.palehorsestudios.alone.Item.PISTOL_CARTRIDGES;
-import static com.palehorsestudios.alone.Item.SURVIVAL_MANUAL;
-
 import com.palehorsestudios.alone.Food;
 import com.palehorsestudios.alone.player.Player;
+
+import static com.palehorsestudios.alone.Item.*;
 
 public class BearEncounterDay extends DayEncounter {
   private static DayEncounter encounter;

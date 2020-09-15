@@ -1,35 +1,25 @@
 package com.palehorsestudios.alone.gui;
 
-import static com.palehorsestudios.alone.Main.parseActivityChoice;
-import static com.palehorsestudios.alone.Main.parseChoice;
-
 import com.palehorsestudios.alone.Choice;
 import com.palehorsestudios.alone.Food;
 import com.palehorsestudios.alone.HelperMethods;
 import com.palehorsestudios.alone.Item;
-import com.palehorsestudios.alone.activity.Activity;
-import com.palehorsestudios.alone.activity.ActivityLevel;
-import com.palehorsestudios.alone.activity.BuildFireActivity;
-import com.palehorsestudios.alone.activity.DrinkWaterActivity;
-import com.palehorsestudios.alone.activity.EatActivity;
-import com.palehorsestudios.alone.activity.GetItemActivity;
-import com.palehorsestudios.alone.activity.PutItemActivity;
+import com.palehorsestudios.alone.activity.*;
+import com.palehorsestudios.alone.dayencounter.BearEncounterDay;
+import com.palehorsestudios.alone.dayencounter.DayEncounter;
+import com.palehorsestudios.alone.dayencounter.RescueHelicopterDay;
+import com.palehorsestudios.alone.nightencounter.BearEncounterNight;
+import com.palehorsestudios.alone.nightencounter.NightEncounter;
+import com.palehorsestudios.alone.nightencounter.RainStorm;
+import com.palehorsestudios.alone.nightencounter.RescueHelicopterNight;
 import com.palehorsestudios.alone.player.Player;
 import com.palehorsestudios.alone.player.SuccessRate;
-import com.palehorsestudios.alone.dayencounter.RescueHelicopterDay;
 import com.palehorsestudios.alone.util.InputValidator;
 import com.palehorsestudios.alone.util.LeaderBoard;
 import com.palehorsestudios.alone.util.ScoreCalculator;
 import com.palehorsestudios.alone.util.Sound;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import com.palehorsestudios.alone.dayencounter.BearEncounterDay;
-import com.palehorsestudios.alone.dayencounter.DayEncounter;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.Map;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -41,13 +31,16 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import com.palehorsestudios.alone.nightencounter.RescueHelicopterNight;
-import com.palehorsestudios.alone.nightencounter.BearEncounterNight;
-import com.palehorsestudios.alone.nightencounter.NightEncounter;
-import com.palehorsestudios.alone.nightencounter.RainStorm;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Map;
 import java.util.Set;
 
+import static com.palehorsestudios.alone.Main.parseActivityChoice;
+import static com.palehorsestudios.alone.Main.parseChoice;
 import static com.palehorsestudios.alone.util.LeaderBoard.readOldScoresMap;
 import static javafx.util.Duration.seconds;
 
