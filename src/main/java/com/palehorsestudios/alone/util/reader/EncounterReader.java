@@ -47,9 +47,11 @@ public class EncounterReader {
           String elementName = startElement.getName().getLocalPart();
 //          System.out.println("Element name: " + elementName);
           switch(elementName){
+            // if element is encounter root tag make new instance
             case ENCOUNTER ->{
               encounter = new WeatherEncounter();
             }
+            // if element is an attribute of an encounter, set it to the encounter instance
             case ENCOUNTER_NAME ->{
               event = eventReader.nextEvent();
               if(encounter != null){
@@ -114,9 +116,6 @@ public class EncounterReader {
       }
     } catch (FileNotFoundException | XMLStreamException e) {
       e.printStackTrace();
-    }
-
-    for (DayEncounter x : encounters.values()) {
     }
 
     return encounters;

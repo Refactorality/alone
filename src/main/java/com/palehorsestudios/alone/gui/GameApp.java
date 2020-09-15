@@ -250,7 +250,7 @@ public class GameApp extends Application {
         final int[] seed = {(int) Math.floor(Math.random() * 10)};
         String activityResult;
         //seed is at seven encounters low
-        if (seed[0] > 7) {
+        if (seed[0] > 1) {
 //          DayEncounter[] dayEncounters = new DayEncounter[] {
 //              BearEncounterDay.getInstance(),
 //              RescueHelicopterDay.getInstance()};
