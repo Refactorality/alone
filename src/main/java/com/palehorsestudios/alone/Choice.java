@@ -1,8 +1,6 @@
 package com.palehorsestudios.alone;
 
 import com.google.common.base.Objects;
-import com.palehorsestudios.alone.Food;
-import com.palehorsestudios.alone.Item;
 import com.palehorsestudios.alone.player.Player;
 
 public class Choice {

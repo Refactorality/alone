@@ -3,10 +3,7 @@ package com.palehorsestudios.alone.gui;
 import static com.palehorsestudios.alone.Main.parseActivityChoice;
 import static com.palehorsestudios.alone.Main.parseChoice;
 
-import com.palehorsestudios.alone.Choice;
-import com.palehorsestudios.alone.Food;
-import com.palehorsestudios.alone.HelperMethods;
-import com.palehorsestudios.alone.Item;
+import com.palehorsestudios.alone.*;
 import com.palehorsestudios.alone.activity.Activity;
 import com.palehorsestudios.alone.activity.ActivityLevel;
 import com.palehorsestudios.alone.activity.BuildFireActivity;
@@ -14,9 +11,25 @@ import com.palehorsestudios.alone.activity.DrinkWaterActivity;
 import com.palehorsestudios.alone.activity.EatActivity;
 import com.palehorsestudios.alone.activity.GetItemActivity;
 import com.palehorsestudios.alone.activity.PutItemActivity;
+import com.palehorsestudios.alone.dayencounter.WeatherEncounter;
+import com.palehorsestudios.alone.Choice;
+import com.palehorsestudios.alone.Food;
+import com.palehorsestudios.alone.HelperMethods;
+import com.palehorsestudios.alone.Item;
+import com.palehorsestudios.alone.activity.*;
+import com.palehorsestudios.alone.dayencounter.BearEncounterDay;
+import com.palehorsestudios.alone.dayencounter.DayEncounter;
+import com.palehorsestudios.alone.dayencounter.RescueHelicopterDay;
+import com.palehorsestudios.alone.nightencounter.BearEncounterNight;
+import com.palehorsestudios.alone.nightencounter.NightEncounter;
+import com.palehorsestudios.alone.nightencounter.RainStorm;
+import com.palehorsestudios.alone.nightencounter.RescueHelicopterNight;
 import com.palehorsestudios.alone.player.Player;
 import com.palehorsestudios.alone.player.SuccessRate;
-import com.palehorsestudios.alone.dayencounter.RescueHelicopterDay;
+import com.palehorsestudios.alone.util.InputValidator;
+import com.palehorsestudios.alone.util.LeaderBoard;
+import com.palehorsestudios.alone.util.ScoreCalculator;
+import com.palehorsestudios.alone.util.Sound;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import com.palehorsestudios.alone.dayencounter.BearEncounterDay;
@@ -25,7 +38,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Map;
+import java.lang.reflect.Array;
+import java.util.*;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -42,8 +57,16 @@ import com.palehorsestudios.alone.nightencounter.BearEncounterNight;
 import com.palehorsestudios.alone.nightencounter.NightEncounter;
 import com.palehorsestudios.alone.nightencounter.RainStorm;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Map;
 import java.util.Set;
 
+import static com.palehorsestudios.alone.Main.parseActivityChoice;
+import static com.palehorsestudios.alone.Main.parseChoice;
+import static com.palehorsestudios.alone.util.LeaderBoard.readOldScoresMap;
 import static javafx.util.Duration.seconds;
 
 public class GameApp extends Application {
@@ -55,6 +78,8 @@ public class GameApp extends Application {
   private static GameApp instance;
   private static Set<Item> initItems;
   private static final int COUNT_DOWN = 30;
+  Thread soundThread;
+  Sound introSound;
 
   public GameApp() {
     instance = this;
@@ -98,6 +123,11 @@ public class GameApp extends Application {
               introScene.getWindow().hide();
               // show game scene
               selectItemsStage.show();
+              // start sound
+              introSound = new Sound("resources/Sound/Intro/Alone.wav",30000);
+              soundThread = new Thread(introSound);
+              soundThread.start();
+
               // start the count down timer
               final Integer[] timeSeconds = {COUNT_DOWN};
               Timeline timeline = new Timeline();
@@ -168,7 +198,7 @@ public class GameApp extends Application {
           @Override
           public void handle(ActionEvent event) {
             currentInput = gameController.getPlayerInput().getText().trim();
-            notifyInput();
+            InputValidator.checkInput(currentInput,player,instance);
             gameController.getPlayerInput().clear();
             gameController.getPlayerInput().requestFocus();
           }
@@ -178,7 +208,7 @@ public class GameApp extends Application {
         keyEvent -> {
           if (keyEvent.getCode() == KeyCode.ENTER) {
             currentInput = gameController.getPlayerInput().getText().trim();
-            notifyInput();
+            InputValidator.checkInput(currentInput,player,instance);
             gameController.getPlayerInput().clear();
             gameController.getPlayerInput().requestFocus();
           }
@@ -216,6 +246,7 @@ public class GameApp extends Application {
           public void run() {
             getNarrative(new File("resources/parserHelp.txt"));
             getNarrative(new File("resources/scene1.txt"));
+            LeaderBoard.updateGuiTopTen(gameController,readOldScoresMap());
           }
         });
     final int[] day = {1};
@@ -223,6 +254,7 @@ public class GameApp extends Application {
     gameController.getDateAndTime().setText("Day " + day[0] + " " + dayHalf[0]);
     while (!player.isDead() && !player.isRescued() && !player.isRescued(day[0])) {
       // update the UI fields
+      introSound.doTerminateSound();
       updateUI();
       String input = getInput();
       Choice choice = parseChoice(input, player);
@@ -241,12 +273,16 @@ public class GameApp extends Application {
       } else {
         final int[] seed = {(int) Math.floor(Math.random() * 10)};
         String activityResult;
-        if (seed[0] > 7) {
-          DayEncounter[] dayEncounters = new DayEncounter[] {
-              BearEncounterDay.getInstance(),
-              RescueHelicopterDay.getInstance()};
-          int randomDayEncounterIndex = (int) Math.floor(Math.random() * dayEncounters.length);
-          activityResult = dayEncounters[randomDayEncounterIndex].encounter(player);
+        //seed is at seven encounters low
+        if (seed[0] > 1) {
+//          DayEncounter[] dayEncounters = new DayEncounter[] {
+//              BearEncounterDay.getInstance(),
+//              RescueHelicopterDay.getInstance()};
+//          int randomDayEncounterIndex = (int) Math.floor(Math.random() * dayEncounters.length);
+
+          //refactored activityResult to include GameAssets encounters
+          int randomDayEncounterIndex = (int) Math.floor(Math.random() * GameAssets.getEncounters().values().size());
+          activityResult = ((DayEncounter)GameAssets.getEncounters().values().toArray()[randomDayEncounterIndex]).encounter(player);
           if (player.isDead()) {
             encounterDeath = true;
           } else if (player.isRescued()) {
@@ -293,9 +329,16 @@ public class GameApp extends Application {
         gameController.getDateAndTime().setText("Day " + day[0] + " " + dayHalf[0]);
       }
     }
-    gameController.getPlayerInput().setVisible(false);
-    gameController.getEnterButton().setVisible(false);
+//    gameController.getPlayerInput().setVisible(false);
+//    gameController.getEnterButton().setVisible(false);
     updateUI();
+
+
+    //this is when game ends and display changes
+    //make score calculator, calculate score, setScore of player object
+    final int score = ScoreCalculator.getInstance().calculateScore(player, day[0]);
+    player.setScore(score);
+
     getGameController().getGameOver().setVisible(true);
     getGameController().getGameOver().setStyle("-fx-text-alignment: center");
     if (player.isDead()) {
@@ -325,7 +368,11 @@ public class GameApp extends Application {
                 "YOU SURVIVED!\nA search and rescue party has found you at last. No more eating bugs for you (unless you're into that sort of thing).");
       }
     }
-
+    //append score to gameController gameover text
+    getGameController().getGameOver().appendText("\nYour score: " + String.valueOf(score));
+    if(player.isDead() || player.isRescued() || player.isRescued(day[0])){
+      saveUserScore(score);
+    }
   }
 
   public static String overnightStatusUpdate(Player player) {
@@ -607,5 +654,47 @@ public class GameApp extends Application {
 
   public GameController getGameController() {
     return gameController;
+  }
+
+  public void saveUserScore(int score){
+    Platform.runLater(
+            new Runnable() {
+              @Override
+              public void run() {
+                gameController.getLabelPlayerInput().setText("Player Input: Please enter your name to save score");
+                EventHandler<ActionEvent> eventHandler =
+                        new EventHandler<ActionEvent>() {
+
+                          public void handle(ActionEvent event) {
+                            currentInput = gameController.getPlayerInput().getText().trim();
+                            LeaderBoard.makeUpdateLeader(currentInput, score, gameController);
+                            gameController.getLabelPlayerInput().setText("Thank you very much for playing!");
+                            gameController.getPlayerInput().setVisible(false);
+                            gameController.getEnterButton().setVisible(false);
+                          }
+                        };
+
+                EventHandler<KeyEvent> enterPressedHandler =
+                        keyEvent -> {
+                          if (keyEvent.getCode() == KeyCode.ENTER) {
+                            currentInput = gameController.getPlayerInput().getText().trim();
+                            LeaderBoard.makeUpdateLeader(currentInput, score, gameController);
+                            gameController.getLabelPlayerInput().setText("Thank you very much for playing!");
+                            gameController.getPlayerInput().setVisible(false);
+                            gameController.getEnterButton().setVisible(false);
+                          }
+                        };
+
+                gameController.getPlayerInput().setOnKeyPressed(enterPressedHandler);
+
+                gameController.getEnterButton().setOnAction(eventHandler);
+              }
+            });
+  }
+
+  // Makes sure to terminate all threads when closing game window.
+  @Override
+  public void stop() throws Exception {
+    System.exit(0);
   }
 }

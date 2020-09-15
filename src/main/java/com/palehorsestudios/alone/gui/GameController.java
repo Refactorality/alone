@@ -1,10 +1,7 @@
 package com.palehorsestudios.alone.gui;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 public class GameController {
   @FXML private TextArea curActivity;
@@ -22,6 +19,8 @@ public class GameController {
   @FXML private ListView<String> foodCache;
   @FXML private ListView<String> equipment;
   @FXML private TextArea gameOver;
+  @FXML private Label labelPlayerInput;
+  @FXML private Menu MenuTopTen;
 
   public TextField getWeight() {
     return weight;
@@ -79,5 +78,14 @@ public class GameController {
     return enterBtn;
   }
 
+  public Label getLabelPlayerInput(){
+    return labelPlayerInput;
+  }
+
+  public Menu getMenuTopTen(){
+    return MenuTopTen;
+  }
+
   public TextArea getGameOver() { return gameOver; }
+
 }

@@ -2,6 +2,7 @@ package com.palehorsestudios.alone.activity;
 
 import com.palehorsestudios.alone.Choice;
 import com.palehorsestudios.alone.Food;
+import com.palehorsestudios.alone.GameAssets;
 import com.palehorsestudios.alone.Item;
 import com.palehorsestudios.alone.player.SuccessRate;
 
@@ -27,7 +28,7 @@ public class TrapActivity extends Activity {
     choice.getPlayer().setHydration(choice.getPlayer().getHydration() - hydrationCost);
     double boostFactor =
         Activity.getActivityBoostFactor(
-            new Item[] {Item.SURVIVAL_MANUAL, Item.WIRE, Item.KNIFE}, choice.getPlayer());
+            new Item[] {GameAssets.gameItems.get("SURVIVAL_MANUAL"), GameAssets.gameItems.get("WIRE"), GameAssets.gameItems.get("KNIFE")}, choice.getPlayer());
     // gear, maybe we should eliminate low success rate possibility.
     if (successRate == SuccessRate.LOW) {
       choice.getPlayer().updateMorale(-2);
@@ -37,8 +38,8 @@ public class TrapActivity extends Activity {
           .getPlayer()
           .getShelter()
           .addFoodToCache(
-              Food.SQUIRREL,
-              Food.SQUIRREL.getGrams() * 2 + Food.SQUIRREL.getGrams() * 2 * boostFactor);
+              GameAssets.gameFoods.get("SQUIRREL"),
+              GameAssets.gameFoods.get("SQUIRREL").getGrams() * 2 + GameAssets.gameFoods.get("SQUIRREL").getGrams() * 2 * boostFactor);
       choice.getPlayer().updateMorale(1);
       result = "Your patience has paid off. There were two squirrels in your traps!";
     } else {
@@ -46,7 +47,7 @@ public class TrapActivity extends Activity {
           .getPlayer()
           .getShelter()
           .addFoodToCache(
-              Food.RABBIT, Food.RABBIT.getGrams() * 3 + Food.RABBIT.getGrams() * 3 * boostFactor);
+              GameAssets.gameFoods.get("RABBIT"), GameAssets.gameFoods.get("RABBIT").getGrams() * 3 + GameAssets.gameFoods.get("RABBIT").getGrams() * 3 * boostFactor);
       choice.getPlayer().updateMorale(2);
       result = "You'll have plenty of lucky rabbit feet now. Your snared three rabbits!";
       }

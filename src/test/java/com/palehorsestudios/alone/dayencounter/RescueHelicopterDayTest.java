@@ -11,7 +11,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class RescueHelicopterDayTest {
 
@@ -22,16 +23,16 @@ public class RescueHelicopterDayTest {
     Set<Item> items =
         new HashSet<>(
             Arrays.asList(
-                Item.AXE,
-                Item.KNIFE,
-                Item.FISHING_LINE,
-                Item.FISHING_HOOKS,
-                Item.WIRE,
-                Item.HARMONICA,
-                Item.FLINT_AND_STEEL,
-                Item.FLARE,
-                Item.FIRST_AID_KIT,
-                Item.COLD_WEATHER_GEAR));
+                GameAssets.gameItems.get("AXE"),
+                GameAssets.gameItems.get("KNIFE"),
+                GameAssets.gameItems.get("FISHING_LINE"),
+                GameAssets.gameItems.get("FISHING_HOOKS"),
+                GameAssets.gameItems.get("WIRE"),
+                GameAssets.gameItems.get("HARMONICA"),
+                GameAssets.gameItems.get("FLINT_AND_STEEL"),
+                GameAssets.gameItems.get("FLARE,
+                GameAssets.gameItems.get("FIRST_AID_KIT"),
+                GameAssets.gameItems.get("COLD_WEATHER_GEAR));
     player = new Player(items);
   }
 
@@ -48,7 +49,7 @@ public class RescueHelicopterDayTest {
 
   @Test
   public void testEncounterWithFlare() {
-    GetItemActivity.getInstance().act(new Choice("get", player, Item.FLARE));
+    GetItemActivity.getInstance().act(new Choice("get", player, GameAssets.gameItems.get("FLARE));
     assertEquals("You hear a helicopter approaching your position rapidly from the north."
         + " You ignite your flare and wave it wildly over your head."
         + " Incredibly, they spot your flare and land on a nearby beach."

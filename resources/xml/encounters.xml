@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<encounters>
+    <encounter name="RAIN">
+        <encounterName>Rain Storm</encounterName>
+        <protectiveItem>TARP</protectiveItem>
+        <weightChange>0</weightChange>
+        <moraleChange>1</moraleChange>
+        <hydrationChange>0</hydrationChange>
+        <responseGood>It rained, but your tarp kept you nice and dry.</responseGood>
+        <responseBad>It rained, now you and all your equipment is soaking wet.</responseBad>
+    </encounter>
+
+    <encounter name="WIND">
+        <encounterName>Wind Storm</encounterName>
+        <protectiveItem>COLD_WEATHER_GEAR</protectiveItem>
+        <weightChange>0</weightChange>
+        <moraleChange>1</moraleChange>
+        <hydrationChange>0</hydrationChange>
+        <responseGood>There was a wind storm, luckily you had your cold weather gear.</responseGood>
+        <responseBad>There was a wind storm, you feel chilled to the bone.</responseBad>
+    </encounter>
+
+    <encounter name="FIRE">
+        <encounterName>Forest Fire</encounterName>
+        <protectiveItem>SHOVEL</protectiveItem>
+        <weightChange>100</weightChange>
+        <moraleChange>1</moraleChange>
+        <hydrationChange>0</hydrationChange>
+        <responseGood>There was a forest fire, luckily you had your shovel to dig a control line.</responseGood>
+        <responseBad>There was a forest fire, you were unable to stop it.</responseBad>
+    </encounter>
+
+</encounters>
