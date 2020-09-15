@@ -1,36 +1,55 @@
 package com.palehorsestudios.alone;
 
-public enum Food {
-  FISH("fish", 0.84, 3401.94),
-  SQUIRREL("squirrel", 1.20, 340.1943),
-  RABBIT("rabbit", 1.36, 907.185),
-  MOOSE("moose", 1.02, 226796),
-  BEAR("bear", 1.63, 45400),
-  PORCUPINE("porcupine", 1.52, 9071.85),
-  BUG("bug", 5.00, 100),
-  MUSHROOM("mushroom", 0.28, 210),
-  BERRIES("berries", 0.57, 450);
+public class Food {
+  private String name;
+  private String foodName;
+  private double caloriesPerGram;
+  private double grams;
 
-  private final String name;
-  private final double caloriesPerGram;
-  private final double grams;
+  public Food() {
 
-  private Food(String name, double caloriesPerGram, double grams) {
-    this.name = name;
+  }
+
+  public Food(String name, double caloriesPerGram, double grams) {
+    this.foodName = name;
     this.caloriesPerGram = caloriesPerGram;
     this.grams = grams;
   }
 
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public String getFoodName() {
+    return foodName;
+  }
+
+  public void setFoodName(String foodName) {
+    this.foodName = foodName;
+  }
+
   public double getCaloriesPerGram() {
-    return this.caloriesPerGram;
+    return caloriesPerGram;
+  }
+
+  public void setCaloriesPerGram(double caloriesPerGram) {
+    this.caloriesPerGram = caloriesPerGram;
   }
 
   public double getGrams() {
     return grams;
   }
 
+  public void setGrams(double grams) {
+    this.grams = grams;
+  }
+
   @Override
   public String toString() {
-    return this.name;
+    return this.foodName;
   }
 }
