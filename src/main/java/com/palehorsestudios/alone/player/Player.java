@@ -21,6 +21,7 @@ public class Player {
   private double weight;
   private int morale;
   private boolean isRescued;
+  private int score;
 
   /**
    * Public Player constructor.
@@ -61,6 +62,16 @@ public class Player {
   // getters
 
   /**
+   * Getter for Player score.
+   *
+   * @return Player score.
+   */
+
+  public int getScore() {
+    return score;
+  }
+
+  /**
    * Getter for Player hydration.
    *
    * @return Player hydration.
@@ -97,6 +108,11 @@ public class Player {
   }
 
   // setters
+
+
+  public void setScore(int score) {
+    this.score = score;
+  }
 
   /**
    * Getter for Player morale.

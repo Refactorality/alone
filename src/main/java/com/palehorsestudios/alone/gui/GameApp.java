@@ -16,6 +16,7 @@ import com.palehorsestudios.alone.player.Player;
 import com.palehorsestudios.alone.player.SuccessRate;
 import com.palehorsestudios.alone.dayencounter.RescueHelicopterDay;
 import com.palehorsestudios.alone.util.InputValidator;
+import com.palehorsestudios.alone.util.ScoreCalculator;
 import com.palehorsestudios.alone.util.Sound;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -308,6 +309,13 @@ public class GameApp extends Application {
     gameController.getPlayerInput().setVisible(false);
     gameController.getEnterButton().setVisible(false);
     updateUI();
+
+
+    //this is when game ends and display changes
+    //make score calculator, calculate score, setScore of player object
+    final int score = ScoreCalculator.getInstance().calculateScore(player, day[0]);
+    player.setScore(score);
+
     getGameController().getGameOver().setVisible(true);
     getGameController().getGameOver().setStyle("-fx-text-alignment: center");
     if (player.isDead()) {
@@ -337,6 +345,8 @@ public class GameApp extends Application {
                 "YOU SURVIVED!\nA search and rescue party has found you at last. No more eating bugs for you (unless you're into that sort of thing).");
       }
     }
+    //append score to gameController gameover text
+    getGameController().getGameOver().appendText("\nYour score: " + String.valueOf(score));
 
   }
 
