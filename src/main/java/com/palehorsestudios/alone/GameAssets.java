@@ -35,12 +35,12 @@ public class GameAssets {
     public static void loadFood() {
         gameFoods = FoodReader.readFoodsXML("./resources/xml/foods.xml");
 
-        for (Food food : gameFoods.values()) {
-            System.out.println(food.getName());
-            System.out.println(food.getFoodName());
-            System.out.println(food.getCaloriesPerGram());
-            System.out.println(food.getGrams());
-        }
+//        for (Food food : gameFoods.values()) {
+//            System.out.println(food.getName());
+//            System.out.println(food.getFoodName());
+//            System.out.println(food.getCaloriesPerGram());
+//            System.out.println(food.getGrams());
+//        }
     }
 
     public static void loadCommands() {
@@ -442,7 +442,7 @@ public class GameAssets {
     }
 
     public static void loadEncounters(){
-        encounters = EncounterReader.readEncountersXML("./resources/xml/encounters.xml", gameItems);
+        encounters = EncounterReader.readEncountersXML("./resources/xml/encounters.xml");
         //add day encounters already coded to encounters hashmap.
         encounters.put("Bear", BearEncounterDay.getInstance());
         encounters.put("Helicopter", RescueHelicopterDay.getInstance());

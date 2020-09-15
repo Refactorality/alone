@@ -11,12 +11,10 @@ import com.palehorsestudios.alone.activity.DrinkWaterActivity;
 import com.palehorsestudios.alone.activity.EatActivity;
 import com.palehorsestudios.alone.activity.GetItemActivity;
 import com.palehorsestudios.alone.activity.PutItemActivity;
-import com.palehorsestudios.alone.dayencounter.WeatherEncounter;
 import com.palehorsestudios.alone.Choice;
 import com.palehorsestudios.alone.Food;
 import com.palehorsestudios.alone.HelperMethods;
 import com.palehorsestudios.alone.Item;
-import com.palehorsestudios.alone.activity.*;
 import com.palehorsestudios.alone.dayencounter.BearEncounterDay;
 import com.palehorsestudios.alone.dayencounter.DayEncounter;
 import com.palehorsestudios.alone.dayencounter.RescueHelicopterDay;
@@ -32,14 +30,11 @@ import com.palehorsestudios.alone.util.ScoreCalculator;
 import com.palehorsestudios.alone.util.Sound;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import com.palehorsestudios.alone.dayencounter.BearEncounterDay;
-import com.palehorsestudios.alone.dayencounter.DayEncounter;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.util.*;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -52,20 +47,10 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import com.palehorsestudios.alone.nightencounter.RescueHelicopterNight;
-import com.palehorsestudios.alone.nightencounter.BearEncounterNight;
-import com.palehorsestudios.alone.nightencounter.NightEncounter;
-import com.palehorsestudios.alone.nightencounter.RainStorm;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 
-import static com.palehorsestudios.alone.Main.parseActivityChoice;
-import static com.palehorsestudios.alone.Main.parseChoice;
 import static com.palehorsestudios.alone.util.LeaderBoard.readOldScoresMap;
 import static javafx.util.Duration.seconds;
 
@@ -273,28 +258,46 @@ public class GameApp extends Application {
       } else {
         final int[] seed = {(int) Math.floor(Math.random() * 10)};
         String activityResult;
+        // always perform activity typed out
+        activityResult = activity.act(choice);
+        gameController
+                .getDailyLog()
+                .appendText("Day " + day[0] + " " + dayHalf[0] + ": " + activityResult + "\n");
+
+
         //seed is at seven encounters low
-        if (seed[0] > 1) {
+        if (seed[0] > 0) {
 //          DayEncounter[] dayEncounters = new DayEncounter[] {
 //              BearEncounterDay.getInstance(),
 //              RescueHelicopterDay.getInstance()};
 //          int randomDayEncounterIndex = (int) Math.floor(Math.random() * dayEncounters.length);
+//          activityResult = dayEncounters[randomDayEncounterIndex].encounter(player);
 
           //refactored activityResult to include GameAssets encounters
           int randomDayEncounterIndex = (int) Math.floor(Math.random() * GameAssets.getEncounters().values().size());
-          activityResult = ((DayEncounter)GameAssets.getEncounters().values().toArray()[randomDayEncounterIndex]).encounter(player);
+//          activityResult = ((DayEncounter) GameAssets.getEncounters().values().toArray()[randomDayEncounterIndex]).encounter(player);
+          //choose a specific activity
+          activityResult = GameAssets.getEncounters().get("Wolf Attack").encounter(player);
           if (player.isDead()) {
             encounterDeath = true;
           } else if (player.isRescued()) {
             encounterRescue = true;
           }
           encounterResults = activityResult;
-        } else {
-          activityResult = activity.act(choice);
+          //show result if encounter occurs
+          gameController
+                  .getDailyLog()
+                  .appendText("Day " + day[0] + " " + dayHalf[0] + ": " + activityResult + "\n");
         }
-        gameController
-            .getDailyLog()
-            .appendText("Day " + day[0] + " " + dayHalf[0] + ": " + activityResult + "\n");
+
+//        else {
+//          activityResult = activity.act(choice);
+//        }
+
+//        gameController
+//            .getDailyLog()
+//            .appendText("Day " + day[0] + " " + dayHalf[0] + ": " + activityResult + "\n");
+
         if (dayHalf[0].equals("Morning")) {
           dayHalf[0] = "Afternoon";
         } else {

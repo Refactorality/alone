@@ -175,6 +175,8 @@ public class Shelter {
     return removalQuantity;
   }
 
+
+
   /**
    * Method for adding Item(s) to Shelter equipment cache.
    *
