@@ -266,7 +266,7 @@ public class GameApp extends Application {
 
 
         //seed is at seven encounters low
-        if (seed[0] > 0) {
+        if (seed[0] > 3) {
 //          DayEncounter[] dayEncounters = new DayEncounter[] {
 //              BearEncounterDay.getInstance(),
 //              RescueHelicopterDay.getInstance()};
@@ -275,9 +275,9 @@ public class GameApp extends Application {
 
           //refactored activityResult to include GameAssets encounters
           int randomDayEncounterIndex = (int) Math.floor(Math.random() * GameAssets.getEncounters().values().size());
-//          activityResult = ((DayEncounter) GameAssets.getEncounters().values().toArray()[randomDayEncounterIndex]).encounter(player);
+          activityResult = ((DayEncounter) GameAssets.getEncounters().values().toArray()[randomDayEncounterIndex]).encounter(player);
           //choose a specific activity
-          activityResult = GameAssets.getEncounters().get("Wolf Attack").encounter(player);
+//          activityResult = GameAssets.getEncounters().get("Wolf Attack").encounter(player);
           if (player.isDead()) {
             encounterDeath = true;
           } else if (player.isRescued()) {
