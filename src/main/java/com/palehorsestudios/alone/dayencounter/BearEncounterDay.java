@@ -14,6 +14,7 @@ public class BearEncounterDay extends DayEncounter {
     if (encounter == null) {
       encounter = new BearEncounterDay();
     }
+    encounter.setName("Bear Encounter");
     return encounter;
   }
 

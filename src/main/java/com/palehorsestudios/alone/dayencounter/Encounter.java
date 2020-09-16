@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class Encounter extends DayEncounter{
-  private String name;
+//  private String name;
   private ArrayList<Item> protectiveItem = new ArrayList<>();
   private int weightChangeGood;
   private int moraleChangeGood;
@@ -24,14 +24,6 @@ public class Encounter extends DayEncounter{
   private boolean needsFire;
 
   public Encounter(){};
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
 
   public ArrayList<Item> getProtectiveItem() {
     return protectiveItem;
@@ -167,10 +159,14 @@ public class Encounter extends DayEncounter{
     // if the player needs a fire for a successful encounter, check that. Otherwise, check for a protective item
     boolean successfulEncounter = needsFire ? player.getShelter().hasFire() : playerHasItem(player);
     //behavior for rain event
-    if(name.toLowerCase().contains("rain")){
+    if(getName().toLowerCase().contains("rain")){
       player.getShelter().updateWater(2);
       if(player.getShelter().getWaterTank() == 0){
         moraleChangeBad = 0;
+      }
+      if(player.getShelter().getIntegrity() > 6){
+        successfulEncounter = true;
+        responseGood = "It starts to rain, but your shelter is sturdy enough to keep you and your equipment nice and dry. Plus you can fill up your water tank.";
       }
     }
     //update player stats based on encounter outcome
@@ -182,7 +178,7 @@ public class Encounter extends DayEncounter{
     }
     else{
       // if it's an animal attack
-      if(name.toLowerCase().contains("attack")){
+      if(getName().toLowerCase().contains("attack")){
         //have animal attacks remove food from cache
         String foodName = removeFoodFromShelter(player);
         if(foodName != null){

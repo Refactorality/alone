@@ -15,19 +15,14 @@ import com.palehorsestudios.alone.Choice;
 import com.palehorsestudios.alone.Food;
 import com.palehorsestudios.alone.HelperMethods;
 import com.palehorsestudios.alone.Item;
-import com.palehorsestudios.alone.dayencounter.BearEncounterDay;
 import com.palehorsestudios.alone.dayencounter.DayEncounter;
-import com.palehorsestudios.alone.dayencounter.RescueHelicopterDay;
 import com.palehorsestudios.alone.nightencounter.BearEncounterNight;
 import com.palehorsestudios.alone.nightencounter.NightEncounter;
 import com.palehorsestudios.alone.nightencounter.RainStorm;
 import com.palehorsestudios.alone.nightencounter.RescueHelicopterNight;
 import com.palehorsestudios.alone.player.Player;
 import com.palehorsestudios.alone.player.SuccessRate;
-import com.palehorsestudios.alone.util.InputValidator;
-import com.palehorsestudios.alone.util.LeaderBoard;
-import com.palehorsestudios.alone.util.ScoreCalculator;
-import com.palehorsestudios.alone.util.Sound;
+import com.palehorsestudios.alone.util.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 
@@ -244,6 +239,8 @@ public class GameApp extends Application {
       String input = getInput();
       Choice choice = parseChoice(input, player);
       Activity activity = parseActivityChoice(choice);
+      //log activity in the stat tracker
+      StatTracker.logActivity(activity);
       if (activity == null) {
         getNarrative(new File("resources/parserHelp.txt"));
       } else if (activity == EatActivity.getInstance()
@@ -264,20 +261,14 @@ public class GameApp extends Application {
                 .getDailyLog()
                 .appendText("Day " + day[0] + " " + dayHalf[0] + ": " + activityResult + "\n");
 
-
-        //seed is at seven encounters low
-        if (seed[0] > 3) {
-//          DayEncounter[] dayEncounters = new DayEncounter[] {
-//              BearEncounterDay.getInstance(),
-//              RescueHelicopterDay.getInstance()};
-//          int randomDayEncounterIndex = (int) Math.floor(Math.random() * dayEncounters.length);
-//          activityResult = dayEncounters[randomDayEncounterIndex].encounter(player);
+        if (seed[0] > 0) {
 
           //refactored activityResult to include GameAssets encounters
           int randomDayEncounterIndex = (int) Math.floor(Math.random() * GameAssets.getEncounters().values().size());
-          activityResult = ((DayEncounter) GameAssets.getEncounters().values().toArray()[randomDayEncounterIndex]).encounter(player);
-          //choose a specific activity
-//          activityResult = GameAssets.getEncounters().get("Wolf Attack").encounter(player);
+          DayEncounter randomEncounter = (DayEncounter) GameAssets.getEncounters().values().toArray()[randomDayEncounterIndex];
+          //log encounter in the stat tracker
+          StatTracker.logEncounter(randomEncounter);
+          activityResult = randomEncounter.encounter(player);
           if (player.isDead()) {
             encounterDeath = true;
           } else if (player.isRescued()) {
@@ -290,29 +281,25 @@ public class GameApp extends Application {
                   .appendText("Day " + day[0] + " " + dayHalf[0] + ": " + activityResult + "\n");
         }
 
-//        else {
-//          activityResult = activity.act(choice);
-//        }
-
-//        gameController
-//            .getDailyLog()
-//            .appendText("Day " + day[0] + " " + dayHalf[0] + ": " + activityResult + "\n");
-
         if (dayHalf[0].equals("Morning")) {
           dayHalf[0] = "Afternoon";
         } else {
           if (!player.isDead() && !player.isRescued(day[0])) {
             seed[0] = (int) Math.floor(Math.random() * 10);
             String nightResult;
-            if (seed[0] > 7) {
-              NightEncounter[] nightEncounters =
-                  new NightEncounter[] {
+            if (seed[0] > 0) {
+              // changed to type day encounter to log in stat tracker
+              DayEncounter[] nightEncounters =
+                  new DayEncounter[] {
                       RainStorm.getInstance(),
                       BearEncounterNight.getInstance(),
                       RescueHelicopterNight.getInstance()};
               int randomNightEncounterIndex =
                   (int) Math.floor(Math.random() * nightEncounters.length);
-              nightResult = nightEncounters[randomNightEncounterIndex].encounter(player);
+              DayEncounter nightEncounter = nightEncounters[randomNightEncounterIndex];
+              // log encounter in stat tracker
+              StatTracker.logEncounter(nightEncounter);
+              nightResult = nightEncounter.encounter(player);
               if (player.isDead()) {
                 encounterDeath = true;
               } else if(player.isRescued()) {
@@ -342,6 +329,7 @@ public class GameApp extends Application {
     final int score = ScoreCalculator.getInstance().calculateScore(player, day[0]);
     player.setScore(score);
 
+    //game over display
     getGameController().getGameOver().setVisible(true);
     getGameController().getGameOver().setStyle("-fx-text-alignment: center");
     if (player.isDead()) {
@@ -372,7 +360,11 @@ public class GameApp extends Application {
       }
     }
     //append score to gameController gameover text
-    getGameController().getGameOver().appendText("\nYour score: " + String.valueOf(score));
+    getGameController().getGameOver().appendText("\n\nYour score: " + String.valueOf(score));
+    //append activity tracker log to game over text
+    getGameController().getGameOver().appendText("\n\n" + StatTracker.displayActivitiesLog());
+    //append encounter tracker log to game over text
+    getGameController().getGameOver().appendText("\n" + StatTracker.displayEncountersLog());
     if(player.isDead() || player.isRescued() || player.isRescued(day[0])){
       saveUserScore(score);
     }

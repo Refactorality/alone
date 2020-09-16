@@ -15,6 +15,7 @@ public class ForageActivity extends Activity{
     if(activityReference == null) {
       activityReference = new ForageActivity();
     }
+    activityReference.setActivityName("Foraged");
     return activityReference;
   }
 

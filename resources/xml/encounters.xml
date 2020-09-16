@@ -11,8 +11,8 @@
         <moraleChangeBad>-1</moraleChangeBad>
         <hydrationChangeBad>0</hydrationChangeBad>
         <shelterChangeBad>-1</shelterChangeBad>
-        <responseGood>It starts to rain, but your shelter has a tarp to keep you and your equipment nice and dry. Plus your water tank is filling up. </responseGood>
-        <responseBad>It starts to rain, your shelter is not waterproof and starts to leak. At least your water tank is filling up.</responseBad>
+        <responseGood>It starts to rain, but your shelter has a tarp to keep you and your equipment nice and dry. Plus you can fill up your water tank.</responseGood>
+        <responseBad>It starts to rain, your shelter is not waterproof and starts to leak. At least you can fill up your water tank.</responseBad>
     </encounter>
     <encounter>
         <encounterName>Wind Storm</encounterName>

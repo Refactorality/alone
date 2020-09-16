@@ -3,18 +3,20 @@ package com.palehorsestudios.alone.nightencounter;
 
 import com.palehorsestudios.alone.Food;
 import com.palehorsestudios.alone.GameAssets;
+import com.palehorsestudios.alone.dayencounter.DayEncounter;
 import com.palehorsestudios.alone.player.Player;
 
-public class BearEncounterNight extends NightEncounter {
+public class BearEncounterNight extends DayEncounter {
 
-  private static NightEncounter encounter;
+  private static DayEncounter encounter;
 
   private BearEncounterNight(){}
 
-  public static NightEncounter getInstance() {
+  public static DayEncounter getInstance() {
     if (encounter == null) {
       encounter = new BearEncounterNight();
     }
+    encounter.setName("Bear Encounter");
     return encounter;
   }
 
