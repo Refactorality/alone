@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <constructedItem type="item" name="BOW">
+        <resource>SHOVEL</resource>
+        <resource>PARACHUTE_CHORD</resource>
+    </constructedItem>
+    <constructedItem type="food" name="COOKED_FISH">
+        <resource>FISH</resource>
+    </constructedItem>
+</config>

@@ -1,8 +1,8 @@
 package com.palehorsestudios.alone;
 
-public class Food {
-  private String name;
-  private String foodName;
+import java.util.Objects;
+
+public class Food extends Item {
   private double caloriesPerGram;
   private double grams;
 
@@ -11,25 +11,9 @@ public class Food {
   }
 
   public Food(String name, double caloriesPerGram, double grams) {
-    this.foodName = name;
+    super(name);
     this.caloriesPerGram = caloriesPerGram;
     this.grams = grams;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public String getFoodName() {
-    return foodName;
-  }
-
-  public void setFoodName(String foodName) {
-    this.foodName = foodName;
   }
 
   public double getCaloriesPerGram() {
@@ -50,6 +34,21 @@ public class Food {
 
   @Override
   public String toString() {
-    return this.foodName;
+    return super.toString();
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    if (!super.equals(o)) return false;
+    Food food = (Food) o;
+    return Double.compare(food.caloriesPerGram, caloriesPerGram) == 0 &&
+            Double.compare(food.grams, grams) == 0;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(super.hashCode(), caloriesPerGram, grams);
   }
 }

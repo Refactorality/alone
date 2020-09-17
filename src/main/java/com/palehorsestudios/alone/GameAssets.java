@@ -7,6 +7,7 @@ import com.palehorsestudios.alone.dayencounter.RescueHelicopterDay;
 import com.palehorsestudios.alone.util.reader.EncounterReader;
 import com.palehorsestudios.alone.util.reader.FoodReader;
 import com.palehorsestudios.alone.util.reader.ItemReader;
+import com.palehorsestudios.alone.util.reader.ResourcesRequiredReader;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +23,7 @@ public class GameAssets {
     public void loadAssets() {
         loadItems();
         loadFood();
+        addItemResourcesRequired();
         loadCommands();
 
         //needs to come after loadItems, uses instantiated items
@@ -34,13 +36,18 @@ public class GameAssets {
 
     public static void loadFood() {
         gameFoods = FoodReader.readFoodsXML("./resources/xml/foods.xml");
+    }
 
-//        for (Food food : gameFoods.values()) {
-//            System.out.println(food.getName());
-//            System.out.println(food.getFoodName());
-//            System.out.println(food.getCaloriesPerGram());
-//            System.out.println(food.getGrams());
-//        }
+    public static void addItemResourcesRequired() {
+        ResourcesRequiredReader.readRequiredResourcesXML("./resources/xml/requiredResources.xml");
+
+        for (Item item : gameItems.values()) {
+            if (item.getResourcesRequired() != null ) {
+                for (Item resource : item.getResourcesRequired()) {
+                    System.out.println(resource.getVisibleName());
+                }
+            }
+        }
     }
 
     public static void loadCommands() {
@@ -104,6 +111,7 @@ public class GameAssets {
             put("fish", "fish");
             put("fishing", "fish");
             put("go fish", "fish");
+            put("cook fish", "make");
             put("go fishing", "fish");
             put("get fishing line", "get");
             put("get fishing lines", "get");
@@ -286,6 +294,7 @@ public class GameAssets {
             put("nap", "rest");
             put("take nap", "rest");
             put("take a nap", "rest");
+            put("make bow", "make");
         }};
 
         choiceFoodMap = new HashMap<>(){{
@@ -301,6 +310,7 @@ public class GameAssets {
             put("eat mushrooms", gameFoods.get("MUSHROOM"));
             put("eat berry", gameFoods.get("BERRIES"));
             put("eat berries", gameFoods.get("BERRIES"));
+            put("cook fish", gameFoods.get("COOKED_FISH"));
         }};
 
         choiceItemMap = new HashMap<>(){{
@@ -438,6 +448,7 @@ public class GameAssets {
             put("put manual", gameItems.get("SURVIVAL_MANUAL"));
             put("put journal and pen", gameItems.get("JOURNAL"));
             put("put journal", gameItems.get("JOURNAL"));
+            put("make bow", gameItems.get("BOW"));
         }};
     }
 

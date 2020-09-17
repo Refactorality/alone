@@ -93,4 +93,7 @@
     <item name="JOURNAL">
         <itemName>journal and pen</itemName>
     </item>
+    <item name="WOOD">
+        <itemName>wood</itemName>
+    </item>
 </config>

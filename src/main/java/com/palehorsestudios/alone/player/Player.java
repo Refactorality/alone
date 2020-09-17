@@ -189,6 +189,42 @@ public class Player {
     return this.isRescued;
   }
 
+  public void makeItem(String itemToMake) {
+    shelter.setFire(true); // TODO Remove after testing
+    int numResources = 0;
+
+    if (GameAssets.gameItems.containsKey(itemToMake)) {
+      for (Item resource : GameAssets.gameItems.get(itemToMake).getResourcesRequired()) {
+        if (shelter.getEquipment().containsKey(resource)) {
+          numResources++;
+          System.out.println("Num resources item: " + numResources);
+        }
+      }
+      if (numResources == GameAssets.gameItems.get(itemToMake).getResourcesRequired().size()) {
+        for (Item resource : GameAssets.gameItems.get(itemToMake).getResourcesRequired()) {
+          shelter.getEquipment().remove(resource);
+        }
+        shelter.getEquipment().put(GameAssets.gameItems.get(itemToMake), 1);
+      }
+    }
+
+    else if (GameAssets.gameFoods.containsKey(itemToMake)) {
+      if (shelter.hasFire()) {
+        for (Item resource : GameAssets.gameFoods.get(itemToMake).getResourcesRequired()) {
+          if (shelter.getFoodCache().containsKey(resource)) {
+            numResources++;
+          }
+        }
+        if (numResources == GameAssets.gameFoods.get(itemToMake).getResourcesRequired().size()){
+          for (Item resource : GameAssets.gameFoods.get(itemToMake).getResourcesRequired()) {
+            shelter.getFoodCache().remove(GameAssets.gameFoods.get(resource.getName()));
+          }
+          shelter.getFoodCache().put(GameAssets.gameFoods.get(itemToMake), 10.0);
+        }
+      }
+    }
+  }
+
   /**
    * Player toString override.
    * @return String representation of the Player.

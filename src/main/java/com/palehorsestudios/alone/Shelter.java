@@ -115,8 +115,11 @@ public class Shelter {
    *
    * @return Immutable copy of Shelter equipment.
    */
-  public ImmutableMap<Item, Integer> getEquipment() {
-    return ImmutableMap.copyOf(equipment);
+//  public ImmutableMap<Item, Integer> getEquipment() {
+//    return ImmutableMap.copyOf(equipment);
+//  }
+  public Map<Item, Integer> getEquipment() {
+    return equipment;
   }
 
   /**

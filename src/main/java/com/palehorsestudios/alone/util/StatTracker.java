@@ -54,29 +54,29 @@ public class StatTracker {
   // enter food item to log amp
   public static void logFood(Food food, Double quantity){
     String activity = null;
-    if(food.getFoodName().equalsIgnoreCase("berries") ||
-            food.getFoodName().equalsIgnoreCase("mushroom")||
-            food.getFoodName().equalsIgnoreCase("bug")
+    if(food.getVisibleName().equalsIgnoreCase("berries") ||
+            food.getVisibleName().equalsIgnoreCase("mushroom")||
+            food.getVisibleName().equalsIgnoreCase("bug")
     ){
       activity = "forage";
     }
 
-    else if(food.getFoodName().equalsIgnoreCase("moose") ||
-            food.getFoodName().equalsIgnoreCase("porcupine")
+    else if(food.getVisibleName().equalsIgnoreCase("moose") ||
+            food.getVisibleName().equalsIgnoreCase("porcupine")
 //            hunting you do not get bear, change this?
-//            || food.getFoodName().equalsIgnoreCase("bear")
+//            || food.getVisibleName().equalsIgnoreCase("bear")
     ){
       activity = "hunted";
     }
-    else if (food.getFoodName().equalsIgnoreCase("rabbit") ||
-            food.getFoodName().equalsIgnoreCase("squirrel")
+    else if (food.getVisibleName().equalsIgnoreCase("rabbit") ||
+            food.getVisibleName().equalsIgnoreCase("squirrel")
     ){
       activity = "trapped";
     }
     else{activity = "fished";}
 
-    if(foodLog.get(activity).get(food.getFoodName()) == null){
-      foodLog.get(activity).put(food.getFoodName(), new HashMap<>(){
+    if(foodLog.get(activity).get(food.getVisibleName()) == null){
+      foodLog.get(activity).put(food.getVisibleName(), new HashMap<>(){
         {
           put("success", 1.0);
           put("quantity", quantity);
@@ -84,8 +84,8 @@ public class StatTracker {
       });
     }
     else{
-      foodLog.get(activity).get(food.getFoodName()).put("success", foodLog.get(activity).get(food.getFoodName()).get("success") + 1.0);
-      foodLog.get(activity).get(food.getFoodName()).put("quantity", foodLog.get(activity).get(food.getFoodName()).get("quantity") + quantity);
+      foodLog.get(activity).get(food.getVisibleName()).put("success", foodLog.get(activity).get(food.getVisibleName()).get("success") + 1.0);
+      foodLog.get(activity).get(food.getVisibleName()).put("quantity", foodLog.get(activity).get(food.getVisibleName()).get("quantity") + quantity);
     }
 
   }
