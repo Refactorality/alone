@@ -14,6 +14,7 @@ public class GetWaterActivity extends Activity{
     if(activityReference == null) {
       activityReference = new GetWaterActivity();
     }
+    activityReference.setActivityName("Got Water");
     return activityReference;
   }
 

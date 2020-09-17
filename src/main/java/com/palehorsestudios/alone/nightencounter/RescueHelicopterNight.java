@@ -1,17 +1,19 @@
 package com.palehorsestudios.alone.nightencounter;
 
+import com.palehorsestudios.alone.dayencounter.DayEncounter;
 import com.palehorsestudios.alone.player.Player;
 
-public class RescueHelicopterNight extends NightEncounter {
+public class RescueHelicopterNight extends DayEncounter {
 
-  private static NightEncounter encounter;
+  private static DayEncounter encounter;
 
   private RescueHelicopterNight(){}
 
-  public static NightEncounter getInstance() {
+  public static DayEncounter getInstance() {
     if (encounter == null) {
       encounter = new RescueHelicopterNight();
     }
+    encounter.setName("Helicopter Sighting");
     return encounter;
   }
 

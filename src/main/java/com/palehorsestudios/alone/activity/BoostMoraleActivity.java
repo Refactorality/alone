@@ -9,8 +9,8 @@ import java.util.*;
 
 public class BoostMoraleActivity extends Activity{
   private static BoostMoraleActivity activityReference;
-
   private BoostMoraleActivity(){}
+
 
   public static Activity getInstance() {
     if(activityReference == null) {

@@ -6,7 +6,16 @@ import com.palehorsestudios.alone.player.Player;
 import com.palehorsestudios.alone.player.SuccessRate;
 
 public abstract class Activity {
+  private String activityName;
   public abstract String act(Choice choice);
+
+  public String getActivityName() {
+    return this.activityName;
+  }
+
+  public void setActivityName(String activity) {
+    activityName = activity;
+  }
 
   /**
    * Helper method for determining if Result of player activity gets amplified.

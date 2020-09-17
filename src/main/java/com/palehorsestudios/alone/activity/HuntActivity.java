@@ -15,6 +15,7 @@ public class HuntActivity extends Activity{
       if(activityReference == null) {
         activityReference = new HuntActivity();
       }
+      activityReference.setActivityName("Hunted");
       return activityReference;
     }
 
