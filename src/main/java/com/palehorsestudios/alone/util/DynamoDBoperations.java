@@ -21,7 +21,7 @@ import static com.palehorsestudios.alone.util.LeaderBoard.sortByValueTopTen;
 public class DynamoDBoperations {
 
     public static AmazonDynamoDB dbConn() {
-        BasicAWSCredentials credentials = new BasicAWSCredentials("AKIAYMDIU6O4TWMBUPDM", "PM2gVOkVm6UZF9xRP02IDu4OiRTzMf8UR9/pDB4R");
+        BasicAWSCredentials credentials = new BasicAWSCredentials("", "");
         AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard()
                 .withRegion("us-east-1")
                 .withCredentials(new AWSStaticCredentialsProvider(credentials))
