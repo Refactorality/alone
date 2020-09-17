@@ -1,5 +1,6 @@
 package com.palehorsestudios.alone.dayencounter;
 
+import com.fasterxml.jackson.databind.util.ISO8601Utils;
 import com.palehorsestudios.alone.Food;
 import com.palehorsestudios.alone.GameAssets;
 import com.palehorsestudios.alone.Item;
@@ -10,7 +11,8 @@ import java.util.Map;
 
 public class Encounter extends DayEncounter{
 //  private String name;
-  private ArrayList<Item> protectiveItem = new ArrayList<>();
+  private final ArrayList<Item> protectiveItem = new ArrayList<>();
+  private Item itemUsed;
   private int weightChangeGood;
   private int moraleChangeGood;
   private int hydrationChangeGood;
@@ -22,6 +24,7 @@ public class Encounter extends DayEncounter{
   private String responseGood;
   private String responseBad;
   private boolean needsFire;
+  private boolean needsStrongShelter;
 
   public Encounter(){};
 
@@ -33,7 +36,10 @@ public class Encounter extends DayEncounter{
     //if fire is the protective item, set needsFire to true and leave protective item null;
     if("fire".equalsIgnoreCase(protectiveItem)){
       this.needsFire = true;
-    }else{
+    }else if("shelter".equalsIgnoreCase(protectiveItem)){
+      this.needsStrongShelter = true;
+    }
+    else{
       this.protectiveItem.add(GameAssets.getGameItems().get(protectiveItem));
     }
   }
@@ -131,8 +137,10 @@ public class Encounter extends DayEncounter{
   private boolean playerHasItem(Player player){
     boolean itemFound = false;
     for(Item item : protectiveItem){
-      if(player.getShelter().getEquipment().containsKey(item)){
+      if (player.getShelter().getEquipment().containsKey(item)) {
         itemFound = true;
+        itemUsed = item;
+        break;
       }
     }
     return itemFound;
@@ -156,18 +164,17 @@ public class Encounter extends DayEncounter{
 
   @Override
   public String encounter(Player player) {
-    String response = null;
-    // if the player needs a fire for a successful encounter, check that. Otherwise, check for a protective item
-    boolean successfulEncounter = needsFire ? player.getShelter().hasFire() : playerHasItem(player);
+    String response;
+    // successful if player needs fire and has fire or needs strong shelter and has integrity > 6 or has item.
+    boolean successfulEncounter = needsFire && player.getShelter().hasFire()
+            || (needsStrongShelter && player.getShelter().getIntegrity() > 6
+            || playerHasItem(player));
+
     //behavior for rain event
     if(getName().toLowerCase().contains("rain")){
       player.getShelter().updateWater(2);
       if(player.getShelter().getWaterTank() == 0){
         moraleChangeBad = 0;
-      }
-      if(player.getShelter().getIntegrity() > 6){
-        successfulEncounter = true;
-        responseGood = "It starts to rain, but your shelter is sturdy enough to keep you and your equipment nice and dry. Plus you can fill up your water tank.";
       }
     }
     //update player stats based on encounter outcome
@@ -193,7 +200,12 @@ public class Encounter extends DayEncounter{
       }
     }
     if(player.isDead()){
-      response = response + " Unfortunately, as a result you have died.";
+      response = response + " \nThey say we all die alone. You die alone as a result of a " + this.getName();
+    }
+    if(successfulEncounter){
+      response += " thanks to your " + (needsFire && player.getShelter().hasFire() ? "fire." :
+              needsStrongShelter && player.getShelter().getIntegrity() > 6 ? "strong shelter." :
+              itemUsed.getVisibleName());
     }
     return response;
   }

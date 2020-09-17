@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <encounters>
     <encounter>
-        <encounterName>Rain</encounterName>
+        <encounterName>Rain Storm</encounterName>
         <protectiveItem>TARP</protectiveItem>
+        <protectiveItem>SHELTER</protectiveItem>
         <weightChangeGood>0</weightChangeGood>
         <moraleChangeGood>1</moraleChangeGood>
         <hydrationChangeGood>0</hydrationChangeGood>
@@ -11,13 +12,14 @@
         <moraleChangeBad>-1</moraleChangeBad>
         <hydrationChangeBad>0</hydrationChangeBad>
         <shelterChangeBad>-1</shelterChangeBad>
-        <responseGood>It starts to rain, but your shelter has a tarp to keep you and your equipment nice and dry. Plus you can fill up your water tank.</responseGood>
-        <responseBad>It starts to rain, your shelter is not waterproof and starts to leak. At least you can fill up your water tank.</responseBad>
+        <responseGood>It starts to rain. You're able to fill up your water tanks and your equipment is staying nice and dry</responseGood>
+        <responseBad>It starts to rain. You can fill up your water tanks, but you and your equipment are getting soaked.</responseBad>
     </encounter>
     <encounter>
         <encounterName>Wind Storm</encounterName>
         <protectiveItem>COLD_WEATHER_GEAR</protectiveItem>
         <protectiveItem>EXTRA_PANTS</protectiveItem>
+        <protectiveItem>SLEEPING_GEAR</protectiveItem>
         <weightChangeGood>0</weightChangeGood>
         <moraleChangeGood>1</moraleChangeGood>
         <hydrationChangeGood>0</hydrationChangeGood>
@@ -26,7 +28,7 @@
         <moraleChangeBad>-1</moraleChangeBad>
         <hydrationChangeBad>0</hydrationChangeBad>
         <shelterChangeBad>-1</shelterChangeBad>
-        <responseGood>A strong wind storm rolls through. Your shelter is damaged, but luckily you have additional clothes to keep you warm.</responseGood>
+        <responseGood>A strong wind storm rolls through. Your shelter is damaged, but you're able to stay warm</responseGood>
         <responseBad>A strong wind storm passes by. You feel chilled to the bone and your shelter is damaged.</responseBad>
     </encounter>
     <encounter>
@@ -45,6 +47,7 @@
     <encounter>
         <encounterName>Forest Fire</encounterName>
         <protectiveItem>SHOVEL</protectiveItem>
+        <protectiveItem>AXE</protectiveItem>
         <weightChangeGood>0</weightChangeGood>
         <moraleChangeGood>1</moraleChangeGood>
         <hydrationChangGood>0</hydrationChangGood>
@@ -53,12 +56,13 @@
         <moraleChangeBad>-1</moraleChangeBad>
         <hydrationChangeBad>-1</hydrationChangeBad>
         <shelterChangeBad>-1</shelterChangeBad>
-        <responseGood>There was a forest fire, luckily you had your shovel to dig a control line. Your camp remains intact.</responseGood>
-        <responseBad>There was a forest fire, you were unable to stop it. You have minor burns and your shelter has been damaged.</responseBad>
+        <responseGood>There was a forest fire. You are able to dig a control line and save your camp</responseGood>
+        <responseBad>There was a forest fire, you were unable to stop it. You got burned and your shelter has been damaged.</responseBad>
     </encounter>
     <encounter>
         <encounterName>Wolf Attack</encounterName>
         <protectiveItem>FIRE</protectiveItem>
+        <protectiveItem>AXE</protectiveItem>
         <weightChangeGood>0</weightChangeGood>
         <moraleChangeGood>1</moraleChangeGood>
         <hydrationChangGood>0</hydrationChangGood>
@@ -67,12 +71,14 @@
         <moraleChangeBad>-2</moraleChangeBad>
         <hydrationChangeBad>-1</hydrationChangeBad>
         <shelterChangeBad>0</shelterChangeBad>
-        <responseGood>Wolves attack your camp. You are able to scare them away with your fire.</responseGood>
+        <responseGood>Wolves attack your camp. You are able to fight them off</responseGood>
         <responseBad>Wolves attack your camp. You fight them off but get bitten in the process.</responseBad>
     </encounter>
     <encounter>
         <encounterName>Raccoon Attack</encounterName>
         <protectiveItem>FIRE</protectiveItem>
+        <protectiveItem>FLASHLIGHT</protectiveItem>
+        <protectiveItem>HARMONICA</protectiveItem>
         <weightChangeGood>0</weightChangeGood>
         <moraleChangeGood>1</moraleChangeGood>
         <hydrationChangeGood>0</hydrationChangeGood>
@@ -81,8 +87,8 @@
         <moraleChangeBad>-1</moraleChangeBad>
         <hydrationChangeBad>0</hydrationChangeBad>
         <shelterChangeBad>-1</shelterChangeBad>
-        <responseGood>Raccoons make their way to your shelter. Your fire kept them away though.</responseGood>
-        <responseBad>Raccoons ransack your shelter.</responseBad>
+        <responseGood>Raccoons make their way to your shelter. You are able to scare them away</responseGood>
+        <responseBad>Raccoons ransack your shelter and ferociously scratch you.</responseBad>
     </encounter>
     <encounter>
         <encounterName>Water Contamination</encounterName>
@@ -95,7 +101,22 @@
         <moraleChangeBad>-1</moraleChangeBad>
         <hydrationChangeBad>-2</hydrationChangeBad>
         <shelterChangeBad>0</shelterChangeBad>
-        <responseGood>It looks like some animal has contaminated your water tank. Luckily you have some Iodine Tablets to treat the water.</responseGood>
+        <responseGood>It looks like some animal has contaminated your water tank. Luckily you are able to treat the water</responseGood>
         <responseBad>It looks like some animal has contaminated your water tank. With nothing to sanitize it with you get sick.</responseBad>
+    </encounter>
+    <encounter>
+        <encounterName>Injury</encounterName>
+        <protectiveItem>FIRST_AID_KIT</protectiveItem>
+        <protectiveItem>SURVIVAL_MANUAL</protectiveItem>
+        <weightChangeGood>0</weightChangeGood>
+        <moraleChangeGood>1</moraleChangeGood>
+        <hydrationChangGood>0</hydrationChangGood>
+        <shelterChangeGood>0</shelterChangeGood>
+        <weightChangeBad>-400</weightChangeBad>
+        <moraleChangeBad>-1</moraleChangeBad>
+        <hydrationChangeBad>-1</hydrationChangeBad>
+        <shelterChangeBad>0</shelterChangeBad>
+        <responseGood>Walking through the forest you trip and injure yourself. You're able to treat yourself and gain confidence in your ability to survive</responseGood>
+        <responseBad>As you are walking, you trip and injure yourself. With no medical supplies to treat yourself, there's nothing to do but continue on.</responseBad>
     </encounter>
 </encounters>

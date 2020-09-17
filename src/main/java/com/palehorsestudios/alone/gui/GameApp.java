@@ -300,7 +300,8 @@ public class GameApp extends Application {
                 .appendText("Day " + day[0] + " " + dayHalf[0] + ": " + activityResult + "\n");
 
         // run encounter if occurs
-        if (seed[0] > 3) {
+        if (seed[0] > 0) {
+          player.updateMorale(-14);
           //refactored activityResult to include GameAssets encounters
           int randomDayEncounterIndex = (int) Math.floor(Math.random() * GameAssets.getEncounters().values().size());
           DayEncounter randomEncounter = (DayEncounter) GameAssets.getEncounters().values().toArray()[randomDayEncounterIndex];
