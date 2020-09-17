@@ -292,14 +292,14 @@ public class GameApp extends Application {
       } else {
         final int[] seed = {(int) Math.floor(Math.random() * 10)};
         String activityResult;
-        // always perform activity typed out
+        // always perform activity typed out after encounter
         activityResult = activity.act(choice);
         gameController
                 .getDailyLog()
                 .appendText("Day " + day[0] + " " + dayHalf[0] + ": " + activityResult + "\n");
 
+        // run encounter if occurs
         if (seed[0] > 3) {
-
           //refactored activityResult to include GameAssets encounters
           int randomDayEncounterIndex = (int) Math.floor(Math.random() * GameAssets.getEncounters().values().size());
           DayEncounter randomEncounter = (DayEncounter) GameAssets.getEncounters().values().toArray()[randomDayEncounterIndex];
@@ -324,7 +324,7 @@ public class GameApp extends Application {
           if (!player.isDead() && !player.isRescued(day[0])) {
             seed[0] = (int) Math.floor(Math.random() * 10);
             String nightResult;
-            if (seed[0] > 0) {
+            if (seed[0] > 1) {
               // changed to type day encounter to log in stat tracker
               DayEncounter[] nightEncounters =
                       new DayEncounter[]{

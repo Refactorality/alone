@@ -156,6 +156,7 @@ public class Encounter extends DayEncounter{
 
   @Override
   public String encounter(Player player) {
+    String response = null;
     // if the player needs a fire for a successful encounter, check that. Otherwise, check for a protective item
     boolean successfulEncounter = needsFire ? player.getShelter().hasFire() : playerHasItem(player);
     //behavior for rain event
@@ -174,7 +175,7 @@ public class Encounter extends DayEncounter{
 
     //return response
     if(successfulEncounter){
-      return responseGood;
+      response = responseGood;
     }
     else{
       // if it's an animal attack
@@ -182,14 +183,18 @@ public class Encounter extends DayEncounter{
         //have animal attacks remove food from cache
         String foodName = removeFoodFromShelter(player);
         if(foodName != null){
-          return responseBad + " They got away with some " + foodName + "!";
+          response = responseBad + " They got away with some " + foodName + "!";
         }else{
-          return responseBad + " At least there was no food for them to steal.";
+          response = responseBad + " At least there was no food for them to steal.";
         }
 
       }else{
-        return responseBad;
+        response = responseBad;
       }
     }
+    if(player.isDead()){
+      response = response + " Unfortunately, as a result you have died.";
+    }
+    return response;
   }
 }
