@@ -121,7 +121,7 @@ public class Encounter extends DayEncounter{
   private String removeFoodFromShelter(Player player){
     Map<Food, Double> foodCache = player.getShelter().getFoodCache();
     if(foodCache.size() > 0){
-      Food item = (Food)foodCache.keySet().toArray()[0];
+      Food item = (Food)foodCache.keySet().toArray()[foodCache.size()-1];
       player.getShelter().removeFoodFromCache(item, 500.0);
       return item.getFoodName();
     }

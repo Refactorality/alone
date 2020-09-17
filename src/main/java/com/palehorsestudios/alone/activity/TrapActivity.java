@@ -15,7 +15,7 @@ public class TrapActivity extends Activity {
     if (activityReference == null) {
       activityReference = new TrapActivity();
     }
-    activityReference.setActivityName("Went Trapping");
+    activityReference.setActivityName("Trapped");
     return activityReference;
   }
 

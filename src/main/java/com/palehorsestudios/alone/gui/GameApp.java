@@ -17,7 +17,6 @@ import com.palehorsestudios.alone.HelperMethods;
 import com.palehorsestudios.alone.Item;
 import com.palehorsestudios.alone.dayencounter.DayEncounter;
 import com.palehorsestudios.alone.nightencounter.BearEncounterNight;
-import com.palehorsestudios.alone.nightencounter.NightEncounter;
 import com.palehorsestudios.alone.nightencounter.RainStorm;
 import com.palehorsestudios.alone.nightencounter.RescueHelicopterNight;
 import com.palehorsestudios.alone.player.Player;
@@ -261,7 +260,7 @@ public class GameApp extends Application {
                 .getDailyLog()
                 .appendText("Day " + day[0] + " " + dayHalf[0] + ": " + activityResult + "\n");
 
-        if (seed[0] > 0) {
+        if (seed[0] > 3) {
 
           //refactored activityResult to include GameAssets encounters
           int randomDayEncounterIndex = (int) Math.floor(Math.random() * GameAssets.getEncounters().values().size());
