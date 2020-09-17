@@ -1,6 +1,5 @@
 package com.palehorsestudios.alone.util.reader;
 
-import com.palehorsestudios.alone.Food;
 import com.palehorsestudios.alone.Item;
 
 import javax.xml.stream.XMLEventReader;
@@ -44,7 +43,6 @@ public class ItemReader {
                             while (attributes.hasNext()) {
                                 Attribute attribute = attributes.next();
                                 if (attribute.getName().toString().equals(NAME)) {
-                                    System.out.println(NAME + ": " + attribute.getValue());
                                     item.setName(attribute.getValue());
                                 }
                             }
@@ -52,8 +50,7 @@ public class ItemReader {
                         case ITEM_NAME -> {
                             event = eventReader.nextEvent();
                             if (item != null) {
-                                item.setItemName(event.asCharacters().getData());
-                                System.out.println(item.getItemName());
+                                item.setVisibleName(event.asCharacters().getData());
                             } else {
                                 System.out.println("Food not initialized, check foods.xml for error");
                                 System.exit(-1);
