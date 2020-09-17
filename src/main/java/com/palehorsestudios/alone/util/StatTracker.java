@@ -15,6 +15,7 @@ public class StatTracker {
   private static final HashMap<Activity, Integer> activityLog = new HashMap<>();
   private static final HashMap<String, Integer> encounterLog = new HashMap<>();
   // key = activity -> key = Food item -> key = success + key = amount
+  //{"activity" : {"food item name" : {"success" : count, "quantity" : grams} } }
   private static final HashMap<String, HashMap<String, HashMap<String, Double>>> foodLog = new HashMap<>(){
     {
       //place array list value with string keys in foodLog hashmap
