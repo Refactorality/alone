@@ -19,7 +19,7 @@ public class Main {
   }
 
   public static Choice parseChoice(String input, Player player) {
-    Choice choice;
+    Choice choice = null;
 
     // uses input to build a choice by looking up keywords in a choice map
     // split up input into array of words
@@ -41,6 +41,35 @@ public class Main {
           choice = new Choice(keyword, player, item);
         } else {
           choice = null;
+        }
+      } else if (keyword.equals("make") || keyword.equals("cook")) {
+        int numResources = 0;
+
+        if (Optional.ofNullable(GameAssets.choiceFoodMap.get(input.toLowerCase())).isPresent()) {
+          for (Item resource : GameAssets.gameFoods.get(GameAssets.choiceFoodMap.get(input.toLowerCase()).getName()).getResourcesRequired()){
+            if (player.getShelter().getFoodCache().containsKey(resource)) {
+              numResources++;
+            }
+          }
+          if (numResources == GameAssets.gameFoods.get(GameAssets.choiceFoodMap.get(input.toLowerCase()).getName()).getResourcesRequired().size()) {
+            food = Optional.ofNullable(GameAssets.choiceFoodMap.get(input.toLowerCase())).get();
+          } else {
+            food = null;
+          }
+          choice = new Choice(keyword, player, food);
+        }
+        else if (Optional.ofNullable(GameAssets.choiceItemMap.get(input.toLowerCase())).isPresent()) {
+          for (Item resource : GameAssets.gameItems.get(GameAssets.choiceItemMap.get(input.toLowerCase()).getName()).getResourcesRequired()) {
+            if (player.getShelter().getEquipment().containsKey(resource)) {
+              numResources++;
+            }
+          }
+          if (numResources == GameAssets.gameItems.get(GameAssets.choiceItemMap.get(input.toLowerCase()).getName()).getResourcesRequired().size()) {
+            item = Optional.ofNullable(GameAssets.choiceItemMap.get(input.toLowerCase())).get();
+          } else {
+            item = null;
+          }
+          choice = new Choice(keyword, player, item);
         }
       } else {
         choice = new Choice(keyword, player);
@@ -83,6 +112,8 @@ public class Main {
         activity = GetWaterActivity.getInstance();
       } else if (choice.getKeyword().equals("morale")) {
         activity = BoostMoraleActivity.getInstance();
+      } else if(choice.getKeyword().equals("make")) {
+        activity = MakeItemActivity.getInstance();
       } else {
         activity = RestActivity.getInstance();
       }

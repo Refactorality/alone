@@ -281,10 +281,11 @@ public class GameApp extends Application {
       if (activity == null) {
         getNarrative(new File("resources/parserHelp.txt"));
       } else if (activity == EatActivity.getInstance()
-              || activity == DrinkWaterActivity.getInstance()
-              || activity == GetItemActivity.getInstance()
-              || activity == PutItemActivity.getInstance()
-              || activity == BuildFireActivity.getInstance()) {
+          || activity == DrinkWaterActivity.getInstance()
+          || activity == GetItemActivity.getInstance()
+          || activity == PutItemActivity.getInstance()
+          || activity == BuildFireActivity.getInstance()
+          || activity == MakeItemActivity.getInstance()) {
         String activityResult = activity.act(choice);
         gameController
                 .getDailyLog()

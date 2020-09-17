@@ -5,6 +5,11 @@
         <caloriesPerGram>0.84</caloriesPerGram>
         <grams>3401.94</grams>
     </food>
+    <food name="COOKED_FISH">
+        <foodName>cooked fish</foodName>
+        <caloriesPerGram>1.5</caloriesPerGram>
+        <grams>3401.94</grams>
+    </food>
     <food name="SQUIRREL">
         <foodName>squirrel</foodName>
         <caloriesPerGram>1.20</caloriesPerGram>
