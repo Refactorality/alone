@@ -123,7 +123,7 @@ public class Encounter extends DayEncounter{
     if(foodCache.size() > 0){
       Food item = (Food)foodCache.keySet().toArray()[foodCache.size()-1];
       player.getShelter().removeFoodFromCache(item, 500.0);
-      return item.getFoodName();
+      return item.getVisibleName();
     }
     return null;
   }

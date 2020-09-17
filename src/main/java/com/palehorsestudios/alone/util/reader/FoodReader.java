@@ -45,7 +45,6 @@ public class FoodReader {
                             while (attributes.hasNext()) {
                                 Attribute attribute = attributes.next();
                                 if (attribute.getName().toString().equals(NAME)) {
-                                    System.out.println(NAME + ": " + attribute.getValue());
                                     food.setName(attribute.getValue());
                                 }
                             }
@@ -53,7 +52,7 @@ public class FoodReader {
                         case FOOD_NAME -> {
                             event = eventReader.nextEvent();
                             if (food != null) {
-                                food.setFoodName(event.asCharacters().getData());
+                                food.setVisibleName(event.asCharacters().getData());
                             } else {
                                 System.out.println("Food not initialized, check foods.xml for error");
                                 System.exit(-1);
