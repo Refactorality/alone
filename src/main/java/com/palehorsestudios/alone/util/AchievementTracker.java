@@ -40,17 +40,14 @@ public class AchievementTracker {
             for(Map.Entry<String, Achievement> achievement : achievements.entrySet()){
                 String name = achievement.getValue().getName();
                 for (Map.Entry<Activity, Integer> activity : activityLog.entrySet())
-                if (activity.getKey().getActivityName().equalsIgnoreCase(name)){
-                        if(getSuccessfulFoodActivity(activity.getKey().getActivityName().toLowerCase()) > achievement.getValue().getMinimum()){
-                            achievement.getValue().setAchieved(true);
-                        }
+                    if(activity.getKey().getActivityName() != null){
+                        if (activity.getKey().getActivityName().equalsIgnoreCase(name)){
+                            if(getSuccessfulFoodActivity(activity.getKey().getActivityName().toLowerCase()) > achievement.getValue().getMinimum()){
+                                achievement.getValue().setAchieved(true);
+                            }
+                    }
                 }
             }
         }
-    }
-
-    public static void main(String[] args) {
-        System.out.println(readAchievementsXML());
-        System.out.println(getActivityLog());
     }
 }
