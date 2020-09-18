@@ -3,7 +3,7 @@ package com.palehorsestudios.alone.gui;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
-public class GameController {
+public class GameController{
   @FXML private TextArea curActivity;
   @FXML private TextArea playerInput;
   @FXML private TextArea dailyLog;

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <achievement name="hunted">
+        <achievementName>Hunting medal</achievementName>
+    </achievement>
+    <achievement name="fished">
+        <achievementName>Fishing medal</achievementName>
+    </achievement>
+    <achievement name="trapped">
+        <achievementName>Trapping medal</achievementName>
+    </achievement>
+</config>

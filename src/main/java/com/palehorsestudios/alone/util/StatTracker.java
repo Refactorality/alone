@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.palehorsestudios.alone.util.AchievementTracker.showAchievementTracker;
+
 public class StatTracker {
 
   // TODO: add day of activity and outcomes?
@@ -106,6 +108,7 @@ public class StatTracker {
       sb.append("\n");
       }
     }
+    showAchievementTracker();
     return sb.toString();
   }
 
@@ -149,6 +152,10 @@ public class StatTracker {
 //        }
 //      }
     }
+  }
+
+  public static HashMap<Activity, Integer> getActivityLog() {
+    return activityLog;
   }
 }
 
