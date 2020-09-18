@@ -40,6 +40,7 @@ public class DynamoDBoperations {
     public static AmazonDynamoDB dbConn() {
         BasicAWSCredentials credentials = new BasicAWSCredentials("", "");
 
+
         AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard()
                 .withRegion("us-east-1")
                 .withCredentials(new AWSStaticCredentialsProvider(credentials))

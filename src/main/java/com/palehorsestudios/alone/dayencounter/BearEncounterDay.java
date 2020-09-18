@@ -15,6 +15,7 @@ public class BearEncounterDay extends DayEncounter {
       encounter = new BearEncounterDay();
     }
     encounter.setName("Bear Encounter");
+    encounter.setSoundPath("resources/Sound/Encounters/bearsound.wav");
     return encounter;
   }
 

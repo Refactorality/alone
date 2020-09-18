@@ -5,6 +5,7 @@ import com.palehorsestudios.alone.Food;
 import com.palehorsestudios.alone.GameAssets;
 import com.palehorsestudios.alone.Item;
 import com.palehorsestudios.alone.player.Player;
+import com.palehorsestudios.alone.util.Sound;
 
 import java.util.ArrayList;
 import java.util.Map;

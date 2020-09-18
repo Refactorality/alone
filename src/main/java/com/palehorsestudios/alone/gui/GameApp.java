@@ -13,6 +13,7 @@ import com.palehorsestudios.alone.Food;
 import com.palehorsestudios.alone.HelperMethods;
 import com.palehorsestudios.alone.Item;
 import com.palehorsestudios.alone.activity.*;
+import com.palehorsestudios.alone.dayencounter.BearEncounterDay;
 import com.palehorsestudios.alone.dayencounter.DayEncounter;
 import com.palehorsestudios.alone.nightencounter.BearEncounterNight;
 import com.palehorsestudios.alone.nightencounter.RainStorm;
@@ -311,7 +312,7 @@ public class GameApp extends Application {
           //refactored activityResult to include GameAssets encounters
           int randomDayEncounterIndex = (int) Math.floor(Math.random() * GameAssets.getEncounters().values().size());
 //          DayEncounter randomEncounter = (DayEncounter) GameAssets.getEncounters().values().toArray()[randomDayEncounterIndex];
-          DayEncounter randomEncounter = GameAssets.getEncounters().get("Fox Thief");
+          DayEncounter randomEncounter = GameAssets.getEncounters().get("Bear Encounter");
           //log encounter in the stat tracker
           StatTracker.logEncounter(randomEncounter);
           activityResult = randomEncounter.encounter(player);
@@ -325,6 +326,8 @@ public class GameApp extends Application {
           gameController
                   .getDailyLog()
                   .appendText("Day " + day[0] + " " + dayHalf[0] + ": " + activityResult + "\n");
+          //play encounter sound
+          randomEncounter.playSound();
         }
 
         if (dayHalf[0].equals("Morning")) {

@@ -13,6 +13,9 @@ public class Sound implements Runnable{
     private long milisPlayTime;
     private Clip mySound;
 
+    //added for encounters
+    public Sound(){};
+
     public Sound(String soundPath, long milisPlayTime){
         setSoundPath(soundPath);
         setMilisPlayTime(milisPlayTime);

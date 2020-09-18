@@ -455,8 +455,8 @@ public class GameAssets {
     public static void loadEncounters(){
         encounters = EncounterReader.readEncountersXML("./resources/xml/encounters.xml");
         //add day encounters already coded to encounters hashmap.
-        encounters.put("Bear", BearEncounterDay.getInstance());
-        encounters.put("Helicopter", RescueHelicopterDay.getInstance());
+        encounters.put("Bear Encounter", BearEncounterDay.getInstance());
+        encounters.put("Helicopter Sighting", RescueHelicopterDay.getInstance());
     }
 
     public static HashMap<String, Item> getGameItems() {
