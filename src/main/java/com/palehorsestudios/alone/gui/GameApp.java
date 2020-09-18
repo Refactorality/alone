@@ -37,10 +37,12 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.util.Map;
 import java.util.Set;
 
+import static com.palehorsestudios.alone.util.AchievementTracker.showAchievementTracker;
 import static com.palehorsestudios.alone.util.LeaderBoard.*;
 
 import static com.palehorsestudios.alone.Main.parseActivityChoice;
@@ -120,6 +122,8 @@ public class GameApp extends Application {
         primaryStage.setScene(introScene);
         primaryStage.show();
         introController.getIntro().setScrollTop(0);
+        DynamoDBoperations.updateGuiTopTenFromDynamoDB(introController, dbConn());
+
 
         // config event listener for select items scene
         EventHandler<ActionEvent> startGameHandler =
@@ -170,6 +174,8 @@ public class GameApp extends Application {
                                                     }));
                             timeline.playFromStart();
                             itemSelectionController.selectItems();
+                            DynamoDBoperations.updateGuiTopTenFromDynamoDB(itemSelectionController, dbConn());
+
                             // config next button listener
                             EventHandler<ActionEvent> nextHandler =
                                     new EventHandler<ActionEvent>() {
@@ -269,7 +275,8 @@ public class GameApp extends Application {
     final int[] day = {1};
     final String[] dayHalf = {"Morning"};
     gameController.getDateAndTime().setText("Day " + day[0] + " " + dayHalf[0]);
-    while (!player.isDead() && !player.isRescued() && !player.isRescued(day[0])) {
+      DynamoDBoperations.updateGuiTopTenFromDynamoDB(gameController, dbConn());
+      while (!player.isDead() && !player.isRescued() && !player.isRescued(day[0])) {
       // update the UI fields
       introSound.doTerminateSound();
       updateUI();
@@ -402,6 +409,8 @@ public class GameApp extends Application {
     getGameController().getGameOver().appendText("\n\n" + StatTracker.displayActivitiesLog());
     //append encounter tracker log to game over text
     getGameController().getGameOver().appendText("\n" + StatTracker.displayEncountersLog());
+      //append accomplishments tracker log to game_over text
+      getGameController().getGameOver().appendText("\n" + showAchievementTracker());
     if (player.isDead() || player.isRescued() || player.isRescued(day[0])) {
       saveUserScore(score);
     }

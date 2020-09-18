@@ -2,6 +2,7 @@ package com.palehorsestudios.alone.util;
 
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.palehorsestudios.alone.gui.GameController;
+import com.palehorsestudios.alone.gui.IntroController;
 
 import java.util.*;
 import java.util.stream.Collectors;
