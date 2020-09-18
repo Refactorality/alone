@@ -39,8 +39,8 @@ public class DynamoDBoperations {
 
     public static AmazonDynamoDB dbConn() {
         //System.out.println(System.getenv("AWS_SECRET_ACCESS_KEY"));
+        BasicAWSCredentials credentials = new BasicAWSCredentials("AKIAYMDIU6O4224SK6XX", "RF9AOYvzcw9MqByP/GhotYQrAz53yyuzZ8nofR1P");
 
-        BasicAWSCredentials credentials = new BasicAWSCredentials("", "");
         AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard()
                 .withRegion("us-east-1")
                 .withCredentials(new AWSStaticCredentialsProvider(credentials))
