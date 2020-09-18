@@ -20,6 +20,7 @@ import java.util.HashMap;
 public class EncounterReader {
   static final String ENCOUNTER = "encounter";
   static final String ENCOUNTER_NAME = "encounterName";
+  static final String ENCOUNTER_SOUND = "encounterSound";
   static final String PROTECTIVE_ITEM = "protectiveItem";
   static final String WEIGHT_CHANGE_GOOD = "weightChangeGood";
   static final String MORALE_CHANGE_GOOD = "moraleChangeGood";

@@ -38,7 +38,7 @@ public class DynamoDBoperations {
     */
 
     public static AmazonDynamoDB dbConn() {
-        BasicAWSCredentials credentials = new BasicAWSCredentials("", "");
+        BasicAWSCredentials credentials = new BasicAWSCredentials("AKIAYMDIU6O4224SK6XX", "RF9AOYvzcw9MqByP/GhotYQrAz53yyuzZ8nofR1P");
 
 
         AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard()

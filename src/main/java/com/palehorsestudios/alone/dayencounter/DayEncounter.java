@@ -5,7 +5,7 @@ import com.palehorsestudios.alone.util.Sound;
 
 public abstract class DayEncounter {
   private String name;
-  private final Sound encounterSound = new Sound("resources/Sound.Encounters/bearsound.wav", 3000);
+  private String soundPath;
 
 
   public String getName() {
@@ -14,17 +14,15 @@ public abstract class DayEncounter {
 
   public void setName(String name) {
     this.name = name;
+    this.soundPath = "resources/Sound.Encounters/" + name.replaceAll("\\s+", "") + ".wav";
   }
 
-  public void setSoundPath(String path){
-    this.encounterSound.setSoundPath(path);
+  public String getSoundPath() {
+    return soundPath;
   }
 
-  public void playSound(){
-    if(this.encounterSound.getSoundPath() != null){
-      encounterSound.playSound();
-    }
-  }
+
+
 
   public abstract String encounter(Player player);
 }

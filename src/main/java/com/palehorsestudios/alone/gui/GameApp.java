@@ -64,6 +64,8 @@ public class GameApp extends Application {
     private Player player;
     private Thread thread;
     private Sound introSound;
+    private Sound encounterSound = new Sound("resources/Sound.Encounters/BearEncounter.wav", 3200);
+    private Thread encounterSoundThread;
 
     public GameApp() {
         instance = this;
@@ -311,8 +313,8 @@ public class GameApp extends Application {
         if (seed[0] > 2) {
           //refactored activityResult to include GameAssets encounters
           int randomDayEncounterIndex = (int) Math.floor(Math.random() * GameAssets.getEncounters().values().size());
-//          DayEncounter randomEncounter = (DayEncounter) GameAssets.getEncounters().values().toArray()[randomDayEncounterIndex];
-          DayEncounter randomEncounter = GameAssets.getEncounters().get("Bear Encounter");
+          DayEncounter randomEncounter = (DayEncounter) GameAssets.getEncounters().values().toArray()[randomDayEncounterIndex];
+//          DayEncounter randomEncounter = GameAssets.getEncounters().get("Sunny Day");
           //log encounter in the stat tracker
           StatTracker.logEncounter(randomEncounter);
           activityResult = randomEncounter.encounter(player);
@@ -322,12 +324,15 @@ public class GameApp extends Application {
             encounterRescue = true;
           }
           encounterResults = activityResult;
+          //play encounter sound
+          encounterSound.setSoundPath(randomEncounter.getSoundPath());
+          encounterSoundThread = new Thread(encounterSound);
+          encounterSoundThread.start();
           //show result if encounter occurs
           gameController
                   .getDailyLog()
                   .appendText("Day " + day[0] + " " + dayHalf[0] + ": " + activityResult + "\n");
-          //play encounter sound
-          randomEncounter.playSound();
+
         }
 
         if (dayHalf[0].equals("Morning")) {
@@ -355,6 +360,9 @@ public class GameApp extends Application {
                 encounterRescue = true;
               }
               encounterResults = nightResult;
+              encounterSound.setSoundPath(nightEncounter.getSoundPath());
+              encounterSoundThread = new Thread(encounterSound);
+              encounterSoundThread.start();
             } else {
               nightResult = overnightStatusUpdate(player);
             }
@@ -363,6 +371,7 @@ public class GameApp extends Application {
                     .appendText("Day " + day[0] + " Night: " + nightResult + "\n");
             dayHalf[0] = "Morning";
             day[0]++;
+
           }
         }
         gameController.getDateAndTime().setText("Day " + day[0] + " " + dayHalf[0]);
