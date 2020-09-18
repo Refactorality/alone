@@ -48,6 +48,7 @@
         <encounterName>Forest Fire</encounterName>
         <protectiveItem>SHOVEL</protectiveItem>
         <protectiveItem>AXE</protectiveItem>
+        <protectiveItem>WATER</protectiveItem>
         <weightChangeGood>0</weightChangeGood>
         <moraleChangeGood>1</moraleChangeGood>
         <hydrationChangGood>0</hydrationChangGood>
@@ -89,6 +90,20 @@
         <shelterChangeBad>-1</shelterChangeBad>
         <responseGood>Raccoons make their way to your shelter. You are able to scare them away</responseGood>
         <responseBad>Raccoons ransack your shelter and ferociously scratch you.</responseBad>
+    </encounter>
+    <encounter>
+        <encounterName>Fox Thief</encounterName>
+        <protectiveItem>EXTRA_BOOTS</protectiveItem>
+        <weightChangeGood>0</weightChangeGood>
+        <moraleChangeGood>1</moraleChangeGood>
+        <hydrationChangeGood>0</hydrationChangeGood>
+        <shelterChangeGood>1</shelterChangeGood>
+        <weightChangeBad>-200</weightChangeBad>
+        <moraleChangeBad>-2</moraleChangeBad>
+        <hydrationChangeBad>0</hydrationChangeBad>
+        <shelterChangeBad>0</shelterChangeBad>
+        <responseGood>Sneaky foxes find their way to your camp as you are relaxing and run off with your boots. Your feet will still be safe</responseGood>
+        <responseBad>Sneaky foxes find their way to your camp.</responseBad>
     </encounter>
     <encounter>
         <encounterName>Water Contamination</encounterName>

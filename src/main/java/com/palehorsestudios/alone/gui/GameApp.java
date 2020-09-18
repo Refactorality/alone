@@ -307,11 +307,11 @@ public class GameApp extends Application {
                 .appendText("Day " + day[0] + " " + dayHalf[0] + ": " + activityResult + "\n");
 
         // run encounter if occurs
-        player.updateMorale(-14);
         if (seed[0] > 2) {
           //refactored activityResult to include GameAssets encounters
           int randomDayEncounterIndex = (int) Math.floor(Math.random() * GameAssets.getEncounters().values().size());
-          DayEncounter randomEncounter = (DayEncounter) GameAssets.getEncounters().values().toArray()[randomDayEncounterIndex];
+//          DayEncounter randomEncounter = (DayEncounter) GameAssets.getEncounters().values().toArray()[randomDayEncounterIndex];
+          DayEncounter randomEncounter = GameAssets.getEncounters().get("Fox Thief");
           //log encounter in the stat tracker
           StatTracker.logEncounter(randomEncounter);
           activityResult = randomEncounter.encounter(player);
