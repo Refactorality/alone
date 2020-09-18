@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.palehorsestudios.alone.util.AchievementTracker.showAchievementTracker;
+
 public class StatTracker {
 
   // TODO: add day of activity and outcomes?
@@ -43,6 +45,9 @@ public class StatTracker {
   // enter activity in log map
   public static void logActivity(Activity activity){
 //     check if activity key exists, if so increment by one. else, add pair with value of 1
+    if(activity.getActivityName() == null){
+      return;
+    }
     if(activityLog.containsKey(activity)){
       activityLog.put(activity, activityLog.get(activity)+1);
     }
@@ -106,6 +111,7 @@ public class StatTracker {
       sb.append("\n");
       }
     }
+    showAchievementTracker();
     return sb.toString();
   }
 
@@ -149,6 +155,10 @@ public class StatTracker {
 //        }
 //      }
     }
+  }
+
+  public static HashMap<Activity, Integer> getActivityLog() {
+    return activityLog;
   }
 }
 

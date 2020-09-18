@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
 import javafx.scene.layout.GridPane;
 
 import java.util.HashMap;
@@ -51,6 +52,7 @@ public class ItemSelectionController {
   @FXML private CheckBox lighter;
   @FXML private CheckBox survivalManual;
   @FXML private CheckBox journalandpen;
+  @FXML private Menu MenuTopTen;
 
   private static int count = 0;
 
@@ -224,5 +226,13 @@ public class ItemSelectionController {
 
   public GridPane getPaneSelected() {
     return paneSelected;
+  }
+
+  public Menu getMenuTopTen() {
+    return MenuTopTen;
+  }
+
+  public void setMenuTopTen(Menu menuTopTen) {
+    MenuTopTen = menuTopTen;
   }
 }
