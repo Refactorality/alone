@@ -38,16 +38,17 @@ public class DynamoDBoperations {
     */
 
     public static AmazonDynamoDB dbConn() {
-        //System.out.println(System.getenv("AWS_SECRET_ACCESS_KEY"));
+        String id = System.getenv("AWS_ACCESS_KEY_ID");
+        String secret = System.getenv("AWS_SECRET_ACCESS_KEY");
+//        System.out.println(id);
+//        System.out.println(secret);
 
-        BasicAWSCredentials credentials = new BasicAWSCredentials("", "");
-        AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard()
+        BasicAWSCredentials credentials = new BasicAWSCredentials(""+id+"", ""+secret+"");
+        return AmazonDynamoDBClientBuilder.standard()
                 .withRegion("us-east-1")
                 .withCredentials(new AWSStaticCredentialsProvider(credentials))
                 .build();
        // AmazonDynamoDB client = AmazonDynamoDBClientBuilder.defaultClient();
-        return client;
-
     }
 
 
@@ -57,17 +58,14 @@ public class DynamoDBoperations {
 
         Table table = dynamoDB.getTable("LeaderBoard");
 
-        String name = playerName;
-        int score = playerScore;
-
         try {
             System.out.println("Adding a new item...");
             PutItemOutcome outcome = table
-                    .putItem(new Item().withPrimaryKey("Name", name).with("Score", score));
+                    .putItem(new Item().withPrimaryKey("Name", playerName).with("Score", playerScore));
             System.out.println("PutItem succeeded:\n");
 
         } catch (Exception e) {
-            System.err.println("Unable to add item: " + name + " " + score);
+            System.err.println("Unable to add item: " + playerName + " " + playerScore);
             System.err.println(e.getMessage());
         }
     }

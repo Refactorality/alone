@@ -9,4 +9,10 @@
     <achievement name="trapped">
         <achievementName>Trapping medal</achievementName>
     </achievement>
+    <achievement name="200">
+        <achievementName>200 points!</achievementName>
+    </achievement>
+    <achievement name="500">
+        <achievementName>500 points!</achievementName>
+    </achievement>
 </config>

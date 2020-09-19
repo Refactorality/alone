@@ -43,6 +43,7 @@ import java.util.Map;
 import java.util.Set;
 
 import static com.palehorsestudios.alone.util.AchievementTracker.showAchievementTracker;
+import static com.palehorsestudios.alone.util.AchievementTracker.showAchievementsAtEndOfDay;
 import static com.palehorsestudios.alone.util.LeaderBoard.*;
 
 import static com.palehorsestudios.alone.Main.parseActivityChoice;
@@ -354,9 +355,11 @@ public class GameApp extends Application {
             } else {
               nightResult = overnightStatusUpdate(player);
             }
+
             gameController
                     .getDailyLog()
-                    .appendText("Day " + day[0] + " Night: " + nightResult + "\n");
+                    .appendText("Day " + day[0] + " Night: " + nightResult + "\n" +
+                            showAchievementsAtEndOfDay(player,day));
             dayHalf[0] = "Morning";
             day[0]++;
           }
@@ -406,11 +409,11 @@ public class GameApp extends Application {
     //append score to gameController gameover text
     getGameController().getGameOver().appendText("\n\nYour score: " + String.valueOf(score));
     //append activity tracker log to game over text
-    getGameController().getGameOver().appendText("\n\n" + StatTracker.displayActivitiesLog());
+    getGameController().getGameOver().appendText("\n\n" + StatTracker.displayActivitiesLog(player));
     //append encounter tracker log to game over text
     getGameController().getGameOver().appendText("\n" + StatTracker.displayEncountersLog());
       //append accomplishments tracker log to game_over text
-      getGameController().getGameOver().appendText("\n" + showAchievementTracker());
+      getGameController().getGameOver().appendText("\n" + showAchievementTracker(player));
     if (player.isDead() || player.isRescued() || player.isRescued(day[0])) {
       saveUserScore(score);
     }
