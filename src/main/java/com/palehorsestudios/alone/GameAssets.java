@@ -64,6 +64,16 @@ public class GameAssets {
             put("eat berry", "eat");
             put("eat berries", "eat");
             put("eat bear", "eat");
+            put("eat cooked moose", "eat");
+            put("eat cooked fish", "eat");
+            put("eat cooked bear", "eat");
+            put("eat cooked squirrel", "eat");
+            put("eat cooked rabbit", "eat");
+            put("eat cooked porcupine", "eat");
+            put("eat cooked bug", "eat");
+            put("eat cooked bugs", "eat");
+            put("eat cooked mushroom", "eat");
+            put("eat cooked mushrooms", "eat");
             put("go hunt", "hunt");
             put("go hunting", "hunt");
             put("hunt", "hunt");
@@ -112,6 +122,13 @@ public class GameAssets {
             put("fishing", "fish");
             put("go fish", "fish");
             put("cook fish", "make");
+            put("cook squirrel", "make");
+            put("cook rabbit", "make");
+            put("cook moose", "make");
+            put("cook bear", "make");
+            put("cook porcupine", "make");
+            put("cook bug", "make");
+            put("cook mushroom", "make");
             put("go fishing", "fish");
             put("get fishing line", "get");
             put("get fishing lines", "get");
@@ -295,6 +312,12 @@ public class GameAssets {
             put("take nap", "rest");
             put("take a nap", "rest");
             put("make bow", "make");
+            put("make arrows", "make");
+            put("make axe", "make");
+            put("gather resource", "collect");
+            put("gather resources", "collect");
+            put("collect resources", "collect");
+            put("collect resource", "collect");
         }};
 
         choiceFoodMap = new HashMap<>(){{
@@ -310,7 +333,24 @@ public class GameAssets {
             put("eat mushrooms", gameFoods.get("MUSHROOM"));
             put("eat berry", gameFoods.get("BERRIES"));
             put("eat berries", gameFoods.get("BERRIES"));
+            put("eat cooked moose", gameFoods.get("COOKED_MOOSE"));
+            put("eat cooked fish", gameFoods.get("COOKED_FISH"));
+            put("eat cooked bear", gameFoods.get("COOKED_BEAR"));
+            put("eat cooked squirrel", gameFoods.get("COOKED_SQUIRREL"));
+            put("eat cooked rabbit", gameFoods.get("COOKED_RABBIT"));
+            put("eat cooked porcupine", gameFoods.get("COOKED_PORCUPINE"));
+            put("eat cooked bug", gameFoods.get("COOKED_BUG"));
+            put("eat cooked bugs", gameFoods.get("COOKED_BUG"));
+            put("eat cooked mushroom", gameFoods.get("COOKED_MUSHROOM"));
+            put("eat cooked mushrooms", gameFoods.get("COOKED_MUSHROOM"));
             put("cook fish", gameFoods.get("COOKED_FISH"));
+            put("cook squirrel", gameFoods.get("COOKED_SQUIRREL"));
+            put("cook rabbit", gameFoods.get("COOKED_RABBIT"));
+            put("cook moose", gameFoods.get("COOKED_MOOSE"));
+            put("cook bear", gameFoods.get("COOKED_BEAR"));
+            put("cook porcupine", gameFoods.get("COOKED_PORCUPINE"));
+            put("cook bug", gameFoods.get("COOKED_BUG"));
+            put("cook mushroom", gameFoods.get("COOKED_MUSHROOM"));
         }};
 
         choiceItemMap = new HashMap<>(){{
@@ -449,6 +489,8 @@ public class GameAssets {
             put("put journal and pen", gameItems.get("JOURNAL"));
             put("put journal", gameItems.get("JOURNAL"));
             put("make bow", gameItems.get("BOW"));
+            put("make arrows", gameItems.get("ARROWS"));
+            put("make axe", gameItems.get("AXE"));
         }};
     }
 

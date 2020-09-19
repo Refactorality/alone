@@ -112,8 +112,10 @@ public class Main {
         activity = GetWaterActivity.getInstance();
       } else if (choice.getKeyword().equals("morale")) {
         activity = BoostMoraleActivity.getInstance();
-      } else if(choice.getKeyword().equals("make")) {
+      } else if (choice.getKeyword().equals("make")) {
         activity = MakeItemActivity.getInstance();
+      } else if (choice.getKeyword().equals("collect")) {
+        activity = GatherResourceActivity.getInstance();
       } else {
         activity = RestActivity.getInstance();
       }
