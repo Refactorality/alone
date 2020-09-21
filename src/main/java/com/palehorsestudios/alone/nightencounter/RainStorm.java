@@ -12,6 +12,7 @@ public class RainStorm extends DayEncounter {
     if(encounter == null) {
       encounter = new RainStorm();
     }
+    encounter.setName("Rain Storm");
     return encounter;
   }
 

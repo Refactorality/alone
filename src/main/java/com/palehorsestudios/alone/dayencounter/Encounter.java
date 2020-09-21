@@ -1,16 +1,19 @@
 package com.palehorsestudios.alone.dayencounter;
 
+import com.fasterxml.jackson.databind.util.ISO8601Utils;
 import com.palehorsestudios.alone.Food;
 import com.palehorsestudios.alone.GameAssets;
 import com.palehorsestudios.alone.Item;
 import com.palehorsestudios.alone.player.Player;
+import com.palehorsestudios.alone.util.Sound;
 
 import java.util.ArrayList;
 import java.util.Map;
 
 public class Encounter extends DayEncounter{
 //  private String name;
-  private ArrayList<Item> protectiveItem = new ArrayList<>();
+  private final ArrayList<Item> protectiveItem = new ArrayList<>();
+  private Item itemUsed;
   private int weightChangeGood;
   private int moraleChangeGood;
   private int hydrationChangeGood;
@@ -22,6 +25,8 @@ public class Encounter extends DayEncounter{
   private String responseGood;
   private String responseBad;
   private boolean needsFire;
+  private boolean needsStrongShelter;
+  private int thiefCount;
 
   public Encounter(){};
 
@@ -33,7 +38,10 @@ public class Encounter extends DayEncounter{
     //if fire is the protective item, set needsFire to true and leave protective item null;
     if("fire".equalsIgnoreCase(protectiveItem)){
       this.needsFire = true;
-    }else{
+    }else if("shelter".equalsIgnoreCase(protectiveItem)){
+      this.needsStrongShelter = true;
+    }
+    else{
       this.protectiveItem.add(GameAssets.getGameItems().get(protectiveItem));
     }
   }
@@ -122,7 +130,7 @@ public class Encounter extends DayEncounter{
     Map<Food, Double> foodCache = player.getShelter().getFoodCache();
     if(foodCache.size() > 0){
       Food item = (Food)foodCache.keySet().toArray()[foodCache.size()-1];
-      player.getShelter().removeFoodFromCache(item, 500.0);
+      player.getShelter().removeFoodFromCache(item, item.getGrams()*0.4);
       return item.getVisibleName();
     }
     return null;
@@ -131,8 +139,15 @@ public class Encounter extends DayEncounter{
   private boolean playerHasItem(Player player){
     boolean itemFound = false;
     for(Item item : protectiveItem){
-      if(player.getShelter().getEquipment().containsKey(item)){
+      if (player.getShelter().getEquipment().containsKey(item)) {
         itemFound = true;
+        //fox thief check for extra boots
+        if(item.getName().equalsIgnoreCase("EXTRA_BOOTS")
+        && player.getShelter().getEquipment().get(item) < 1){
+          itemFound = false;
+        }
+        itemUsed = item;
+        break;
       }
     }
     return itemFound;
@@ -153,43 +168,87 @@ public class Encounter extends DayEncounter{
   }
 
 
-
-  @Override
-  public String encounter(Player player) {
-    // if the player needs a fire for a successful encounter, check that. Otherwise, check for a protective item
-    boolean successfulEncounter = needsFire ? player.getShelter().hasFire() : playerHasItem(player);
-    //behavior for rain event
+  //rain fills up tank
+  private void rainCheck(Player player){
+    // if it is a rain behavior
     if(getName().toLowerCase().contains("rain")){
+      // increase water
       player.getShelter().updateWater(2);
+      // not sad if no water
       if(player.getShelter().getWaterTank() == 0){
         moraleChangeBad = 0;
       }
-      if(player.getShelter().getIntegrity() > 6){
-        successfulEncounter = true;
-        responseGood = "It starts to rain, but your shelter is sturdy enough to keep you and your equipment nice and dry. Plus you can fill up your water tank.";
+    }
+  }
+  //animals steal food
+  private String animalCheck(Player player, String response){
+    if(getName().toLowerCase().contains("attack")){
+      //have animal attacks remove food from cache
+      String foodName = removeFoodFromShelter(player);
+      if(foodName != null){
+        response += " They got away with some " + foodName + "!";
+      }else{
+        response += " At least there was no food for them to steal.";
       }
+    }
+    return response;
+  }
+  // functionality for fire
+  private String fireCheck(Player player, String response) {
+    if (getName().toLowerCase().contains("fire") && player.getShelter().getWaterTank() > 2) {
+        player.getShelter().updateWater(-10);
+        this.shelterChangeBad = 0;
+        response = "There was a forest fire. With nothing to stop the spread, you attempt to douse it with your water. Your shelter is saved but you got burned.";
+    }
+    return response;
+  }
+  // function removes extra_boots from inventory for fox thief
+  private void thiefCheck(Player player){
+    if(getName().toLowerCase().contains("thief")) {
+      if (player.getShelter().getEquipment().get(protectiveItem.get(0)) != null
+              && player.getShelter().getEquipment().get(protectiveItem.get(0)) > 0) {
+        player.getShelter().removeEquipment(protectiveItem.get(0), 1);
+      }else{
+        this.setName("Fox Attack");
+      }
+    }
+
+
+  }
+
+
+
+  @Override
+  public String encounter(Player player) {
+    String response;
+    // successful if player needs fire and has fire or needs strong shelter and has integrity > 6 or has item.
+    boolean successfulEncounter = needsFire && player.getShelter().hasFire()
+            || (needsStrongShelter && player.getShelter().getIntegrity() > 6
+            || playerHasItem(player));
+    //behavior for rain event
+    rainCheck(player);
+    thiefCheck(player);
+
+    // update to successful response
+    if(successfulEncounter){
+      response = responseGood;
+      //check for foxes stealing boots.
+      // modify good response based on item
+      response += " thanks to your " + (needsFire && player.getShelter().hasFire() ? "fire." :
+              needsStrongShelter && player.getShelter().getIntegrity() > 6 ? "strong shelter." :
+                      itemUsed.getVisibleName() + ".");
+    }
+    // update failure response
+    else{
+      // check for fire, check for animal, submit failure response
+      response = fireCheck(player, animalCheck(player, responseBad));
+    }
+    // if died as a result add eulogy
+    if(player.isDead()){
+      response = response + " \nThey say we all die alone. You die alone as a result of a " + this.getName() + ".";
     }
     //update player stats based on encounter outcome
     updatePlayerStats(player, successfulEncounter);
-
-    //return response
-    if(successfulEncounter){
-      return responseGood;
-    }
-    else{
-      // if it's an animal attack
-      if(getName().toLowerCase().contains("attack")){
-        //have animal attacks remove food from cache
-        String foodName = removeFoodFromShelter(player);
-        if(foodName != null){
-          return responseBad + " They got away with some " + foodName + "!";
-        }else{
-          return responseBad + " At least there was no food for them to steal.";
-        }
-
-      }else{
-        return responseBad;
-      }
-    }
+    return response;
   }
 }

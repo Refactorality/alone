@@ -46,6 +46,9 @@ public class StatTracker {
   // enter activity in log map
   public static void logActivity(Activity activity){
 //     check if activity key exists, if so increment by one. else, add pair with value of 1
+    if(activity.getActivityName() == null){
+      return;
+    }
     if(activityLog.containsKey(activity)){
       activityLog.put(activity, activityLog.get(activity)+1);
     }

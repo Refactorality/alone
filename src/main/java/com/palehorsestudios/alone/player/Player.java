@@ -190,7 +190,6 @@ public class Player {
   }
 
   public void makeItem(String itemToMake) {
-    shelter.setFire(true); // TODO Remove after testing
     int numResources = 0;
 
     if (GameAssets.gameItems.containsKey(itemToMake)) {

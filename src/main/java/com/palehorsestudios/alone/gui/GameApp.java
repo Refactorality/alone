@@ -13,6 +13,7 @@ import com.palehorsestudios.alone.Food;
 import com.palehorsestudios.alone.HelperMethods;
 import com.palehorsestudios.alone.Item;
 import com.palehorsestudios.alone.activity.*;
+import com.palehorsestudios.alone.dayencounter.BearEncounterDay;
 import com.palehorsestudios.alone.dayencounter.DayEncounter;
 import com.palehorsestudios.alone.nightencounter.BearEncounterNight;
 import com.palehorsestudios.alone.nightencounter.RainStorm;
@@ -63,6 +64,8 @@ public class GameApp extends Application {
     private Player player;
     private Thread thread;
     private Sound introSound;
+    private Sound encounterSound = new Sound("resources/Sound.Encounters/BearEncounter.wav", 3200);
+    private Thread encounterSoundThread;
 
     public GameApp() {
         instance = this;
@@ -305,18 +308,19 @@ public class GameApp extends Application {
       } else {
         final int[] seed = {(int) Math.floor(Math.random() * 10)};
         String activityResult;
-        // always perform activity typed out
+        // always perform activity typed out after encounter
         activityResult = activity.act(choice);
         gameController
                 .getDailyLog()
                 .appendText("Day " + day[0] + " " + dayHalf[0] + ": " + activityResult + "\n");
           gameController.getDailyLog().appendText(showDiscoverCrafting(day[0], dayHalf[0]));
 
+        // run encounter if occurs
         if (seed[0] > 3) {
-
           //refactored activityResult to include GameAssets encounters
           int randomDayEncounterIndex = (int) Math.floor(Math.random() * GameAssets.getEncounters().values().size());
           DayEncounter randomEncounter = (DayEncounter) GameAssets.getEncounters().values().toArray()[randomDayEncounterIndex];
+//          DayEncounter randomEncounter = GameAssets.getEncounters().get("Sunny Day");
           //log encounter in the stat tracker
           StatTracker.logEncounter(randomEncounter);
           activityResult = randomEncounter.encounter(player);
@@ -326,6 +330,10 @@ public class GameApp extends Application {
             encounterRescue = true;
           }
           encounterResults = activityResult;
+          //play encounter sound
+          encounterSound.setSoundPath(randomEncounter.getSoundPath());
+          encounterSoundThread = new Thread(encounterSound);
+          encounterSoundThread.start();
           //show result if encounter occurs
           gameController
                   .getDailyLog()
@@ -339,7 +347,7 @@ public class GameApp extends Application {
           if (!player.isDead() && !player.isRescued(day[0])) {
             seed[0] = (int) Math.floor(Math.random() * 10);
             String nightResult;
-            if (seed[0] > 0) {
+            if (seed[0] > 7) {
               // changed to type day encounter to log in stat tracker
               DayEncounter[] nightEncounters =
                       new DayEncounter[]{
@@ -358,6 +366,9 @@ public class GameApp extends Application {
                 encounterRescue = true;
               }
               encounterResults = nightResult;
+              encounterSound.setSoundPath(nightEncounter.getSoundPath());
+              encounterSoundThread = new Thread(encounterSound);
+              encounterSoundThread.start();
             } else {
               nightResult = overnightStatusUpdate(player);
             }
@@ -368,6 +379,7 @@ public class GameApp extends Application {
             gameController.getDailyLog().appendText(showDiscoverCrafting(day[0], "Night"));
             dayHalf[0] = "Morning";
             day[0]++;
+
           }
         }
         gameController.getDateAndTime().setText("Day " + day[0] + " " + dayHalf[0]);
