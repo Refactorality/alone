@@ -22,8 +22,10 @@ public class LeaderBoard {
      */
     public static void makeUpdateLeader(String playerName, int playerScore, GameController gameController, AmazonDynamoDB dbConn) {
         try {
-            addNewItemToLeaderBoard(playerName, playerScore, dbConn);
-            DynamoDBoperations.updateGuiTopTenFromDynamoDB(gameController, dbConn);
+            if(dbConn != null) {
+                addNewItemToLeaderBoard(playerName, playerScore, dbConn);
+                DynamoDBoperations.updateGuiTopTenFromDynamoDB(gameController, dbConn);
+            }
 
         } catch (Exception e) {
             System.out.println("Error updating leader board");
