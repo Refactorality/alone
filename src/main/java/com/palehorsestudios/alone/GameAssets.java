@@ -314,6 +314,23 @@ public class GameAssets {
             put("make bow", "make");
             put("make arrows", "make");
             put("make axe", "make");
+            put("make fishing line", "make");
+            put("make fishing hooks", "make");
+            put("make fishing lures", "make");
+            put("make knife", "make");
+            put("make flint and steel", "make");
+            put("make parachute chord", "make");
+            put("make pants", "make");
+            put("make sleeping gear", "make");
+            put("make cold weather gear", "make");
+            put("make tarp", "make");
+            put("make first aid kit", "make");
+            put("make wire", "make");
+            put("make pot", "make");
+            put("make hatchet", "make");
+            put("make pistol", "make");
+            put("make ammo", "make");
+            put("make shovel", "make");
             put("gather resource", "collect");
             put("gather resources", "collect");
             put("collect resources", "collect");
@@ -491,6 +508,23 @@ public class GameAssets {
             put("make bow", gameItems.get("BOW"));
             put("make arrows", gameItems.get("ARROWS"));
             put("make axe", gameItems.get("AXE"));
+            put("make fishing line", gameItems.get("FISHING_LINE"));
+            put("make fishing hooks", gameItems.get("FISHING_HOOKS"));
+            put("make fishing lures", gameItems.get("FISHING_LURES"));
+            put("make knife", gameItems.get("KNIFE"));
+            put("make flint and steel", gameItems.get("FLINT_AND_STEEL"));
+            put("make parachute chord", gameItems.get("PARACHUTE_CHORD"));
+            put("make pants", gameItems.get("EXTRA_PANTS"));
+            put("make sleeping gear", gameItems.get("SLEEPING_GEAR"));
+            put("make cold weather gear", gameItems.get("COLD_WEATHER_GEAR"));
+            put("make tarp", gameItems.get("TARP"));
+            put("make first aid kit", gameItems.get("FIRST_AID_KIT"));
+            put("make wire", gameItems.get("WIRE"));
+            put("make pot", gameItems.get("POT"));
+            put("make hatchet", gameItems.get("HATCHET"));
+            put("make pistol", gameItems.get("PISTOL"));
+            put("make ammo", gameItems.get("PISTOL_CARTRIDGES"));
+            put("make shovel", gameItems.get("SHOVEL"));
         }};
     }
 
