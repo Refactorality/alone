@@ -44,6 +44,7 @@ import java.util.Map;
 import java.util.Set;
 
 import static com.palehorsestudios.alone.util.AchievementTracker.*;
+import static com.palehorsestudios.alone.util.Images.showImg;
 import static com.palehorsestudios.alone.util.LeaderBoard.*;
 
 import static com.palehorsestudios.alone.Main.parseActivityChoice;
@@ -281,6 +282,7 @@ public class GameApp extends Application {
     final int[] day = {1};
     final String[] dayHalf = {"Morning"};
     gameController.getDateAndTime().setText("Day " + day[0] + " " + dayHalf[0]);
+      showImg(gameController, "Image/Morning/2.gif");
       DynamoDBoperations.updateGuiTopTenFromDynamoDB(gameController, dbConn());
       while (!player.isDead() && !player.isRescued() && !player.isRescued(day[0])) {
       // update the UI fields
@@ -342,7 +344,9 @@ public class GameApp extends Application {
 
         if (dayHalf[0].equals("Morning")) {
           dayHalf[0] = "Afternoon";
+            showImg(gameController, "Image/Afternoon/afternoon.png");
         } else {
+            showImg(gameController, "Image/Morning/2.gif");
           if (!player.isDead() && !player.isRescued(day[0])) {
             seed[0] = (int) Math.floor(Math.random() * 10);
             String nightResult;
