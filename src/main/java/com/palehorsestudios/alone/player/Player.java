@@ -196,7 +196,6 @@ public class Player {
       for (Item resource : GameAssets.gameItems.get(itemToMake).getResourcesRequired()) {
         if (shelter.getEquipment().containsKey(resource)) {
           numResources++;
-          System.out.println("Num resources item: " + numResources);
         }
       }
       if (numResources == GameAssets.gameItems.get(itemToMake).getResourcesRequired().size()) {

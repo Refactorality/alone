@@ -261,9 +261,6 @@ public class GameApp extends Application {
   // game thread logic, so we should also wrap the UI access calls
   private void executeGameLoop() {
     player = new Player(initItems);
-    player.getShelter().getEquipment().put(GameAssets.gameItems.get("WOOD"), 1);
-    player.getShelter().getEquipment().put(GameAssets.gameItems.get("STONE"), 1);
-    player.getShelter().getEquipment().put(GameAssets.gameItems.get("STRING"), 1);
     // flag for encounter results
     boolean encounterDeath = false;
     boolean encounterRescue = false;

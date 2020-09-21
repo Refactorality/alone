@@ -40,14 +40,6 @@ public class GameAssets {
 
     public static void addItemResourcesRequired() {
         ResourcesRequiredReader.readRequiredResourcesXML("./resources/xml/requiredResources.xml");
-
-        for (Item item : gameItems.values()) {
-            if (item.getResourcesRequired() != null ) {
-                for (Item resource : item.getResourcesRequired()) {
-                    System.out.println(resource.getVisibleName());
-                }
-            }
-        }
     }
 
     public static void loadCommands() {
