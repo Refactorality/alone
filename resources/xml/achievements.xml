@@ -15,4 +15,16 @@
     <achievement name="500">
         <achievementName>500 points!</achievementName>
     </achievement>
+    <achievement name="discover_crafting">
+        <achievementName>discover crafting</achievementName>
+    </achievement>
+    <achievement name="swiper_no_swiping">
+        <achievementName>Swiper no swiping!</achievementName>
+    </achievement>
+    <achievement name="Yoga_Bears_Breakfast">
+        <achievementName>Yoga Bears Breakfast</achievementName>
+    </achievement>
+    <achievement name="Human_Pic-a-nic_basket">
+        <achievementName>Human Pic-a-nic basket</achievementName>
+    </achievement>
 </config>

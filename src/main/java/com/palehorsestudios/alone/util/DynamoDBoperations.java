@@ -38,6 +38,7 @@ public class DynamoDBoperations {
     */
 
     public static AmazonDynamoDB dbConn() {
+        // Add env variables in intellij idea
         String id = System.getenv("AWS_ACCESS_KEY_ID");
         String secret = System.getenv("AWS_SECRET_ACCESS_KEY");
 //        System.out.println(id);

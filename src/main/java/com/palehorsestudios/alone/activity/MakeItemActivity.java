@@ -1,6 +1,9 @@
 package com.palehorsestudios.alone.activity;
 
+import com.palehorsestudios.alone.Achievement;
 import com.palehorsestudios.alone.Choice;
+
+import static com.palehorsestudios.alone.util.AchievementTracker.discoverCrafting;
 
 public class MakeItemActivity extends Activity {
     private static MakeItemActivity activityReference;
@@ -21,6 +24,7 @@ public class MakeItemActivity extends Activity {
         if (choice.getItem() != null) {
             choice.getPlayer().makeItem(choice.getItem().getName());
             result = "You made a " + choice.getItem().getVisibleName() + ".";
+            discoverCrafting();
         }
         else if (choice.getFood() != null) {
             choice.getPlayer().makeItem(choice.getFood().getName());

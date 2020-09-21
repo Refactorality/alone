@@ -42,8 +42,7 @@ import javafx.stage.WindowEvent;
 import java.util.Map;
 import java.util.Set;
 
-import static com.palehorsestudios.alone.util.AchievementTracker.showAchievementTracker;
-import static com.palehorsestudios.alone.util.AchievementTracker.showAchievementsAtEndOfDay;
+import static com.palehorsestudios.alone.util.AchievementTracker.*;
 import static com.palehorsestudios.alone.util.LeaderBoard.*;
 
 import static com.palehorsestudios.alone.Main.parseActivityChoice;
@@ -302,6 +301,7 @@ public class GameApp extends Application {
         gameController
                 .getDailyLog()
                 .appendText("Day " + day[0] + " " + dayHalf[0] + ": " + activityResult + "\n");
+        gameController.getDailyLog().appendText(showDiscoverCrafting(day[0],dayHalf[0]));
       } else {
         final int[] seed = {(int) Math.floor(Math.random() * 10)};
         String activityResult;
@@ -310,6 +310,7 @@ public class GameApp extends Application {
         gameController
                 .getDailyLog()
                 .appendText("Day " + day[0] + " " + dayHalf[0] + ": " + activityResult + "\n");
+          gameController.getDailyLog().appendText(showDiscoverCrafting(day[0], dayHalf[0]));
 
         if (seed[0] > 3) {
 
@@ -329,6 +330,7 @@ public class GameApp extends Application {
           gameController
                   .getDailyLog()
                   .appendText("Day " + day[0] + " " + dayHalf[0] + ": " + activityResult + "\n");
+          gameController.getDailyLog().appendText(showDiscoverCrafting(day[0], dayHalf[0]));
         }
 
         if (dayHalf[0].equals("Morning")) {
@@ -362,8 +364,8 @@ public class GameApp extends Application {
 
             gameController
                     .getDailyLog()
-                    .appendText("Day " + day[0] + " Night: " + nightResult + "\n" +
-                            showAchievementsAtEndOfDay(player,day));
+                    .appendText("Day " + day[0] + " Night: " + nightResult + "\n");
+            gameController.getDailyLog().appendText(showDiscoverCrafting(day[0], "Night"));
             dayHalf[0] = "Morning";
             day[0]++;
           }
