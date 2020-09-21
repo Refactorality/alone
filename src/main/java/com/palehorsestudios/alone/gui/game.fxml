@@ -132,17 +132,6 @@
                          <ImageView fx:id="imgview"/>
                        <!-- <TextArea fx:id="curActivity" editable="false" layoutX="478.0" layoutY="41.0" prefHeight="210.0" prefWidth="271.0" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="41.0">
                         -->
-                         <TextArea fx:id="curActivity" visible="false" editable="false" layoutX="0" layoutY="0" prefHeight="0" prefWidth="0" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0">
-                         <opaqueInsets>
-                              <Insets />
-                           </opaqueInsets>
-                           <effect>
-                              <InnerShadow />
-                           </effect>
-                           <font>
-                              <Font name="Chalkboard SE Bold" size="13.0" />
-                           </font>
-                        </TextArea>
                          <TextArea fx:id="gameOver" editable="false" layoutX="94.0" layoutY="150.0" prefHeight="246.0" prefWidth="537.0" text="       " visible="false" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
                              <font>
                                  <Font name="Chalkduster" size="15.0" />
@@ -162,6 +151,17 @@
               <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="373.0" prefWidth="475.0">
                      <children>
+                         <TextArea fx:id="curActivity" visible="false" editable="false" layoutX="478.0" layoutY="41.0" prefHeight="210.0" prefWidth="271.0" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="41.0">
+                             <opaqueInsets>
+                                 <Insets />
+                             </opaqueInsets>
+                             <effect>
+                                 <InnerShadow />
+                             </effect>
+                             <font>
+                                 <Font name="Chalkboard SE Bold" size="13.0" />
+                             </font>
+                         </TextArea>
                         <TextArea fx:id="dailyLog" editable="false" layoutX="152.0" layoutY="71.0" prefHeight="357.0" prefWidth="448.0" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="43.0">
                            <effect>
                               <InnerShadow />
