@@ -173,7 +173,7 @@ public class Encounter extends DayEncounter{
     // if it is a rain behavior
     if(getName().toLowerCase().contains("rain")){
       // increase water
-      player.getShelter().updateWater(2);
+      player.getShelter().updateWater(1);
       // not sad if no water
       if(player.getShelter().getWaterTank() == 0){
         moraleChangeBad = 0;
@@ -212,11 +212,13 @@ public class Encounter extends DayEncounter{
         this.setName("Fox Attack");
       }
     }
-
-
   }
-
-
+  //put out fire if rain or wind storm
+  private void stormCheck(Player player){
+    if(getName().toLowerCase().contains("storm")){
+      player.getShelter().setFire(false);
+    }
+  }
 
   @Override
   public String encounter(Player player) {
@@ -225,9 +227,13 @@ public class Encounter extends DayEncounter{
     boolean successfulEncounter = needsFire && player.getShelter().hasFire()
             || (needsStrongShelter && player.getShelter().getIntegrity() > 6
             || playerHasItem(player));
+
     //behavior for rain event
     rainCheck(player);
+    //encounters with thief in name. currently foxes
     thiefCheck(player);
+    //storms put out fire
+    stormCheck(player);
 
     // update to successful response
     if(successfulEncounter){
@@ -243,12 +249,12 @@ public class Encounter extends DayEncounter{
       // check for fire, check for animal, submit failure response
       response = fireCheck(player, animalCheck(player, responseBad));
     }
+    //update player stats based on encounter outcome
+    updatePlayerStats(player, successfulEncounter);
     // if died as a result add eulogy
     if(player.isDead()){
       response = response + " \nThey say we all die alone. You die alone as a result of a " + this.getName() + ".";
     }
-    //update player stats based on encounter outcome
-    updatePlayerStats(player, successfulEncounter);
     return response;
   }
 }

@@ -100,14 +100,14 @@ public class GameApp extends Application {
         }
         double caloriesBurned = ActivityLevel.MEDIUM.getCaloriesBurned(successRate);
         player.updateWeight(-caloriesBurned);
-        if (player.getWeight() < 180.0 * 0.8) {
-            result = result + " But you die of losing too much weight! /n/n Game Over!";
-        }
+//        if (player.getWeight() < 180.0 * 0.8) {
+//            result = result + " But you die of losing too much weight! /n/n Game Over!";
+//        }
         int hydrationCost = ActivityLevel.MEDIUM.getHydrationCost(successRate);
         player.setHydration(player.getHydration() - hydrationCost);
-        if (player.getHydration() < 0) {
-            result = result + " But you die of thirst! /n/n Game Over!";
-        }
+//        if (player.getHydration() < 0) {
+//            result = result + " But you die of thirst! /n/n Game Over!";
+//        }
         player.getShelter().setFire(false);
         return result;
     }
