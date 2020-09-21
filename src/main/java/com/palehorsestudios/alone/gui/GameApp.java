@@ -641,7 +641,7 @@ public class GameApp extends Application {
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = br.readLine()) != null) {
-                gameController.getCurActivity().appendText(line + "\n");
+                gameController.getDailyLog().appendText(line + "\n");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -670,7 +670,7 @@ public class GameApp extends Application {
                     @Override
                     public void run() {
                         try {
-                            gameController.getCurActivity().appendText(txt + "\n");
+                            gameController.getDailyLog().appendText(txt + "\n");
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
