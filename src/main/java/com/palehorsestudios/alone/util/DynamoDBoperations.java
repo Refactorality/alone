@@ -43,6 +43,9 @@ public class DynamoDBoperations {
         String secret = System.getenv("AWS_SECRET_ACCESS_KEY");
 //        System.out.println(id);
 //        System.out.println(secret);
+        if(id == null || secret == null) {
+            return null;
+        }
 
         BasicAWSCredentials credentials = new BasicAWSCredentials(""+id+"", ""+secret+"");
         return AmazonDynamoDBClientBuilder.standard()
@@ -54,92 +57,97 @@ public class DynamoDBoperations {
 
 
     public static void addNewItemToLeaderBoard(String playerName, int playerScore, AmazonDynamoDB dbConn) throws Exception {
+        if (dbConn != null) {
+            DynamoDB dynamoDB = new DynamoDB(dbConn);
 
-        DynamoDB dynamoDB = new DynamoDB(dbConn);
+            Table table = dynamoDB.getTable("LeaderBoard");
 
-        Table table = dynamoDB.getTable("LeaderBoard");
+            try {
+                System.out.println("Adding a new item...");
+                PutItemOutcome outcome = table
+                        .putItem(new Item().withPrimaryKey("Name", playerName).with("Score", playerScore));
+                System.out.println("PutItem succeeded:\n");
 
-        try {
-            System.out.println("Adding a new item...");
-            PutItemOutcome outcome = table
-                    .putItem(new Item().withPrimaryKey("Name", playerName).with("Score", playerScore));
-            System.out.println("PutItem succeeded:\n");
-
-        } catch (Exception e) {
-            System.err.println("Unable to add item: " + playerName + " " + playerScore);
-            System.err.println(e.getMessage());
+            } catch (Exception e) {
+                System.err.println("Unable to add item: " + playerName + " " + playerScore);
+                System.err.println(e.getMessage());
+            }
         }
     }
 
     public static void updateGuiTopTenFromDynamoDB(GameController gameController, AmazonDynamoDB dbConn) {
-        Map<String, Integer> oldScoresMap = new HashMap<>();
-        int countMenuItems = 0;
+        if (dbConn != null) {
+            Map<String, Integer> oldScoresMap = new HashMap<>();
+            int countMenuItems = 0;
 
-        ScanRequest scanRequest = new ScanRequest()
-                .withTableName("LeaderBoard");
+            ScanRequest scanRequest = new ScanRequest()
+                    .withTableName("LeaderBoard");
 
-        ScanResult result = dbConn.scan(scanRequest);
-        for (Map<String, AttributeValue> item : result.getItems()) {
-            oldScoresMap.put(item.get("Name").getS(), Integer.parseInt(item.get("Score").getN()));
-        }
-
-        oldScoresMap = sortByValueTopTen(oldScoresMap);
-
-        for (Map.Entry<String, Integer> entry : oldScoresMap.entrySet()) {
-            if (countMenuItems < gameController.getMenuTopTen().getItems().size()) {
-                gameController.getMenuTopTen().getItems().get(countMenuItems). setText(entry.getKey() + " " + entry.getValue().toString());
-                countMenuItems++;
+            ScanResult result = dbConn.scan(scanRequest);
+            for (Map<String, AttributeValue> item : result.getItems()) {
+                oldScoresMap.put(item.get("Name").getS(), Integer.parseInt(item.get("Score").getN()));
             }
+
+            oldScoresMap = sortByValueTopTen(oldScoresMap);
+
+            for (Map.Entry<String, Integer> entry : oldScoresMap.entrySet()) {
+                if (countMenuItems < gameController.getMenuTopTen().getItems().size()) {
+                    gameController.getMenuTopTen().getItems().get(countMenuItems).setText(entry.getKey() + " " + entry.getValue().toString());
+                    countMenuItems++;
+                }
+            }
+            dbConn.shutdown();
         }
-        dbConn.shutdown();
     }
 
     public static void updateGuiTopTenFromDynamoDB(IntroController gameController, AmazonDynamoDB dbConn) {
-        Map<String, Integer> oldScoresMap = new HashMap<>();
-        int countMenuItems = 0;
+        if (dbConn != null) {
+            Map<String, Integer> oldScoresMap = new HashMap<>();
+            int countMenuItems = 0;
 
-        ScanRequest scanRequest = new ScanRequest()
-                .withTableName("LeaderBoard");
+            ScanRequest scanRequest = new ScanRequest()
+                    .withTableName("LeaderBoard");
 
-        ScanResult result = dbConn.scan(scanRequest);
-        for (Map<String, AttributeValue> item : result.getItems()) {
-            oldScoresMap.put(item.get("Name").getS(), Integer.parseInt(item.get("Score").getN()));
-        }
-
-        oldScoresMap = sortByValueTopTen(oldScoresMap);
-
-        for (Map.Entry<String, Integer> entry : oldScoresMap.entrySet()) {
-            if (countMenuItems < gameController.getMenuTopTen().getItems().size()) {
-                gameController.getMenuTopTen().getItems().get(countMenuItems). setText(entry.getKey() + " " + entry.getValue().toString());
-                countMenuItems++;
+            ScanResult result = dbConn.scan(scanRequest);
+            for (Map<String, AttributeValue> item : result.getItems()) {
+                oldScoresMap.put(item.get("Name").getS(), Integer.parseInt(item.get("Score").getN()));
             }
+
+            oldScoresMap = sortByValueTopTen(oldScoresMap);
+
+            for (Map.Entry<String, Integer> entry : oldScoresMap.entrySet()) {
+                if (countMenuItems < gameController.getMenuTopTen().getItems().size()) {
+                    gameController.getMenuTopTen().getItems().get(countMenuItems).setText(entry.getKey() + " " + entry.getValue().toString());
+                    countMenuItems++;
+                }
+            }
+            dbConn.shutdown();
         }
-        dbConn.shutdown();
     }
 
     public static void updateGuiTopTenFromDynamoDB(ItemSelectionController gameController, AmazonDynamoDB dbConn) {
-        Map<String, Integer> oldScoresMap = new HashMap<>();
-        int countMenuItems = 0;
+        if (dbConn != null) {
+            Map<String, Integer> oldScoresMap = new HashMap<>();
+            int countMenuItems = 0;
 
-        ScanRequest scanRequest = new ScanRequest()
-                .withTableName("LeaderBoard");
+            ScanRequest scanRequest = new ScanRequest()
+                    .withTableName("LeaderBoard");
 
-        ScanResult result = dbConn.scan(scanRequest);
-        for (Map<String, AttributeValue> item : result.getItems()) {
-            oldScoresMap.put(item.get("Name").getS(), Integer.parseInt(item.get("Score").getN()));
-        }
-
-        oldScoresMap = sortByValueTopTen(oldScoresMap);
-
-        for (Map.Entry<String, Integer> entry : oldScoresMap.entrySet()) {
-            if (countMenuItems < gameController.getMenuTopTen().getItems().size()) {
-                gameController.getMenuTopTen().getItems().get(countMenuItems). setText(entry.getKey() + " " + entry.getValue().toString());
-                countMenuItems++;
+            ScanResult result = dbConn.scan(scanRequest);
+            for (Map<String, AttributeValue> item : result.getItems()) {
+                oldScoresMap.put(item.get("Name").getS(), Integer.parseInt(item.get("Score").getN()));
             }
+
+            oldScoresMap = sortByValueTopTen(oldScoresMap);
+
+            for (Map.Entry<String, Integer> entry : oldScoresMap.entrySet()) {
+                if (countMenuItems < gameController.getMenuTopTen().getItems().size()) {
+                    gameController.getMenuTopTen().getItems().get(countMenuItems).setText(entry.getKey() + " " + entry.getValue().toString());
+                    countMenuItems++;
+                }
+            }
+            dbConn.shutdown();
         }
-        dbConn.shutdown();
     }
-
-
 }
 

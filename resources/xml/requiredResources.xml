@@ -12,6 +12,66 @@
         <resource>WOOD</resource>
         <resource>STONE</resource>
     </constructedItem>
+    <!-- Add to commands-->
+    <constructedItem type="item" name="FISHING_LINE">
+        <resource>STRING</resource>
+    </constructedItem>
+    <constructedItem type="item" name="FISHING_HOOKS">
+        <resource>METAL</resource>
+    </constructedItem>
+    <constructedItem type="item" name="FISHING_LURES">
+        <resource>PLASTIC</resource>
+        <resource>METAL</resource>
+    </constructedItem>
+    <constructedItem type="item" name="KNIFE">
+        <resource>METAL</resource>
+    </constructedItem>
+    <constructedItem type="item" name="FLINT_AND_STEEL">
+        <resource>METAL</resource>
+        <resource>STONE</resource>
+    </constructedItem>
+    <constructedItem type="item" name="PARACHUTE_CHORD">
+        <resource>STRING</resource>
+    </constructedItem>
+    <constructedItem type="item" name="EXTRA_PANTS">
+        <resource>CLOTH</resource>
+    </constructedItem>
+    <constructedItem type="item" name="SLEEPING_GEAR">
+        <resource>CLOTH</resource>
+    </constructedItem>
+    <constructedItem type="item" name="COLD_WEATHER_GEAR">
+        <resource>CLOTH</resource>
+    </constructedItem>
+    <constructedItem type="item" name="TARP">
+        <resource>CLOTH</resource>
+        <resource>PLASTIC</resource>
+    </constructedItem>
+    <constructedItem type="item" name="FIRST_AID_KIT">
+        <resource>CLOTH</resource>
+        <resource>PLASTIC</resource>
+    </constructedItem>
+    <constructedItem type="item" name="WIRE">
+        <resource>METAL</resource>
+    </constructedItem>
+    <constructedItem type="item" name="POT">
+        <resource>METAL</resource>
+    </constructedItem>
+    <constructedItem type="item" name="HATCHET">
+        <resource>WOOD</resource>
+        <resource>METAL</resource>
+    </constructedItem>
+    <constructedItem type="item" name="PISTOL">
+        <resource>METAL</resource>
+    </constructedItem>
+    <constructedItem type="item" name="PISTOL_CARTRIDGES">
+        <resource>METAL</resource>
+    </constructedItem>
+    <constructedItem type="item" name="SHOVEL">
+        <resource>WOOD</resource>
+        <resource>METAL</resource>
+    </constructedItem>
+
+    <!-- -->
     <constructedItem type="food" name="COOKED_FISH">
         <resource>FISH</resource>
     </constructedItem>

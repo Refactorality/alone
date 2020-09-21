@@ -300,8 +300,7 @@ public class GameApp extends Application {
           || activity == GetItemActivity.getInstance()
           || activity == PutItemActivity.getInstance()
           || activity == BuildFireActivity.getInstance()
-          || activity == MakeItemActivity.getInstance()
-          || activity == GatherResourceActivity.getInstance()) {
+          || activity == MakeItemActivity.getInstance()) {
         String activityResult = activity.act(choice);
         gameController
                 .getDailyLog()

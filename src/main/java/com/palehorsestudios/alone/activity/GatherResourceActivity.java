@@ -24,14 +24,47 @@ public class GatherResourceActivity extends Activity {
     public String act(Choice choice) {
         String result = "You could not find any resources.";
         Random random = new Random();
-        int randomNumber = random.nextInt(4);
+        int randomNumber = random.nextInt(7);
         Map<Item, Integer> equipment = choice.getPlayer().getShelter().getEquipment();
 
         switch (randomNumber) {
+            case 6:
+                if (equipment.containsKey(GameAssets.gameItems.get("CLOTH"))) {
+                    int newNumCloth = equipment.get(GameAssets.gameItems.get("CLOTH")) + 1;
+                    equipment.replace(GameAssets.gameItems.get("CLOTH"), newNumCloth);
+                }
+                else {
+                    equipment.put(GameAssets.gameItems.get("CLOTH"), 1);
+                }
+                result = "You found some cloth!";
+                break;
+
+            case 5:
+                if (equipment.containsKey(GameAssets.gameItems.get("PLASTIC"))) {
+                    int newNumPlastic = equipment.get(GameAssets.gameItems.get("PLASTIC")) + 1;
+                    equipment.replace(GameAssets.gameItems.get("PLASTIC"), newNumPlastic);
+                }
+                else {
+                    equipment.put(GameAssets.gameItems.get("PLASTIC"), 1);
+                }
+                result = "You found some plastic!";
+                break;
+
+            case 4:
+                if (equipment.containsKey(GameAssets.gameItems.get("METAL"))) {
+                    int newNumMetal = equipment.get(GameAssets.gameItems.get("METAL")) + 1;
+                    equipment.replace(GameAssets.gameItems.get("METAL"), newNumMetal);
+                }
+                else {
+                    equipment.put(GameAssets.gameItems.get("METAL"), 1);
+                }
+                result = "You found some metal!";
+                break;
+
             case 3:
                 if (equipment.containsKey(GameAssets.gameItems.get("WOOD"))) {
-                    int oldNumWood = equipment.get(GameAssets.gameItems.get("WOOD")) + 1;
-                    equipment.replace(GameAssets.gameItems.get("WOOD"), oldNumWood);
+                    int newNumWood = equipment.get(GameAssets.gameItems.get("WOOD")) + 1;
+                    equipment.replace(GameAssets.gameItems.get("WOOD"), newNumWood);
                 }
                 else {
                     equipment.put(GameAssets.gameItems.get("WOOD"), 1);
@@ -41,8 +74,8 @@ public class GatherResourceActivity extends Activity {
 
             case 2:
                 if (equipment.containsKey(GameAssets.gameItems.get("STONE"))) {
-                    int oldNumStone = equipment.get(GameAssets.gameItems.get("STONE")) + 1;
-                    equipment.replace(GameAssets.gameItems.get("STONE"), oldNumStone);
+                    int newNumStone = equipment.get(GameAssets.gameItems.get("STONE")) + 1;
+                    equipment.replace(GameAssets.gameItems.get("STONE"), newNumStone);
                 }
                 else {
                     equipment.put(GameAssets.gameItems.get("STONE"), 1);
@@ -52,8 +85,8 @@ public class GatherResourceActivity extends Activity {
 
             case 1:
                 if (equipment.containsKey(GameAssets.gameItems.get("STRING"))) {
-                    int oldNumString = equipment.get(GameAssets.gameItems.get("STRING")) + 1;
-                    equipment.replace(GameAssets.gameItems.get("STRING"), oldNumString);
+                    int newNumString = equipment.get(GameAssets.gameItems.get("STRING")) + 1;
+                    equipment.replace(GameAssets.gameItems.get("STRING"), newNumString);
                 }
                 else {
                     equipment.put(GameAssets.gameItems.get("STRING"), 1);
