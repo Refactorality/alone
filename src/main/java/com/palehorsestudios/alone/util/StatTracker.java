@@ -3,6 +3,7 @@ package com.palehorsestudios.alone.util;
 import com.palehorsestudios.alone.Food;
 import com.palehorsestudios.alone.activity.Activity;
 import com.palehorsestudios.alone.dayencounter.DayEncounter;
+import com.palehorsestudios.alone.player.Player;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -93,7 +94,7 @@ public class StatTracker {
   }
 
   // string to display activities for end screen
-  public static String displayActivitiesLog(){
+  public static String displayActivitiesLog(Player player){
     StringBuilder sb = new StringBuilder("Game Stats: \n");
     for(Map.Entry<Activity, Integer> activity: activityLog.entrySet()){
       if(activity.getKey().getActivityName() != null){
@@ -108,7 +109,7 @@ public class StatTracker {
       sb.append("\n");
       }
     }
-    showAchievementTracker();
+    showAchievementTracker(player);
     return sb.toString();
   }
 
