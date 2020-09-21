@@ -43,7 +43,7 @@ import javafx.stage.WindowEvent;
 import java.util.Map;
 import java.util.Set;
 
-import static com.palehorsestudios.alone.util.AchievementTracker.showAchievementTracker;
+import static com.palehorsestudios.alone.util.AchievementTracker.*;
 import static com.palehorsestudios.alone.util.LeaderBoard.*;
 
 import static com.palehorsestudios.alone.Main.parseActivityChoice;
@@ -260,6 +260,9 @@ public class GameApp extends Application {
   // game thread logic, so we should also wrap the UI access calls
   private void executeGameLoop() {
     player = new Player(initItems);
+    player.getShelter().getEquipment().put(GameAssets.gameItems.get("WOOD"), 1);
+    player.getShelter().getEquipment().put(GameAssets.gameItems.get("STONE"), 1);
+    player.getShelter().getEquipment().put(GameAssets.gameItems.get("STRING"), 1);
     // flag for encounter results
     boolean encounterDeath = false;
     boolean encounterRescue = false;
@@ -295,11 +298,13 @@ public class GameApp extends Application {
           || activity == GetItemActivity.getInstance()
           || activity == PutItemActivity.getInstance()
           || activity == BuildFireActivity.getInstance()
-          || activity == MakeItemActivity.getInstance()) {
+          || activity == MakeItemActivity.getInstance()
+          || activity == GatherResourceActivity.getInstance()) {
         String activityResult = activity.act(choice);
         gameController
                 .getDailyLog()
                 .appendText("Day " + day[0] + " " + dayHalf[0] + ": " + activityResult + "\n");
+        gameController.getDailyLog().appendText(showDiscoverCrafting(day[0],dayHalf[0]));
       } else {
         final int[] seed = {(int) Math.floor(Math.random() * 10)};
         String activityResult;
@@ -308,6 +313,7 @@ public class GameApp extends Application {
         gameController
                 .getDailyLog()
                 .appendText("Day " + day[0] + " " + dayHalf[0] + ": " + activityResult + "\n");
+          gameController.getDailyLog().appendText(showDiscoverCrafting(day[0], dayHalf[0]));
 
         // run encounter if occurs
         if (seed[0] > 3) {
@@ -332,7 +338,7 @@ public class GameApp extends Application {
           gameController
                   .getDailyLog()
                   .appendText("Day " + day[0] + " " + dayHalf[0] + ": " + activityResult + "\n");
-
+          gameController.getDailyLog().appendText(showDiscoverCrafting(day[0], dayHalf[0]));
         }
 
         if (dayHalf[0].equals("Morning")) {
@@ -366,9 +372,11 @@ public class GameApp extends Application {
             } else {
               nightResult = overnightStatusUpdate(player);
             }
+
             gameController
                     .getDailyLog()
                     .appendText("Day " + day[0] + " Night: " + nightResult + "\n");
+            gameController.getDailyLog().appendText(showDiscoverCrafting(day[0], "Night"));
             dayHalf[0] = "Morning";
             day[0]++;
 
@@ -419,11 +427,11 @@ public class GameApp extends Application {
     //append score to gameController gameover text
     getGameController().getGameOver().appendText("\n\nYour score: " + String.valueOf(score));
     //append activity tracker log to game over text
-    getGameController().getGameOver().appendText("\n\n" + StatTracker.displayActivitiesLog());
+    getGameController().getGameOver().appendText("\n\n" + StatTracker.displayActivitiesLog(player));
     //append encounter tracker log to game over text
     getGameController().getGameOver().appendText("\n" + StatTracker.displayEncountersLog());
       //append accomplishments tracker log to game_over text
-      getGameController().getGameOver().appendText("\n" + showAchievementTracker());
+      getGameController().getGameOver().appendText("\n" + showAchievementTracker(player));
     if (player.isDead() || player.isRescued() || player.isRescued(day[0])) {
       saveUserScore(score);
     }

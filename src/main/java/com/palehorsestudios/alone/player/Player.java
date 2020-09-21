@@ -201,7 +201,12 @@ public class Player {
       }
       if (numResources == GameAssets.gameItems.get(itemToMake).getResourcesRequired().size()) {
         for (Item resource : GameAssets.gameItems.get(itemToMake).getResourcesRequired()) {
-          shelter.getEquipment().remove(resource);
+          if (shelter.getEquipment().get(resource) > 1) {
+            shelter.getEquipment().replace(resource, shelter.getEquipment().get(resource) - 1);
+          }
+          else {
+            shelter.getEquipment().remove(resource);
+          }
         }
         shelter.getEquipment().put(GameAssets.gameItems.get(itemToMake), 1);
       }
@@ -215,10 +220,14 @@ public class Player {
           }
         }
         if (numResources == GameAssets.gameFoods.get(itemToMake).getResourcesRequired().size()){
+          double oldNumFish = 0.0;
           for (Item resource : GameAssets.gameFoods.get(itemToMake).getResourcesRequired()) {
-            shelter.getFoodCache().remove(GameAssets.gameFoods.get(resource.getName()));
+            if (shelter.getFoodCache().get((Food)resource) > 0.0) {
+              oldNumFish = shelter.getFoodCache().get(resource);
+              shelter.getFoodCache().remove(GameAssets.gameFoods.get(resource.getName()));
+            }
           }
-          shelter.getFoodCache().put(GameAssets.gameFoods.get(itemToMake), 10.0);
+          shelter.getFoodCache().put(GameAssets.gameFoods.get(itemToMake), oldNumFish);
         }
       }
     }
