@@ -9,7 +9,7 @@
         <hydrationChangeGood>0</hydrationChangeGood>
         <shelterChangeGood>0</shelterChangeGood>
         <weightChangeBad>0</weightChangeBad>
-        <moraleChangeBad>-1</moraleChangeBad>
+        <moraleChangeBad>-2</moraleChangeBad>
         <hydrationChangeBad>0</hydrationChangeBad>
         <shelterChangeBad>-1</shelterChangeBad>
         <responseGood>It starts to rain. You're able to fill up your water tanks and your equipment is staying nice and dry</responseGood>
@@ -21,11 +21,11 @@
         <protectiveItem>EXTRA_PANTS</protectiveItem>
         <protectiveItem>SLEEPING_GEAR</protectiveItem>
         <weightChangeGood>0</weightChangeGood>
-        <moraleChangeGood>1</moraleChangeGood>
+        <moraleChangeGood>0</moraleChangeGood>
         <hydrationChangeGood>0</hydrationChangeGood>
         <shelterChangeGood>0</shelterChangeGood>
         <weightChangeBad>-100</weightChangeBad>
-        <moraleChangeBad>-1</moraleChangeBad>
+        <moraleChangeBad>-2</moraleChangeBad>
         <hydrationChangeBad>0</hydrationChangeBad>
         <shelterChangeBad>-1</shelterChangeBad>
         <responseGood>A strong wind storm rolls through. Your shelter is damaged, but you're able to stay warm</responseGood>
@@ -38,7 +38,7 @@
         <hydrationChangeGood>0</hydrationChangeGood>
         <shelterChangeGood>0</shelterChangeGood>
         <weightChangeBad>0</weightChangeBad>
-        <moraleChangeBad>1</moraleChangeBad>
+        <moraleChangeBad>0</moraleChangeBad>
         <hydrationChangeBad>0</hydrationChangeBad>
         <shelterChangeBad>0</shelterChangeBad>
         <responseGood>The skies clear and the sun comes out. The woods aren't so bad after all.</responseGood>
@@ -50,11 +50,11 @@
         <protectiveItem>AXE</protectiveItem>
         <protectiveItem>WATER</protectiveItem>
         <weightChangeGood>0</weightChangeGood>
-        <moraleChangeGood>1</moraleChangeGood>
+        <moraleChangeGood>0</moraleChangeGood>
         <hydrationChangGood>0</hydrationChangGood>
         <shelterChangeGood>0</shelterChangeGood>
-        <weightChangeBad>-100</weightChangeBad>
-        <moraleChangeBad>-1</moraleChangeBad>
+        <weightChangeBad>-200</weightChangeBad>
+        <moraleChangeBad>-2</moraleChangeBad>
         <hydrationChangeBad>-1</hydrationChangeBad>
         <shelterChangeBad>-1</shelterChangeBad>
         <responseGood>There was a forest fire. You are able to dig a control line and save your camp</responseGood>
@@ -65,10 +65,10 @@
         <protectiveItem>FIRE</protectiveItem>
         <protectiveItem>AXE</protectiveItem>
         <weightChangeGood>0</weightChangeGood>
-        <moraleChangeGood>1</moraleChangeGood>
+        <moraleChangeGood>0</moraleChangeGood>
         <hydrationChangGood>0</hydrationChangGood>
         <shelterChangeGood>0</shelterChangeGood>
-        <weightChangeBad>-200</weightChangeBad>
+        <weightChangeBad>-300</weightChangeBad>
         <moraleChangeBad>-2</moraleChangeBad>
         <hydrationChangeBad>-1</hydrationChangeBad>
         <shelterChangeBad>0</shelterChangeBad>
@@ -81,7 +81,7 @@
         <protectiveItem>FLASHLIGHT</protectiveItem>
         <protectiveItem>HARMONICA</protectiveItem>
         <weightChangeGood>0</weightChangeGood>
-        <moraleChangeGood>1</moraleChangeGood>
+        <moraleChangeGood>0</moraleChangeGood>
         <hydrationChangeGood>0</hydrationChangeGood>
         <shelterChangeGood>1</shelterChangeGood>
         <weightChangeBad>-100</weightChangeBad>
@@ -95,7 +95,7 @@
         <encounterName>Fox Thief</encounterName>
         <protectiveItem>EXTRA_BOOTS</protectiveItem>
         <weightChangeGood>0</weightChangeGood>
-        <moraleChangeGood>1</moraleChangeGood>
+        <moraleChangeGood>0</moraleChangeGood>
         <hydrationChangeGood>0</hydrationChangeGood>
         <shelterChangeGood>1</shelterChangeGood>
         <weightChangeBad>-200</weightChangeBad>
@@ -109,11 +109,11 @@
         <encounterName>Water Contamination</encounterName>
         <protectiveItem>IODINE_TABLETS</protectiveItem>
         <weightChangeGood>0</weightChangeGood>
-        <moraleChangeGood>1</moraleChangeGood>
+        <moraleChangeGood>0</moraleChangeGood>
         <hydrationChangGood>0</hydrationChangGood>
         <shelterChangeGood>0</shelterChangeGood>
         <weightChangeBad>-300</weightChangeBad>
-        <moraleChangeBad>-1</moraleChangeBad>
+        <moraleChangeBad>-2</moraleChangeBad>
         <hydrationChangeBad>-2</hydrationChangeBad>
         <shelterChangeBad>0</shelterChangeBad>
         <responseGood>It looks like some animal has contaminated your water tank. Luckily you are able to treat the water</responseGood>
@@ -124,11 +124,11 @@
         <protectiveItem>FIRST_AID_KIT</protectiveItem>
         <protectiveItem>SURVIVAL_MANUAL</protectiveItem>
         <weightChangeGood>0</weightChangeGood>
-        <moraleChangeGood>1</moraleChangeGood>
+        <moraleChangeGood>0</moraleChangeGood>
         <hydrationChangGood>0</hydrationChangGood>
         <shelterChangeGood>0</shelterChangeGood>
         <weightChangeBad>-400</weightChangeBad>
-        <moraleChangeBad>-1</moraleChangeBad>
+        <moraleChangeBad>-2</moraleChangeBad>
         <hydrationChangeBad>-1</hydrationChangeBad>
         <shelterChangeBad>0</shelterChangeBad>
         <responseGood>Walking through the forest you trip and injure yourself. You're able to treat yourself and gain confidence in your ability to survive</responseGood>
