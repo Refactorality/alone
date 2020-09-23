@@ -14,6 +14,7 @@ public class RestActivity extends Activity{
     if(activityReference == null) {
       activityReference = new RestActivity();
     }
+    activityReference.setActivityName("Rested");
     return activityReference;
   }
 

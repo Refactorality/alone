@@ -17,6 +17,7 @@ public class GatherFirewoodActivity extends Activity{
     if(activityReference == null) {
       activityReference = new GatherFirewoodActivity();
     }
+    activityReference.setActivityName("Gathered Firewood");
     return activityReference;
   }
 

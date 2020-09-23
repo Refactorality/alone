@@ -189,6 +189,49 @@ public class Player {
     return this.isRescued;
   }
 
+  public void makeItem(String itemToMake) {
+    int numResources = 0;
+
+    if (GameAssets.gameItems.containsKey(itemToMake)) {
+      for (Item resource : GameAssets.gameItems.get(itemToMake).getResourcesRequired()) {
+        if (shelter.getEquipment().containsKey(resource)) {
+          numResources++;
+        }
+      }
+      if (numResources == GameAssets.gameItems.get(itemToMake).getResourcesRequired().size()) {
+        for (Item resource : GameAssets.gameItems.get(itemToMake).getResourcesRequired()) {
+          if (shelter.getEquipment().get(resource) > 1) {
+            shelter.getEquipment().replace(resource, shelter.getEquipment().get(resource) - 1);
+          }
+          else {
+            shelter.getEquipment().remove(resource);
+          }
+        }
+        shelter.getEquipment().put(GameAssets.gameItems.get(itemToMake), 1);
+      }
+    }
+
+    else if (GameAssets.gameFoods.containsKey(itemToMake)) {
+      if (shelter.hasFire()) {
+        for (Item resource : GameAssets.gameFoods.get(itemToMake).getResourcesRequired()) {
+          if (shelter.getFoodCache().containsKey(resource)) {
+            numResources++;
+          }
+        }
+        if (numResources == GameAssets.gameFoods.get(itemToMake).getResourcesRequired().size()){
+          double oldNumFish = 0.0;
+          for (Item resource : GameAssets.gameFoods.get(itemToMake).getResourcesRequired()) {
+            if (shelter.getFoodCache().get((Food)resource) > 0.0) {
+              oldNumFish = shelter.getFoodCache().get(resource);
+              shelter.getFoodCache().remove(GameAssets.gameFoods.get(resource.getName()));
+            }
+          }
+          shelter.getFoodCache().put(GameAssets.gameFoods.get(itemToMake), oldNumFish);
+        }
+      }
+    }
+  }
+
   /**
    * Player toString override.
    * @return String representation of the Player.

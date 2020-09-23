@@ -11,6 +11,7 @@ public class DrinkWaterActivity extends Activity{
     if(activityReference == null) {
       activityReference = new DrinkWaterActivity();
     }
+    activityReference.setActivityName("Drank Water");
     return activityReference;
   }
 

@@ -14,6 +14,7 @@ public class RescueHelicopterDay extends DayEncounter {
     if (encounter == null) {
       encounter = new RescueHelicopterDay();
     }
+    encounter.setName("Helicopter Sighting");
     return encounter;
   }
 

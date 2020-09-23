@@ -14,6 +14,7 @@ public class BuildFireActivity extends Activity{
     if(activityReference == null) {
       activityReference = new BuildFireActivity();
     }
+    activityReference.setActivityName("Built Fire");
     return activityReference;
   }
 

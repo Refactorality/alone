@@ -12,6 +12,7 @@ public class EatActivity extends Activity {
     if(activityReference == null) {
       activityReference = new EatActivity();
     }
+    activityReference.setActivityName("Ate");
     return activityReference;
   }
 

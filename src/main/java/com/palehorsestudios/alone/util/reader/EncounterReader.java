@@ -3,13 +3,12 @@ package com.palehorsestudios.alone.util.reader;
 import com.palehorsestudios.alone.GameAssets;
 import com.palehorsestudios.alone.Item;
 import com.palehorsestudios.alone.dayencounter.DayEncounter;
-import com.palehorsestudios.alone.dayencounter.WeatherEncounter;
+import com.palehorsestudios.alone.dayencounter.Encounter;
 
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.EndElement;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
@@ -17,27 +16,33 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.HashMap;
-import java.util.Iterator;
 
 public class EncounterReader {
   static final String ENCOUNTER = "encounter";
   static final String ENCOUNTER_NAME = "encounterName";
+  static final String ENCOUNTER_SOUND = "encounterSound";
   static final String PROTECTIVE_ITEM = "protectiveItem";
-  static final String WEIGHT_CHANGE = "weightChange";
-  static final String MORALE_CHANGE = "moraleChange";
-  static final String HYDRATION_CHANGE = "hydrationChange";
+  static final String WEIGHT_CHANGE_GOOD = "weightChangeGood";
+  static final String MORALE_CHANGE_GOOD = "moraleChangeGood";
+  static final String HYDRATION_CHANGE_GOOD = "hydrationChangeGood";
+  static final String SHELTER_CHANGE_GOOD = "shelterChangeGood";
+  static final String WEIGHT_CHANGE_BAD = "weightChangeBad";
+  static final String MORALE_CHANGE_BAD = "moraleChangeBad";
+  static final String HYDRATION_CHANGE_BAD = "hydrationChangeBad";
+  static final String SHELTER_CHANGE_BAD = "shelterChangeBad";
   static final String RESPONSE_GOOD = "responseGood";
   static final String RESPONSE_BAD = "responseBad";
 
+
   @SuppressWarnings( {"null"})
-  public static HashMap<String, DayEncounter> readEncountersXML(String itemsFile, HashMap<String, Item> gameItems) {
+  public static HashMap<String, DayEncounter> readEncountersXML(String itemsFile) {
     HashMap<String, DayEncounter> encounters = new HashMap<>();
 
     try {
       XMLInputFactory inputFactory = XMLInputFactory.newInstance();
       InputStream in = new FileInputStream(itemsFile);
       XMLEventReader eventReader = inputFactory.createXMLEventReader(in);
-      WeatherEncounter encounter = null;
+      Encounter encounter = null;
 
       while  (eventReader.hasNext()) {
         XMLEvent event = eventReader.nextEvent();
@@ -49,7 +54,7 @@ public class EncounterReader {
           switch(elementName){
             // if element is encounter root tag make new instance
             case ENCOUNTER ->{
-              encounter = new WeatherEncounter();
+              encounter = new Encounter();
             }
             // if element is an attribute of an encounter, set it to the encounter instance
             case ENCOUNTER_NAME ->{
@@ -60,26 +65,74 @@ public class EncounterReader {
                 System.out.println("EncounterReader error");
               }
             }
-            case WEIGHT_CHANGE->{
+            case PROTECTIVE_ITEM -> {
               event = eventReader.nextEvent();
               if(encounter != null){
-                encounter.setProtectiveItem(GameAssets.getGameItems().get(event.asCharacters().getData()));
+                encounter.setProtectiveItem(event.asCharacters().getData());
               }else{
                 System.out.println("EncounterReader error");
               }
             }
-            case MORALE_CHANGE->{
+            case WEIGHT_CHANGE_GOOD ->{
               event = eventReader.nextEvent();
               if(encounter != null){
-                encounter.setMoraleChange(Integer.parseInt(event.asCharacters().getData()));
+                encounter.setWeightChangeGood(Integer.parseInt(event.asCharacters().getData()));
               }else{
                 System.out.println("EncounterReader error");
               }
             }
-            case HYDRATION_CHANGE->{
+            case MORALE_CHANGE_GOOD->{
               event = eventReader.nextEvent();
               if(encounter != null){
-                encounter.setHydrationChange(Integer.parseInt(event.asCharacters().getData()));
+                encounter.setMoraleChangeGood(Integer.parseInt(event.asCharacters().getData()));
+              }else{
+                System.out.println("EncounterReader error");
+              }
+            }
+            case HYDRATION_CHANGE_GOOD->{
+              event = eventReader.nextEvent();
+              if(encounter != null){
+                encounter.setHydrationChangeGood(Integer.parseInt(event.asCharacters().getData()));
+              }else{
+                System.out.println("EncounterReader error");
+              }
+            }
+            case SHELTER_CHANGE_GOOD->{
+              event = eventReader.nextEvent();
+              if(encounter != null){
+                encounter.setShelterChangeGood(Integer.parseInt(event.asCharacters().getData()));
+              }else{
+                System.out.println("EncounterReader error");
+              }
+            }
+            case WEIGHT_CHANGE_BAD ->{
+              event = eventReader.nextEvent();
+              if(encounter != null){
+                encounter.setWeightChangeBad(Integer.parseInt(event.asCharacters().getData()));
+              }else{
+                System.out.println("EncounterReader error");
+              }
+            }
+            case MORALE_CHANGE_BAD->{
+              event = eventReader.nextEvent();
+              if(encounter != null){
+                encounter.setMoraleChangeBad(Integer.parseInt(event.asCharacters().getData()));
+              }else{
+                System.out.println("EncounterReader error");
+              }
+            }
+            case HYDRATION_CHANGE_BAD->{
+              event = eventReader.nextEvent();
+              if(encounter != null){
+                encounter.setHydrationChangeBad(Integer.parseInt(event.asCharacters().getData()));
+              }else{
+                System.out.println("EncounterReader error");
+              }
+            }
+            case SHELTER_CHANGE_BAD->{
+              event = eventReader.nextEvent();
+              if(encounter != null){
+                encounter.setShelterChangeBad(Integer.parseInt(event.asCharacters().getData()));
               }else{
                 System.out.println("EncounterReader error");
               }

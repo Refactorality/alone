@@ -1,16 +1,18 @@
 package com.palehorsestudios.alone.nightencounter;
 
+import com.palehorsestudios.alone.dayencounter.DayEncounter;
 import com.palehorsestudios.alone.player.Player;
 
-public class RainStorm extends NightEncounter {
-  private static NightEncounter encounter;
+public class RainStorm extends DayEncounter {
+  private static DayEncounter encounter;
 
   private RainStorm(){}
 
-  public static NightEncounter getInstance() {
+  public static DayEncounter getInstance() {
     if(encounter == null) {
       encounter = new RainStorm();
     }
+    encounter.setName("Rain Storm");
     return encounter;
   }
 

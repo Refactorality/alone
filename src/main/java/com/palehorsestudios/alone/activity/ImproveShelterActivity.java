@@ -14,6 +14,7 @@ public class ImproveShelterActivity extends Activity{
     if(activityReference == null) {
       activityReference = new ImproveShelterActivity();
     }
+    activityReference.setActivityName("Improved Shelter");
     return activityReference;
   }
 

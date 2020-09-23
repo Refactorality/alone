@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <constructedItem type="item" name="BOW">
+        <resource>WOOD</resource>
+        <resource>STRING</resource>
+    </constructedItem>
+    <constructedItem type="item" name="AXE">
+        <resource>WOOD</resource>
+        <resource>STONE</resource>
+    </constructedItem>
+    <constructedItem type="item" name="ARROWS">
+        <resource>WOOD</resource>
+        <resource>STONE</resource>
+    </constructedItem>
+    <!-- Add to commands-->
+    <constructedItem type="item" name="FISHING_LINE">
+        <resource>STRING</resource>
+    </constructedItem>
+    <constructedItem type="item" name="FISHING_HOOKS">
+        <resource>METAL</resource>
+    </constructedItem>
+    <constructedItem type="item" name="FISHING_LURES">
+        <resource>PLASTIC</resource>
+        <resource>METAL</resource>
+    </constructedItem>
+    <constructedItem type="item" name="KNIFE">
+        <resource>METAL</resource>
+    </constructedItem>
+    <constructedItem type="item" name="FLINT_AND_STEEL">
+        <resource>METAL</resource>
+        <resource>STONE</resource>
+    </constructedItem>
+    <constructedItem type="item" name="PARACHUTE_CHORD">
+        <resource>STRING</resource>
+    </constructedItem>
+    <constructedItem type="item" name="EXTRA_PANTS">
+        <resource>CLOTH</resource>
+    </constructedItem>
+    <constructedItem type="item" name="SLEEPING_GEAR">
+        <resource>CLOTH</resource>
+    </constructedItem>
+    <constructedItem type="item" name="COLD_WEATHER_GEAR">
+        <resource>CLOTH</resource>
+    </constructedItem>
+    <constructedItem type="item" name="TARP">
+        <resource>CLOTH</resource>
+        <resource>PLASTIC</resource>
+    </constructedItem>
+    <constructedItem type="item" name="FIRST_AID_KIT">
+        <resource>CLOTH</resource>
+        <resource>PLASTIC</resource>
+    </constructedItem>
+    <constructedItem type="item" name="WIRE">
+        <resource>METAL</resource>
+    </constructedItem>
+    <constructedItem type="item" name="POT">
+        <resource>METAL</resource>
+    </constructedItem>
+    <constructedItem type="item" name="HATCHET">
+        <resource>WOOD</resource>
+        <resource>METAL</resource>
+    </constructedItem>
+    <constructedItem type="item" name="PISTOL">
+        <resource>METAL</resource>
+    </constructedItem>
+    <constructedItem type="item" name="PISTOL_CARTRIDGES">
+        <resource>METAL</resource>
+    </constructedItem>
+    <constructedItem type="item" name="SHOVEL">
+        <resource>WOOD</resource>
+        <resource>METAL</resource>
+    </constructedItem>
+
+    <!-- -->
+    <constructedItem type="food" name="COOKED_FISH">
+        <resource>FISH</resource>
+    </constructedItem>
+    <constructedItem type="food" name="COOKED_SQUIRREL">
+        <resource>SQUIRREL</resource>
+    </constructedItem>
+    <constructedItem type="food" name="COOKED_RABBIT">
+        <resource>RABBIT</resource>
+    </constructedItem>
+    <constructedItem type="food" name="COOKED_MOOSE">
+        <resource>MOOSE</resource>
+    </constructedItem>
+    <constructedItem type="food" name="COOKED_BEAR">
+        <resource>BEAR</resource>
+    </constructedItem>
+    <constructedItem type="food" name="COOKED_PORCUPINE">
+        <resource>PORCUPINE</resource>
+    </constructedItem>
+    <constructedItem type="food" name="COOKED_BUG">
+        <resource>BUG</resource>
+    </constructedItem>
+    <constructedItem type="food" name="COOKED_MUSHROOM">
+        <resource>MUSHROOM</resource>
+    </constructedItem>
+</config>

@@ -2,8 +2,9 @@ package com.palehorsestudios.alone.gui;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 
-public class GameController {
+public class GameController{
   @FXML private TextArea curActivity;
   @FXML private TextArea playerInput;
   @FXML private TextArea dailyLog;
@@ -21,6 +22,7 @@ public class GameController {
   @FXML private TextArea gameOver;
   @FXML private Label labelPlayerInput;
   @FXML private Menu MenuTopTen;
+  @FXML private ImageView imgview;
 
   public TextField getWeight() {
     return weight;
@@ -88,4 +90,7 @@ public class GameController {
 
   public TextArea getGameOver() { return gameOver; }
 
+  public ImageView getImgView() {
+    return imgview;
+  }
 }

@@ -1,6 +1,7 @@
 package com.palehorsestudios.alone;
 
 import com.google.common.collect.ImmutableMap;
+import com.palehorsestudios.alone.util.StatTracker;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -114,8 +115,11 @@ public class Shelter {
    *
    * @return Immutable copy of Shelter equipment.
    */
-  public ImmutableMap<Item, Integer> getEquipment() {
-    return ImmutableMap.copyOf(equipment);
+//  public ImmutableMap<Item, Integer> getEquipment() {
+//    return ImmutableMap.copyOf(equipment);
+//  }
+  public Map<Item, Integer> getEquipment() {
+    return equipment;
   }
 
   /**
@@ -144,6 +148,7 @@ public class Shelter {
    */
   public void addFoodToCache(Food food, double quantity) {
     Optional<Double> currentQuantity = Optional.ofNullable(this.foodCache.get(food));
+    StatTracker.logFood(food, quantity);
     if (currentQuantity.isPresent()) {
       this.foodCache.put(food, currentQuantity.get() + quantity);
     } else {
@@ -174,6 +179,8 @@ public class Shelter {
     }
     return removalQuantity;
   }
+
+
 
   /**
    * Method for adding Item(s) to Shelter equipment cache.

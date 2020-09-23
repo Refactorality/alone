@@ -5,9 +5,19 @@
         <caloriesPerGram>0.84</caloriesPerGram>
         <grams>3401.94</grams>
     </food>
+    <food name="COOKED_FISH">
+        <foodName>cooked fish</foodName>
+        <caloriesPerGram>1.68</caloriesPerGram>
+        <grams>3401.94</grams>
+    </food>
     <food name="SQUIRREL">
         <foodName>squirrel</foodName>
         <caloriesPerGram>1.20</caloriesPerGram>
+        <grams>340.1943</grams>
+    </food>
+    <food name="COOKED_SQUIRREL">
+        <foodName>cooked squirrel</foodName>
+        <caloriesPerGram>2.40</caloriesPerGram>
         <grams>340.1943</grams>
     </food>
     <food name="RABBIT">
@@ -15,29 +25,59 @@
         <caloriesPerGram>1.36</caloriesPerGram>
         <grams>907.185</grams>
     </food>
+    <food name="COOKED_RABBIT">
+        <foodName>cooked rabbit</foodName>
+        <caloriesPerGram>2.72</caloriesPerGram>
+        <grams>340.1943</grams>
+    </food>
     <food name="MOOSE">
         <foodName>moose</foodName>
         <caloriesPerGram>1.02</caloriesPerGram>
         <grams>226796</grams>
+    </food>
+    <food name="COOKED_MOOSE">
+        <foodName>cooked moose</foodName>
+        <caloriesPerGram>2.04</caloriesPerGram>
+        <grams>340.1943</grams>
     </food>
     <food name="BEAR">
         <foodName>bear</foodName>
         <caloriesPerGram>1.63</caloriesPerGram>
         <grams>45400</grams>
     </food>
+    <food name="COOKED_BEAR">
+        <foodName>cooked bear</foodName>
+        <caloriesPerGram>3.26</caloriesPerGram>
+        <grams>340.1943</grams>
+    </food>
     <food name="PORCUPINE">
         <foodName>porcupine</foodName>
         <caloriesPerGram>1.52</caloriesPerGram>
         <grams>9071.85</grams>
+    </food>
+    <food name="COOKED_PORCUPINE">
+        <foodName>cooked porcupine</foodName>
+        <caloriesPerGram>3.04</caloriesPerGram>
+        <grams>340.1943</grams>
     </food>
     <food name="BUG">
         <foodName>bug</foodName>
         <caloriesPerGram>5.00</caloriesPerGram>
         <grams>100</grams>
     </food>
+    <food name="COOKED_BUG">
+        <foodName>cooked bug</foodName>
+        <caloriesPerGram>10.00</caloriesPerGram>
+        <grams>340.1943</grams>
+    </food>
     <food name="MUSHROOM">
         <foodName>mushroom</foodName>
         <caloriesPerGram>0.28</caloriesPerGram>
+        <grams>210</grams>
+    </food>
+    <food name="COOKED_MUSHROOM">
+        <foodName>cooked mushroom</foodName>
+        <caloriesPerGram>0.56</caloriesPerGram>
         <grams>210</grams>
     </food>
     <food name="BERRIES">

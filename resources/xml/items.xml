@@ -93,4 +93,22 @@
     <item name="JOURNAL">
         <itemName>journal and pen</itemName>
     </item>
+    <item name="WOOD">
+        <itemName>wood</itemName>
+    </item>
+    <item name="STONE">
+        <itemName>stone</itemName>
+    </item>
+    <item name="METAL">
+        <itemName>metal</itemName>
+    </item>
+    <item name="STRING">
+        <itemName>string</itemName>
+    </item>
+    <item name="CLOTH">
+        <itemName>cloth</itemName>
+    </item>
+    <item name="PLASTIC">
+        <itemName>plastic</itemName>
+    </item>
 </config>

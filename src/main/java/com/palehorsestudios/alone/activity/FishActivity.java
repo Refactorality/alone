@@ -15,6 +15,7 @@ public class FishActivity extends Activity {
     if(activityReference == null) {
       activityReference = new FishActivity();
     }
+    activityReference.setActivityName("Fished");
     return activityReference;
   }
 
